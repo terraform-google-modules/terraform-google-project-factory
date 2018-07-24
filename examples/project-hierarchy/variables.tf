@@ -13,3 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+variable "admin_email" {
+  description = "Admin user email on Gsuite"
+}
+
+variable "organization_id" {
+  description = "The organization id for the associated services"
+}
+
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+}
