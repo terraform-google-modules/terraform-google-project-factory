@@ -104,8 +104,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   Default compute service account retrieval
  *****************************************/
 data "google_compute_default_service_account" "default" {
-  project    = "${local.project_id}"
-  depends_on = ["google_project_service.project_services"]
+  project = "${google_project.project.id}"
 }
 
 /******************************************
@@ -113,10 +112,15 @@ data "google_compute_default_service_account" "default" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-default-compute-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
+    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
   }
 
-  depends_on = ["google_project_service.project_services"]
+  triggers {
+    default_service_account = "${data.google_compute_default_service_account.default.id}"
+    activated_apis          = "${join(",", var.activate_apis)}"
+  }
+
+  depends_on = ["google_project_service.project_services", "data.google_compute_default_service_account.default"]
 }
 
 /******************************************
