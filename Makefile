@@ -12,44 +12,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-SHELL := /bin/bash
+# Make will use bash instead of sh
+SHELL := /usr/bin/env bash
 
-all: check_shell check_python check_golang check_terraform check_docker check_base_files check_headers
+# All is the first target in the file so it will get picked up when you just run 'make' on its own
+all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace
 
+# The .PHONY directive tells make that this isn't a real target and so
+# the presence of a file named 'check_shell' won't cause this target to stop
+# working
 .PHONY: check_shell
 check_shell:
-	source make.sh && check_shell
+	@source test/make.sh && check_shell
 
 .PHONY: check_python
 check_python:
-	source make.sh && check_python
+	@source test/make.sh && check_python
 
 .PHONY: check_golang
 check_golang:
-	source make.sh && golang
+	@source test/make.sh && golang
 
 .PHONY: check_terraform
 check_terraform:
-	source make.sh && check_terraform
+	@source test/make.sh && check_terraform
 
 .PHONY: check_docker
 check_docker:
-	source make.sh && docker
+	@source test/make.sh && docker
 
 .PHONY: check_base_files
 check_base_files:
-	source make.sh && basefiles
+	@source test/make.sh && basefiles
 
 .PHONY: check_shebangs
 check_shebangs:
-	source make.sh && check_bash
+	@source test/make.sh && check_bash
 
 .PHONY: check_trailing_whitespace
 check_trailing_whitespace:
-	source make.sh && check_trailing_whitespace
+	@source test/make.sh && check_trailing_whitespace
+
+.PHONY: test_check_headers
+test_check_headers:
+	@echo "Testing the validity of the header check"
+	@python test/test_verify_boilerplate.py
 
 .PHONY: check_headers
 check_headers:
-	echo "Checking file headers"
-	python test/verify_boilerplate.py
+	@echo "Checking file headers"
+	@python test/verify_boilerplate.py
 
+# Integration tests
+.PHONY: test_integration
+test_integration:
+	./test/integration/gcloud/run.sh

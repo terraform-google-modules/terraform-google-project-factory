@@ -4,6 +4,9 @@
 # OSX trash
 .DS_Store
 
+# Python
+*.pyc
+
 # Emacs save files
 *~
 \#*\#

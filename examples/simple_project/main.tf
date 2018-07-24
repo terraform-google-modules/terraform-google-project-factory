@@ -13,3 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+locals {
+  credentials_file_path = "${path.module}/sa-key.json"
+}
+
+/******************************************
+  Provider configuration
+ *****************************************/
+provider "google" {
+  credentials = "${file(local.credentials_file_path)}"
+}
+
+module "project-factory" {
+  source            = "../../"
+  random_project_id = "true"
+  name              = "simple-sample-project"
+  org_id            = "${var.organization_id}"
+  billing_account   = "${var.billing_account}"
+  credentials_path  = "${local.credentials_file_path}"
+}

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Copyright 2018 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,3 +12,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+
+set -e
+
+PROJECT_ID=$1
+CREDENTIALS=$2
+SA_ID=$3
+
+export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=$CREDENTIALS
+
+if [ -n "$SA_ID" ]; then
+    echo "Deleting the compute default service account in project $PROJECT_ID"
+    gcloud iam service-accounts delete --quiet --project="$PROJECT_ID" "$SA_ID"
+else
+    echo "No service account id passed. Nothing to do."
+fi
