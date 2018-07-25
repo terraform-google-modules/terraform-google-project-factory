@@ -37,6 +37,12 @@ locals {
   project_bucket_name = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
   create_bucket       = "${var.bucket_project != "" ? "true" : "false"}"
   gsuite_group        = "${var.group_name != "" || var.create_group}"
+  app_engine_enabled  = "${length(keys(var.app_engine)) > 0 ? true : false}"
+
+  app_engine_config = {
+    enabled  = "${list(var.app_engine)}"
+    disabled = "${list()}"
+  }
 }
 
 /******************************************
@@ -76,6 +82,8 @@ resource "google_project" "project" {
   auto_create_network = "${var.auto_create_network}"
 
   labels = "${var.labels}"
+
+  app_engine = "${local.app_engine_config["${local.app_engine_enabled ? "enabled" : "disabled"}"]}"
 }
 
 /******************************************
@@ -114,6 +122,23 @@ data "google_compute_default_service_account" "default" {
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
     command = "${path.module}/scripts/delete-default-compute-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
+  }
+
+  depends_on = ["google_project_service.project_services"]
+}
+
+/******************************************
+  Default app engine service account deletion
+ *****************************************/
+resource "null_resource" "delete_default_app_engine_service_account" {
+  count = "${local.app_engine_enabled ? 1 : 0}"
+
+  provisioner "local-exec" {
+    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${local.project_id}@appspot.gserviceaccount.com"
+  }
+
+  triggers {
+    app_engine_enabled = "${local.app_engine_enabled}"
   }
 
   depends_on = ["google_project_service.project_services"]

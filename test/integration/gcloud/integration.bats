@@ -49,14 +49,18 @@
   [[ "${lines[5]}" = "projectId: $PROJECT_ID" ]]
 }
 
-@test "Test the compute api must be activated" {
+@test "Test the correct apis are activated" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud services list
   [ "$status" -eq 0 ]
-  [[ "${lines[1]}" = *"compute.googleapis.com"* ]]
+  [[ "${lines[2]}" = *"compute.googleapis.com"* ]]
+
+  run gcloud services list
+  [ "$status" -eq 0 ]
+  [[ "${lines[1]}" = *"appengine.googleapis.com"* ]]
 }
 
 @test "Test that project has the shared vpc associated (host project)" {
@@ -79,7 +83,7 @@
   [[ "${lines[1]}" = "   email: project-service-account@$PROJECT_ID.iam.gserviceaccount.com" ]]
 }
 
-@test "Test project has not the default service account" {
+@test "Test project has not the default compute or app engine service account" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"

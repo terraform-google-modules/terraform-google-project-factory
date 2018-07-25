@@ -35,4 +35,5 @@ export GROUP_NAME="test-group$RANDOM"
 export CREATE_GROUP="true"
 export FOLDER_ID=""
 export GROUP_ROLE="roles/editor"
+export LOCATION_ID="us-central"
 export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=$CREDENTIALS_PATH

@@ -62,3 +62,8 @@ output "project_bucket_url" {
   value       = "${google_storage_bucket.project_bucket.*.url}"
   description = "Project's bucket url"
 }
+
+output "app_engine_enabled" {
+  value       = "${local.app_engine_enabled}"
+  description = "Whether app engine is enabled"
+}

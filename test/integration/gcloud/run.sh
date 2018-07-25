@@ -72,6 +72,9 @@ module "project-factory" {
   sa_group                 = "$SA_GROUP"
   folder_id                = "$FOLDER_ID"
   credentials_path         = "\${local.credentials_file_path}"
+  app_engine {
+    location_id = "$LOCATION_ID"
+  }
 }
 EOF
 }

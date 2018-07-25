@@ -36,6 +36,7 @@ In order to operate with the Service Account you must activate the following API
 - Cloud Billing API - cloudbilling.googleapis.com
 - Identity and Access Management API - iam.googleapis.com
 - Admin SDK - admin.googleapis.com
+- Google App Engine Admin API - appengine.googleapis.com
 
 ### GSuite
 #### Admin

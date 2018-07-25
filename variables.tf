@@ -112,3 +112,9 @@ variable "auto_create_network" {
   description = "Create the default network"
   default     = "false"
 }
+
+variable "app_engine" {
+  description = "A map for app engine configuration"
+  type        = "map"
+  default     = {}
+}
