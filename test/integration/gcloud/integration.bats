@@ -136,6 +136,15 @@
   [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
 }
 
+@test "Test App Engine app created" {
+
+  export PROJECT_ID="$(terraform output project_info_example)"
+
+  run gcloud app describe --format="get(name)"
+  [ "$status" -eq 0 ]
+  [[ "$output" = "apps/$PROJECT_ID" ]]
+}
+
 # #################################### #
 #      Terraform destroy test          #
 # #################################### #
