@@ -34,7 +34,7 @@ then
   exit 1;
 fi
 
-# Service Account ID
+# Service Account creation
 SA_NAME="project-factory-${RANDOM}"
 SA_ID="${SA_NAME}@${HOST_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
@@ -48,22 +48,15 @@ echo "Downloading key to credentials.json..."
 
 gcloud iam service-accounts keys create ${KEY_FILE} \
     --iam-account ${SA_ID} \
-    --user-output-enabled false 
+    --user-output-enabled false
 
+echo "Applying permissions for org $ORG_ID and project $HOST_PROJECT..."
 # Grant roles/resourcemanager.organizationViewer to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/resourcemanager.organizationViewer" \
-  gcloud iam service-accounts \
-    --project ${PROJECT_ID} create ${SERVICE_ACCOUNT_NAME} \
-    --display-name ${SERVICE_ACCOUNT_NAME}
-
-echo "Downloading key to credentials.json..."
-
-gcloud iam service-accounts keys create ${KEY_FILE} \
-    --iam-account ${SERVICE_ACCOUNT_ID} \
-    --user-output-enabled false 
+  --user-output-enabled false
 
 # Grant roles/resourcemanager.projectCreator to the service account on the organization
 gcloud organizations add-iam-policy-binding \
@@ -107,4 +100,4 @@ gcloud projects add-iam-policy-binding \
   --role="roles/resourcemanager.projectIamAdmin" \
   --user-output-enabled false
 
-  
+echo "All done."
