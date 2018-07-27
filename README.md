@@ -1,6 +1,6 @@
 # Terraform Project Factory
 
-This module handles oinionated Google Cloud Platform project creation and configuration with Shared VPC, IAM, APIs, etc.
+This module handles opinionated Google Cloud Platform project creation and configuration with Shared VPC, IAM, APIs, etc.
 
 ## Requirements
 ### Terraform plugins
