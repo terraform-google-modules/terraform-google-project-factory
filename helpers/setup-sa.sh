@@ -17,13 +17,38 @@
 set -e
 
 # Organization ID
-ORG_ID=$1
+ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$1")"
+
+if [[ $ORG_ID == "" ]];
+then
+  echo "The organization id provided does not exist. Exiting."
+  exit 1;
+fi
 
 # Host project
-HOST_PROJECT=$2
+HOST_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
+
+if [[ $HOST_PROJECT == "" ]];
+then
+  echo "The host project does not exist. Exiting."
+  exit 1;
+fi
 
 # Service Account ID
-SA_ID=$3
+SA_NAME="project-factory-${RANDOM}"
+SA_ID="${SA_NAME}@${HOST_PROJECT}.iam.gserviceaccount.com"
+STAGING_DIR="${PWD}"
+KEY_FILE="${STAGING_DIR}/credentials.json"
+
+gcloud iam service-accounts \
+    --project ${HOST_PROJECT} create ${SA_NAME} \
+    --display-name ${SA_NAME}
+
+echo "Downloading key to credentials.json..."
+
+gcloud iam service-accounts keys create ${KEY_FILE} \
+    --iam-account ${SA_ID} \
+    --user-output-enabled false 
 
 # Grant roles/resourcemanager.organizationViewer to the service account on the organization
 gcloud organizations add-iam-policy-binding \
