@@ -54,40 +54,57 @@ gcloud iam service-accounts keys create ${KEY_FILE} \
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/resourcemanager.organizationViewer"
+  --role="roles/resourcemanager.organizationViewer" \
+  gcloud iam service-accounts \
+    --project ${PROJECT_ID} create ${SERVICE_ACCOUNT_NAME} \
+    --display-name ${SERVICE_ACCOUNT_NAME}
+
+echo "Downloading key to credentials.json..."
+
+gcloud iam service-accounts keys create ${KEY_FILE} \
+    --iam-account ${SERVICE_ACCOUNT_ID} \
+    --user-output-enabled false 
 
 # Grant roles/resourcemanager.projectCreator to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/resourcemanager.projectCreator"
+  --role="roles/resourcemanager.projectCreator" \
+  --user-output-enabled false
 
 # Grant roles/billing.user to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/billing.user"
+  --role="roles/billing.user" \
+  --user-output-enabled false
 
 # Grant roles/compute.xpnAdmin to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/compute.xpnAdmin"
+  --role="roles/compute.xpnAdmin" \
+  --user-output-enabled false
 
 # Grant roles/compute.networkAdmin to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/compute.networkAdmin"
+  --role="roles/compute.networkAdmin" \
+  --user-output-enabled false
 
 # Grant roles/iam.serviceAccountAdmin to the service account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/iam.serviceAccountAdmin"
+  --role="roles/iam.serviceAccountAdmin" \
+  --user-output-enabled false
 
 # Grant roles/resourcemanager.projectIamAdmin to the service account on the host project
 gcloud projects add-iam-policy-binding \
   "${HOST_PROJECT}" \
   --member="serviceAccount:${SA_ID}" \
-  --role="roles/resourcemanager.projectIamAdmin"
+  --role="roles/resourcemanager.projectIamAdmin" \
+  --user-output-enabled false
+
+  
