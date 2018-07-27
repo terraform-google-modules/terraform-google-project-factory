@@ -73,25 +73,16 @@
   [[ "${lines[1]}" = "$SHARED_VPC" ]]
 }
 
-@test "Test project has the service account created" {
+@test "Test project has only the expected service accounts" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"
 
-  run gcloud iam service-accounts list --format=list
+  run gcloud iam service-accounts list --format="get(email)"
   [ "$status" -eq 0 ]
-  [[ "${lines[1]}" = "   email: project-service-account@$PROJECT_ID.iam.gserviceaccount.com" ]]
-}
-
-@test "Test project has not the default compute or app engine service account" {
-
-  export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
-
-  run gcloud iam service-accounts list
-  [ "$status" -eq 0 ]
-  [[ "${lines[1]}" =~ project-service-account@$PROJECT_ID.iam.gserviceaccount.com ]]
-  [[ "${lines[2]}" = "" ]]
+  [[ "${lines[0]}" = "$PROJECT_ID@appspot.gserviceaccount.com" ]]
+  [[ "${lines[1]}" = "project-service-account@$PROJECT_ID.iam.gserviceaccount.com" ]]
+  [[ "${lines[3]}" = "" ]]
 }
 
 @test "Test Gsuite group $GROUP_EMAIL has role:$GROUP_ROLE on project" {

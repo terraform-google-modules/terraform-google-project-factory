@@ -128,23 +128,6 @@ resource "null_resource" "delete_default_compute_service_account" {
 }
 
 /******************************************
-  Default app engine service account deletion
- *****************************************/
-resource "null_resource" "delete_default_app_engine_service_account" {
-  count = "${local.app_engine_enabled ? 1 : 0}"
-
-  provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${local.project_id}@appspot.gserviceaccount.com"
-  }
-
-  triggers {
-    app_engine_enabled = "${local.app_engine_enabled}"
-  }
-
-  depends_on = ["google_project_service.project_services"]
-}
-
-/******************************************
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
