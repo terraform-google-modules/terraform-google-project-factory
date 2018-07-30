@@ -74,6 +74,13 @@ module "project-factory" {
   credentials_path         = "\${local.credentials_file_path}"
   app_engine {
     location_id = "$REGION"
+    auth_domain = "$(echo $GSUITE_ADMIN_ACCOUNT | cut -d '@' -f2)"
+
+    feature_settings = [
+      {
+        split_health_checks = false
+      },
+    ]
   }
 }
 EOF

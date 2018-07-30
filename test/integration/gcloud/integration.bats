@@ -34,6 +34,24 @@
   [[ "$output" =~ 0\ destroyed ]]
 }
 
+@test "Terraform plan setting of App Engine settings" {
+
+  run terraform plan
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ 0\ to\ add ]]
+  [[ "$output" =~ 1\ to\ change ]]
+  [[ "$output" =~ 0\ to\ destroy ]]
+}
+
+@test "Terraform apply" {
+
+  run terraform apply -auto-approve
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ 0\ added ]]
+  [[ "$output" =~ 1\ changed ]]
+  [[ "$output" =~ 0\ destroyed ]]
+}
+
 # #################################### #
 #             gcloud tests             #
 # #################################### #
@@ -127,13 +145,19 @@
   [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
 }
 
-@test "Test App Engine app created" {
+@test "Test App Engine app created with the correct settings" {
 
-  export PROJECT_ID="$(terraform output project_info_example)"
+  PROJECT_ID="$(terraform output project_info_example)"
+  AUTH_DOMAIN="$(echo $GSUITE_ADMIN_ACCOUNT | cut -d '@' -f2)"
 
-  run gcloud app describe --format="get(name)"
+  run gcloud --project=${PROJECT_ID} app describe
   [ "$status" -eq 0 ]
-  [[ "$output" = "apps/$PROJECT_ID" ]]
+  [[ "${lines[0]}" = "authDomain: $AUTH_DOMAIN" ]]
+  [[ "${lines[4]}" = "featureSettings: {}" ]]
+  [[ "${lines[6]}" = "id: $PROJECT_ID}" ]]
+  [[ "${lines[7]}" = "name: apps/$PROJECT_ID" ]]
+  [[ "${lines[8]}" = "locationId: $REGION" ]]
+  [[ "${lines[9]}" = "servingStatus: SERVING" ]]
 }
 
 # #################################### #
