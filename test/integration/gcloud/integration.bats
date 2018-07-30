@@ -34,6 +34,24 @@
   [[ "$output" =~ 0\ destroyed ]]
 }
 
+@test "Terraform plan setting of App Engine settings" {
+
+  run terraform plan
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ 0\ to\ add ]]
+  [[ "$output" =~ 1\ to\ change ]]
+  [[ "$output" =~ 0\ to\ destroy ]]
+}
+
+@test "Terraform apply" {
+
+  run terraform apply -auto-approve
+  [ "$status" -eq 0 ]
+  [[ "$output" =~ 0\ added ]]
+  [[ "$output" =~ 1\ changed ]]
+  [[ "$output" =~ 0\ destroyed ]]
+}
+
 # #################################### #
 #             gcloud tests             #
 # #################################### #
@@ -49,14 +67,18 @@
   [[ "${lines[5]}" = "projectId: $PROJECT_ID" ]]
 }
 
-@test "Test the compute api must be activated" {
+@test "Test the correct apis are activated" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud services list
   [ "$status" -eq 0 ]
-  [[ "${lines[1]}" = *"compute.googleapis.com"* ]]
+  [[ "${lines[2]}" = *"compute.googleapis.com"* ]]
+
+  run gcloud services list
+  [ "$status" -eq 0 ]
+  [[ "${lines[1]}" = *"appengine.googleapis.com"* ]]
 }
 
 @test "Test that project has the shared vpc associated (host project)" {
@@ -69,25 +91,16 @@
   [[ "${lines[1]}" = "$SHARED_VPC" ]]
 }
 
-@test "Test project has the service account created" {
+@test "Test project has only the expected service accounts" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"
 
-  run gcloud iam service-accounts list --format=list
+  run gcloud iam service-accounts list --format="get(email)"
   [ "$status" -eq 0 ]
-  [[ "${lines[1]}" = "   email: project-service-account@$PROJECT_ID.iam.gserviceaccount.com" ]]
-}
-
-@test "Test project has not the default service account" {
-
-  export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
-
-  run gcloud iam service-accounts list
-  [ "$status" -eq 0 ]
-  [[ "${lines[1]}" =~ project-service-account@$PROJECT_ID.iam.gserviceaccount.com ]]
-  [[ "${lines[2]}" = "" ]]
+  [[ "${lines[0]}" = "$PROJECT_ID@appspot.gserviceaccount.com" ]]
+  [[ "${lines[1]}" = "project-service-account@$PROJECT_ID.iam.gserviceaccount.com" ]]
+  [[ "${lines[3]}" = "" ]]
 }
 
 @test "Test Gsuite group $GROUP_EMAIL has role:$GROUP_ROLE on project" {
@@ -130,6 +143,21 @@
   run gcloud projects get-iam-policy $SHARED_VPC --format=list[compact] --filter="bindings.role=roles/compute.networkUser AND bindings.members=group:$GROUP_EMAIL AND bindings.members=serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com"
   [ "$status" -eq 0 ]
   [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
+}
+
+@test "Test App Engine app created with the correct settings" {
+
+  PROJECT_ID="$(terraform output project_info_example)"
+  AUTH_DOMAIN="$(echo $GSUITE_ADMIN_ACCOUNT | cut -d '@' -f2)"
+
+  run gcloud --project=${PROJECT_ID} app describe
+  [ "$status" -eq 0 ]
+  [[ "${lines[0]}" = "authDomain: $AUTH_DOMAIN" ]]
+  [[ "${lines[4]}" = "featureSettings: {}" ]]
+  [[ "${lines[6]}" = "id: $PROJECT_ID}" ]]
+  [[ "${lines[7]}" = "name: apps/$PROJECT_ID" ]]
+  [[ "${lines[8]}" = "locationId: $REGION" ]]
+  [[ "${lines[9]}" = "servingStatus: SERVING" ]]
 }
 
 # #################################### #

@@ -37,6 +37,12 @@ locals {
   project_bucket_name = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
   create_bucket       = "${var.bucket_project != "" ? "true" : "false"}"
   gsuite_group        = "${var.group_name != "" || var.create_group}"
+  app_engine_enabled  = "${length(keys(var.app_engine)) > 0 ? true : false}"
+
+  app_engine_config = {
+    enabled  = "${list(var.app_engine)}"
+    disabled = "${list()}"
+  }
 }
 
 /******************************************
@@ -76,6 +82,8 @@ resource "google_project" "project" {
   auto_create_network = "${var.auto_create_network}"
 
   labels = "${var.labels}"
+
+  app_engine = "${local.app_engine_config["${local.app_engine_enabled ? "enabled" : "disabled"}"]}"
 }
 
 /******************************************
