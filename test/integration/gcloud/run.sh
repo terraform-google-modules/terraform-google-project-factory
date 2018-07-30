@@ -73,7 +73,7 @@ module "project-factory" {
   folder_id                = "$FOLDER_ID"
   credentials_path         = "\${local.credentials_file_path}"
   app_engine {
-    location_id = "$LOCATION_ID"
+    location_id = "$REGION"
   }
 }
 EOF
