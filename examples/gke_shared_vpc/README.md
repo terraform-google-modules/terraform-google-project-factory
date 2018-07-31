@@ -6,9 +6,7 @@ As shown in this exmaple, GKE shared VPC is only enabled if the "container.googl
 
 It will do the following:
 - Create a project
-- Create a Gsuite group
-- Give members of the newly created Gsuite group the appropriate access on the project
-- Make APIs service account member of api_sa_group in Gsuite
+- Give appropriate iam permissions to the API and GKE service accounts on the host vpc project 
 
 Expected variables:
 - `gsuite_admin_user`
