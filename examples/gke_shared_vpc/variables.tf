@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
- variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
-}
 
-variable "gsuite_admin_user" {
-  description = "Admin user on Gsuite"
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
 }
 
 variable "org_id" {

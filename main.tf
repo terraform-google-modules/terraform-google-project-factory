@@ -25,21 +25,22 @@ resource "random_id" "random_project_id_suffix" {
   Locals configuration
  *****************************************/
 locals {
-  project_id          = "${google_project.project.project_id}"
-  project_number      = "${google_project.project.number}"
-  project_org_id      = "${var.folder_id != "" ? "" : var.org_id}"
-  project_folder_id   = "${var.folder_id != "" ? var.folder_id : ""}"
-  temp_project_id     = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
-  domain              = "${data.google_organization.org.domain}"
-  s_account_fmt       = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
-  api_s_account       = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
-  api_s_account_fmt   = "${format("serviceAccount:%s", local.api_s_account)}"
-  gke_s_account       = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
-  gke_s_account_fmt   = "${format("serviceAccount:%s", local.gke_s_account)}"
-  project_bucket_name = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
-  create_bucket       = "${var.bucket_project != "" ? "true" : "false"}"
-  gsuite_group        = "${var.group_name != "" || var.create_group}"
-  app_engine_enabled  = "${length(keys(var.app_engine)) > 0 ? true : false}"
+  project_id             = "${google_project.project.project_id}"
+  project_number         = "${google_project.project.number}"
+  project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
+  project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
+  temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
+  domain                 = "${data.google_organization.org.domain}"
+  s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
+  api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
+  api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
+  gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
+  gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
+  gke_s_account_fmt      = "${format("serviceAccount:%s", local.gke_s_account)}"
+  project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
+  create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
+  gsuite_group           = "${var.group_name != "" || var.create_group}"
+  app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
   app_engine_config = {
     enabled  = "${list(var.app_engine)}"
@@ -297,7 +298,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   compute.networkUser role granted to API and GKE service accounts for GKE on shared VPC 
  *****************************************/
 resource "google_project_iam_binding" "gke_shared_vpc_project" {
-  count = "${(var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") && length(compact(var.shared_vpc_subnets)) == 0) ? 1 : 0}"
+  count = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets) == 0) ? 1 : 0}"
 
   role    = "roles/compute.networkUser"
   project = "${var.shared_vpc}"
@@ -310,7 +311,7 @@ resource "google_project_iam_binding" "gke_shared_vpc_project" {
   compute.networkUser role granted to API and GKE service accounts for GKE on shared VPC subnets
  *****************************************/
 resource "google_compute_subnetwork_iam_binding" "gke_shared_vpc_subnets" {
-  count = "${(contains(var.activate_apis, "container.googleapis.com") && length(compact(var.shared_vpc_subnets)) != 0) ? length(var.shared_vpc_subnets) : 0}"
+  count = "${local.gke_s_account_fmt && length(compact(var.shared_vpc_subnets) != 0) ? length(var.shared_vpc_subnets) : 0}"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"
@@ -325,7 +326,7 @@ resource "google_compute_subnetwork_iam_binding" "gke_shared_vpc_subnets" {
   container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC
  *****************************************/
 resource "google_project_iam_binding" "gke_host_agent" {
-  count = "${contains(var.activate_apis, "container.googleapis.com") ? 1 : 0}"
+  count = "${local.gke_shared_vpc_enabled ? 1 : 0}"
 
   project = "${var.shared_vpc}"
   role    = "roles/container.hostServiceAgentUser"

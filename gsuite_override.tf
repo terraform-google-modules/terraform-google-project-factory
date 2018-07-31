@@ -16,7 +16,7 @@
 
 /*
 If we don't need to work with gsuite, we can use the project-factory without installing/configuring gsuite,
-it is necessary delete this file that contains the gsuite resources.
+it is necessary to delete this file that contains the gsuite resources.
 */
 
 /******************************************

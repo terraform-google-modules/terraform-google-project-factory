@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
- locals {
+
+locals {
   credentials_file_path = "${var.credentials_path}"
 }
 
@@ -22,20 +22,10 @@ provider "google" {
   credentials = "${file(local.credentials_file_path)}"
 }
 
-provider "gsuite" {
-  credentials             = "${file(local.credentials_file_path)}"
-  impersonated_user_email = "${var.gsuite_admin_user}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member",
-  ]
-}
-
 module "project-factory" {
   source             = "../../"
   random_project_id  = "true"
-  name               = "sample-GKE-shared-project"
+  name               = "sample-gke-shared-project"
   org_id             = "${var.org_id}"
   billing_account    = "${var.billing_account}"
   shared_vpc         = "${var.shared_vpc}"
