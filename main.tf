@@ -311,7 +311,7 @@ resource "google_project_iam_binding" "gke_shared_vpc_project" {
   compute.networkUser role granted to API and GKE service accounts for GKE on shared VPC subnets
  *****************************************/
 resource "google_compute_subnetwork_iam_binding" "gke_shared_vpc_subnets" {
-  count = "${local.gke_s_account_fmt && length(compact(var.shared_vpc_subnets) != 0) ? length(var.shared_vpc_subnets) : 0}"
+  count = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets) != 0) ? length(var.shared_vpc_subnets) : 0}"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"
