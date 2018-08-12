@@ -112,7 +112,7 @@ In order to execute this module you must have a Service Account with the followi
 
 Additionally, if you want to use the group management functionality included, you must [enable domain delegation](#g-suite).
 
-### Script Helper
+#### Script Helper
 A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
 
 ```
