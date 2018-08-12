@@ -7,7 +7,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 
 ```hcl
 module "project-factory" {
-  source             = "<PATH TO MODULE>"
+  source             = "github.com/terraform-google-modules/terraform-google-project-factory"
   name               = "pf-test-1"
   random_project_id  = "true"
   org_id             = "1234567890"
