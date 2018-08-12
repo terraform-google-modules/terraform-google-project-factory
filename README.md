@@ -1,167 +1,79 @@
-# Terraform Project Factory
+# Google Cloud Project Factory Terraform Module
 
-This module handles opinionated Google Cloud Platform project creation and configuration with Shared VPC, IAM, APIs, etc.
-
-## Requirements
-### Terraform plugins
-- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
-- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin
-
-### Configure a Service Account
-In order to execute this module you must have a Service Account with the following:
-#### Roles
-The service account with the following roles:
-- roles/resourcemanager.folderViewer on the folder that you want to create the project in
-- roles/resourcemanager.organizationViewer on the organization
-- roles/resourcemanager.projectCreator on the organization
-- roles/billing.user on the organization
-- roles/compute.xpnAdmin on the organization (if using a shared_vpc)
-- roles/compute.networkAdmin on the organization
-- roles/iam.serviceAccountAdmin on the organization
-- roles/browser on the host project (if using a shared_vpc)
-- roles/resourcemanager.projectIamAdmin on the host project (if using a shared_vpc)
-- roles/storage.admin on bucket_project
-
-#### GSuite domain delegation
-- Enable the G Suite Domain-wide Delegation on your service account
-
-#### Usage report
-- Give enough permissions to Service Account on the bucket for reading and writing objects.
-
-### Enable API's
-In order to operate with the Service Account you must activate the following API's on the base project where the Service Account was created:
-
-- Cloud Resource Manager API - cloudresourcemanager.googleapis.com
-- Cloud Billing API - cloudbilling.googleapis.com
-- Identity and Access Management API - iam.googleapis.com
-- Admin SDK - admin.googleapis.com
-- Google App Engine Admin API - appengine.googleapis.com
-
-### GSuite
-#### Admin
-- You will need an admin on your Google Admin site.
-
-#### API Client access
-Give API client access to Service Account on your Google Admin site
-- Go to Security > Settings > Advanced Settings > Manage API client access
-- Add the client ID of your Service Account and the following scopes:
-    - https://www.googleapis.com/auth/admin.directory.group
-    - https://www.googleapis.com/auth/admin.directory.group.member
-
-## Install
-
-### Terraform
-Be sure you have the correct Terraform version (0.10.x), you can choose the binary here:
-- https://releases.hashicorp.com/terraform/
-
-### Terraform plugins
-Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
-
-- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin 0.1.0 (there are not compatible releases, you have to compile it from master branch)
-
-See each plugin page for more information about how to compile and use them
-
-## Fast install (optional)
-For a fast install, please configure the variables on init_centos.sh or init_debian.sh script in the helpers directory and then launch it.
-
-The script will do:
-- Environment variables setting
-- Installation of base packages like wget, curl, unzip, gcloud, etc.
-- Installation of go 1.9.0
-- Installation of Terraform 0.10.x
-- Download the terraform-provider-gsuite plugin
-- Compile the terraform-provider-gsuite plugin
-- Move the terraform-provider-gsuite to the right location
-
-## Scripted Setting of Permissions on Host Project Service Account (optional)
-This will grant the service account in your host project the needed permissions.
-
-To use the script, run the following with the appropriate values:
-- `helpers/set-host-sa-permissions.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME> '<SERVICE_ACCOUNT_ID>'`
+This module allows you to create opinionated Google Cloud Platform projects. It creates projects and configures aspects like Shared VPC connectivity, IAM access, Service Accounts, and API enablement to follow best practices.
 
 ## Usage
-You can go to the examples folder, however the usage of the module could be like this in your own main.tf file:
+There are multiple examples included in the [examples](./examples/) folder but simple usage is as follows:
 
-*Configure the provider here before the module invocation, see the examples folder*
+```hcl
+module "project-factory" {
+  source             = "<PATH TO MODULE>"
+  name               = "pf-test-1"
+  random_project_id  = "true"
+  org_id             = "1234567890"
+  usage_bucket_name  = "pf-test-1-usage-report-bucket"
+  billing_account    = "ABCDEF-ABCDEF-ABCDEF"
+  group_role         = "roles/editor"
+  shared_vpc         = "shared_vpc_host_name"
+  sa_group           = "test_sa_group@yourdomain.com"
+  credentials_path   = "${local.credentials_file_path}"
+  shared_vpc_subnets = [
+    "projects/base-project-196723/regions/us-east1/subnetworks/default",
+    "projects/base-project-196723/regions/us-central1/subnetworks/default",
+    "projects/base-project-196723/regions/us-central1/subnetworks/subnet-1",
+  ]
+}
+```
 
-    locals {
-          credentials_file_path    = "<PATH TO THE SERVICE ACCOUNT JSON FILE>"
-    }
+### Features
+The Project Factory module will take the following actions:
 
-    provider "google" {
-      credentials                  = "${file(local.credentials_file_path)}"
-  }
+1. Create a new GCP project using the `project_name`.
+1. If a shared VPC is specified, attach the new project to the `shared_vpc`.
 
-    provider "gsuite" {
-      credentials                  = "${file(local.credentials_file_path)}"
-      impersonated_user_email      = "<YOUR GSUITE ADMIN EMAIL>"
-      oauth_scopes = [
-        "https://www.googleapis.com/auth/admin.directory.group",
-        "https://www.googleapis.com/auth/admin.directory.group.member"
-      ]
-    }
-    module "project-factory" {
-      source             = "<PATH TO MODULE>"
-      name               = "pf-test-1"
-      random_project_id  = "true"
-      org_id             = "1234567890"
-      usage_bucket_name  = "pf-test-1-usage-report-bucket"
-      billing_account    = "ABCDEF-ABCDEF-ABCDEF"
-      group_role         = "roles/editor"
-      shared_vpc         = "shared_vpc_host_name"
-      sa_group           = "test_sa_group@yourdomain.com"
-      credentials_path   = "${local.credentials_file_path}"
-      shared_vpc_subnets = [
-        "projects/base-project-196723/regions/us-east1/subnetworks/default",
-        "projects/base-project-196723/regions/us-central1/subnetworks/default",
-        "projects/base-project-196723/regions/us-central1/subnetworks/subnet-1",
-      ]
-    }
+    It will also give the following users network access on the specified subnets:
 
-Then perform the following commands on the root folder:
+      - The prroject's new default service account (see step 4)
+      - The Google API service account for the project
+      - The project controlling group specified in `group_name`
 
-- `terraform init` to get the plugins
-- `terraform plan` to see the infrastructure plan
-- `terraform apply` to apply the infrastructure build
-- `terraform destroy` to destroy the built infrastructure
+1. Delete the default compute service account.
+1. Create a new default service account for the project.
+    1. Give it access to the shared VPC (to be able to launch instances).
+    1. Add it to the `sa_group` in Google Groups, if specified.
+1. Attach the billing account (`billing_account`) to the project.
+1. Create a new Google Group for the project (`group_name`) if `create_group` is `true`.
+1. Give the controlling group access to the project, with the `group_role`.
+1. Enable the required and specified APIs (`activate_apis`).
+1. Delete the default network.
+1. Enable usage report for GCE into central project bucket (`target_usage_bucket`), if provided.
+1. If specified, create the GCS bucket `bucket_name` and give the following groups Storage Admin on it:
+    1. The controlling group (`group_name`)
+    1. The new default compute service account created for the project
+    1. The Google APIs service account for the project
+1. Add the Google APIs service account to the `api_sa_group` (if specified)
 
-#### Variables
-Please refer the /variables.tf file for the required and optional variables.
+The roles granted are specifically:
 
-#### Outputs
-Please refer the /outputs.tf file for the outputs that you can get with the `terraform output` command
+- New Default Service Account
+  - `compute.networkUser` on host project or specified subnets
+  - `storage.admin` on `bucket_name` GCS bucket
+  - MEMBER of the specified `sa_group`
+- `group_name` is the new controlling group
+  - `compute.networkUser` on host project or specific subnets
+  - Specified `group_role` on project
+  - `iam.serviceAccountUser` on the default Service Account
+  - `storage.admin` on `bucket_name` GCS bucket
+- Google APIs Service Account
+  - `compute.networkUser` on host project or specified subnets
+  - `storage.admin` on `bucket_name` GCS bucket
+  - MEMBER of the specified `api_sa_group`
 
-## Infrastructure
-The resources/services/activations/deletions that this module will create/trigger are:
-- A Google project
-- Specified API's activation on the project
-- Shared VPC configuration (if provided)
-- A default Service Account creation
-- Make the Service Account member of your provided `sa_group`
-- Deletion of the default compute service (via bash script)
-- Deletion of the default network (via bash script)
-- Creation of a GSuite group with your provided `group_name` if `created_group` is true
-- Storage the usage reports to the specified bucket
-- Bucket `bucket_name` creation on `bucket_project`
+### Variables
+Please refer the [variables.tf](./variables.tf) file for the required and optional variables.
 
-The roles granted for the specific resources are:
-- Service Account
-  - compute.networkUser on host project or specific subnets
-  - compute.instanceAdmin.v1 on project
-  - MEMBER on `sa_group`
-  - storage.admin on `bucket_name`
-
-- `group_name`
-  - compute.networkUser on host project or specific subnets
-  - `group_role` on project
-  - iam.serviceAccountUser on Service Account
-  - storage.admin on `bucket_name`
-
-- APIs Service Account
-  - compute.networkUser on host project or specific subnets
-  - MEMBER on `api_sa_group`
-  - storage.admin on `bucket_name`
+### Outputs
+Please refer the [outputs.tf](./outputs.tf) file for the outputs that you can get with the `terraform output` command
 
 ## File structure
 The project has the following folders and files:
@@ -176,14 +88,84 @@ The project has the following folders and files:
 - /output.tf: the outputs of the module
 - /readme.MD: this file
 
-## Testing
+## Requirements
+### Terraform plugins
+- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
+- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
+- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin if GSuite functionality is desired
 
+### Permissions
+In order to execute this module you must have a Service Account with the following roles:
+
+- roles/resourcemanager.folderViewer on the folder that you want to create the project in
+- roles/resourcemanager.organizationViewer on the organization
+- roles/resourcemanager.projectCreator on the organization
+- roles/billing.user on the organization
+- roles/iam.serviceAccountAdmin on the organization
+- roles/storage.admin on bucket_project
+- If you are using shared VPC:
+  - roles/billing.user on the organization
+  - roles/compute.xpnAdmin on the organization
+  - roles/compute.networkAdmin on the organization
+  - roles/browser on the Shared VPC host project
+  - roles/resourcemanager.projectIamAdmin on the Shared VPC host project
+
+Additionally, if you want to use the group management functionality included, you must [enable domain delegation](#g-suite).
+
+### Script Helper
+A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
+
+```
+./helpers/set-host-sa-permissions.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME> <SERVICE_ACCOUNT_ID>
+```
+
+### APIs
+In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
+
+- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com`
+- Cloud Billing API - `cloudbilling.googleapis.com`
+- Identity and Access Management API - `iam.googleapis.com`
+- Admin SDK - `admin.googleapis.com`
+- Google App Engine Admin API - `appengine.googleapis.com`
+
+## G Suite
+The Project Factory module *optionally* includes functionality to manage G Suite groups as part of the project set up process. This functionality can be used to create groups to hold the project owners and place all Service Accounts into groups automatically for easier IAM management. **This functionality is optional and can easily be disabled by deleting the `gsuite_override.tf` file**.
+
+If you do want to use the G Suite functionality, you will need to be an administator in the [Google Admin console](https://support.google.com/a/answer/182076?hl=en). As an admin, you must [enable domain-wide delegation] for the Project Factory Service Account and grant it the following scopes:
+
+- https://www.googleapis.com/auth/admin.directory.group
+- https://www.googleapis.com/auth/admin.directory.group.member
+
+## Install
+### Terraform
+Be sure you have the correct Terraform version (0.10.x), you can choose the binary here:
+- https://releases.hashicorp.com/terraform/
+
+### Terraform plugins
+Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
+
+- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin 0.1.0 (there are not compatible releases, you have to compile it from master branch)
+
+See each plugin page for more information about how to compile and use them
+
+### Fast install (optional)
+For a fast install, please configure the variables on init_centos.sh or init_debian.sh script in the helpers directory and then launch it.
+
+The script will do:
+- Environment variables setting
+- Installation of base packages like wget, curl, unzip, gcloud, etc.
+- Installation of go 1.9.0
+- Installation of Terraform 0.10.x
+- Download the terraform-provider-gsuite plugin
+- Compile the terraform-provider-gsuite plugin
+- Move the terraform-provider-gsuite to the right location
+
+## Development
 ### Requirements
 - [bats](https://github.com/sstephenson/bats) 0.4.0
 - [jq](https://stedolan.github.io/jq/) 1.5
 
-### Integration test
-##### Terraform integration tests
+### Integration testing
 The integration tests for this module are built with bats, basically the test checks the following:
 - Perform `terraform init` command
 - Perform `terraform get` command
