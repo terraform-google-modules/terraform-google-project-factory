@@ -128,6 +128,12 @@ In order to operate the Project Factory, you must activate the following APIs on
 - Admin SDK - `admin.googleapis.com`
 - Google App Engine Admin API - `appengine.googleapis.com`
 
+## Caveats
+
+### Moving projects from org into a folder
+
+There is currently a bug with moving a project which was originally created at the root of the organization into a folder. The bug and workaround is described [here](https://github.com/terraform-providers/terraform-provider-google/issues/1701), but as a general best practice it is easier to create all projects within folders to start. Moving projects between different folders *is* supported.
+
 ## G Suite
 The Project Factory module *optionally* includes functionality to manage G Suite groups as part of the project set up process. This functionality can be used to create groups to hold the project owners and place all Service Accounts into groups automatically for easier IAM management. **This functionality is optional and can easily be disabled by deleting the `gsuite_override.tf` file**.
 
