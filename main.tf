@@ -241,7 +241,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 
   project     = "${local.project_id}"
   bucket_name = "${var.usage_bucket_name}"
-  prefix      = "usage-${local.project_id}"
+  prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${local.project_id}"}"
 
   depends_on = ["google_project_service.project_services"]
 }

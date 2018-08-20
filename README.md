@@ -7,16 +7,18 @@ There are multiple examples included in the [examples](./examples/) folder but s
 
 ```hcl
 module "project-factory" {
-  source             = "github.com/terraform-google-modules/terraform-google-project-factory"
-  name               = "pf-test-1"
-  random_project_id  = "true"
-  org_id             = "1234567890"
-  usage_bucket_name  = "pf-test-1-usage-report-bucket"
-  billing_account    = "ABCDEF-ABCDEF-ABCDEF"
-  group_role         = "roles/editor"
-  shared_vpc         = "shared_vpc_host_name"
-  sa_group           = "test_sa_group@yourdomain.com"
-  credentials_path   = "${local.credentials_file_path}"
+  source              = "github.com/terraform-google-modules/terraform-google-project-factory"
+  name                = "pf-test-1"
+  random_project_id   = "true"
+  org_id              = "1234567890"
+  usage_bucket_name   = "pf-test-1-usage-report-bucket"
+  usage_bucket_prefix = "pf/test/1/integration"
+  billing_account     = "ABCDEF-ABCDEF-ABCDEF"
+  group_role          = "roles/editor"
+  shared_vpc          = "shared_vpc_host_name"
+  sa_group            = "test_sa_group@yourdomain.com"
+  credentials_path    = "${local.credentials_file_path}"
+
   shared_vpc_subnets = [
     "projects/base-project-196723/regions/us-east1/subnetworks/default",
     "projects/base-project-196723/regions/us-central1/subnetworks/default",
