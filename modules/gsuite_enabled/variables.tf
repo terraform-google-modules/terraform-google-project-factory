@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
+variable "lien" {
+  description = "Add a lien on the project to prevent accidental deletion"
+  default     = "false"
+  type        = "string"
+}
+
 variable "random_project_id" {
   description = "Enables project random id generation"
   default     = "false"
 }
 
 variable "org_id" {
-  description = "The organization id (optional if `domain` is passed)"
-  default     = ""
-}
-
-variable "domain" {
-  description = "The domain name (optional if `org_id` is passed)"
-  default     = ""
+  description = "The organization id for the associated services"
 }
 
 variable "name" {
@@ -48,13 +48,23 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
   default     = ""
+}
+
+variable "create_group" {
+  description = "Whether to create the group or not"
+  default     = "false"
 }
 
 variable "group_role" {
   description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
   default     = "roles/editor"
+}
+
+variable "sa_group" {
+  description = "A GSuite group to place the default Service Account for the project in"
+  default     = ""
 }
 
 variable "sa_role" {
@@ -70,11 +80,6 @@ variable "activate_apis" {
 
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
-  default     = ""
-}
-
-variable "usage_bucket_prefix" {
-  description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
   default     = ""
 }
 
@@ -104,6 +109,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "api_sa_group" {
+  description = "A GSuite group to place the Google APIs Service Account for the project in"
+  default     = ""
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   default     = "false"
@@ -113,10 +123,4 @@ variable "app_engine" {
   description = "A map for app engine configuration"
   type        = "map"
   default     = {}
-}
-
-variable "lien" {
-  description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = "string"
 }
