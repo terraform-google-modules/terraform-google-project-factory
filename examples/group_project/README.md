@@ -13,3 +13,6 @@ Expected variables:
 - `organization_id`
 - `billing_account`
 - `api_sa_group`
+
+[^]: (autogen_docs_start)
+[^]: (autogen_docs_end)
