@@ -15,59 +15,59 @@
  */
 
 output "project_id" {
-  value = "${module.project-factory.project_id}"
+  value = "${local.project_id}"
 }
 
 output "project_number" {
-  value = "${module.project-factory.project_number}"
+  value = "${local.project_number}"
 }
 
 output "domain" {
-  value       = "${module.project-factory.domain}"
+  value       = "${local.domain}"
   description = "The organization's domain"
 }
 
 output "group_email" {
-  value       = "${module.project-factory.group_email}"
+  value       = "${local.gsuite_group ? data.null_data_source.data_final_group_email.outputs["final_group_email"] : ""}"
   description = "The email of the created GSuite group with group_name"
 }
 
 output "service_account_id" {
-  value       = "${module.project-factory.service_account_id}"
+  value       = "${google_service_account.default_service_account.account_id}"
   description = "The id of the default service account"
 }
 
 output "service_account_display_name" {
-  value       = "${module.project-factory.service_account_display_name}"
+  value       = "${google_service_account.default_service_account.display_name}"
   description = "The display name of the default service account"
 }
 
 output "service_account_email" {
-  value       = "${module.project-factory.service_account_email}"
+  value       = "${google_service_account.default_service_account.email}"
   description = "The email of the default service account"
 }
 
 output "service_account_name" {
-  value       = "${module.project-factory.service_account_name}"
+  value       = "${google_service_account.default_service_account.name}"
   description = "The fully-qualified name of the default service account"
 }
 
 output "service_account_unique_id" {
-  value       = "${module.project-factory.service_account_unique_id}"
+  value       = "${google_service_account.default_service_account.unique_id}"
   description = "The unique id of the default service account"
 }
 
 output "project_bucket_self_link" {
-  value       = "${module.project-factory.project_bucket_self_link}"
+  value       = "${google_storage_bucket.project_bucket.*.self_link}"
   description = "Project's bucket selfLink"
 }
 
 output "project_bucket_url" {
-  value       = "${module.project-factory.project_bucket_url}"
+  value       = "${google_storage_bucket.project_bucket.*.url}"
   description = "Project's bucket url"
 }
 
 output "app_engine_enabled" {
-  value       = "${module.project-factory.app_engine_enabled}"
+  value       = "${local.app_engine_enabled}"
   description = "Whether app engine is enabled"
 }
