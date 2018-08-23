@@ -145,6 +145,16 @@
   [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
 }
 
+@test "Test that the GKE service account has the role:roles/container.hostServiceAgentUser and role:/roles/compute.networkUser on host project (shared VPC for GKE)" {
+
+  export PROJECT_NUM="$(terraform output project_info_number)"
+
+  run gcloud projects get-iam-policy $SHARED_VPC --flatten="bindings[].members" --format='table(bindings.role)' --filter="bindings.members:service-$PROJECT_NUM@container-engine-robot.iam.gserviceaccount.com"
+  [ "$status" -eq 0 ]
+  [[ "${lines[1]}" = "roles/compute.networkUser" ]]
+  [[ "${lines[2]}" = "roles/container.hostServiceAgentUser" ]]
+}
+
 @test "Test App Engine app created with the correct settings" {
 
   PROJECT_ID="$(terraform output project_info_example)"

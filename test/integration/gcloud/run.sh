@@ -72,6 +72,7 @@ module "project-factory" {
   shared_vpc               = "$SHARED_VPC"
   sa_group                 = "$SA_GROUP"
   folder_id                = "$FOLDER_ID"
+  activate_apis            = ["compute.googleapis.com", "container.googleapis.com"]
   credentials_path         = "\${local.credentials_file_path}"
   app_engine {
     location_id = "$REGION"
@@ -94,6 +95,10 @@ function create_outputs_file() {
   cat <<'EOF' > outputs.tf
 output "project_info_example" {
   value       = "${module.project-factory.project_id}"
+}
+
+output "project_info_number" {
+  value       = "${module.project-factory.project_number"
 }
 
 output "domain_example" {
