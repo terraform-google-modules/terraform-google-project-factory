@@ -16,22 +16,27 @@
 
 variable "admin_email" {
   description = "Admin user email on Gsuite"
+  default     = "terraform-forseti-project-1@zamir-forseti-test.iam.gserviceaccount.com"
 }
 
 variable "credentials_file_path" {
   description = "Service account json auth path"
+  default     = "/Users/cpearring/testing/serviceAccountKeys/orgserviceaccount.json"
 }
 
 variable "organization_id" {
   description = "The organization id for the associated services"
+  default     = "826592752744"
 }
 
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
+  default     = "01E8A0-35F760-5CF02A"
 }
 
 variable "api_sa_group" {
   description = "An existing GSuite group email to place the Google APIs Service Account for the project in"
+  default     = "api_sa_group@phoogle.net"
 }
 
 variable "project_group_name" {
