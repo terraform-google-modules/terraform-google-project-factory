@@ -27,7 +27,7 @@ provider "gsuite" {
 }
 
 module "project-factory" {
-  source            = "../../"
+  source            = "../../modules/gsuite_enabled"
   random_project_id = "true"
   name              = "appeng-sample"
   org_id            = "${var.organization_id}"

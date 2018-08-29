@@ -26,20 +26,6 @@ locals {
 }
 
 /******************************************
-  Gsuite configuration
- *****************************************/
-
-provider "gsuite" {
-  credentials             = "${file(var.credentials_path)}"
-  impersonated_user_email = "${var.admin_email}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member",
-  ]
-}
-
-/******************************************
   Organization info retrieval
  *****************************************/
 data "google_organization" "org" {
@@ -109,7 +95,7 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${var.create_group ? "gsuite_group.group.name" : var.group_name}"
+  group_name          = "${var.create_group ? "${gsuite_group.group.name}" : var.group_name}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
