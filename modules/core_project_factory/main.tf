@@ -146,7 +146,7 @@ data "google_compute_default_service_account" "default" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
+    command = "${path.module}/../../scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
   }
 
   triggers {

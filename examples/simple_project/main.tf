@@ -39,7 +39,7 @@ provider "gsuite" {
 }
 
 module "project-factory" {
-  source            = "../../"
+  source            = "../../modules/core_project_factory"
   random_project_id = "true"
   name              = "simple-sample-project"
   org_id            = "${var.organization_id}"
