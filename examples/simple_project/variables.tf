@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-variable "admin_email" {
-  description = "Admin user email on Gsuite"
+variable "organization_id" {
+  description = "The organization id for the associated services"
 }
 
-variable "organization_id" {}
-
-variable "billing_account" {}
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+}
