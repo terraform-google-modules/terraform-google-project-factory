@@ -36,3 +36,5 @@ crash.log
 # version control.
 #
 # example.tfvars
+
+test/integration/tmp

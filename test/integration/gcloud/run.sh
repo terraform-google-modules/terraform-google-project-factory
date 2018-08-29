@@ -64,6 +64,7 @@ module "project-factory" {
   random_project_id        = "$PROJECT_RANDOM_ID"
   org_id                   = "$ORG_ID"
   usage_bucket_name        = "$USAGE_BUCKET_NAME"
+  usage_bucket_prefix      = "$USAGE_BUCKET_PREFIX"
   billing_account          = "$BILLING_ACCOUNT"
   create_group             = "$CREATE_GROUP"
   group_role               = "$GROUP_ROLE"

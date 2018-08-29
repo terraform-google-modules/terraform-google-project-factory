@@ -132,7 +132,7 @@
   run gcloud compute project-info describe --format="flattened[no-pad](usageExportLocation)"
   [ "$status" -eq 0 ]
   [[ "${lines[0]}" = "usageExportLocation.bucketName: $USAGE_BUCKET_NAME" ]]
-  [[ "${lines[1]}" = "usageExportLocation.reportNamePrefix: usage-$PROJECT_ID" ]]
+  [[ "${lines[1]}" = "usageExportLocation.reportNamePrefix: $USAGE_BUCKET_PREFIX" ]]
 }
 
 @test "Test both service account and GSuite group has role:roles/compute.networkUser on host project (shared VPC)" {
