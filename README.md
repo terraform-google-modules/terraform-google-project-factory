@@ -71,11 +71,8 @@ The roles granted are specifically:
   - `storage.admin` on `bucket_name` GCS bucket
   - MEMBER of the specified `api_sa_group`
 
-### Variables
-Please refer the [variables.tf](./variables.tf) file for the required and optional variables.
-
-### Outputs
-Please refer the [outputs.tf](./outputs.tf) file for the outputs that you can get with the `terraform output` command
+[^]: (autogen_docs_start)
+[^]: (autogen_docs_end)
 
 ## File structure
 The project has the following folders and files:
@@ -88,7 +85,7 @@ The project has the following folders and files:
 - /main.tf: main file for this module, contains all the resources to create
 - /variables.tf: all the variables for the module
 - /output.tf: the outputs of the module
-- /readme.MD: this file
+- /readme.md: this file
 
 ## Requirements
 ### Terraform plugins
@@ -172,6 +169,7 @@ The script will do:
 ### Requirements
 - [bats](https://github.com/sstephenson/bats) 0.4.0
 - [jq](https://stedolan.github.io/jq/) 1.5
+- [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
 
 ### Integration testing
 The integration tests for this module are built with bats, basically the test checks the following:
@@ -185,6 +183,12 @@ The integration tests for this module are built with bats, basically the test ch
 You can use the following command to run the integration test in the folder */test/integration/gcloud-test*
 
   `. launch.sh`
+
+### Autogeneration of documentation from .tf files
+Run
+```
+make generate_docs
+```
 
 ### Linting
 The makefile in this project will lint or sometimes just format any shell,
