@@ -19,7 +19,7 @@ TESTDIR=${BASH_SOURCE%/*}
 # Activate test working directory
 function make_testdir() {
   mkdir -p "$TEMPDIR"
-  cp -r "$TESTDIR/*" "$TEMPDIR"
+  cp -r "$TESTDIR"/* "$TEMPDIR"
 }
 
 # Activate test config
@@ -98,7 +98,7 @@ output "project_info_example" {
 }
 
 output "project_info_number" {
-  value       = "${module.project-factory.project_number"
+  value       = "${module.project-factory.project_number}"
 }
 
 output "domain_example" {
