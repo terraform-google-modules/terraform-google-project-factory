@@ -70,6 +70,7 @@ module "project-factory" {
   group_role               = "$GROUP_ROLE"
   group_name               = "$GROUP_NAME"
   shared_vpc               = "$SHARED_VPC"
+  sa_role                  = "$SA_ROLE"
   sa_group                 = "$SA_GROUP"
   folder_id                = "$FOLDER_ID"
   activate_apis            = ["compute.googleapis.com", "container.googleapis.com"]

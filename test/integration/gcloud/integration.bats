@@ -155,6 +155,28 @@
   [[ "${lines[2]}" = "roles/container.hostServiceAgentUser" ]]
 }
 
+@test "Confirm Terraform project IAM management is additive" {
+  if [ "$SA_ROLE" == "" ]; then
+    skip "SA_ROLE variable not set, skipping project IAM management test"
+  fi
+
+  export SA_ID="sa-${RANDOM}"
+  export PROJECT_ID="$(terraform output project_info_example)"
+
+  run gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+  [ "$status" -eq 0 ]
+
+  run gcloud projects add-iam-policy-binding \
+      $PROJECT_ID \
+      --member "serviceAccount:${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com" \
+      --role "$SA_ROLE"
+  [ "$status" -eq 0 ]
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+}
+
 @test "Test App Engine app created with the correct settings" {
 
   PROJECT_ID="$(terraform output project_info_example)"

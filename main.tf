@@ -146,14 +146,12 @@ resource "google_service_account" "default_service_account" {
 /**************************************************
   Policy to operate instances in shared subnetwork
  *************************************************/
-resource "google_project_iam_binding" "default_service_account_policy" {
+resource "google_project_iam_member" "default_service_account_membership" {
   count   = "${var.sa_role != "" ? 1 : 0}"
   project = "${local.project_id}"
   role    = "${var.sa_role}"
 
-  members = [
-    "${local.s_account_fmt}",
-  ]
+  member = "${local.s_account_fmt}"
 }
 
 /******************************************
