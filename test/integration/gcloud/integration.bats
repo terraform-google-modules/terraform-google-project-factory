@@ -17,7 +17,7 @@
 }
 
 @test "Terraform plan, ensure connection and creation of resources" {
-  skip
+  
   run terraform plan
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ to\ add ]]
@@ -26,7 +26,7 @@
 }
 
 @test "Terraform apply" {
-  skip
+  
   run terraform apply -auto-approve
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ added ]]
@@ -35,7 +35,7 @@
 }
 
 @test "Terraform plan setting of App Engine settings" {
-  skip
+  
   run terraform plan
   [ "$status" -eq 0 ]
   [[ "$output" =~ 0\ to\ add ]]
@@ -44,7 +44,7 @@
 }
 
 @test "Terraform apply" {
-  skip
+  
   run terraform apply -auto-approve
   [ "$status" -eq 0 ]
   [[ "$output" =~ 0\ added ]]
@@ -176,7 +176,7 @@
 # #################################### #
 
 @test "Terraform destroy" {
-  skip
+  
   run terraform destroy -force
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ destroyed ]]
