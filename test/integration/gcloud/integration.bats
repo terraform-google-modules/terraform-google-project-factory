@@ -177,6 +177,28 @@
   [[ "$output" =~ No\ changes ]]
 }
 
+@test "Confirm Terraform network user IAM management is additive" {
+  if [ "${SHARED_VPC}" == "" ]; then
+    skip "SHARED_VPC variable not set, skipping network user IAM management test"
+  fi
+
+  export SA_ID="sa-${RANDOM}"
+  export PROJECT_ID="$(terraform output project_info_example)"
+
+  run gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+  [ "$status" -eq 0 ]
+
+  run gcloud projects add-iam-policy-binding \
+      $SHARED_VPC \
+      --member "serviceAccount:${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com" \
+      --role "roles/compute.networkUser"
+  [ "$status" -eq 0 ]
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+}
+
 @test "Test App Engine app created with the correct settings" {
 
   PROJECT_ID="$(terraform output project_info_example)"
