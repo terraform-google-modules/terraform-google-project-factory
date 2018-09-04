@@ -160,21 +160,23 @@
     skip "SA_ROLE variable not set, skipping project IAM management test"
   fi
 
-  export SA_ID="sa-${RANDOM}"
-  export PROJECT_ID="$(terraform output project_info_example)"
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
 
-  run gcloud iam service-accounts create "$SA_ID" \
+  gcloud iam service-accounts create "$SA_ID" \
     --project "$PROJECT_ID"
-  [ "$status" -eq 0 ]
 
-  run gcloud projects add-iam-policy-binding \
+  gcloud projects add-iam-policy-binding \
       $PROJECT_ID \
-      --member "serviceAccount:${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com" \
+      --member "serviceAccount:${SA_EMAIL}" \
       --role "$SA_ROLE"
-  [ "$status" -eq 0 ]
 
   run terraform plan
   [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
 @test "Confirm Terraform network user IAM management is additive" {
@@ -182,21 +184,23 @@
     skip "SHARED_VPC variable not set, skipping network user IAM management test"
   fi
 
-  export SA_ID="sa-${RANDOM}"
-  export PROJECT_ID="$(terraform output project_info_example)"
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
 
-  run gcloud iam service-accounts create "$SA_ID" \
+  gcloud iam service-accounts create "$SA_ID" \
     --project "$PROJECT_ID"
-  [ "$status" -eq 0 ]
 
-  run gcloud projects add-iam-policy-binding \
+  gcloud projects add-iam-policy-binding \
       $SHARED_VPC \
-      --member "serviceAccount:${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com" \
+      --member "serviceAccount:${SA_EMAIL}" \
       --role "roles/compute.networkUser"
-  [ "$status" -eq 0 ]
 
   run terraform plan
   [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
 @test "Test App Engine app created with the correct settings" {
