@@ -36,4 +36,5 @@ export CREATE_GROUP="true"
 export FOLDER_ID=""
 export GROUP_ROLE="roles/editor"
 export REGION="us-east4"
+export USAGE_BUCKET_PREFIX="pf/test/integration"
 export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=$CREDENTIALS_PATH
