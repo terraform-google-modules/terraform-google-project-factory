@@ -23,6 +23,8 @@ locals {
   api_s_account     = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
   api_s_account_fmt = "${format("serviceAccount:%s", local.api_s_account)}"
   domain            = "${data.google_organization.org.domain}"
+  // default group_name to ${project_name}-editors
+  group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
 }
 
 /******************************************
@@ -59,8 +61,6 @@ resource "gsuite_group_member" "service_account_sa_group_member" {
   group = "${var.sa_group}"
   email = "${module.project-factory.service_account_email}"
   role  = "MEMBER"
-
-  depends_on = ["module.project-factory"]
 }
 
 /******************************************
@@ -95,7 +95,7 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${var.create_group ? "${gsuite_group.group.name}" : var.group_name}"
+  group_name          = "${var.create_group ? "${gsuite_group.group.name}" : local.group_name}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"

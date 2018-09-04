@@ -42,7 +42,7 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
+  description = "A group to control the project by being assigned group_role"
   default     = ""
 }
 
