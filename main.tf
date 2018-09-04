@@ -170,15 +170,13 @@ resource "google_project_iam_member" "gsuite_group_role" {
 /******************************************
   Granting serviceAccountUser to group
  *****************************************/
-resource "google_service_account_iam_binding" "service_account_grant_to_group" {
+resource "google_service_account_iam_member" "service_account_grant_to_group" {
   count = "${local.gsuite_group ? 1 : 0}"
 
   service_account_id = "projects/${local.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
   role               = "roles/iam.serviceAccountUser"
 
-  members = [
-    "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}",
-  ]
+  member = "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}"
 }
 
 /*************************************************************************************

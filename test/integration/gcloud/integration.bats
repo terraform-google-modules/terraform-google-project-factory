@@ -203,6 +203,32 @@
   gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
+@test "Confirm Terraform service account IAM membership is additive" {
+  if [ "$GROUP_NAME" == "" -o "$CREATE_GROUP" != "true" ]; then
+    skip "GROUP_NAME is unset and CREATE_GROUP is false, skipping service account IAM management test"
+  fi
+
+  MANAGED_SA_EMAIL="$(terraform output service_account_email)"
+
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
+
+  gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+
+  gcloud iam service-accounts add-iam-policy-binding \
+      $MANAGED_SA_EMAIL \
+      --member "serviceAccount:${SA_EMAIL}" \
+      --role "roles/iam.serviceAccountUser"
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
+}
+
 @test "Test App Engine app created with the correct settings" {
 
   PROJECT_ID="$(terraform output project_info_example)"
