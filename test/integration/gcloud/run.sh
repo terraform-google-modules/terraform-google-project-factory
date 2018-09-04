@@ -109,6 +109,10 @@ output "domain_example" {
 output "group_email_example" {
   value       = "${module.project-factory.group_email}"
 }
+
+output "service_account_email" {
+  value = "${module.project-factory.service_account_email}"
+}
 EOF
 }
 
