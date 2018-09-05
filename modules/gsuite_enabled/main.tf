@@ -83,8 +83,6 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
   group = "${var.api_sa_group}"
   email = "${local.api_s_account}"
   role  = "MEMBER"
-
-  depends_on = ["module.project-factory"]
 }
 
 module "project-factory" {
