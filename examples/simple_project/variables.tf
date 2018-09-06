@@ -21,3 +21,7 @@ variable "admin_email" {
 variable "organization_id" {}
 
 variable "billing_account" {}
+
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
+}
