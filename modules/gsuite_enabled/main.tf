@@ -20,16 +20,12 @@
 
 locals {
   project_number    = "${module.project-factory.project_number}"
-  api_s_account     = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
-  api_s_account_fmt = "${format("serviceAccount:%s", local.api_s_account)}"
-  domain            = "${data.google_organization.org.domain}"
-}
+  api_s_account     = "${module.project-factory.api_s_account}"
+  api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
+  domain            = "${module.project-factory.domain}"
 
-/******************************************
-  Organization info retrieval
- *****************************************/
-data "google_organization" "org" {
-  organization = "${var.org_id}"
+  // default group_name to ${project_name}-editors
+  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
 }
 
 /******************************************

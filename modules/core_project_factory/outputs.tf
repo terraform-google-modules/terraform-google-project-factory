@@ -71,3 +71,13 @@ output "app_engine_enabled" {
   value       = "${local.app_engine_enabled}"
   description = "Whether app engine is enabled"
 }
+
+output "api_s_account" {
+  value       = "${local.api_s_account}"
+  description = "API service account email"
+}
+
+output "api_s_account_fmt" {
+  value       = "${local.api_s_account_fmt}"
+  description = "API service account email formatted for terraform use"
+}
