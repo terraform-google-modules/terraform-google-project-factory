@@ -43,6 +43,7 @@ locals {
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
   shared_vpc_users       = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
+  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}" # Workaround for https://github.com/hashicorp/terraform/issues/10857
 
   app_engine_config = {
     enabled  = "${list(var.app_engine)}"
@@ -183,7 +184,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   compute.networkUser role granted to GSuite group, APIs Service account, Project Service Account, and GKE Service Account on shared VPC
  *************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) == 0 ? length(local.shared_vpc_users) : 0}"
+  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) == 0)) ? local.shared_vpc_users_length : 0}"
 
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"
