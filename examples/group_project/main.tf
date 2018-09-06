@@ -15,7 +15,6 @@
  */
 
 locals {
-  // credentials_file_path = "${path.module}/sa-key.json"
   credentials_file_path = "${var.credentials_file_path}"
 }
 
