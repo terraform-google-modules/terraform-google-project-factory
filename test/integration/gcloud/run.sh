@@ -19,7 +19,7 @@ TESTDIR=${BASH_SOURCE%/*}
 # Activate test working directory
 function make_testdir() {
   mkdir -p "$TEMPDIR"
-  cp -r "$TESTDIR/*" "$TEMPDIR"
+  cp -r "$TESTDIR"/* "$TEMPDIR"
 }
 
 # Activate test config
@@ -70,6 +70,7 @@ module "project-factory" {
   group_role               = "$GROUP_ROLE"
   group_name               = "$GROUP_NAME"
   shared_vpc               = "$SHARED_VPC"
+  sa_role                  = "$SA_ROLE"
   sa_group                 = "$SA_GROUP"
   folder_id                = "$FOLDER_ID"
   activate_apis            = ["compute.googleapis.com", "container.googleapis.com"]
@@ -107,6 +108,10 @@ output "domain_example" {
 
 output "group_email_example" {
   value       = "${module.project-factory.group_email}"
+}
+
+output "service_account_email" {
+  value = "${module.project-factory.service_account_email}"
 }
 EOF
 }
