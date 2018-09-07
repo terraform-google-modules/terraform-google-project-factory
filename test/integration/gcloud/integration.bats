@@ -155,8 +155,6 @@
   [[ "${lines[2]}" = "roles/container.hostServiceAgentUser" ]]
 }
 
-<<<<<<< HEAD
-=======
 @test "Confirm Terraform project IAM management is additive" {
   if [ "$SA_ROLE" == "" ]; then
     skip "SA_ROLE variable not set, skipping project IAM management test"
@@ -231,7 +229,6 @@
   gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
->>>>>>> edeeea6907784371cc5a51f0aec3c6c398ac3860
 @test "Test App Engine app created with the correct settings" {
 
   PROJECT_ID="$(terraform output project_info_example)"

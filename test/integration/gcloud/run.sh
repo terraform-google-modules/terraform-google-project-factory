@@ -99,11 +99,7 @@ output "project_info_example" {
 }
 
 output "project_info_number" {
-<<<<<<< HEAD
-  value       = "${module.project-factory.project_number"
-=======
   value       = "${module.project-factory.project_number}"
->>>>>>> edeeea6907784371cc5a51f0aec3c6c398ac3860
 }
 
 output "domain_example" {
