@@ -25,16 +25,6 @@ provider "google" {
   credentials = "${file(local.credentials_file_path)}"
 }
 
-provider "gsuite" {
-  credentials             = "${file(local.credentials_file_path)}"
-  impersonated_user_email = "${var.admin_email}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.user",
-  ]
-}
-
 module "project-factory" {
   source            = "../../"
   random_project_id = "true"
