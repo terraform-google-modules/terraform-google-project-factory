@@ -32,3 +32,5 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 | org_id | organization id | string | - | yes |
 | shared_vpc | The ID of the host project which hosts the shared VPC | string | - | yes |
 | shared_vpc_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID) | list | `<list>` | no |
+
+[^]: (autogen_docs_end)
