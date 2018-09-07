@@ -15,7 +15,7 @@
  */
 
 locals {
-  credentials_file_path = "${path.module}/sa-key.json"
+  credentials_file_path = "${var.credentials_path}"
 }
 
 /******************************************
@@ -23,6 +23,16 @@ locals {
  *****************************************/
 provider "google" {
   credentials = "${file(local.credentials_file_path)}"
+}
+
+provider "gsuite" {
+  credentials             = "${file(local.credentials_file_path)}"
+  impersonated_user_email = "${var.admin_email}"
+
+  oauth_scopes = [
+    "https://www.googleapis.com/auth/admin.directory.group",
+    "https://www.googleapis.com/auth/admin.directory.user",
+  ]
 }
 
 module "project-factory" {
