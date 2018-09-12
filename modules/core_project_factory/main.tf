@@ -146,7 +146,7 @@ data "google_compute_default_service_account" "default" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
-    command = "${path.module}/../../scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
+    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
   }
 
   triggers {
@@ -181,7 +181,7 @@ resource "google_project_iam_member" "default_service_account_membership" {
   Gsuite Group Role Configuration
  *****************************************/
 resource "google_project_iam_member" "gsuite_group_role" {
-  count = "${local.gsuite_group ? 1 : 0}"
+  count = "${local.gsuite_group  ? 1 : 0}"
 
   project = "${local.project_id}"
   role    = "${var.group_role}"
@@ -262,7 +262,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 
   project     = "${local.project_id}"
   bucket_name = "${var.usage_bucket_name}"
-  prefix      = "usage-${local.project_id}"
+  prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${local.project_id}"}"
 
   depends_on = ["google_project_service.project_services"]
 }
