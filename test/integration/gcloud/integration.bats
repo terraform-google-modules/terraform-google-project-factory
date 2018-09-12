@@ -17,7 +17,7 @@
 }
 
 @test "Terraform plan, ensure connection and creation of resources" {
-
+  
   run terraform plan
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ to\ add ]]
@@ -26,7 +26,7 @@
 }
 
 @test "Terraform apply" {
-
+  
   run terraform apply -auto-approve
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ added ]]
@@ -35,7 +35,7 @@
 }
 
 @test "Terraform plan setting of App Engine settings" {
-
+  
   run terraform plan
   [ "$status" -eq 0 ]
   [[ "$output" =~ 0\ to\ add ]]
@@ -44,7 +44,7 @@
 }
 
 @test "Terraform apply" {
-
+  
   run terraform apply -auto-approve
   [ "$status" -eq 0 ]
   [[ "$output" =~ 0\ added ]]
@@ -88,7 +88,7 @@
 
   run gcloud compute shared-vpc get-host-project $PROJECT_ID --format="get(name)"
   [ "$status" -eq 0 ]
-  [[ "${lines[1]}" = "$SHARED_VPC" ]]
+  [[ "${lines[0]}" = "$SHARED_VPC" ]]
 }
 
 @test "Test project has only the expected service accounts" {
@@ -139,10 +139,11 @@
 
   export PROJECT_ID="$(terraform output project_info_example)"
   export GROUP_EMAIL="$(terraform output group_email_example)"
+  export PROJECT_NUM="$(terraform output project_info_number)"
 
   run gcloud projects get-iam-policy $SHARED_VPC --format=list[compact] --filter="bindings.role=roles/compute.networkUser AND bindings.members=group:$GROUP_EMAIL AND bindings.members=serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com"
   [ "$status" -eq 0 ]
-  [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
+  [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:$PROJECT_NUM@cloudservices.gserviceaccount.com', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com'"* ]]
 }
 
 @test "Test that the GKE service account has the role:roles/container.hostServiceAgentUser and role:/roles/compute.networkUser on host project (shared VPC for GKE)" {
@@ -249,7 +250,7 @@
 # #################################### #
 
 @test "Terraform destroy" {
-
+  
   run terraform destroy -force
   [ "$status" -eq 0 ]
   [[ "$output" =~ 11\ destroyed ]]

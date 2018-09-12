@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = "${var.credentials_path}"
+variable "api_sa_group" {
+  description = "A GSuite group to place the Google APIs Service Account for the project in"
+  default     = ""
 }
 
-/******************************************
-  Provider configuration
- *****************************************/
-provider "google" {
-  credentials = "${file(local.credentials_file_path)}"
+variable "create_group" {
+  description = "Whether to create the group or not"
+  default     = "true"
 }
 
-module "project-factory" {
-  source            = "../../"
-  random_project_id = "true"
-  name              = "simple-sample-project"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
+variable "sa_group" {
+  description = "A GSuite group to place the default Service Account for the project in"
+  default     = ""
 }

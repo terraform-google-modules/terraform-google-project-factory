@@ -15,7 +15,7 @@
  */
 
 locals {
-  credentials_file_path = "${path.module}/sa-key.json"
+  credentials_file_path = "${var.credentials_file_path}"
 }
 
 /******************************************
@@ -36,7 +36,7 @@ provider "gsuite" {
 }
 
 module "project-factory" {
-  source            = "../../"
+  source            = "../../modules/gsuite_enabled"
   random_project_id = "true"
   name              = "group-sample-project"
   org_id            = "${var.organization_id}"

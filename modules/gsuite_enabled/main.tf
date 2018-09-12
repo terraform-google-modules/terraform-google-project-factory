@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-/*
-If we don't need to work with gsuite, we can use the project-factory without installing/configuring gsuite,
-it is necessary to delete this file that contains the gsuite resources.
-*/
+/******************************************
+  Locals configuration
+ *****************************************/
+
+locals {
+  project_number    = "${module.project-factory.project_number}"
+  api_s_account     = "${module.project-factory.api_s_account}"
+  api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
+  domain            = "${module.project-factory.domain}"
+
+  // default group_name to ${project_name}-editors
+  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+}
 
 /******************************************
   Group email construction when group already exists
@@ -44,10 +53,8 @@ resource "gsuite_group_member" "service_account_sa_group_member" {
   count = "${var.sa_group != "" ? 1 : 0}"
 
   group = "${var.sa_group}"
-  email = "${google_service_account.default_service_account.email}"
+  email = "${module.project-factory.service_account_email}"
   role  = "MEMBER"
-
-  depends_on = ["google_service_account.default_service_account"]
 }
 
 /******************************************
@@ -70,6 +77,26 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
   group = "${var.api_sa_group}"
   email = "${local.api_s_account}"
   role  = "MEMBER"
+}
 
-  depends_on = ["google_project_service.project_services"]
+module "project-factory" {
+  source              = "../core_project_factory/"
+  random_project_id   = "${var.random_project_id}"
+  org_id              = "${var.org_id}"
+  name                = "${var.name}"
+  shared_vpc          = "${var.shared_vpc}"
+  billing_account     = "${var.billing_account}"
+  folder_id           = "${var.folder_id}"
+  group_name          = "${var.create_group ? "${gsuite_group.group.name}" : local.group_name}"
+  group_role          = "${var.group_role}"
+  sa_role             = "${var.sa_role}"
+  activate_apis       = "${var.activate_apis}"
+  usage_bucket_name   = "${var.usage_bucket_name}"
+  credentials_path    = "${var.credentials_path}"
+  shared_vpc_subnets  = "${var.shared_vpc_subnets}"
+  labels              = "${var.labels}"
+  bucket_project      = "${var.bucket_project}"
+  bucket_name         = "${var.bucket_name}"
+  auto_create_network = "${var.auto_create_network}"
+  app_engine          = "${var.app_engine}"
 }

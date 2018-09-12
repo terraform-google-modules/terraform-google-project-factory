@@ -20,13 +20,7 @@ variable "random_project_id" {
 }
 
 variable "org_id" {
-  description = "The organization id (optional if `domain` is passed)"
-  default     = ""
-}
-
-variable "domain" {
-  description = "The domain name (optional if `org_id` is passed)"
-  default     = ""
+  description = "The organization id for the associated services"
 }
 
 variable "name" {
@@ -48,7 +42,7 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
+  description = "A group to control the project by being assigned group_role"
   default     = ""
 }
 
@@ -70,11 +64,6 @@ variable "activate_apis" {
 
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
-  default     = ""
-}
-
-variable "usage_bucket_prefix" {
-  description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
   default     = ""
 }
 
