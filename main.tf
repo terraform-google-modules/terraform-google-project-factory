@@ -326,3 +326,14 @@ resource "google_project_iam_member" "gke_host_agent" {
 
   depends_on = ["google_project_service.project_services"]
 }
+
+/******************************************
+  Delegate service account generation to the service_accounts module
+ *****************************************/
+module "service_accounts" {
+  source             = "./modules/service_accounts"
+  project_id         = "${google_project.project.project_id}"
+  credentials_path   = "${var.credentials_path}"
+  shared_vpc_subnets = "${var.shared_vpc_subnets}"
+  service_accounts   = "${var.service_accounts}"
+}

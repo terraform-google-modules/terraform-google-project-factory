@@ -129,3 +129,11 @@ variable "app_engine" {
   type        = "map"
   default     = {}
 }
+
+variable "service_accounts" {
+  description = "A list of service accounts to create in the project"
+  type        = "list"
+
+  default = [
+  ]
+}
