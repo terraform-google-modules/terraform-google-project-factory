@@ -24,7 +24,7 @@ it is necessary to delete this file that contains the gsuite resources.
  *****************************************/
 data "null_data_source" "data_given_group_email" {
   inputs {
-    given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
+    given_group_email = "${var.create_group == "false" && var.group_name != "" ? format("%s@%s", var.group_name, local.domain) : ""}"
   }
 }
 
