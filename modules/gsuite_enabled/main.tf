@@ -23,9 +23,15 @@ locals {
   api_s_account     = "${module.project-factory.api_s_account}"
   api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
   domain            = "${module.project-factory.domain}"
+  args_missing      = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
 
   // default group_name to ${project_name}-editors
   group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+}
+
+resource "null_resource" "args_missing" {
+  count                                                                                           = "${local.args_missing}"
+  "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
 }
 
 /******************************************
@@ -87,6 +93,7 @@ module "project-factory" {
   lien                = "${var.lien}"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"
+  domain              = "${var.domain}"
   name                = "${var.name}"
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
@@ -96,6 +103,7 @@ module "project-factory" {
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
   usage_bucket_name   = "${var.usage_bucket_name}"
+  usage_bucket_prefix = "${var.usage_bucket_prefix}"
   credentials_path    = "${var.credentials_path}"
   shared_vpc_subnets  = "${var.shared_vpc_subnets}"
   labels              = "${var.labels}"
