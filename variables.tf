@@ -135,5 +135,12 @@ variable "service_accounts" {
   type        = "list"
 
   default = [
+    {
+      account_id     = "project-service-account"
+      description    = "Project Service Account"
+      roles          = []
+      groups         = []
+      network_access = true
+    },
   ]
 }

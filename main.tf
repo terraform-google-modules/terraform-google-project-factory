@@ -32,7 +32,6 @@ locals {
   temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
   domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
   args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
-  s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
   gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
@@ -43,7 +42,7 @@ locals {
   gsuite_group           = "${var.group_name != "" || var.create_group}"
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
-  shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
+  shared_vpc_users        = "${compact(list(data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                                                     # Workaround for https://github.com/hashicorp/terraform/issues/10857
 
   app_engine_config = {
@@ -145,26 +144,6 @@ resource "null_resource" "delete_default_compute_service_account" {
 }
 
 /******************************************
-  Default Service Account configuration
- *****************************************/
-resource "google_service_account" "default_service_account" {
-  account_id   = "project-service-account"
-  display_name = "${var.name} Project Service Account"
-  project      = "${local.project_id}"
-}
-
-/**************************************************
-  Policy to operate instances in shared subnetwork
- *************************************************/
-resource "google_project_iam_member" "default_service_account_membership" {
-  count   = "${var.sa_role != "" ? 1 : 0}"
-  project = "${local.project_id}"
-  role    = "${var.sa_role}"
-
-  member = "${local.s_account_fmt}"
-}
-
-/******************************************
   Gsuite Group Role Configuration
  *****************************************/
 resource "google_project_iam_member" "gsuite_group_role" {
@@ -173,18 +152,6 @@ resource "google_project_iam_member" "gsuite_group_role" {
   project = "${local.project_id}"
   role    = "${var.group_role}"
   member  = "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}"
-}
-
-/******************************************
-  Granting serviceAccountUser to group
- *****************************************/
-resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  count = "${local.gsuite_group ? 1 : 0}"
-
-  service_account_id = "projects/${local.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
-  role               = "roles/iam.serviceAccountUser"
-
-  member = "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}"
 }
 
 /*************************************************************************************
@@ -198,19 +165,6 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   member  = "${element(local.shared_vpc_users, count.index)}"
 
   depends_on = ["google_project_service.project_services"]
-}
-
-/*************************************************************************************
-  compute.networkUser role granted to Project Service Account on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
-
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
-  role       = "roles/compute.networkUser"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
-  project    = "${var.shared_vpc}"
-  member     = "${local.s_account_fmt}"
 }
 
 /*************************************************************************************
@@ -273,17 +227,6 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
   bucket = "${google_storage_bucket.project_bucket.name}"
   role   = "roles/storage.admin"
   member = "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}"
-}
-
-/***********************************************
-  Project's bucket storage.admin granting to default compute service account
- ***********************************************/
-resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_bucket" {
-  count = "${local.create_bucket ? 1 : 0}"
-
-  bucket = "${google_storage_bucket.project_bucket.name}"
-  role   = "roles/storage.admin"
-  member = "${local.s_account_fmt}"
 }
 
 /***********************************************

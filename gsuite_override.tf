@@ -37,19 +37,6 @@ data "null_data_source" "data_final_group_email" {
   }
 }
 
-/***********************************************
-  Make service account member of sa_group group
- ***********************************************/
-resource "gsuite_group_member" "service_account_sa_group_member" {
-  count = "${var.sa_group != "" ? 1 : 0}"
-
-  group = "${var.sa_group}"
-  email = "${google_service_account.default_service_account.email}"
-  role  = "MEMBER"
-
-  depends_on = ["google_service_account.default_service_account"]
-}
-
 /******************************************
   Gsuite Group Configuration
  *****************************************/
