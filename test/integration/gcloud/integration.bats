@@ -214,7 +214,7 @@
   [ "$status" -eq 0 ]
   [[ "${lines[0]}" = "authDomain: $AUTH_DOMAIN" ]]
   [[ "${lines[4]}" = "featureSettings: {}" ]]
-  [[ "${lines[6]}" = "id: $PROJECT_ID}" ]]
+  [[ "${lines[6]}" = "id: $PROJECT_ID" ]]
   [[ "${lines[7]}" = "name: apps/$PROJECT_ID" ]]
   [[ "${lines[8]}" = "locationId: $REGION" ]]
   [[ "${lines[9]}" = "servingStatus: SERVING" ]]
