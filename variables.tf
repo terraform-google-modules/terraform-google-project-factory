@@ -134,3 +134,9 @@ variable "service_accounts" {
     },
   ]
 }
+
+variable "impersonated_user_email" {
+  type = "string"
+  default = ""
+  description = "The email address to use when managing service account group membership"
+}
