@@ -20,7 +20,13 @@ variable "random_project_id" {
 }
 
 variable "org_id" {
-  description = "The organization id for the associated services"
+  description = "The organization id (optional if `domain` is passed)"
+  default     = ""
+}
+
+variable "domain" {
+  description = "The domain name (optional if `org_id` is passed)"
+  default     = ""
 }
 
 variable "name" {
@@ -42,7 +48,7 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
+  description = "A group to control the project by being assigned group_role"
   default     = ""
 }
 

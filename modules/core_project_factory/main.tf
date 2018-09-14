@@ -30,7 +30,8 @@ locals {
   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
   temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
-  domain                 = "${data.google_organization.org.domain}"
+  domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
+  args_missing           = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
@@ -41,6 +42,9 @@ locals {
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
   gsuite_group           = "${var.group_name != "" ? "true" : "false"}"
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
+
+  shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
+  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
 
   app_engine_config = {
     enabled  = "${list(var.app_engine)}"
@@ -70,6 +74,7 @@ data "null_data_source" "data_group_email_format" {
   Organization info retrieval
  *****************************************/
 data "google_organization" "org" {
+  count        = "${var.org_id == "" ? 0 : 1}"
   organization = "${var.org_id}"
 }
 
@@ -146,14 +151,12 @@ resource "google_service_account" "default_service_account" {
 /**************************************************
   Policy to operate instances in shared subnetwork
  *************************************************/
-resource "google_project_iam_binding" "default_service_account_policy" {
+resource "google_project_iam_member" "default_service_account_membership" {
   count   = "${var.sa_role != "" ? 1 : 0}"
   project = "${local.project_id}"
   role    = "${var.sa_role}"
 
-  members = [
-    "${local.s_account_fmt}",
-  ]
+  member = "${local.s_account_fmt}"
 }
 
 /******************************************
@@ -170,29 +173,24 @@ resource "google_project_iam_member" "gsuite_group_role" {
 /******************************************
   Granting serviceAccountUser to group
  *****************************************/
-resource "google_service_account_iam_binding" "service_account_grant_to_group" {
+resource "google_service_account_iam_member" "service_account_grant_to_group" {
   count = "${local.gsuite_group ? 1 : 0}"
 
   service_account_id = "projects/${local.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
   role               = "roles/iam.serviceAccountUser"
 
-  members = [
-    "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}",
-  ]
+  member = "${data.null_data_source.data_group_email_format.outputs["group_fmt"]}"
 }
 
 /*************************************************************************************
   compute.networkUser role granted to GSuite group, APIs Service account, Project Service Account, and GKE Service Account on shared VPC
  *************************************************************************************/
-resource "google_project_iam_binding" "controlling_group_vpc_role" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) == 0 ? 1 : 0}"
+resource "google_project_iam_member" "controlling_group_vpc_membership" {
+  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) == 0)) ? local.shared_vpc_users_length : 0}"
 
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"
-
-  members = [
-    "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}",
-  ]
+  member  = "${element(local.shared_vpc_users, count.index)}"
 
   depends_on = ["google_project_service.project_services"]
 }
