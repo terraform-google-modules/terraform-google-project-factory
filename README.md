@@ -16,7 +16,6 @@ module "project-factory" {
   billing_account     = "ABCDEF-ABCDEF-ABCDEF"
   group_role          = "roles/editor"
   shared_vpc          = "shared_vpc_host_name"
-  sa_group            = "test_sa_group@yourdomain.com"
   credentials_path    = "${local.credentials_file_path}"
 
   shared_vpc_subnets = [
@@ -42,7 +41,6 @@ The Project Factory module will take the following actions:
 1. Delete the default compute service account.
 1. Create a new default service account for the project.
     1. Give it access to the shared VPC (to be able to launch instances).
-    1. Add it to the `sa_group` in Google Groups, if specified.
 1. Attach the billing account (`billing_account`) to the project.
 1. Create a new Google Group for the project (`group_name`) if `create_group` is `true`.
 1. Give the controlling group access to the project, with the `group_role`.
@@ -60,7 +58,6 @@ The roles granted are specifically:
 - New Default Service Account
   - `compute.networkUser` on host project or specified subnets
   - `storage.admin` on `bucket_name` GCS bucket
-  - MEMBER of the specified `sa_group`
 - `group_name` is the new controlling group
   - `compute.networkUser` on host project or specific subnets
   - Specified `group_role` on project
@@ -94,8 +91,6 @@ The roles granted are specifically:
 | name | The name for the project | string | - | yes |
 | org_id | The organization id for the associated services | string | - | yes |
 | random_project_id | Enables project random id generation | string | `false` | no |
-| sa_group | A GSuite group to place the default Service Account for the project in | string | `` | no |
-| sa_role | A role to give the default Service Account for the project (defaults to none) | string | `` | no |
 | shared_vpc | The ID of the host project which hosts the shared VPC | string | `` | no |
 | shared_vpc_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
 | usage_bucket_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `` | no |
