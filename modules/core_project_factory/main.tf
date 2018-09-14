@@ -31,7 +31,6 @@ locals {
   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
   temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
   domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
-  args_missing           = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
@@ -40,11 +39,11 @@ locals {
   gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
   project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
-  gsuite_group           = "${var.group_name != "" ? "true" : "false"}"
+  gsuite_group           = "${var.group_name != "" || var.create_group}"
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
   shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
-  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
+  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                                                     # Workaround for https://github.com/hashicorp/terraform/issues/10857
 
   app_engine_config = {
     enabled  = "${list(var.app_engine)}"
@@ -128,7 +127,7 @@ data "google_compute_default_service_account" "default" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
-    command = "${path.module}/../../scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
+    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${var.credentials_path} ${data.google_compute_default_service_account.default.id}"
   }
 
   triggers {
@@ -163,7 +162,7 @@ resource "google_project_iam_member" "default_service_account_membership" {
   Gsuite Group Role Configuration
  *****************************************/
 resource "google_project_iam_member" "gsuite_group_role" {
-  count = "${local.gsuite_group ? 1 : 0}"
+  count = "${local.gsuite_group  ? 1 : 0}"
 
   project = "${local.project_id}"
   role    = "${var.group_role}"
@@ -244,7 +243,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 
   project     = "${local.project_id}"
   bucket_name = "${var.usage_bucket_name}"
-  prefix      = "usage-${local.project_id}"
+  prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${local.project_id}"}"
 
   depends_on = ["google_project_service.project_services"]
 }
