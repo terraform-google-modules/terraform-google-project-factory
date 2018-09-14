@@ -59,7 +59,6 @@
 @test "Test information about project $PROJECT_ID" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud config set project $PROJECT_ID
   run gcloud projects describe $PROJECT_ID --format=flattened[no-pad]
@@ -70,7 +69,6 @@
 @test "Test the correct apis are activated" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud services list
   [ "$status" -eq 0 ]
@@ -84,7 +82,6 @@
 @test "Test that project has the shared vpc associated (host project)" {
 
   PROJECT_ID="$(terraform output project_info_example)"
-  GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud compute shared-vpc get-host-project $PROJECT_ID --format="get(name)"
   [ "$status" -eq 0 ]
@@ -94,7 +91,6 @@
 @test "Test project has only the expected service accounts" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud iam service-accounts list --format="get(email)"
   [ "$status" -eq 0 ]
@@ -127,7 +123,6 @@
 @test "Test project has enabled the usage report export to the bucket" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud compute project-info describe --format="flattened[no-pad](usageExportLocation)"
   [ "$status" -eq 0 ]
