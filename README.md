@@ -161,8 +161,7 @@ Additionally, if you want to use the group management functionality included, yo
 A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
 
 ```
-./helpers/set-host-sa-permissions.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME> <SERVICE_ACCOUNT_ID>
-```
+./helpers/setup-sa.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME>
 
 ### APIs
 In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
