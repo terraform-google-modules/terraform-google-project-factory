@@ -162,6 +162,7 @@ A [helper script](./helpers/setup-sa.sh) is included to automatically grant all 
 
 ```
 ./helpers/setup-sa.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME>
+```
 
 ### APIs
 In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
