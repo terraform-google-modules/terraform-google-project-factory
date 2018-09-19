@@ -1,0 +1,8 @@
+---
+lockfile_version: 1
+depends:
+- name: inspec-terraform-outputs
+  resolved_source:
+    git: https://github.com/lagrange-automation/inspec-terraform-outputs
+    ref: e41cb00a3ee3faa7317ef608170634c74a15fb2c
+  version_constraints: []

@@ -1,0 +1,4 @@
+name: default
+depends:
+  - name: inspec-terraform
+    git: https://github.com/lagrange-automation/inspec-terraform
