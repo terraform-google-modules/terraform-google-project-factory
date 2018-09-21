@@ -78,11 +78,6 @@ variable "usage_bucket_prefix" {
   default     = ""
 }
 
-variable "usage_bucket_prefix" {
-  description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
-  default     = ""
-}
-
 variable "credentials_path" {
   description = "Path to a Service Account credentials file with permissions documented in the readme"
 }
