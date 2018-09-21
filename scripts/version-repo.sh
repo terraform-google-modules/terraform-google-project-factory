@@ -33,10 +33,5 @@ if [ "$INGIT" == "false" ]
   then
     git tag -a $REPO_VER -m "$REPO_VER"
     echo "Updating README.md Usage Ref"
-    sed -i '.bak' "s/ref=v[0-9]\.[0-9]\.[0-9]/ref=$REPO_VER/g" ../README.md
-    #osx version of SED requires you to specify a file extension. So we are going to delete the backup file.
-    rm -rf ../README.md.bak
-    echo "Pushing changes and tags to master"
-    git commit -a -m "$REPO_VER"
-    git push --follow-tags origin master
+    sed -i '' "s/ref=v[0-9]\.[0-9]\.[0-9]/ref=$REPO_VER/g" ../README.md
 fi
