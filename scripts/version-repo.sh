@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO_VER=v`cat ../CHANGELOG.md | grep "##" | sort -r | head -n 1 | cut -d" " -f2`
+REPO_VER=v`cat ../CHANGELOG.md | grep "##" | head -n 1 | cut -d" " -f2`
 CUR_GIT_TAG=`git describe --abbrev=0 --tags`
 INGIT=false
 
