@@ -86,8 +86,3 @@ cd "$TEMPDIR" || exit
 activate_config
 create_terraform_tfvars_file
 create_inspec_attributes_file
-
-# # # Clean the environment
-cd - || exit
-# clean_workdir
-echo "Integration test finished"
