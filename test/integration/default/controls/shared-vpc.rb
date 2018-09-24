@@ -17,15 +17,15 @@ outputs = terraform_outputs(dir: File.expand_path("../../../..", File.dirname(__
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
 
-  only_if { !ENV.fetch('SHARED_VPC', '').empty? }
+  only_if { attribute('shared_vpc') }
 
   describe command("gcloud compute shared-vpc get-host-project #{outputs.project_id} --format='get(name)'") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
-    its('stdout.strip') { should eq ENV['SHARED_VPC'] }
+    its('stdout.strip') { should eq attribute('shared_vpc') }
   end
 
-  describe command("gcloud projects get-iam-policy #{ENV['SHARED_VPC']} --format=json") do
+  describe command("gcloud projects get-iam-policy #{attribute('shared_vpc')} --format=json") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
 

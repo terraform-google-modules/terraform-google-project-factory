@@ -37,7 +37,7 @@ control 'project-factory-app-engine' do
     end
 
     let(:auth_domain) do
-      admin_account = ENV.fetch('GSUITE_ADMIN_ACCOUNT', '')
+      admin_account = attribute('gsuite_admin_account')
       result = admin_account.match(/\A.*@(.*)\z/)
       if result
         result.captures[0]
@@ -61,7 +61,7 @@ control 'project-factory-app-engine' do
     end
 
     it "is in the correct region" do
-      metadata["locationId"].should eq ENV['REGION']
+      metadata["locationId"].should eq attribute('region')
     end
 
     it "is serving" do

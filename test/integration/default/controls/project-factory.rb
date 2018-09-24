@@ -66,7 +66,7 @@ end
 control 'project-factory-sa-role' do
   title "Project factory service account role"
 
-  only_if { !ENV.fetch('SA_ROLE', '').empty? }
+  only_if { attribute('sa_role') }
 
   describe command("gcloud projects get-iam-policy #{outputs.project_id} --format=json") do
     its('exit_status') { should eq 0 }
@@ -80,8 +80,8 @@ control 'project-factory-sa-role' do
       end
     end
 
-    it "does not overwrite the membership of role #{ENV['SA_ROLE']}" do
-      binding = bindings.find { |b| b['role'] == ENV['SA_ROLE'] }
+    it "does not overwrite the membership of the service account role" do
+      binding = bindings.find { |b| b['role'] == attribute('sa_role') }
       binding.should_not be_nil
 
       binding['members'].should include "serviceAccount:#{outputs.extra_service_account_email}"
@@ -93,7 +93,7 @@ end
 control 'project-factory-usage' do
   title "Project factory usage bucket"
 
-  only_if { !ENV.fetch('USAGE_BUCKET_NAME', '').empty? }
+  only_if { attribute('usage_bucket_name') }
 
   describe command("gcloud compute project-info describe --project #{outputs.project_id} --format='json(usageExportLocation)'") do
     its('exit_status') { should be 0 }
@@ -108,19 +108,15 @@ control 'project-factory-usage' do
     end
 
     let(:prefix) do
-      if ENV.fetch('USAGE_BUCKET_PREFIX', '').empty?
-        "usage-#{outputs.project_id}"
-      else
-        ENV.fetch('USAGE_BUCKET_PREFIX', '')
-      end
+      attribute('usage_bucket_prefix') || "usage-#{outputs.project_id}"
     end
 
     it "exports usage to the provided bucket" do
-      usage["bucketName"].should eq ENV['USAGE_BUCKET_NAME']
+      usage["bucketName"].should eq attribute('usage_bucket_name')
     end
 
     it "exports usage to the appropriate prefix" do
-      usage["reportNamePrefix"].should eq ENV['USAGE_BUCKET_PREFIX']
+      usage["reportNamePrefix"].should eq attribute('usage_bucket_prefix')
     end
   end
 end

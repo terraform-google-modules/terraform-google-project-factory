@@ -53,11 +53,39 @@ domain="$(echo "$GSUITE_ADMIN_ACCOUNT" | cut -d '@' -f2)"
 EOF
 }
 
+function create_inspec_attributes_file() {
+  echo -n > inspec-attributes.yml
+
+  if [ "$SA_ROLE" != "" ]; then
+    echo "sa_role: $SA_ROLE" >> inspec-attributes.yml
+  fi
+
+  if [ "$USAGE_BUCKET_NAME" != "" ]; then
+    echo "usage_bucket_name: $USAGE_BUCKET_NAME" >> inspec-attributes.yml
+  fi
+
+  if [ "$USAGE_BUCKET_PREFIX" != "" ]; then
+    echo "usage_bucket_prefix: $USAGE_BUCKET_PREFIX" >> inspec-attributes.yml
+  fi
+
+  if [ "$SHARED_VPC" != "" ]; then
+    echo "shared_vpc: $SHARED_VPC" >> inspec-attributes.yml
+  fi
+
+  if [ "$GROUP_ROLE" != "" ]; then
+    echo "group_role: $GROUP_ROLE" >> inspec-attributes.yml
+  fi
+
+  echo "gsuite_admin_account: $GSUITE_ADMIN_ACCOUNT" >> inspec-attributes.yml
+  echo "region: $REGION" >> inspec-attributes.yml
+}
+
 # Preparing environment
 make_testdir
 cd "$TEMPDIR" || exit
 activate_config
 create_terraform_tfvars_file
+create_inspec_attributes_file
 
 # # # Clean the environment
 cd - || exit

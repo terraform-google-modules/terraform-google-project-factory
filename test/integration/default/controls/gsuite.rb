@@ -32,11 +32,11 @@ control 'project-factory-gsuite' do
     end
 
     it "includes the gsuite group in the given role" do
-      if ENV.fetch('GROUP_ROLE', '').empty?
+      if !attribute('group_role')
         pending
       end
 
-      binding = bindings.find { |b| b['role'] == ENV['GROUP_ROLE'] }
+      binding = bindings.find { |b| b['role'] == attribute('group_role') }
       binding.should_not be_nil
 
       binding['members'].should include "group:#{outputs.group_email}"
