@@ -63,10 +63,19 @@ check_headers:
 	@echo "Checking file headers"
 	@python test/verify_boilerplate.py
 
+.PHONY: setup_integration
+setup_integration:
+	./test/integration/gcloud/setup.sh
+
 # Integration tests
 .PHONY: test_integration
-test_integration:
-	./test/integration/gcloud/run.sh
+test_integration: setup_integration
+	bundle install
+	bundle exec kitchen create
+	bundle exec kitchen converge
+	bundle exec kitchen converge
+	bundle exec kitchen verify
+	bundle exec kitchen destroy
 
 .PHONY: generate_docs
 generate_docs:
