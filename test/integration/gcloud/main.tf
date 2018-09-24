@@ -19,32 +19,34 @@ provider "google" {
 }
 
 provider "gsuite" {
-  credentials              = "${file(var.credentials_path)}"
-  impersonated_user_email  = "${var.gsuite_admin_account}"
-  oauth_scopes             = [
+  credentials             = "${file(var.credentials_path)}"
+  impersonated_user_email = "${var.gsuite_admin_account}"
+
+  oauth_scopes = [
     "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member"
+    "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
 }
 
 module "project-factory" {
-  source                   = "../../../"
-  name                     = "${var.name}"
-  random_project_id        = "${var.random_project_id}"
-  domain                   = "${var.domain}"
-  org_id                   = "${var.org_id}"
-  folder_id                = "${var.folder_id}"
-  usage_bucket_name        = "${var.usage_bucket_name}"
-  usage_bucket_prefix      = "${var.usage_bucket_prefix}"
-  billing_account          = "${var.billing_account}"
-  create_group             = "${var.create_group}"
-  group_role               = "${var.group_role}"
-  group_name               = "${var.group_name}"
-  shared_vpc               = "${var.shared_vpc}"
-  sa_role                  = "${var.sa_role}"
-  sa_group                 = "${var.sa_group}"
-  activate_apis            = "${var.activate_apis}"
-  credentials_path         = "${var.credentials_path}"
+  source              = "../../../"
+  name                = "${var.name}"
+  random_project_id   = "${var.random_project_id}"
+  domain              = "${var.domain}"
+  org_id              = "${var.org_id}"
+  folder_id           = "${var.folder_id}"
+  usage_bucket_name   = "${var.usage_bucket_name}"
+  usage_bucket_prefix = "${var.usage_bucket_prefix}"
+  billing_account     = "${var.billing_account}"
+  create_group        = "${var.create_group}"
+  group_role          = "${var.group_role}"
+  group_name          = "${var.group_name}"
+  shared_vpc          = "${var.shared_vpc}"
+  sa_role             = "${var.sa_role}"
+  sa_group            = "${var.sa_group}"
+  activate_apis       = "${var.activate_apis}"
+  credentials_path    = "${var.credentials_path}"
+
   app_engine {
     location_id = "${var.region}"
     auth_domain = "${var.domain}"
@@ -77,10 +79,10 @@ resource "google_project_iam_member" "additive_shared_vpc_role" {
 }
 
 resource "google_service_account_iam_member" "additive_service_account_grant_to_group" {
-  count              = "${module.project-factory.group_email != "" ? 1 : 0}"
+  count = "${module.project-factory.group_email != "" ? 1 : 0}"
 
   service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}"
 
-  role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${google_service_account.extra_service_account.email}"
+  role   = "roles/iam.serviceAccountUser"
+  member = "serviceAccount:${google_service_account.extra_service_account.email}"
 }

@@ -15,19 +15,19 @@
  */
 
 output "project_id" {
-  value       = "${module.project-factory.project_id}"
+  value = "${module.project-factory.project_id}"
 }
 
 output "project_number" {
-  value       = "${module.project-factory.project_number}"
+  value = "${module.project-factory.project_number}"
 }
 
 output "domain" {
-  value       = "${module.project-factory.domain}"
+  value = "${module.project-factory.domain}"
 }
 
 output "group_email" {
-  value       = "${module.project-factory.group_email}"
+  value = "${module.project-factory.group_email}"
 }
 
 output "service_account_email" {

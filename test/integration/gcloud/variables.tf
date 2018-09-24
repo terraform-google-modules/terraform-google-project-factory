@@ -70,8 +70,6 @@ variable "activate_apis" {
   type = "list"
 }
 
-variable "region" {
-}
+variable "region" {}
 
-variable "gsuite_admin_account" {
-}
+variable "gsuite_admin_account" {}
