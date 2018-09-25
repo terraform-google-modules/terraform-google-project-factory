@@ -71,3 +71,8 @@ test_integration:
 .PHONY: generate_docs
 generate_docs:
 	@source test/make.sh && generate_docs
+
+# Versioning
+.PHONY: check_shell
+version:
+	@source helpers/version-repo.sh

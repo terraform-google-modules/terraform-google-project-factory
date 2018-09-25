@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO_VER=v`cat ../CHANGELOG.md | grep "##" | head -n 1 | cut -d" " -f2`
+REPO_VER=v`cat CHANGELOG.md | grep "##" | head -n 1 | cut -d" " -f2`
 CUR_GIT_TAG=`git describe --abbrev=0 --tags`
 INGIT=false
 
@@ -33,5 +33,5 @@ if [ "$INGIT" == "false" ]
   then
     git tag -a $REPO_VER -m "$REPO_VER"
     echo "Updating README.md Usage Ref"
-    sed -i '' "s/ref=v[0-9]\.[0-9]\.[0-9]/ref=$REPO_VER/g" ../README.md
+    sed -i '' "s/ref=v[0-9]\.[0-9]\.[0-9]/ref=$REPO_VER/g" README.md
 fi
