@@ -213,22 +213,38 @@ The script will do:
 
 ## Development
 ### Requirements
-- [bats](https://github.com/sstephenson/bats) 0.4.0
-- [jq](https://stedolan.github.io/jq/) 1.5
 - [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
+- Ruby 2.3 or greater
+- Bundler 1.10 or greater
 
 ### Integration testing
-The integration tests for this module are built with bats, basically the test checks the following:
-- Perform `terraform init` command
-- Perform `terraform get` command
-- Perform `terraform plan` command and check that it'll create *n* resources, modify 0 resources and delete 0 resources
-- Perform `terraform apply -auto-approve` command and check that it has created the *n* resources, modified 0 resources and deleted 0 resources
-- Perform several `gcloud` commands and check the infrastructure is in the desired state
-- Perform `terraform destroy -force` command and check that it has destroyed the *n* resources
+Integration tests are run though [test-kitchen](https://github.com/test-kitchen/test-kitchen),
+[kitchen-terraform](https://github.com/newcontext-oss/kitchen-terraform), and
+[InSpec](https://github.com/inspec/inspec). Tests can be run by configuring
+`test/integration/gcloud/config.sh` and then running `make test_integration`, or by manually
+running the commands below.
 
-You can use the following command to run the integration test in the folder */test/integration/gcloud-test*
+#### Running tests manually
 
-  `. launch.sh`
+```sh
+cp test/integration/gcloud/sample.sh test/integration/gcloud/config.sh
+# Configure environment variables specifying your GCP environment
+$EDITOR test/integration/gcloud/config.sh
+# Create a temporary directory, terraform.tfvars, and inspec-attributes.yml
+make setup_integration
+# Install test-kitchen dependencies
+bundle install
+# Prepare the test-kitchen environment
+bundle exec kitchen create
+# Run terraform to create the infrastructure to test
+bundle exec kitchen converge
+# Google App Engine requires Terraform to run twice to fully converge
+bundle exec kitchen converge
+# Run integration tests
+bundle exec kitchen verify
+# When done, tear down the integration test environment.
+bundle exec kitchen destroy
+```
 
 ### Autogeneration of documentation from .tf files
 Run
