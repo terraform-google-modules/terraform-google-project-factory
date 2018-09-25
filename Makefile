@@ -73,6 +73,6 @@ generate_docs:
 	@source test/make.sh && generate_docs
 
 # Versioning
-.PHONY: check_shell
+.PHONY: version
 version:
 	@source helpers/version-repo.sh
