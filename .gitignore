@@ -38,3 +38,5 @@ crash.log
 # example.tfvars
 
 test/integration/tmp
+.kitchen
+terraform.tfstate.d/

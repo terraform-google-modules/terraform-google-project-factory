@@ -1,0 +1,24 @@
+name: default
+depends:
+  - name: inspec-terraform
+    git: https://github.com/lagrange-automation/inspec-terraform
+attributes:
+  - name: sa_role
+    required: false
+    default: null
+  - name: usage_bucket_name
+    required: false
+    default: null
+  - name: usage_bucket_prefix
+    required: false
+    default: null
+  - name: shared_vpc
+    required: false
+    default: null
+  - name: group_role
+    required: false
+    default: null
+  - name: gsuite_admin_account
+    required: true
+  - name: region
+    required: true
