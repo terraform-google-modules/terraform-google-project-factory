@@ -16,9 +16,9 @@
 driver:
   name: "terraform"
   command_timeout: 1800
-  root_module_directory: test/integration/tmp
+  root_module_directory: test/fixtures/default
   variable_files:
-    - test/integration/tmp/terraform.tfvars
+    - test/fixtures/default/terraform.tfvars
 
 provisioner:
   name: "terraform"
@@ -32,7 +32,7 @@ platforms:
 verifier:
   name: inspec
   attrs:
-    - test/integration/tmp/inspec-attributes.yml
+    - test/fixtures/default/inspec-attributes.yml
 
 suites:
   - name: "default"

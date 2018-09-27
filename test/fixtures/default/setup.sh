@@ -13,14 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-TEMPDIR=$(pwd)/test/integration/tmp
 TESTDIR=${BASH_SOURCE%/*}
-
-# Activate test working directory
-function make_testdir() {
-  mkdir -p "$TEMPDIR"
-  cp -r "$TESTDIR"/* "$TEMPDIR"
-}
 
 # Activate test config
 function activate_config() {
@@ -81,8 +74,7 @@ function create_inspec_attributes_file() {
 }
 
 # Preparing environment
-make_testdir
-cd "$TEMPDIR" || exit
+cd "$TESTDIR" || exit
 activate_config
 create_terraform_tfvars_file
 create_inspec_attributes_file

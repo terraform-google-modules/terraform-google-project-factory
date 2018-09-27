@@ -1,1 +1,3 @@
 config.sh
+inspec-attributes.yml
+terraform.tfvars
