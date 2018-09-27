@@ -15,6 +15,17 @@
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
+# Docker build config variables
+BUILD_TERRAFORM_VERSION ?= 0.11.8
+BUILD_CLOUD_SDK_VERSION ?= 216.0.0
+BUILD_PROVIDER_GOOGLE_VERSION ?= 1.17.1
+BUILD_PROVIDER_GSUITE_VERSION ?= 0.1.8
+DOCKER_IMAGE_TERRAFORM := cftk/terraform
+DOCKER_TAG_TERRAFORM ?= ${BUILD_TERRAFORM_VERSION}_${BUILD_CLOUD_SDK_VERSION}_${BUILD_PROVIDER_GOOGLE_VERSION}_${BUILD_PROVIDER_GSUITE_VERSION}
+BUILD_RUBY_VERSION := 2.4.2
+DOCKER_IMAGE_KITCHEN_TERRAFORM := cftk/kitchen_terraform
+DOCKER_TAG_KITCHEN_TERRAFORM ?= ${BUILD_TERRAFORM_VERSION}_${BUILD_CLOUD_SDK_VERSION}_${BUILD_PROVIDER_GOOGLE_VERSION}_${BUILD_PROVIDER_GSUITE_VERSION}
+
 # All is the first target in the file so it will get picked up when you just run 'make' on its own
 all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace generate_docs
 
@@ -65,7 +76,7 @@ check_headers:
 
 .PHONY: setup_integration
 setup_integration:
-	./test/integration/gcloud/setup.sh
+	./test/fixtures/default/setup.sh
 
 # Integration tests
 .PHONY: test_integration
@@ -85,3 +96,28 @@ generate_docs:
 .PHONY: version
 version:
 	@source helpers/version-repo.sh
+
+# Build Docker
+.PHONY: docker_build_terraform
+docker_build_terraform:
+	docker build -f build/docker/terraform/Dockerfile \
+		--build-arg BUILD_TERRAFORM_VERSION=${BUILD_TERRAFORM_VERSION} \
+		--build-arg BUILD_CLOUD_SDK_VERSION=${BUILD_CLOUD_SDK_VERSION} \
+		--build-arg BUILD_PROVIDER_GOOGLE_VERSION=${BUILD_PROVIDER_GOOGLE_VERSION} \
+		--build-arg BUILD_PROVIDER_GSUITE_VERSION=${BUILD_PROVIDER_GSUITE_VERSION} \
+		-t ${DOCKER_IMAGE_TERRAFORM}:${DOCKER_TAG_TERRAFORM} .
+
+.PHONY: docker_build_kitchen_terraform
+docker_build_kitchen_terraform:
+	docker build -f build/docker/kitchen_terraform/Dockerfile \
+		--build-arg BUILD_TERRAFORM_IMAGE="${DOCKER_IMAGE_TERRAFORM}:${DOCKER_TAG_TERRAFORM}" \
+		--build-arg BUILD_RUBY_VERSION="${BUILD_RUBY_VERSION}" \
+		-t ${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} .
+
+# Run docker
+.PHONY: docker_run
+docker_run:
+	docker run --rm -it \
+		-v $(CURDIR):/cftk/workdir \
+		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
+		/bin/bash
