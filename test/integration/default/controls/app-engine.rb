@@ -12,19 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-outputs = terraform_outputs(dir: File.expand_path("../../../..", File.dirname(__FILE__)))
-
-describe outputs do
-  # Confirm that the terraform outputs exist and can be loaded before continuing
-  it { should exist }
-
-  its('project_id') { should_not be_nil }
-end
+project_id = attribute('project_id', required: true, type: :string)
+region = attribute('region', type: :string, default: ENV['TF_VAR_region'])
+admin_account = attribute('gsuite_admin_account', {})
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"
 
-  describe command("gcloud app describe --project #{outputs.project_id} --format=json") do
+  describe command("gcloud app describe --project #{project_id} --format=json") do
     its('exit_status') { should be 0 }
     its('stderr') { should eq '' }
 
@@ -37,7 +32,6 @@ control 'project-factory-app-engine' do
     end
 
     let(:auth_domain) do
-      admin_account = attribute('gsuite_admin_account')
       result = admin_account.match(/\A.*@(.*)\z/)
       if result
         result.captures[0]
@@ -53,15 +47,15 @@ control 'project-factory-app-engine' do
     end
 
     it "is associated with the correct project id" do
-      metadata["id"].should eq outputs.project_id
+      metadata["id"].should eq project_id
     end
 
     it "has the correct name" do
-      metadata["name"].should eq "apps/#{outputs.project_id}"
+      metadata["name"].should eq "apps/#{project_id}"
     end
 
     it "is in the correct region" do
-      metadata["locationId"].should eq attribute('region')
+      metadata["locationId"].should eq region
     end
 
     it "is serving" do

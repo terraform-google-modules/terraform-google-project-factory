@@ -13,6 +13,5 @@
 # limitations under the License.
 
 source 'https://rubygems.org/' do
-  gem 'kitchen-terraform', '4.0.0'
-  gem 'kitchen-inspec', :git => 'https://github.com/inspec/kitchen-inspec.git', :ref => '67be68e57f7e'
+  gem 'kitchen-terraform', '~> 4.0.2'
 end

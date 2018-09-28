@@ -12,14 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-outputs = terraform_outputs(dir: File.expand_path("../../../..", File.dirname(__FILE__)))
+project_id = attribute('project_id', required: true, type: :string)
+group_email = attribute('group_email', default: nil)
+group_role = attribute('group_role', default: nil)
+service_account_email = attribute('service_account_email', required: true, type: :string)
+extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
 
 control 'project-factory-gsuite' do
   title 'Project Factory G Suite integration'
 
-  only_if { outputs.group_email }
+  only_if { group_email }
 
-  describe command("gcloud projects get-iam-policy #{outputs.project_id} --format=json") do
+  describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
 
@@ -32,18 +36,18 @@ control 'project-factory-gsuite' do
     end
 
     it "includes the gsuite group in the given role" do
-      if !attribute('group_role')
+      if !group_role
         pending
       end
 
-      binding = bindings.find { |b| b['role'] == attribute('group_role') }
+      binding = bindings.find { |b| b['role'] == group_role }
       binding.should_not be_nil
 
-      binding['members'].should include "group:#{outputs.group_email}"
+      binding['members'].should include "group:#{group_email}"
     end
   end
 
-  describe command("gcloud iam service-accounts get-iam-policy #{outputs.service_account_email} --format=json") do
+  describe command("gcloud iam service-accounts get-iam-policy #{service_account_email} --format=json") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
 
@@ -59,14 +63,14 @@ control 'project-factory-gsuite' do
       binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
       binding.should_not be_nil
 
-      binding['members'].should include "group:#{outputs.group_email}"
+      binding['members'].should include "group:#{group_email}"
     end
 
     it "does not overwrite the membership of role roles/iam.serviceAccountUser" do
       binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
       binding.should_not be_nil
 
-      binding['members'].should include "serviceAccount:#{outputs.extra_service_account_email}"
+      binding['members'].should include "serviceAccount:#{extra_service_account_email}"
     end
   end
 end

@@ -12,20 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-outputs = terraform_outputs(dir: File.expand_path("../../../..", File.dirname(__FILE__)))
+project_id = attribute('project_id', required: true, type: :string)
+project_number = attribute('project_number', required: true, type: :string)
+shared_vpc = attribute('shared_vpc', type: :string, default: ENV['TF_VAR_shared_vpc'])
+group_email = attribute('group_email', default: nil)
+service_account_email = attribute('service_account_email', required: true, type: :string)
+extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
 
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
 
-  only_if { attribute('shared_vpc') }
+  only_if { shared_vpc }
 
-  describe command("gcloud compute shared-vpc get-host-project #{outputs.project_id} --format='get(name)'") do
+  describe command("gcloud compute shared-vpc get-host-project #{project_id} --format='get(name)'") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
-    its('stdout.strip') { should eq attribute('shared_vpc') }
+    its('stdout.strip') { should eq shared_vpc }
   end
 
-  describe command("gcloud projects get-iam-policy #{attribute('shared_vpc')} --format=json") do
+  describe command("gcloud projects get-iam-policy #{shared_vpc} --format=json") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
 
@@ -43,23 +48,23 @@ control 'project-factory-shared-vpc' do
       end
 
       it "includes the project service account in the roles/compute.networkUser IAM binding" do
-        binding["members"].should include "serviceAccount:#{outputs.service_account_email}"
+        binding["members"].should include "serviceAccount:#{service_account_email}"
       end
 
       it "includes the group email in the roles/compute.networkUser IAM binding" do
-        if outputs.group_email.nil? || outputs.group_email.empty?
+        if group_email.nil? || group_email.empty?
           pending "group email not defined"
         end
 
-        binding["members"].should include "group:#{outputs.group_email}"
+        binding["members"].should include "group:#{group_email}"
       end
 
       it "includes the GKE service account in the roles/compute.networkUser IAM binding" do
-        binding["members"].should include "serviceAccount:service-#{outputs.project_number}@container-engine-robot.iam.gserviceaccount.com"
+        binding["members"].should include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
       end
 
       it "does not overwrite the membership of roles/compute.networkUser" do
-        binding['members'].should include "serviceAccount:#{outputs.extra_service_account_email}"
+        binding['members'].should include "serviceAccount:#{extra_service_account_email}"
       end
     end
 
@@ -67,7 +72,7 @@ control 'project-factory-shared-vpc' do
       binding = bindings.find { |b| b['role'] == 'roles/container.hostServiceAgentUser' }
       binding.should_not be_nil
 
-      binding["members"].should include "serviceAccount:service-#{outputs.project_number}@container-engine-robot.iam.gserviceaccount.com"
+      binding["members"].should include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
     end
   end
 end
