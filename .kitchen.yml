@@ -17,22 +17,18 @@ driver:
   name: "terraform"
   command_timeout: 1800
   root_module_directory: test/fixtures/default
-  variable_files:
-    - test/fixtures/default/terraform.tfvars
 
 provisioner:
   name: "terraform"
-
-transport:
-  name: exec
 
 platforms:
   - name: local
 
 verifier:
-  name: inspec
-  attrs:
-    - test/fixtures/default/inspec-attributes.yml
+  name: terraform
+  systems:
+    - name: system
+      backend: local
 
 suites:
   - name: "default"

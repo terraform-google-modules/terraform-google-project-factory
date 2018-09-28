@@ -37,3 +37,11 @@ output "service_account_email" {
 output "extra_service_account_email" {
   value = "${google_service_account.extra_service_account.email}"
 }
+
+output "gsuite_admin_account" {
+  value = "${var.gsuite_admin_account}"
+}
+
+output "region" {
+  value = "${var.region}"
+}

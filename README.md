@@ -220,18 +220,42 @@ The script will do:
 ### Integration testing
 Integration tests are run though [test-kitchen](https://github.com/test-kitchen/test-kitchen),
 [kitchen-terraform](https://github.com/newcontext-oss/kitchen-terraform), and
-[InSpec](https://github.com/inspec/inspec). Tests can be run by configuring
-`test/integration/gcloud/config.sh` and then running `make test_integration`, or by manually
+[InSpec](https://github.com/inspec/inspec). Tests can be run by configuring and then sourcing
+`test/fixtures/default/sample.sh` and then running `make test_integration`, or by manually
 running the commands below.
 
-#### Running tests manually
-
+#### Running tests manually (with docker)
 ```sh
-cp test/integration/gcloud/sample.sh test/integration/gcloud/config.sh
+cp test/fixtures/default/sample.sh mine.sh
 # Configure environment variables specifying your GCP environment
-$EDITOR test/integration/gcloud/config.sh
-# Create a temporary directory, terraform.tfvars, and inspec-attributes.yml
-make setup_integration
+$EDITOR mine.sh
+
+# Build the docker image
+make docker_build_terraform
+make docker_build_kitchen_terraform
+
+# Enter the docker environment
+make docker_run
+source mine.sh
+
+# Prepare the test-kitchen environment
+kitchen create
+# Run terraform to create the infrastructure to test
+kitchen converge
+# Google App Engine requires Terraform to run twice to fully converge
+kitchen converge
+# Run integration tests
+kitchen verify
+# When done, tear down the integration test environment.
+kitchen destroy
+```
+
+#### Running tests manually (without docker)
+```sh
+cp test/fixtures/default/sample.sh mine.sh
+# Configure environment variables specifying your GCP environment
+$EDITOR mine.sh
+source mine.sh
 # Install test-kitchen dependencies
 bundle install
 # Prepare the test-kitchen environment

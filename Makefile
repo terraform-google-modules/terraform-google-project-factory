@@ -74,13 +74,9 @@ check_headers:
 	@echo "Checking file headers"
 	@python test/verify_boilerplate.py
 
-.PHONY: setup_integration
-setup_integration:
-	./test/fixtures/default/setup.sh
-
 # Integration tests
 .PHONY: test_integration
-test_integration: setup_integration
+test_integration:
 	bundle install
 	bundle exec kitchen create
 	bundle exec kitchen converge
