@@ -3,9 +3,94 @@
 """usage: migrate.py <old-state> <new-state>"""
 
 import argparse
-import pprint
+import copy
 import subprocess
 import sys
+
+
+class GSuiteMigration:
+    """
+    Migrate the resources from a flat project factory to match the new
+    module structure created by the G Suite refactor.
+    """
+
+    GSUITE_ENABLED_SELECTORS = [
+        ("gsuite_group", "group"),
+        ("gsuite_group_member", "api_s_account_api_sa_group_member"),
+        ("gsuite_group_member", "service_account_sa_group_member"),
+        ("null_data_source", "data_given_group_email"),
+        ("null_data_source", "data_final_group_email"),
+    ]
+
+    CORE_PROJECT_FACTORY_SELECTORS = [
+        ("google_compute_shared_vpc_service_project", None),
+        ("google_compute_subnetwork_iam_member", None),
+        ("google_project", None),
+        ("google_project_iam_member", None),
+        ("google_project_service", None),
+        ("google_project_usage_export_bucket", None),
+        ("google_service_account", None),
+        ("google_service_account_iam_member", None),
+        ("google_storage_bucket", None),
+        ("google_storage_bucket_iam_member", None),
+        ("null_resource", None),
+        ("random_id", None),
+    ]
+
+    def __init__(self, project_factory):
+        self.project_factory = project_factory
+
+    def commands(self):
+        return self.mv_gsuite_resources() + \
+            self.mv_core_project_factory_resources()
+
+    def gsuite_enabled_resources(self):
+        """
+        A list of resources that will be moved to the `gsuite_enabled` module.
+        """
+        selectors = self.__class__.GSUITE_ENABLED_SELECTORS
+        return self._select_resources(selectors)
+
+    def mv_gsuite_resources(self):
+        return self._mv_resources(
+            self.gsuite_enabled_resources(),
+            ".module.gsuite-enabled")
+
+    def core_project_factory_resources(self):
+        """
+        A list of resources that will be moved to the `core_project_factory`
+        module.
+        """
+        selectors = self.__class__.CORE_PROJECT_FACTORY_SELECTORS
+        return self._select_resources(selectors)
+
+    def mv_core_project_factory_resources(self):
+        return self._mv_resources(
+            self.core_project_factory_resources(),
+            ".module.project-factory")
+
+    def _mv_resources(self, resources, path):
+        mv_commands = []
+        for old in resources:
+            new = copy.deepcopy(old)
+            new.module += path
+
+            cmd = "terraform state mv {} {}".format(old.path(), new.path())
+            mv_commands.append(cmd)
+
+        return mv_commands
+
+    def _select_resources(self, selectors):
+        to_move = []
+        for selector in selectors:
+            resource_type = selector[0]
+            resource_name = selector[1]
+            matching_resources = self.project_factory.get_resources(
+                resource_type,
+                resource_name)
+            to_move += matching_resources
+
+        return to_move
 
 
 class TerraformModule:
@@ -20,21 +105,45 @@ class TerraformModule:
         self.name = name
         self.resources = resources
 
-    def has_resource(self, resource_type, resource_name):
+    def get_resources(self, resource_type=None, resource_name=None):
+        """
+        Return a list of resources matching the given resource type and name.
+        """
+
+        ret = []
+        for resource in self.resources:
+            matches_type = (resource_type is None or
+                            resource_type == resource.resource_type)
+
+            matches_name = (resource_name is None or
+                            resource_name == resource.name)
+
+            if matches_type and matches_name:
+                ret.append(resource)
+
+        return ret
+
+    def has_resource(self, resource_type=None, resource_name=None):
         """
         Does this module contain a resource with the matching type and name?
         """
         for resource in self.resources:
-            if resource.resource_type == resource_type \
-                    and resource.name == resource_name:
+            matches_type = (resource_type is None or
+                            resource_type == resource.resource_type)
+
+            matches_name = (resource_name is None or
+                            resource_name == resource.name)
+
+            if matches_type and matches_name:
                 return True
+
         return False
 
     def __repr__(self):
         return "{}({!r}, {!r})".format(
-                self.__class__.__name__,
-                self.name,
-                [repr(resource) for resource in self.resources])
+            self.__class__.__name__,
+            self.name,
+            [repr(resource) for resource in self.resources])
 
 
 class TerraformResource:
@@ -79,10 +188,10 @@ class TerraformResource:
 
     def __repr__(self):
         return "{}({!r}, {!r}, {!r})".format(
-                self.__class__.__name__,
-                self.module,
-                self.resource_type,
-                self.name)
+            self.__class__.__name__,
+            self.module,
+            self.resource_type,
+            self.name)
 
 
 def group(resources):
@@ -98,8 +207,8 @@ def group(resources):
             groups[resource.module] = [resource]
 
     return [
-            TerraformModule(name, contained)
-            for name, contained in groups.items()
+        TerraformModule(name, contained)
+        for name, contained in groups.items()
     ]
 
 
@@ -122,13 +231,29 @@ def main(argv):
     args = parser.parse_args(argv[1:])
 
     resources = [
-            TerraformResource.from_path(path)
-            for path in read_state(args.oldstate)
+        TerraformResource.from_path(path)
+        for path in read_state(args.oldstate)
     ]
-    pprint.pprint(resources)
+
     modules = group(resources)
-    pprint.pprint(modules)
-    print("done")
+    factories = [
+        module for module in modules
+        if module.has_resource("random_id", "random_project_id_suffix")
+    ]
+
+    print("---- Candidate modules:")
+    for factory in factories:
+        print("-- " + factory.name)
+
+    print("---- Plan:")
+    to_move = []
+    for factory in factories:
+        migration = GSuiteMigration(factory)
+
+        to_move += migration.commands()
+
+    for cmd in to_move:
+        print(cmd)
 
 
 def argparser():
