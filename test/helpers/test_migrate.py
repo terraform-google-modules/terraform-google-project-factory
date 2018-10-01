@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import unittest
+import copy
 import os
 import sys
+import unittest
 sys.path.append(
     os.path.abspath(
         os.path.join(
@@ -36,12 +37,55 @@ module.project-factory.null_data_source.data_group_email_format
 module.project-factory.null_resource.delete_default_compute_service_account
 module.project-factory.random_id.random_project_id_suffix"""
 
+TERRAFORM_MIGRATED_RESOURCES = """module.project-factory.google_compute_default_service_account.default
+module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment
+module.project-factory.google_project.project
+module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]
+module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]
+module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]
+module.project-factory.google_project_iam_member.controlling_group_vpc_membership[3]
+module.project-factory.google_project_iam_member.default_service_account_membership
+module.project-factory.google_project_iam_member.gke_host_agent
+module.project-factory.google_project_iam_member.gsuite_group_role
+module.project-factory.google_project_service.project_services[0]
+module.project-factory.google_project_service.project_services[1]
+module.project-factory.google_project_usage_export_bucket.usage_report_export
+module.project-factory.google_service_account.default_service_account
+module.project-factory.google_service_account_iam_member.service_account_grant_to_group
+module.project-factory.null_data_source.data_final_group_email
+module.project-factory.null_data_source.data_group_email_format
+module.project-factory.null_resource.delete_default_compute_service_account
+module.project-factory.random_id.random_project_id_suffix"""
+
+
+class TestGSuiteMigration(unittest.TestCase):
+    def setUp(self):
+        self.resources = [
+            migrate.TerraformResource.from_path(path)
+            for path in TERRAFORM_MIGRATED_RESOURCES.split("\n")
+        ]
+
+        module = migrate.TerraformModule(
+            'module.project-factory',
+            self.resources)
+        self.migration = migrate.GSuiteMigration(module)
+
+    def test_moves(self):
+        moves = self.migration.moves()
+
+        for old in self.resources:
+            new = copy.deepcopy(old)
+            new.module += ".module.project-factory"
+            move = (old.path(), new.path())
+            assert move in moves
+
 
 class TestTerraformModule(unittest.TestCase):
     def setUp(self):
         self.resources = [
             migrate.TerraformResource.from_path(path)
             for path in TERRAFORM_STATE_LIST.split("\n")
+            if path.startswith("module.project-factory")
         ]
 
         self.module = migrate.TerraformModule(
