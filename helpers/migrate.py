@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-"""usage: migrate.py <old-state> <new-state>"""
-
 import argparse
 import copy
 import subprocess
 import sys
+import shutil
 
 
 class GSuiteMigration:
@@ -14,15 +13,11 @@ class GSuiteMigration:
     module structure created by the G Suite refactor.
     """
 
-    GSUITE_ENABLED_SELECTORS = [
-        ("gsuite_group", "group"),
-        ("gsuite_group_member", "api_s_account_api_sa_group_member"),
-        ("gsuite_group_member", "service_account_sa_group_member"),
-        ("null_data_source", "data_given_group_email"),
-        ("null_data_source", "data_final_group_email"),
-    ]
-
     CORE_PROJECT_FACTORY_SELECTORS = [
+        ("google_organization", "org"),
+        ("google_compute_default_service_account", "default"),
+        ("null_data_source", "data_final_group_email"),
+        ("null_data_source", "data_group_email_format"),
         ("google_compute_shared_vpc_service_project", None),
         ("google_compute_subnetwork_iam_member", None),
         ("google_project", None),
@@ -40,49 +35,30 @@ class GSuiteMigration:
     def __init__(self, project_factory):
         self.project_factory = project_factory
 
-    def commands(self):
-        return self.mv_gsuite_resources() + \
-            self.mv_core_project_factory_resources()
-
-    def gsuite_enabled_resources(self):
+    def moves(self):
         """
-        A list of resources that will be moved to the `gsuite_enabled` module.
+        Generate the set of old/new resource pairs that will be migrated
+        to the `core_project_factory` module.
         """
-        selectors = self.__class__.GSUITE_ENABLED_SELECTORS
-        return self._select_resources(selectors)
+        resources = self.targets()
+        moves = []
+        for old in resources:
+            new = copy.deepcopy(old)
+            new.module += ".module.project-factory"
 
-    def mv_gsuite_resources(self):
-        return self._mv_resources(
-            self.gsuite_enabled_resources(),
-            ".module.gsuite-enabled")
+            pair = (old.path(), new.path())
+            moves.append(pair)
 
-    def core_project_factory_resources(self):
+        return moves
+
+    def targets(self):
         """
         A list of resources that will be moved to the `core_project_factory`
         module.
         """
-        selectors = self.__class__.CORE_PROJECT_FACTORY_SELECTORS
-        return self._select_resources(selectors)
-
-    def mv_core_project_factory_resources(self):
-        return self._mv_resources(
-            self.core_project_factory_resources(),
-            ".module.project-factory")
-
-    def _mv_resources(self, resources, path):
-        mv_commands = []
-        for old in resources:
-            new = copy.deepcopy(old)
-            new.module += path
-
-            cmd = "terraform state mv {} {}".format(old.path(), new.path())
-            mv_commands.append(cmd)
-
-        return mv_commands
-
-    def _select_resources(self, selectors):
         to_move = []
-        for selector in selectors:
+
+        for selector in self.__class__.CORE_PROJECT_FACTORY_SELECTORS:
             resource_type = selector[0]
             resource_name = selector[1]
             matching_resources = self.project_factory.get_resources(
@@ -226,34 +202,59 @@ def read_state(statefile):
     return elements
 
 
-def main(argv):
-    parser = argparser()
-    args = parser.parse_args(argv[1:])
+def migrate(statefile, dryrun=False):
+    """
+    Migrate the terraform state in `statefile` to match the post-refactor
+    resource structure.
+    """
 
+    # Generate a list of Terraform resource states from the output of
+    # `terraform state list`
     resources = [
         TerraformResource.from_path(path)
-        for path in read_state(args.oldstate)
+        for path in read_state(statefile)
     ]
 
+    # Group resources based on the module where they're defined.
     modules = group(resources)
+
+    # Filter our list of Terraform modules down to anything that lookst like a
+    # project-factory module. We key this off the presence off of
+    # `random_id.random_project_id_suffix` since that should almost always be
+    # unique to a project-factory module.
     factories = [
         module for module in modules
         if module.has_resource("random_id", "random_project_id_suffix")
     ]
 
-    print("---- Candidate modules:")
+    print("---- Migrating the following project-factory modules:")
     for factory in factories:
         print("-- " + factory.name)
 
-    print("---- Plan:")
+    # Collect a list of resources for each project factory that need to be
+    # migrated.
     to_move = []
     for factory in factories:
         migration = GSuiteMigration(factory)
+        to_move += migration.moves()
 
-        to_move += migration.commands()
+    for (old, new) in to_move:
+        argv = ["terraform", "state", "mv", "-state", statefile, old, new]
+        if dryrun:
+            print(" ".join(argv))
+        else:
+            subprocess.run(argv, check=True, encoding='utf-8')
 
-    for cmd in to_move:
-        print(cmd)
+
+def main(argv):
+    parser = argparser()
+    args = parser.parse_args(argv[1:])
+
+    print("cp {} {}".format(args.oldstate, args.newstate))
+    shutil.copy(args.oldstate, args.newstate)
+
+    migrate(args.newstate, dryrun=args.dryrun)
+    print("State migration complete, verify migration with `terraform plan`")
 
 
 def argparser():
@@ -263,6 +264,9 @@ def argparser():
                              'modified)')
     parser.add_argument('newstate', metavar='newstate.json',
                         help='The path to the new state file')
+    parser.add_argument('--dryrun', action='store_true',
+                        help='Print the `terraform state mv` commands instead '
+                             'of running the commands.')
     return parser
 
 
