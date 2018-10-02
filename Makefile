@@ -78,14 +78,23 @@ test_preconditions:
 	@echo "Testing preconditions script"
 	@python test/scripts/preconditions/test_preconditions.py
 
+.PHONY: test_generate_root_module
+test_generate_root_module:
+	@echo "Testing generate_root_module helper script"
+	@python test/helpers/generate_root_module/test_generate_root_module.py
+
 # Unit tests
 .PHONY: test_unit ## Run unit tests
-test_unit: test_migrate test_preconditions
+test_unit: test_migrate test_preconditions test_generate_root_module
 
 # Integration tests
 .PHONY: test_integration
 test_integration: ## Run integration tests
 	test/ci_integration.sh
+
+.PHONY: test_helpers
+test_helpers:
+	@./test/helpers/test_generate_root_module.py
 
 .PHONY: generate_docs
 generate_docs: ## Update README documentation for Terraform variables and outputs
@@ -188,3 +197,7 @@ test_integration_docker:
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.PHONY: generate
+generate: ## Generate the root module based on core_project_factory
+	@./helpers/generate_root_module/generate_root_module.py
