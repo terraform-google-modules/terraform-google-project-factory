@@ -84,6 +84,10 @@ test_integration: ## Run integration tests
 	bundle exec kitchen verify
 	bundle exec kitchen destroy
 
+.PHONY: test_helpers
+test_helpers:
+	@./test/helpers/test_generate_root_module.py
+
 .PHONY: generate_docs
 generate_docs: ## Update README documentation for Terraform variables and outputs
 	@source test/make.sh && generate_docs
@@ -152,3 +156,7 @@ test_integration_docker: docker_create docker_converge docker_verify docker_dest
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.PHONY: generate
+generate:
+	@./helpers/generate_root_module.py
