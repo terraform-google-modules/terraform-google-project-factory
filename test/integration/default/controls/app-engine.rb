@@ -13,8 +13,8 @@
 # limitations under the License.
 
 project_id = attribute('project_id', required: true, type: :string)
+domain = attribute('domain', required: true, type: :string)
 region = attribute('region', type: :string, default: ENV['TF_VAR_region'])
-admin_account = attribute('gsuite_admin_account', {})
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"
@@ -31,15 +31,8 @@ control 'project-factory-app-engine' do
       end
     end
 
-    let(:auth_domain) do
-      result = admin_account.match(/\A.*@(.*)\z/)
-      if result
-        result.captures[0]
-      end
-    end
-
-    it "sets the correct auth domain" do
-      metadata["authDomain"].should eq auth_domain
+    it "uses the auth domain associated with the project-factory domain" do
+      metadata["authDomain"].should eq domain
     end
 
     it "has no feature settings" do

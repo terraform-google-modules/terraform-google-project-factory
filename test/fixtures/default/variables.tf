@@ -29,7 +29,6 @@ variable "folder_id" {
 }
 
 variable "domain" {
-  default = ""
 }
 
 variable "usage_bucket_name" {
