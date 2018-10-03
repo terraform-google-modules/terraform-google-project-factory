@@ -8,7 +8,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source              = "github.com/terraform-google-modules/terraform-google-project-factory?ref=v0.2.0"
-  name                = "pf-test-1"
+  name                = "susiejojo22"
   random_project_id   = "true"
   org_id              = "1234567890"
   usage_bucket_name   = "pf-test-1-usage-report-bucket"
