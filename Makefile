@@ -117,3 +117,35 @@ docker_run:
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
 		/bin/bash
+
+.PHONY: docker_create
+docker_create:
+	docker run --rm -it \
+		-v $(CURDIR):/cftk/workdir \
+		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
+		/bin/bash -c "source mine.sh && kitchen create"
+
+.PHONY: docker_converge
+docker_converge:
+	docker run --rm -it \
+		-v $(CURDIR):/cftk/workdir \
+		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
+		/bin/bash -c "source mine.sh && kitchen converge && kitchen converge"
+
+.PHONY: docker_verify
+docker_verify:
+	docker run --rm -it \
+		-v $(CURDIR):/cftk/workdir \
+		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
+		/bin/bash -c "source mine.sh && kitchen verify"
+
+.PHONY: docker_destroy
+docker_destroy:
+	docker run --rm -it \
+		-v $(CURDIR):/cftk/workdir \
+		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
+		/bin/bash -c "source mine.sh && kitchen destroy"
+
+.PHONY: test_integration_docker
+test_integration_docker: docker_create docker_converge docker_verify docker_destroy
+	@echo "Running test-kitchen tests in docker"

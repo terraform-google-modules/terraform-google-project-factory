@@ -218,21 +218,41 @@ The script will do:
 - Bundler 1.10 or greater
 
 ### Integration testing
+
 Integration tests are run though [test-kitchen](https://github.com/test-kitchen/test-kitchen),
 [kitchen-terraform](https://github.com/newcontext-oss/kitchen-terraform), and
-[InSpec](https://github.com/inspec/inspec). Tests can be run by configuring and then sourcing
-`test/fixtures/default/sample.sh` and then running `make test_integration`, or by manually
-running the commands below.
+[InSpec](https://github.com/inspec/inspec).
 
-#### Running tests manually (with docker)
+#### Test configuration
+Test configuration is supplied to Terraform through environment variables. Scripts and Makefile
+will source `./mine.sh` when running in an environment (such as within docker) where the user's
+environment is not accessible.
+
+Integration tests can be run within a pre-configured docker container. Tests can be run without
+user interaction for quick validation, or with user interaction during development.
+
+##### Non-interactive
 ```sh
+# Build the docker image
+make docker_build_terraform
+make docker_build_kitchen_terraform
+
 cp test/fixtures/default/sample.sh mine.sh
 # Configure environment variables specifying your GCP environment
 $EDITOR mine.sh
 
+make test_integration_docker
+```
+
+#### Interactive
+```sh
 # Build the docker image
 make docker_build_terraform
 make docker_build_kitchen_terraform
+
+cp test/fixtures/default/sample.sh mine.sh
+# Configure environment variables specifying your GCP environment
+$EDITOR mine.sh
 
 # Enter the docker environment
 make docker_run
@@ -248,26 +268,6 @@ kitchen converge
 kitchen verify
 # When done, tear down the integration test environment.
 kitchen destroy
-```
-
-#### Running tests manually (without docker)
-```sh
-cp test/fixtures/default/sample.sh mine.sh
-# Configure environment variables specifying your GCP environment
-$EDITOR mine.sh
-source mine.sh
-# Install test-kitchen dependencies
-bundle install
-# Prepare the test-kitchen environment
-bundle exec kitchen create
-# Run terraform to create the infrastructure to test
-bundle exec kitchen converge
-# Google App Engine requires Terraform to run twice to fully converge
-bundle exec kitchen converge
-# Run integration tests
-bundle exec kitchen verify
-# When done, tear down the integration test environment.
-bundle exec kitchen destroy
 ```
 
 ### Autogeneration of documentation from .tf files
