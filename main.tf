@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
- locals {
-   args_missing           = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
- }
+locals {
+  args_missing = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
+}
 
- resource "null_resource" "args_missing" {
-  count = "${local.args_missing}"
+resource "null_resource" "args_missing" {
+  count                                                                                           = "${local.args_missing}"
   "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
 }
 
@@ -27,7 +27,7 @@ module "project-factory" {
   source              = "modules/core_project_factory"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"
-  domain = "${var.domain}"
+  domain              = "${var.domain}"
   name                = "${var.name}"
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"

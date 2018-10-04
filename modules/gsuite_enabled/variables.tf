@@ -21,7 +21,7 @@ variable "random_project_id" {
 
 variable "org_id" {
   description = "The organization id for the associated services"
-  default = ""
+  default     = ""
 }
 
 variable "domain" {

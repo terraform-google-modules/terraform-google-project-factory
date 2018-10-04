@@ -52,6 +52,11 @@ variable "group_name" {
   default     = ""
 }
 
+variable "group_email" {
+  description = "The email used for the group, this is automatically created"
+  default     = ""
+}
+
 variable "group_role" {
   description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
   default     = "roles/editor"
@@ -72,7 +77,7 @@ variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
   default     = ""
 }
-   
+
 variable "usage_bucket_prefix" {
   description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
   default     = ""

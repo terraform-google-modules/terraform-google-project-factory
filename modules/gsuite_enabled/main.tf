@@ -23,33 +23,17 @@ locals {
   api_s_account     = "${module.project-factory.api_s_account}"
   api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
   domain            = "${module.project-factory.domain}"
-  args_missing           = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
+  args_missing      = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
 
   // default group_name to ${project_name}-editors
-  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+  group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+  given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
+  final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : local.given_group_email}"
 }
 
 resource "null_resource" "args_missing" {
-  count = "${local.args_missing}"
+  count                                                                                           = "${local.args_missing}"
   "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
-}
-
-/******************************************
-  Group email construction when group already exists
- *****************************************/
-data "null_data_source" "data_given_group_email" {
-  inputs {
-    given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
-  }
-}
-
-/******************************************
-  Group email to be used on resources
- *****************************************/
-data "null_data_source" "data_final_group_email" {
-  inputs {
-    final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : data.null_data_source.data_given_group_email.outputs["given_group_email"]}"
-  }
 }
 
 /***********************************************
@@ -89,12 +73,13 @@ module "project-factory" {
   source              = "../core_project_factory"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"
-  domain = "${var.domain}"
+  domain              = "${var.domain}"
   name                = "${var.name}"
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${var.create_group ? "${gsuite_group.group.name}" : local.group_name}"
+  group_name          = "${var.create_group ? gsuite_group.group.name : local.group_name}"
+  group_email         = "${local.final_group_email}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
