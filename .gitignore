@@ -40,3 +40,5 @@ crash.log
 test/integration/tmp
 .kitchen
 terraform.tfstate.d/
+
+/mine.sh
