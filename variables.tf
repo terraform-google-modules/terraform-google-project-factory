@@ -129,3 +129,8 @@ variable "app_engine" {
   type        = "map"
   default     = {}
 }
+
+variable "delete_default_compute_user" {
+  description = "Remove the default compute service account"
+  default     = true
+}
