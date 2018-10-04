@@ -119,6 +119,11 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   service_project = "${local.project_id}"
 
   depends_on = ["google_project_service.project_services"]
+
+  provisioner "local-exec" {
+    when = "destroy"
+    command = "${path.module}/scripts/detach-service-project.sh ${var.shared_vpc} ${var.credentials_path} ${local.project_id}"
+  }
 }
 
 /******************************************
