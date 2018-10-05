@@ -119,7 +119,8 @@ EOF
 # ####################################### #
 # Install dep
 # Download and install dep
-sudo curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo PATH="$PATH" GOBIN="$GOBIN" sh
 # Set PATH
 export PATH="$PATH:/opt/go/bin"
 
@@ -145,9 +146,11 @@ cd $GOPATH/src/github.com/terraform-providers || exit
 sudo git clone https://github.com/terraform-providers/terraform-provider-google.git
 cd terraform-provider-google || exit
 # Compile it
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make build
+sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make fmt build
 
-yes | sudo cp -f "$GOBIN/terraform-provider-google $HOME/.terraform.d/plugins/terraform-provider-google"
+# Install it
+mkdir -p $TERRAFORM_PLUGINS_PATH
+cp -f $GOBIN/terraform-provider-google $TERRAFORM_PLUGINS_PATH
 
 # ####################################### #
 #        Google SDK Installation          #
@@ -200,6 +203,6 @@ echo "Terraform version: $(terraform -version)"
 echo "Go version: $(go version)"
 echo "Python3 version: $(python3 --version)"
 echo "pip3 version: $(pip3 --version)"
-echo "Bats version: $(bats)"
+echo "Bats version: $(bats --version)"
 echo "Terraform plugins: $(ls -l "$HOME/.terraform.d/plugins")"
 echo "gcloud version: $(gcloud version)"
