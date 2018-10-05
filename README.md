@@ -7,7 +7,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 
 ```hcl
 module "project-factory" {
-  source              = "github.com/terraform-google-modules/terraform-google-project-factory"
+  source              = "github.com/terraform-google-modules/terraform-google-project-factory?ref=v0.2.0"
   name                = "pf-test-1"
   random_project_id   = "true"
   org_id              = "1234567890"
@@ -161,7 +161,7 @@ Additionally, if you want to use the group management functionality included, yo
 A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
 
 ```
-./helpers/set-host-sa-permissions.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME> <SERVICE_ACCOUNT_ID>
+./helpers/setup-sa.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME>
 ```
 
 ### APIs

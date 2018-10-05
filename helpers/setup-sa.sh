@@ -15,6 +15,7 @@
 
 
 set -e
+set -u
 
 # Organization ID
 ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$1")"
