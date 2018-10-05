@@ -23,7 +23,6 @@
 export ORG_ID="0000000000"
 export BILLING_ACCOUNT="XXXXXX-XXXXXX-XXXXXX"
 export SHARED_VPC="gcp-foundation-shared-host"
-export SA_GROUP="gcp-svc-accounts@example.com"
 export USAGE_BUCKET_NAME="gcp-foundation-usage-export"
 export GSUITE_ADMIN_ACCOUNT="admin@clearify.com"
 export CREDENTIALS_PATH="$HOME/sa-key.json"

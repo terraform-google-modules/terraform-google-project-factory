@@ -24,7 +24,7 @@ it is necessary to delete this file that contains the gsuite resources.
  *****************************************/
 data "null_data_source" "data_given_group_email" {
   inputs {
-    given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
+    given_group_email = "${var.create_group == "false" && var.group_name != "" ? format("%s@%s", var.group_name, local.domain) : ""}"
   }
 }
 
@@ -35,19 +35,6 @@ data "null_data_source" "data_final_group_email" {
   inputs {
     final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : data.null_data_source.data_given_group_email.outputs["given_group_email"]}"
   }
-}
-
-/***********************************************
-  Make service account member of sa_group group
- ***********************************************/
-resource "gsuite_group_member" "service_account_sa_group_member" {
-  count = "${var.sa_group != "" ? 1 : 0}"
-
-  group = "${var.sa_group}"
-  email = "${google_service_account.default_service_account.email}"
-  role  = "MEMBER"
-
-  depends_on = ["google_service_account.default_service_account"]
 }
 
 /******************************************

@@ -20,6 +20,7 @@ TESTDIR=${BASH_SOURCE%/*}
 function make_testdir() {
   mkdir -p "$TEMPDIR"
   cp -r "$TESTDIR"/* "$TEMPDIR"
+  cp -r "$TESTDIR"/.kitchen.yml "${TEMPDIR}"
 }
 
 # Activate test config
@@ -31,7 +32,7 @@ function activate_config() {
 
 # Cleans the workdir
 function clean_workdir() {
-  rm -rf "$TEMPDIR"
+  #rm -rf "$TEMPDIR"
 
   export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=""
   unset CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE
@@ -40,7 +41,6 @@ function clean_workdir() {
 # Creates the main.tf file for Terraform
 function create_main_tf_file() {
   echo "Creating main.tf file"
-  touch main.tf
   cat <<EOF > main.tf
 locals {
   credentials_file_path    = "$CREDENTIALS_PATH"
@@ -70,8 +70,6 @@ module "project-factory" {
   group_role               = "$GROUP_ROLE"
   group_name               = "$GROUP_NAME"
   shared_vpc               = "$SHARED_VPC"
-  sa_role                  = "$SA_ROLE"
-  sa_group                 = "$SA_GROUP"
   folder_id                = "$FOLDER_ID"
   activate_apis            = ["compute.googleapis.com", "container.googleapis.com"]
   credentials_path         = "\${local.credentials_file_path}"
@@ -85,6 +83,11 @@ module "project-factory" {
       },
     ]
   }
+
+  shared_vpc_subnets = [
+    "projects/thebo-host-578f/regions/us-west1/subnetworks/subnet-01",
+    "projects/thebo-host-578f/regions/us-west1/subnetworks/subnet-02",
+  ]
 }
 EOF
 }
@@ -92,7 +95,6 @@ EOF
 # Creates the outputs.tf file
 function create_outputs_file() {
   echo "Creating outputs.tf file"
-  touch outputs.tf
   cat <<'EOF' > outputs.tf
 output "project_info_example" {
   value       = "${module.project-factory.project_id}"
@@ -109,31 +111,34 @@ output "domain_example" {
 output "group_email_example" {
   value       = "${module.project-factory.group_email}"
 }
-
-output "service_account_email" {
-  value = "${module.project-factory.service_account_email}"
-}
 EOF
 }
 
-# Execute bats tests
-function run_bats() {
-  # Call to bats
-  echo "Test to execute: $(bats integration.bats -c)"
-  bats integration.bats
+# Install gems
+function bundle_install() {
+  bundle install
+}
+
+# Execute kitchen tests
+function run_kitchen() {
+  bundle exec kitchen create
+  bundle exec kitchen converge
+  bundle exec kitchen converge # second time to enable network policy
+  bundle exec kitchen verify
+  #kitchen destroy
 }
 
 # Preparing environment
 make_testdir
-cd "$TEMPDIR" || exit
+
+cd "${TEMPDIR}" || exit
 activate_config
 create_main_tf_file
 create_outputs_file
-
-# Call to bats
-run_bats
+bundle_install
+run_kitchen
 
 # # # Clean the environment
 cd - || exit
-# clean_workdir
+clean_workdir
 echo "Integration test finished"

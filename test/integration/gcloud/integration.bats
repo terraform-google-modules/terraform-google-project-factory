@@ -59,7 +59,6 @@
 @test "Test information about project $PROJECT_ID" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud config set project $PROJECT_ID
   run gcloud projects describe $PROJECT_ID --format=flattened[no-pad]
@@ -70,7 +69,6 @@
 @test "Test the correct apis are activated" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud services list
   [ "$status" -eq 0 ]
@@ -84,7 +82,6 @@
 @test "Test that project has the shared vpc associated (host project)" {
 
   PROJECT_ID="$(terraform output project_info_example)"
-  GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud compute shared-vpc get-host-project $PROJECT_ID --format="get(name)"
   [ "$status" -eq 0 ]
@@ -94,7 +91,6 @@
 @test "Test project has only the expected service accounts" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud iam service-accounts list --format="get(email)"
   [ "$status" -eq 0 ]
@@ -127,7 +123,6 @@
 @test "Test project has enabled the usage report export to the bucket" {
 
   export PROJECT_ID="$(terraform output project_info_example)"
-  export GROUP_EMAIL="$(terraform output group_email_example)"
 
   run gcloud compute project-info describe --format="flattened[no-pad](usageExportLocation)"
   [ "$status" -eq 0 ]
@@ -153,30 +148,6 @@
   [ "$status" -eq 0 ]
   [[ "${lines[1]}" = "roles/compute.networkUser" ]]
   [[ "${lines[2]}" = "roles/container.hostServiceAgentUser" ]]
-}
-
-@test "Confirm Terraform project IAM management is additive" {
-  if [ "$SA_ROLE" == "" ]; then
-    skip "SA_ROLE variable not set, skipping project IAM management test"
-  fi
-
-  PROJECT_ID="$(terraform output project_info_example)"
-  SA_ID="sa-${RANDOM}"
-  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
-
-  gcloud iam service-accounts create "$SA_ID" \
-    --project "$PROJECT_ID"
-
-  gcloud projects add-iam-policy-binding \
-      $PROJECT_ID \
-      --member "serviceAccount:${SA_EMAIL}" \
-      --role "$SA_ROLE"
-
-  run terraform plan
-  [[ "$output" =~ No\ changes ]]
-
-  # tear down test iam account
-  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
 @test "Confirm Terraform network user IAM management is additive" {
@@ -238,9 +209,9 @@
   [ "$status" -eq 0 ]
   [[ "${lines[0]}" = "authDomain: $AUTH_DOMAIN" ]]
   [[ "${lines[4]}" = "featureSettings: {}" ]]
-  [[ "${lines[6]}" = "id: $PROJECT_ID}" ]]
-  [[ "${lines[7]}" = "name: apps/$PROJECT_ID" ]]
-  [[ "${lines[8]}" = "locationId: $REGION" ]]
+  [[ "${lines[6]}" = "id: $PROJECT_ID" ]]
+  [[ "${lines[7]}" = "locationId: $REGION" ]]
+  [[ "${lines[8]}" = "name: apps/$PROJECT_ID" ]]
   [[ "${lines[9]}" = "servingStatus: SERVING" ]]
 }
 
