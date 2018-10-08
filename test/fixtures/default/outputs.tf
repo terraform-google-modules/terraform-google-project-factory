@@ -49,3 +49,19 @@ output "region" {
 output "app_engine_enabled" {
   value = "${module.project-factory.app_engine_enabled}"
 }
+
+output "shared_vpc" {
+  value = "${var.shared_vpc}"
+}
+
+output "sa_role" {
+  value = "${var.sa_role}"
+}
+
+output "usage_bucket_name" {
+  value = "${var.usage_bucket_name}"
+}
+
+output "usage_bucket_prefix" {
+  value = "${var.usage_bucket_prefix}"
+}
