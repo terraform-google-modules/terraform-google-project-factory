@@ -30,7 +30,7 @@ provider "gsuite" {
 
 module "project-factory" {
   source              = "../../../"
-  name                = "${var.name}"
+  name                = "${var.name}-full"
   random_project_id   = "${var.random_project_id}"
   domain              = "${var.domain}"
   org_id              = "${var.org_id}"

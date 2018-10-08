@@ -237,7 +237,7 @@ user interaction for quick validation, or with user interaction during developme
 make docker_build_terraform
 make docker_build_kitchen_terraform
 
-cp test/fixtures/default/sample.sh mine.sh
+cp test/fixtures/full/sample.sh mine.sh
 # Configure environment variables specifying your GCP environment
 $EDITOR mine.sh
 
@@ -250,7 +250,7 @@ make test_integration_docker
 make docker_build_terraform
 make docker_build_kitchen_terraform
 
-cp test/fixtures/default/sample.sh mine.sh
+cp test/fixtures/full/sample.sh mine.sh
 # Configure environment variables specifying your GCP environment
 $EDITOR mine.sh
 
