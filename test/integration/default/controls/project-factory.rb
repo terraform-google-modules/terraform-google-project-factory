@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id', required: true, type: :string)
-service_account_email = attribute('service_account_email', required: true, type: :string)
-extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
-sa_role = attribute('sa_role', default: ENV['TF_VAR_sa_role'])
+project_id = attribute('project_id', default: nil)
+service_account_email = attribute('service_account_email', default: nil)
+extra_service_account_email = attribute('extra_service_account_email', default: nil)
+sa_role = attribute('sa_role', default: nil)
 usage_bucket_name = attribute('usage_bucket_name', default: nil)
 usage_bucket_prefix = attribute('usage_bucket_prefix', default: "usage-#{project_id}")
 
