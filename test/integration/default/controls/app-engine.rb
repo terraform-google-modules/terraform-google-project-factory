@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id', required: true, type: :string)
-domain = attribute('domain', required: true, type: :string)
-region = attribute('region', type: :string, default: ENV['TF_VAR_region'])
+project_id = attribute('project_id', default: nil)
+domain = attribute('domain', default: nil)
+region = attribute('region', default: nil)
 app_engine_enabled = attribute('app_engine_enabled', default: nil)
 
 control 'project-factory-app-engine' do

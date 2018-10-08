@@ -14,7 +14,7 @@
 
 project_id = attribute('project_id', required: true, type: :string)
 project_number = attribute('project_number', required: true, type: :string)
-shared_vpc = attribute('shared_vpc', type: :string, default: ENV['TF_VAR_shared_vpc'])
+shared_vpc = attribute('shared_vpc', default: nil)
 group_email = attribute('group_email', default: nil)
 service_account_email = attribute('service_account_email', required: true, type: :string)
 extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
