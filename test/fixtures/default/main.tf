@@ -79,8 +79,6 @@ resource "google_project_iam_member" "additive_shared_vpc_role" {
 }
 
 resource "google_service_account_iam_member" "additive_service_account_grant_to_group" {
-  count = "${module.project-factory.group_email != "" ? 1 : 0}"
-
   service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}"
 
   role   = "roles/iam.serviceAccountUser"
