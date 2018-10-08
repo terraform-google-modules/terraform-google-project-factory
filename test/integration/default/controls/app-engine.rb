@@ -15,9 +15,12 @@
 project_id = attribute('project_id', required: true, type: :string)
 domain = attribute('domain', required: true, type: :string)
 region = attribute('region', type: :string, default: ENV['TF_VAR_region'])
+app_engine_enabled = attribute('app_engine_enabled', default: nil)
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"
+
+  only_if { app_engine_enabled == "true" }
 
   describe command("gcloud app describe --project #{project_id} --format=json") do
     its('exit_status') { should be 0 }

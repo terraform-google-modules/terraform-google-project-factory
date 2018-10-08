@@ -18,6 +18,7 @@ extra_service_account_email = attribute('extra_service_account_email', default: 
 sa_role = attribute('sa_role', default: nil)
 usage_bucket_name = attribute('usage_bucket_name', default: nil)
 usage_bucket_prefix = attribute('usage_bucket_prefix', default: "usage-#{project_id}")
+app_engine_enabled = attribute('app_engine_enabled', default: nil)
 
 control 'project-factory' do
   title 'Project Factory intrinsics'
@@ -48,6 +49,7 @@ control 'project-factory' do
     end
 
     it "includes the Google App Engine API service account user" do
+      pending "App Engine not enabled" unless app_engine_enabled == "true"
       service_accounts.should include "#{project_id}@appspot.gserviceaccount.com"
     end
 
