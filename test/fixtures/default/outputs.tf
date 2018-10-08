@@ -45,3 +45,7 @@ output "gsuite_admin_account" {
 output "region" {
   value = "${var.region}"
 }
+
+output "app_engine_enabled" {
+  value = "${module.project-factory.app_engine_enabled}"
+}
