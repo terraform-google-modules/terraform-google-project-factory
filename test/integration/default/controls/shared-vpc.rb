@@ -22,7 +22,7 @@ extra_service_account_email = attribute('extra_service_account_email', required:
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
 
-  only_if { shared_vpc }
+  only_if { shared_vpc && !shared_vpc.empty? }
 
   describe command("gcloud compute shared-vpc get-host-project #{project_id} --format='get(name)'") do
     its('exit_status') { should eq 0 }

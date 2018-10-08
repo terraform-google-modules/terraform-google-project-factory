@@ -21,7 +21,7 @@ extra_service_account_email = attribute('extra_service_account_email', required:
 control 'project-factory-gsuite' do
   title 'Project Factory G Suite integration'
 
-  only_if { group_email }
+  only_if { group_email && !group_email.empty? }
 
   describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
     its('exit_status') { should eq 0 }

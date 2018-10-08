@@ -93,7 +93,7 @@ end
 control 'project-factory-usage' do
   title "Project factory usage bucket"
 
-  only_if { usage_bucket_name }
+  only_if { usage_bucket_name && !usage_bucket_name.empty? }
 
   describe command("gcloud compute project-info describe --project #{project_id} --format='json(usageExportLocation)'") do
     its('exit_status') { should be 0 }
