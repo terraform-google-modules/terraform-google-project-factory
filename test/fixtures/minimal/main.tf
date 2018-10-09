@@ -23,6 +23,7 @@ module "project-factory" {
   name                = "${var.name}-minimal"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"
+  folder_id           = "${var.folder_id}"
   billing_account     = "${var.billing_account}"
   activate_apis       = "${var.activate_apis}"
   credentials_path    = "${var.credentials_path}"
