@@ -69,6 +69,8 @@ In order to recover the Terraform configuration, the required APIs need to be en
 
 The Project Factory requires the following services are enabled on the seed project. If these APIs are not enabled they can cause the Project Factory to get into a bad state.
 
+A canonical list of required APIs is available in the [README](../README.md#apis)
+
 * [cloudresourcemanager.googleapis.com](#missing-api-cloudresourcemanagergoogleapiscom)
 * [cloudbilling.googleapis.com](#missing-api-cloudbillinggoogleapiscom)
 * [compute.googleapis.com](#missing-api-computegoogleapiscom)
