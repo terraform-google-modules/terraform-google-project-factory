@@ -9,10 +9,62 @@
 - - -
 ## Problems
 
+* [Common issues](#common-issues)
 * [Seed project missing APIs](#seed-project-missing-apis) - The seed project is missing required APIs.
 * [Service account missing roles](#service-account-missing-roles) - The service account has insufficient permissions.
-* [Common issues](#common-issues)
 
+- - -
+### Common issues
+
+#### Unable to query status of default GCE service account
+
+When the Project Factory is used with a misconfigured seed project, it partially generate a new project, fail, and get into a state where it can no longer generate plans.
+
+**Error message:**
+
+```
+Error: Error refreshing state: 1 error(s) occurred:
+
+* module.project-factory.data.google_compute_default_service_account.default: 1 error(s) occurred:
+
+* module.project-factory.data.google_compute_default_service_account.default: data.google_compute_default_service_account.default: Error reading GCE service account not found: googleapi: Error 403: Project 449949713944 is not found and cannot be used for API calls. If it is recently created, enable Compute Engine API by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=449949713944 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry., accessNotConfigured
+```
+
+**Cause:**
+
+The Project Factory has generated a new project but couldn't enable the `compute.googleapis.com` API. This causes Terraform to get jammed, with the following causal chain:
+
+1. `terraform plan` tries to query the default GCE service account.
+1. The query fails because the `compute.googleapis.com` API is not enabled on the target project.
+1. The `compute.googleapis.com` API is not enabled on the target project because it does not have an associated billing account.
+1. The target project does not have an associated billing account for one of the following causes:
+    * The seed project does not have the `cloudbilling.googleapis.com` API enabled, so Terraform cannot enable billing on the target project.
+    * The service account does not have the `roles/billing.user` role on the associated billing account, and cannot link the target project with the billing account.
+
+This issue is confusing because the error indicates that the `compute.googleapis.com` API is disabled on the target project, but the absence of the Google Compute Engine API is a symptom of an issue with configuring billing, rather than the cause of the issue itself.
+
+**Solution:**
+
+In order to recover the Terraform configuration, the required APIs need to be enabled on the seed project and target project.
+
+1. Enable billing on the seed project:
+    1. Enable the `cloudbilling.googleapis.com` API on the seed project:
+        ```
+        # Requires `roles/serviceusage.admin` on $SEED_PROJECT
+        gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
+        ```
+    1. Associate a billing account with the seed project:
+        ```
+        # Requires `roles/billing.projectManager` on $SEED_PROJECT and `roles/billing.user` on the billing account
+        gcloud alpha billing projects link "$SEED_PROJECT" --billing-account=[billing-account]
+        ```
+1. Enable `compute.googleapis.com` on the target project:
+    ```
+    # Requires `roles/serviceusage.admin` on $TARGET_PROJECT
+    gcloud services enable compute.googleapis.com --project $TARGET_PROJECT
+    ```
+
+- - -
 ### Seed project missing APIs
 
 The Project Factory requires the following services are enabled on the seed project. If these APIs are not enabled they can cause the Project Factory to get into a bad state.
@@ -367,54 +419,3 @@ Add the service account to the `roles/billing.user` role on the billing account.
 
 Granting `roles/billing.user` on the organization is not sufficient if the billing account is defined outside of the GCP organization. Make sure that the service account has the `roles/billing.user` role on the billing account.
 
-- - -
-
-### Common issues
-
-#### Unable to query status of default GCE service account
-
-When the Project Factory is used with a misconfigured seed project, it partially generate a new project, fail, and get into a state where it can no longer generate plans.
-
-**Error message:**
-
-```
-Error: Error refreshing state: 1 error(s) occurred:
-
-* module.project-factory.data.google_compute_default_service_account.default: 1 error(s) occurred:
-
-* module.project-factory.data.google_compute_default_service_account.default: data.google_compute_default_service_account.default: Error reading GCE service account not found: googleapi: Error 403: Project 449949713944 is not found and cannot be used for API calls. If it is recently created, enable Compute Engine API by visiting https://console.developers.google.com/apis/api/compute.googleapis.com/overview?project=449949713944 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry., accessNotConfigured
-```
-
-**Cause:**
-
-The Project Factory has generated a new project but couldn't enable the `compute.googleapis.com` API. This causes Terraform to get jammed, with the following causal chain:
-
-1. `terraform plan` tries to query the default GCE service account.
-1. The query fails because the `compute.googleapis.com` API is not enabled on the target project.
-1. The `compute.googleapis.com` API is not enabled on the target project because it does not have an associated billing account.
-1. The target project does not have an associated billing account for one of the following causes:
-    * The seed project does not have the `cloudbilling.googleapis.com` API enabled, so Terraform cannot enable billing on the target project.
-    * The service account does not have the `roles/billing.user` role on the associated billing account, and cannot link the target project with the billing account.
-
-This issue is confusing because the error indicates that the `compute.googleapis.com` API is disabled on the target project, but the absence of the Google Compute Engine API is a symptom of an issue with configuring billing, rather than the cause of the issue itself.
-
-**Solution:**
-
-In order to recover the Terraform configuration, the required APIs need to be enabled on the seed project and target project.
-
-1. Enable billing on the seed project:
-    1. Enable the `cloudbilling.googleapis.com` API on the seed project:
-        ```
-        # Requires `roles/serviceusage.admin` on $SEED_PROJECT
-        gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
-        ```
-    1. Associate a billing account with the seed project:
-        ```
-        # Requires `roles/billing.projectManager` on $SEED_PROJECT and `roles/billing.user` on the billing account
-        gcloud alpha billing projects link "$SEED_PROJECT" --billing-account=[billing-account]
-        ```
-1. Enable `compute.googleapis.com` on the target project:
-    ```
-    # Requires `roles/serviceusage.admin` on $TARGET_PROJECT
-    gcloud services enable compute.googleapis.com --project $TARGET_PROJECT
-    ```
