@@ -157,7 +157,7 @@ ERROR: (gcloud.iam.service-accounts.list) User [[service-account]] does not have
 
 **Cause:**
 
-The seed project does not have the `iam.googleapis.com` API enabled. This prevents the Project Factory from deleting the default GCE service account. 
+The seed project does not have the `iam.googleapis.com` API enabled. This prevents the Project Factory from deleting the default GCE service account and assigning IAM roles to groups, service accounts, etc.
 
 **Solution:**
 
