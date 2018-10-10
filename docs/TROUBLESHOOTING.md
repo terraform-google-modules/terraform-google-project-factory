@@ -73,7 +73,6 @@ A canonical list of required APIs is available in the [README](../README.md#apis
 
 * [cloudresourcemanager.googleapis.com](#missing-api-cloudresourcemanagergoogleapiscom)
 * [cloudbilling.googleapis.com](#missing-api-cloudbillinggoogleapiscom)
-* [compute.googleapis.com](#missing-api-computegoogleapiscom)
 * [iam.googleapis.com](#missing-api-iamgoogleapiscom)
 * [appengine.googleapis.com](#missing-appenginegoogleapiscom) (when managing an App Engine instance on the target project)
 
@@ -129,10 +128,6 @@ $ gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
 **Notes:**
 
 This error will occur *once* when applying a Terraform plan when the **seed project** does not have the Cloud Billing API enabled. On subsequent Terraform runs, Terraform will generate an error indicating that the Compute Engine API is not enabled on the **target project**. Watch out for this!
-
-### Missing API: `compute.googleapis.com`
-
-TODO: it appears that the `compute` API isn't actually used by the project factory. Can we confirm this?
 
 #### Missing API: `iam.googleapis.com`
 
