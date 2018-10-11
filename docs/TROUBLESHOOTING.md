@@ -201,16 +201,20 @@ The absence of the `appengine.googleapis.com` API will not cause Terraform to fa
 - - -
 ### Service account missing roles
 
+The service account must have the following roles in order to fully create a project factory.
+
+A canonical list of required roles is available in the [README](../README.md#permissions)
+
 * Organizational roles
-    * [roles/resourcemanager.organizationViewer](#missing-org-role-roles-resourcemanager-organizationviewer)
-    * [roles/resourcemanager.projectCreator](#missing-org-role-roles-resourcemanager-projectcreator)
-    * [roles/compute.xpnAdmin](#missing-shared-vpc-roles) (when using a shared VPC)
-    * [roles/compute.networkAdmin](#missing-shared-vpc-roles) (when using a shared VPC)
+    * [roles/resourcemanager.organizationViewer](#missing-org-role-roles-resourcemanager-organizationviewer) - Required for looking up the domain name associated with the GCP organization ID.
+    * [roles/resourcemanager.projectCreator](#missing-org-role-roles-resourcemanager-projectcreator) - Required for creating GCP projects within the organization.
+    * [roles/compute.xpnAdmin](#missing-shared-vpc-roles) (when using a shared VPC) - Required for associating the target project with the host VPC.
+    * [roles/compute.networkAdmin](#missing-shared-vpc-roles) (when using a shared VPC) - Required for managing shared VPC subnetwork IAM policies.
 * Shared VPC project roles (when using a shared VPC)
-    * [roles/resourcemanager.projectIamAdmin](#missing-shared-vpc-roles)
-    * [roles/browser](#missing-shared-vpc-roles)
+    * [roles/resourcemanager.projectIamAdmin](#missing-shared-vpc-roles) - Required for managing shared VPC project IAM policies.
+    * [roles/browser](#missing-shared-vpc-roles) - Required for enumerating shared VPC resources.
 * Billing account roles
-*   * [roles/billing.user](#missing-roles-billing-user-role)
+    * [roles/billing.user](#missing-roles-billing-user-role) - Required for associating the billing account with a project.
 
 #### Missing org role: `roles/resourcemanager.organizationViewer`
 
@@ -224,7 +228,7 @@ The absence of the `appengine.googleapis.com` API will not cause Terraform to fa
 
 **Cause:**
 
-The active service account does not have `roles/resourcemanager.organizationViewer` on the active organization.
+The active service account does not have `roles/resourcemanager.organizationViewer` on the active organization. The organizationViewer role grants the service account the ability to look up the GCP organization by the organization ID and fetch the associated domain name.
 
 **Solution:**
 
@@ -254,7 +258,7 @@ gcloud organizations add-iam-policy-binding \
 
 **Cause:**
 
-The active service account does not have `roles/resourcemanager.projectCreator` on the active organization.
+The active service account does not have `roles/resourcemanager.projectCreator` on the active organization. The projectCreator role allows the service account to generate new projects within the GCP organization.
 
 **Solution:**
 
@@ -313,6 +317,8 @@ The service account is missing one of the following roles:
 * Shared VPC
     * `roles/browser`
     * `roles/resourcemanager.projectIamAdmin`
+
+These roles are required for associating the target project with the host VPC and managing access to the host VPC network resources.
 
 **Solution:**
 
@@ -415,4 +421,3 @@ Add the service account to the `roles/billing.user` role on the billing account.
 **Notes:**
 
 Granting `roles/billing.user` on the organization is not sufficient if the billing account is defined outside of the GCP organization. Make sure that the service account has the `roles/billing.user` role on the billing account.
-
