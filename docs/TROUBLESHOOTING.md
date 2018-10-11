@@ -206,15 +206,15 @@ The service account must have the following roles in order to fully create a pro
 A canonical list of required roles is available in the [README](../README.md#permissions)
 
 * Organizational roles
-    * [roles/resourcemanager.organizationViewer](#missing-org-role-roles-resourcemanager-organizationviewer) - Required for looking up the domain name associated with the GCP organization ID.
-    * [roles/resourcemanager.projectCreator](#missing-org-role-roles-resourcemanager-projectcreator) - Required for creating GCP projects within the organization.
+    * [roles/resourcemanager.organizationViewer](#missing-org-role-rolesresourcemanagerorganizationviewer) - Required for looking up the domain name associated with the GCP organization ID.
+    * [roles/resourcemanager.projectCreator](#missing-org-role-rolesresourcemanagerprojectcreator) - Required for creating GCP projects within the organization.
     * [roles/compute.xpnAdmin](#missing-shared-vpc-roles) (when using a shared VPC) - Required for associating the target project with the host VPC.
     * [roles/compute.networkAdmin](#missing-shared-vpc-roles) (when using a shared VPC) - Required for managing shared VPC subnetwork IAM policies.
 * Shared VPC project roles (when using a shared VPC)
     * [roles/resourcemanager.projectIamAdmin](#missing-shared-vpc-roles) - Required for managing shared VPC project IAM policies.
     * [roles/browser](#missing-shared-vpc-roles) - Required for enumerating shared VPC resources.
 * Billing account roles
-    * [roles/billing.user](#missing-roles-billing-user-role) - Required for associating the billing account with a project.
+    * [roles/billing.user](#missing-roles-billinguserrole) - Required for associating the billing account with a project.
 
 #### Missing org role: `roles/resourcemanager.organizationViewer`
 
