@@ -101,4 +101,25 @@ gcloud projects add-iam-policy-binding \
   --role="roles/resourcemanager.projectIamAdmin" \
   --user-output-enabled false
 
+# Enable required API's
+gcloud services enable \
+  cloudresourcemanager.googleapis.com \
+  --project ${HOST_PROJECT}
+
+gcloud services enable \
+  cloudbilling.googleapis.com \
+  --project ${HOST_PROJECT}
+
+gcloud services enable \
+  iam.googleapis.com \
+  --project ${HOST_PROJECT}
+
+gcloud services enable \
+  admin.googleapis.com \
+  --project ${HOST_PROJECT}
+
+gcloud services enable \
+  appengine.googleapis.com \
+  --project ${HOST_PROJECT}
+
 echo "All done."
