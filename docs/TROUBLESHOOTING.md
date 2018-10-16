@@ -132,10 +132,16 @@ The seed project does not have the `cloudresourcemanager.googleapis.com` API ena
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable cloudresourcemanager.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable cloudresourcemanager.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 #### Missing API: `cloudbilling.googleapis.com`
 
@@ -157,10 +163,16 @@ The seed project does not have the `cloudbilling.googleapis.com` API enabled. Th
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-$ gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    $ gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 **Notes:**
 
@@ -198,10 +210,16 @@ The seed project does not have the `iam.googleapis.com` API enabled. This preven
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable iam.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable iam.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 #### Missing API: `appengine.googleapis.com`
 
@@ -226,10 +244,16 @@ The App Engine API is not enabled on the seed project, which prevents creation o
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable appengine.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable appengine.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 **Notes:**
 
@@ -257,10 +281,16 @@ See the [README G Suite documentation](../README.md#g-suite) for more informatio
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable admin.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable admin.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 - - -
 ### Service account missing roles
