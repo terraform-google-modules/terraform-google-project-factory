@@ -17,6 +17,14 @@
 set -e
 set -u
 
+# check for input variables
+if [ $# -ne 2 ]; then
+  echo
+  echo "Usage: $0 <organization name> <project id>"
+  echo
+  exit 1
+fi
+
 # Organization ID
 ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$1")"
 
@@ -123,3 +131,4 @@ gcloud services enable \
   --project ${HOST_PROJECT}
 
 echo "All done."
+
