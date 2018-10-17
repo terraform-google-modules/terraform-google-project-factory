@@ -83,6 +83,31 @@ data "google_organization" "org" {
   organization = "${var.org_id}"
 }
 
+resource "null_resource" "check_preconditions" {
+  triggers {
+    credentials_path = "${var.credentials_path}"
+    billing_account = "${var.billing_account}"
+    org_id = "${var.org_id}"
+    folder_id = "${var.folder_id}"
+    shared_vpc = "${var.shared_vpc}"
+  }
+
+  provisioner "local-exec" {
+    command = <<EOD
+${path.module}/scripts/check-preconditions.sh \
+    --credentials_path '${var.credentials_path}' \
+    --billing_account '${var.billing_account}' \
+    --org_id '${var.org_id}' \
+    --folder_id '${var.folder_id}' \
+    --shared_vpc '${var.shared_vpc}'
+EOD
+
+    environment {
+      GRACEFUL_IMPORTERROR = true
+    }
+  }
+}
+
 /*******************************************
   Project creation
  *******************************************/
@@ -97,6 +122,8 @@ resource "google_project" "project" {
   labels = "${var.labels}"
 
   app_engine = "${local.app_engine_config["${local.app_engine_enabled ? "enabled" : "disabled"}"]}"
+
+  depends_on = ["null_resource.check_preconditions"]
 }
 
 /******************************************

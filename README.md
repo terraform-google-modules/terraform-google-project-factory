@@ -181,6 +181,20 @@ In order to operate the Project Factory, you must activate the following APIs on
 - Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
   - This is required if you're using the app_engine input 
 
+### Verifying setup
+A [preconditions checker script](./scripts/check-preconditions.py) is included to verify that all preconditions are met before the Project Factory runs. The script will run automatically if the script dependencies (Python, "google-auth", and "google-api-python-client") are available at runtime. If the dependencies are not met, the precondition checking step will be skipped.
+
+The precondition checker script can be directly invoked before running the project factory:
+
+```
+./scripts/check-preconditions.py \
+  --credentials_path "./credentials.json" \
+  --billing_account 000000-000000-000000 \
+  --org_id 000000000000 \
+  --folder_id 000000000000 \
+  --shared_vpc 'shared-vpc-host-ed64'
+```
+
 ## Caveats
 
 ### Moving projects from org into a folder
