@@ -18,9 +18,13 @@ set -e
 set -u
 
 # check for input variables
-if [ $# -ne 2 ]; then
+if [ $# -lt 2 ]; then
   echo
-  echo "Usage: $0 <organization name> <project id>"
+  echo "Usage: $0 <organization name> <project id> [<billing account id>]"
+  echo
+  echo "  organization name (required)"
+  echo "  project id (required)"
+  echo "  billing account id (optional)"
   echo
   exit 1
 fi
@@ -46,13 +50,17 @@ then
 fi
 
 # Billing account
-echo "Verifying billing account..."
-BILLING_ACCOUNT="$(gcloud beta billing accounts list --format="value(ACCOUNT_ID)" --filter="$3")"
+if [ $# -eq 3 ]; then
+  echo "Verifying billing account..."
+  BILLING_ACCOUNT="$(gcloud beta billing accounts list --format="value(ACCOUNT_ID)" --filter="$3")"
 
-if [[ $BILLING_ACCOUNT == "" ]];
-then
-  echo "The billing account does not exist. Exiting."
-  exit 1;
+  if [[ $BILLING_ACCOUNT == "" ]];
+  then
+    echo "The billing account does not exist. Exiting."
+    exit 1;
+  fi
+else
+  echo "Skipping billing account verification... (parameter not passed)"
 fi
 
 # Service Account creation
@@ -150,25 +158,27 @@ gcloud services enable \
   --project ${HOST_PROJECT}
 
 # enable the billing account
-echo "Enabling the billing account..."
-gcloud beta billing accounts get-iam-policy $BILLING_ACCOUNT > policy-tmp-$$.yml
-unamestr=`uname`
-if [ "$unamestr" = 'Darwin' ]; then
-  sed -i '' -e "/^etag:.*/i \\
+if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
+  echo "Enabling the billing account..."
+  gcloud beta billing accounts get-iam-policy $BILLING_ACCOUNT > policy-tmp-$$.yml
+  unamestr=`uname`
+  if [ "$unamestr" = 'Darwin' ]; then
+    sed -i '' -e "/^etag:.*/i \\
 - members:\\
 \ \ - serviceAccount:${SA_ID}\\
 \ \ role: roles/billing.user" policy-tmp-$$.yml
-elif [ "$unamestr" = 'Linux' ]; then
-  sed -i '' -e "/^etag:.*/i \\
+    gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
+  elif [ "$unamestr" = 'Linux' ]; then
+    sed -i '' -e "/^etag:.*/i \\
 - members:\\
 \ \ - serviceAccount:${SA_ID}\\
 \ \ role: roles/billing.user" policy-tmp-$$.yml
-else
-  echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
-  Please perform this manually."
+    gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
+  else
+      echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
+      Please perform this manually."
+  fi
+  rm -f policy-tmp-$$.json
 fi
-gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
-rm -f policy-tmp-$$.yml
-
 
 echo "All done."
