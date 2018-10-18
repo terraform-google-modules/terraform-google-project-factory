@@ -69,9 +69,9 @@ sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch
 sudo mkdir -p "$TERRAFORM_HOME"
 cd "$TERRAFORM_HOME" || exit
 
-yes | sudo wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_"$LINUXARQ".zip
-yes | sudo unzip terraform_"$TERRAFORM_VERSION"_"$LINUXARQ".zip*
-sudo rm -f terraform_"$TERRAFORM_VERSION"_"$LINUXARQ".zip*
+yes | sudo wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${LINUXARQ}.zip
+yes | sudo unzip terraform_${TERRAFORM_VERSION}_${LINUXARQ}.zip*
+sudo rm -f terraform_${TERRAFORM_VERSION}_${LINUXARQ}.zip*
 
 export TERRAFORM_HOME=$TERRAFORM_HOME
 
@@ -87,7 +87,7 @@ sudo mkdir -p $GO_INSTALL_PATH
 cd $GOHOME || exit
 sudo curl -LO "https://storage.googleapis.com/golang/go$GO_VERSION.$LINUXARQ_GO.tar.gz"
 sudo tar -C $GO_INSTALL_PATH -xvzf "go$GO_VERSION.$LINUXARQ_GO.tar.gz"
-sudo rm -rf go"$GO_VERSION"."$LINUXARQ_GO".tar.gz*
+sudo rm -rf go${GO_VERSION}.${LINUXARQ_GO}.tar.gz*
 
 export GOPATH=$GOPATH
 export GOBIN=$GOBIN
@@ -117,7 +117,6 @@ EOF
 # ####################################### #
 #  Install the terraform-provider-gsuite  #
 # ####################################### #
-# Install dep
 # Download and install dep
 
 curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo PATH="$PATH" GOBIN="$GOBIN" sh
@@ -135,7 +134,8 @@ sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" $GOBI
 sudo rm -rf $GOPATH/src/github.com/DeviaVir/terraform-provider-gsuite/vendor/github.com/DeviaVir/terraform-provider-gsuite
 
 # Do not run the cmd below with sudo, or the module is installed under ~root/.terraform.d, instead of ~/.terraform.d
-GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" make dev
+#GOPATH="$GOPATH" PATH="$PATH:$GOBIN:/usr/local/go/bin" GOBIN="$GOBIN" make dev
+PATH="$PATH:$GOBIN:/usr/local/go/bin" make dev
 
 # ####################################### #
 #  Install the terraform-provider-google  #
@@ -150,8 +150,8 @@ cd terraform-provider-google || exit
 sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make fmt build
 
 # Install it
-mkdir -p $TERRAFORM_PLUGINS_PATH
-cp -f $GOBIN/terraform-provider-google $TERRAFORM_PLUGINS_PATH
+mkdir -p "$TERRAFORM_PLUGINS_PATH"
+cp -f $GOBIN/terraform-provider-google "$TERRAFORM_PLUGINS_PATH"
 
 # ####################################### #
 #        Google SDK Installation          #
