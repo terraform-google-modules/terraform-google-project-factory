@@ -18,9 +18,9 @@ set -e
 set -u
 
 # check for input variables
-if [ $# -ne 3 ]; then
+if [ $# -ne 2 ]; then
   echo
-  echo "Usage: $0 <organization name> <project id> <billing account id?>"
+  echo "Usage: $0 <organization name> <project id>"
   echo
   exit 1
 fi

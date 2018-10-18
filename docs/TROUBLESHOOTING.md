@@ -16,6 +16,9 @@
 - - -
 ### Common issues
 
+* [Unable to query status of default GCE service account](#unable-to-query-status-of-default-gce-service-account)
+* [Cannot manage G Suite group membership](#cannot-manage-g-suite-group-membership)
+
 #### Unable to query status of default GCE service account
 
 When the Project Factory is used with a misconfigured seed project, it partially generate a new project, fail, and get into a state where it can no longer generate plans.
@@ -68,6 +71,39 @@ In order to recover the Terraform configuration, the required APIs need to be en
     gcloud auth activate-service-account --key-file=path-to-service-account-credentials.json 
     ```
 
+#### Cannot manage G Suite group membership
+
+**Error message:**
+
+```
+Error: Error applying plan:
+
+1 error(s) occurred:
+
+* module.project-factory.gsuite_group_member.service_account_sa_group_member: 1 error(s) occurred:
+
+* gsuite_group_member.service_account_sa_group_member: Error creating group member: Post https://www.googleapis.com/admin/directory/v1/groups/thebo-pf-service-accounts/members?alt=json: oauth2: cannot fetch token: 401 Unauthorized
+Response: {
+ "error" : "unauthorized_client",
+ "error_description" : "Client is unauthorized to retrieve access tokens using this method."
+}
+```
+
+**Cause:**
+
+By default service accounts cannot manage G Suite resources, because the G Suite directory API requires a user account with admin rights. A service account can impersonate a user account with admin rights to interact with the directory API, but the service account has to be granted domain wide delegation rights to impersonate users, and must be granted OAuth scopes for the functionality it needs to interact with.
+
+If domain wide delegation on the appropriate is not granted to the service account, it will fail to get the access token needed to interact with the Directory API and fail.
+
+See the [README G Suite documentation](../README.md#g-suite) for more information.
+
+**Solution:**
+
+Enable [domain wide delegation](https://developers.google.com/admin-sdk/directory/v1/guides/delegation) on the service account with the following scopes:
+
+* https://www.googleapis.com/auth/admin.directory.group
+* https://www.googleapis.com/auth/admin.directory.group.member
+
 - - -
 ### Seed project missing APIs
 
@@ -79,6 +115,7 @@ A canonical list of required APIs is available in the [README](../README.md#apis
 * [cloudbilling.googleapis.com](#missing-api-cloudbillinggoogleapiscom)
 * [iam.googleapis.com](#missing-api-iamgoogleapiscom)
 * [appengine.googleapis.com](#missing-appenginegoogleapiscom) (when managing an App Engine instance on the target project)
+* [admin.googleapis.com](#missing-admingoogleapiscom) (when managing G Suite groups and group membership)
 
 #### Missing API: `cloudresourcemanager.googleapis.com`
 
@@ -99,10 +136,16 @@ The seed project does not have the `cloudresourcemanager.googleapis.com` API ena
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable cloudresourcemanager.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable cloudresourcemanager.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 #### Missing API: `cloudbilling.googleapis.com`
 
@@ -124,10 +167,16 @@ The seed project does not have the `cloudbilling.googleapis.com` API enabled. Th
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-$ gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    $ gcloud services enable cloudbilling.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 **Notes:**
 
@@ -165,10 +214,16 @@ The seed project does not have the `iam.googleapis.com` API enabled. This preven
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable iam.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable iam.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 #### Missing API: `appengine.googleapis.com`
 
@@ -193,14 +248,53 @@ The App Engine API is not enabled on the seed project, which prevents creation o
 
 **Solution:**
 
-```
-# Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
-gcloud services enable appengine.googleapis.com --project "$SEED_PROJECT"
-```
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable appengine.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 **Notes:**
 
 The absence of the `appengine.googleapis.com` API will not cause Terraform to fail, but any interactions with the App Engine instance will fail. Once this API is activated, it might take a few minutes for Terraform to detect that the App Engine instance is not present and then create it.
+
+#### Missing API: `admin.googleapis.com`
+
+**Error message:**
+
+```
+Error: Error applying plan:
+
+1 error(s) occurred:
+
+* module.project-factory.gsuite_group_member.service_account_sa_group_member: 1 error(s) occurred:
+
+* gsuite_group_member.service_account_sa_group_member: Error creating group member: googleapi: Error 403: Access Not Configured. Admin Directory API has not been used in project 454152376537 before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/admin.googleapis.com/overview?project=454152376537 then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry., accessNotConfigured
+```
+
+**Cause:**
+
+The Directory Admin API is not enabled on the seed project, which prevents management of G Suite resources.
+
+See the [README G Suite documentation](../README.md#g-suite) for more information.
+
+**Solution:**
+
+* **Option 1:** enable the required API with `gcloud`:
+    ```
+    # Requires `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    gcloud services enable admin.googleapis.com --project "$SEED_PROJECT"
+    ```
+* **Option 2:** create a new service account and enable the required APIs:
+    ```
+    # requires `roles/resourcemanager.organizationAdmin` on the organization and `roles/serviceusage.serviceUsageAdmin` on $SEED_PROJECT
+    ./helpers/setup-sa.sh [organization id] "$SEED_PROJECT"
+    ```
 
 - - -
 ### Service account missing roles
