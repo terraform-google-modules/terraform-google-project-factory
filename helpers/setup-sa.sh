@@ -175,10 +175,10 @@ if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
 \ \ role: roles/billing.user" policy-tmp-$$.yml
     gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
   else
-      echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
-      Please perform this manually."
+    echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
+    Please perform this manually."
   fi
-  rm -f policy-tmp-$$.json
+  rm -f policy-tmp-$$.yml
 fi
 
 echo "All done."
