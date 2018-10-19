@@ -25,3 +25,7 @@ variable "organization_id" {
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
 }
+
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
+}
