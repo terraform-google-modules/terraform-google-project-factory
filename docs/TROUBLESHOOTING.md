@@ -66,6 +66,10 @@ In order to recover the Terraform configuration, the required APIs need to be en
     # Requires `roles/serviceusage.admin` on $TARGET_PROJECT
     gcloud services enable compute.googleapis.com --project $TARGET_PROJECT
     ```
+    This must be run in the context of the service account that is being used to execute the Project Factory module.  You can add the service account to your list of authentication credentials by issuing the following command and importing your service account key:
+    ```
+    gcloud auth activate-service-account --key-file=path-to-service-account-credentials.json 
+    ```
 
 #### Cannot manage G Suite group membership
 
