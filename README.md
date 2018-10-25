@@ -167,11 +167,11 @@ A [helper script](./helpers/setup-sa.sh) is included to automatically grant all 
 ### APIs
 In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
 
-- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com`
-- Cloud Billing API - `cloudbilling.googleapis.com`
-- Identity and Access Management API - `iam.googleapis.com`
-- Admin SDK - `admin.googleapis.com`
-- Google App Engine Admin API - `appengine.googleapis.com`
+- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudresourcemanagergoogleapiscom)
+- Cloud Billing API - `cloudbilling.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudbillinggoogleapiscom)
+- Identity and Access Management API - `iam.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-iamgoogleapiscom)
+- Admin SDK - `admin.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-admingoogleapiscom)
+- Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
 
 ## Caveats
 
