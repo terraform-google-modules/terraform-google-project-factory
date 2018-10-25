@@ -66,3 +66,13 @@ The pattern we encourage is to:
 1. Create a Shared VPC host project using the Project Factory
 2. Create a shared network in that project using the Network Factory
 3. Create additional service projects and attach them to the Shared VPC using the Project Factory
+
+## Why do you delete the default Service Account?
+
+By default, every project comes configured with a [default Service Account](https://cloud.google.com/compute/docs/access/service-accounts#compute_engine_default_service_account). While this Service Account is convenient, it comes with  risks as it automatically has Editor access to your project and is automatically used for gcloud commands or the UI. This can lead to security threats where instances are launched with access they don't need and are compromised.
+
+Therefore, the Project Factory deletes the default Service Account to prevent these risks. In its place, it creates a new Service Account which has a number of advantages:
+
+1. No default roles. This Service Account doesn't have access to any GCP resources unless you explicitly grant them.
+
+2. No default usage. With the default Service Account deleted, you have to be explicit in choosing a Service Account for VMs which ensures developers make an informed choice when deciding what access level to give applications.
