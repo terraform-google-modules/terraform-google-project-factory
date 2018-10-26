@@ -21,6 +21,17 @@ resource "random_id" "random_project_id_suffix" {
   byte_length = 2
 }
 
+
+
+data "external" "random_word" {
+  //program = ["/home/vagrant/google-network/modules/project-factory/random_word.sh"]
+  program = ["bash", "${path.module}/random_word.sh"]
+  query = {
+    word1 = "word1"
+    word2 = "word2"
+  }
+}
+
 /******************************************
   Locals configuration
  *****************************************/
@@ -29,7 +40,7 @@ locals {
   project_number      = "${google_project.project.number}"
   project_org_id      = "${var.folder_id != "" ? "" : var.org_id}"
   project_folder_id   = "${var.folder_id != "" ? var.folder_id : ""}"
-  temp_project_id     = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
+  temp_project_id     = "${var.random_project_id ? format("%s-%s-%s",data.external.random_word.result.word1,data.external.random_word.result.word2,random_id.random_project_id_suffix.hex) : var.name}"
   domain              = "${data.google_organization.org.domain}"
   s_account_fmt       = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
   api_s_account       = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
