@@ -17,7 +17,7 @@
 /*
 If we don't need to work with gsuite, we can use the project-factory without install/configure gsuite,
 only is necessary delete this file that contains the gsuite resources.
-*/
+*/1
 
 /******************************************
   Group email construction when group already exists
