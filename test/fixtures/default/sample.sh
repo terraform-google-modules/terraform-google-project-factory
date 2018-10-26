@@ -20,6 +20,3 @@ export TF_VAR_sa_role="roles/editor"
 export TF_VAR_domain="example.com"
 export TF_VAR_gsuite_admin_account="user@${TF_VAR_domain}"
 export TF_VAR_credentials_path="credentials.json"
-
-## These values you can potentially leave at the defaults
-export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$TF_VAR_credentials_path"
