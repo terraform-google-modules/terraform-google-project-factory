@@ -1,5 +1,7 @@
 # Google Cloud Project Factory Terraform Module
 
+[FAQ](./docs/FAQ.md) | [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
+
 This module allows you to create opinionated Google Cloud Platform projects. It creates projects and configures aspects like Shared VPC connectivity, IAM access, Service Accounts, and API enablement to follow best practices.
 
 ## Usage
