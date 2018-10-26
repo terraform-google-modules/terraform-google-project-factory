@@ -12,16 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id', required: true, type: :string)
-group_email = attribute('group_email', default: nil)
-group_role = attribute('group_role', default: nil)
-service_account_email = attribute('service_account_email', required: true, type: :string)
-extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
+extra_service_account_email = attribute('extra_service_account_email')
+group_email                 = attribute('group_email')
+group_role                  = attribute('group_role')
+project_id                  = attribute('project_id')
+service_account_email       = attribute('service_account_email')
+credentials_path            = attribute('credentials_path')
+
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+  File.join("../..", credentials_path),
+  __FILE__)
 
 control 'project-factory-gsuite' do
   title 'Project Factory G Suite integration'
 
-  only_if { group_email }
+  only_if { !(group_email.nil? || group_email == '') }
 
   describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
     its('exit_status') { should eq 0 }
@@ -29,7 +34,7 @@ control 'project-factory-gsuite' do
 
     let(:bindings) do
       if subject.exit_status == 0
-        JSON.load(subject.stdout)['bindings']
+        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
       else
         []
       end
@@ -41,9 +46,8 @@ control 'project-factory-gsuite' do
       end
 
       binding = bindings.find { |b| b['role'] == group_role }
-      binding.should_not be_nil
-
-      binding['members'].should include "group:#{group_email}"
+      expect(binding).to_not be_nil
+      expect(binding[:members]).to include("group:#{group_email}")
     end
   end
 
@@ -53,7 +57,7 @@ control 'project-factory-gsuite' do
 
     let(:bindings) do
       if subject.exit_status == 0
-        JSON.load(subject.stdout)['bindings']
+        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
       else
         []
       end
@@ -61,16 +65,14 @@ control 'project-factory-gsuite' do
 
     it "includes the group email " do
       binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
-      binding.should_not be_nil
-
-      binding['members'].should include "group:#{group_email}"
+      expect(binding).to_not be_nil
+      expect(binding[:members]).to include "group:#{group_email}"
     end
 
     it "does not overwrite the membership of role roles/iam.serviceAccountUser" do
       binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
-      binding.should_not be_nil
-
-      binding['members'].should include "serviceAccount:#{extra_service_account_email}"
+      expect(binding).to_not be_nil
+      expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
     end
   end
 end

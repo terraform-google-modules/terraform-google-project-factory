@@ -31,8 +31,7 @@ provider "gsuite" {
 module "project-factory" {
   source              = "../../../"
   name                = "${var.name}"
-  random_project_id   = "${var.random_project_id}"
-  domain              = "${var.domain}"
+  random_project_id   = true
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
   usage_bucket_name   = "${var.usage_bucket_name}"

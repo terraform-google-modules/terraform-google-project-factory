@@ -12,17 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id', required: true, type: :string)
-project_number = attribute('project_number', required: true, type: :string)
-shared_vpc = attribute('shared_vpc', type: :string, default: ENV['TF_VAR_shared_vpc'])
-group_email = attribute('group_email', default: nil)
-service_account_email = attribute('service_account_email', required: true, type: :string)
-extra_service_account_email = attribute('extra_service_account_email', required: true, type: :string)
+extra_service_account_email = attribute('extra_service_account_email')
+group_email                 = attribute('group_email')
+project_id                  = attribute('project_id')
+project_number              = attribute('project_number')
+service_account_email       = attribute('service_account_email')
+shared_vpc                  = attribute('shared_vpc')
+credentials_path            = attribute('credentials_path')
+
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+  File.join("../..", credentials_path),
+  __FILE__)
 
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
 
-  only_if { shared_vpc }
+  only_if { !(shared_vpc.nil? || shared_vpc == '') }
 
   describe command("gcloud compute shared-vpc get-host-project #{project_id} --format='get(name)'") do
     its('exit_status') { should eq 0 }
@@ -36,7 +41,7 @@ control 'project-factory-shared-vpc' do
 
     let(:bindings) do
       if subject.exit_status == 0
-        JSON.load(subject.stdout)['bindings']
+        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
       else
         []
       end
@@ -48,7 +53,7 @@ control 'project-factory-shared-vpc' do
       end
 
       it "includes the project service account in the roles/compute.networkUser IAM binding" do
-        binding["members"].should include "serviceAccount:#{service_account_email}"
+        expect(binding[:members]).to include "serviceAccount:#{service_account_email}"
       end
 
       it "includes the group email in the roles/compute.networkUser IAM binding" do
@@ -56,23 +61,23 @@ control 'project-factory-shared-vpc' do
           pending "group email not defined"
         end
 
-        binding["members"].should include "group:#{group_email}"
+        expect(binding[:members]).to include "group:#{group_email}"
       end
 
       it "includes the GKE service account in the roles/compute.networkUser IAM binding" do
-        binding["members"].should include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+        expect(binding[:members]).to include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
       end
 
       it "does not overwrite the membership of roles/compute.networkUser" do
-        binding['members'].should include "serviceAccount:#{extra_service_account_email}"
+        expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
       end
     end
 
     it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
       binding = bindings.find { |b| b['role'] == 'roles/container.hostServiceAgentUser' }
-      binding.should_not be_nil
+      expect(binding).to_not be_nil
 
-      binding["members"].should include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+      expect(binding[:members]).to include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
     end
   end
 end

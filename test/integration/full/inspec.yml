@@ -1,6 +1,10 @@
-name: default
+name: full
 attributes:
   - name: project_id
+    required: true
+    type: string
+
+  - name: credentials_path
     required: true
     type: string
 
@@ -43,4 +47,8 @@ attributes:
     required: true
 
   - name: region
+    required: true
+
+  - name: domain
+    type: string
     required: true

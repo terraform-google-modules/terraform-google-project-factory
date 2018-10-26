@@ -12,9 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id = attribute('project_id', required: true, type: :string)
-domain = attribute('domain', required: true, type: :string)
-region = attribute('region', type: :string, default: ENV['TF_VAR_region'])
+domain           = attribute('domain')
+project_id       = attribute('project_id')
+region           = attribute('region')
+credentials_path = attribute('credentials_path')
+
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+  File.join("../..", credentials_path),
+  __FILE__)
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"
@@ -25,34 +30,17 @@ control 'project-factory-app-engine' do
 
     let(:metadata) do
       if subject.exit_status == 0
-        JSON.parse(subject.stdout)
+        JSON.parse(subject.stdout, symbolize_names: true)
       else
         {}
       end
     end
 
-    it "uses the auth domain associated with the project-factory domain" do
-      metadata["authDomain"].should eq domain
-    end
-
-    it "has no feature settings" do
-      metadata["featureSettings"].should be_empty
-    end
-
-    it "is associated with the correct project id" do
-      metadata["id"].should eq project_id
-    end
-
-    it "has the correct name" do
-      metadata["name"].should eq "apps/#{project_id}"
-    end
-
-    it "is in the correct region" do
-      metadata["locationId"].should eq region
-    end
-
-    it "is serving" do
-      metadata["servingStatus"].should eq 'SERVING'
-    end
+    it { expect(metadata).to include(authDomain: domain) }
+    it { expect(metadata).to include(featureSettings: Hash.new) }
+    it { expect(metadata).to include(id: project_id) }
+    it { expect(metadata).to include(name: "apps/#{project_id}") }
+    it { expect(metadata).to include(locationId: region) }
+    it { expect(metadata).to include(servingStatus: 'SERVING') }
   end
 end

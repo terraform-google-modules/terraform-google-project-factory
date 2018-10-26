@@ -13,13 +13,8 @@
 # limitations under the License.
 
 ---
-driver:
-  name: "terraform"
-  command_timeout: 1800
-  root_module_directory: test/fixtures/default
-
 provisioner:
-  name: "terraform"
+  name: terraform
 
 platforms:
   - name: local
@@ -31,4 +26,14 @@ verifier:
       backend: local
 
 suites:
-  - name: "default"
+  - name: full
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/full
+
+  - name: minimal
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/minimal

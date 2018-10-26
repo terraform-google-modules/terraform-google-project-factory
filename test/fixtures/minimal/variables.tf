@@ -17,11 +17,7 @@
 variable "credentials_path" {}
 
 variable "name" {
-  default = "pf-test-integration"
-}
-
-variable "random_project_id" {
-  default = "true"
+  default = "pf-test-int-minimal"
 }
 
 variable "org_id" {}
@@ -31,44 +27,11 @@ variable "folder_id" {
 }
 
 variable "domain" {
-}
-
-variable "usage_bucket_name" {
   default = ""
 }
 
-variable "usage_bucket_prefix" {
+variable "gsuite_admin_account" {
   default = ""
 }
 
 variable "billing_account" {}
-
-variable "group_name" {
-  default = ""
-}
-
-variable "create_group" {
-  default = "false"
-}
-
-variable "group_role" {
-  default = "roles/viewer"
-}
-
-variable "shared_vpc" {
-  default = ""
-}
-
-variable "sa_role" {
-  default = "roles/editor"
-}
-
-variable "sa_group" {
-  default = ""
-}
-
-variable "region" {
-  default = "us-east4"
-}
-
-variable "gsuite_admin_account" {}

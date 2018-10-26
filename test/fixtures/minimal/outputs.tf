@@ -26,22 +26,11 @@ output "domain" {
   value = "${module.project-factory.domain}"
 }
 
-output "group_email" {
-  value = "${module.project-factory.group_email}"
-}
-
 output "service_account_email" {
   value = "${module.project-factory.service_account_email}"
 }
 
-output "extra_service_account_email" {
-  value = "${google_service_account.extra_service_account.email}"
-}
-
-output "gsuite_admin_account" {
-  value = "${var.gsuite_admin_account}"
-}
-
-output "region" {
-  value = "${var.region}"
+// Pass through the `credentials_path` variable so that InSpec can reuse the credentials.
+output "credentials_path" {
+  value = "${var.credentials_path}"
 }

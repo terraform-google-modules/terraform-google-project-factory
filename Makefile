@@ -123,28 +123,28 @@ docker_create:
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source mine.sh && kitchen create"
+		/bin/bash -c "kitchen create"
 
 .PHONY: docker_converge
 docker_converge:
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source mine.sh && kitchen converge && kitchen converge"
+		/bin/bash -c "kitchen converge && kitchen converge"
 
 .PHONY: docker_verify
 docker_verify:
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source mine.sh && kitchen verify"
+		/bin/bash -c "kitchen verify"
 
 .PHONY: docker_destroy
 docker_destroy:
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "source mine.sh && kitchen destroy"
+		/bin/bash -c "kitchen destroy"
 
 .PHONY: test_integration_docker
 test_integration_docker: docker_create docker_converge docker_verify docker_destroy
