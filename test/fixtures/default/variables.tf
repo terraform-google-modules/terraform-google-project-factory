@@ -16,13 +16,15 @@
 
 variable "credentials_path" {}
 
-variable "name" {}
-
-variable "random_project_id" {}
-
-variable "org_id" {
-  default = ""
+variable "name" {
+  default = "pf-test-integration"
 }
+
+variable "random_project_id" {
+  default = "true"
+}
+
+variable "org_id" {}
 
 variable "folder_id" {
   default = ""
@@ -46,11 +48,11 @@ variable "group_name" {
 }
 
 variable "create_group" {
-  default = ""
+  default = "false"
 }
 
 variable "group_role" {
-  default = ""
+  default = "roles/viewer"
 }
 
 variable "shared_vpc" {
@@ -58,17 +60,15 @@ variable "shared_vpc" {
 }
 
 variable "sa_role" {
-  default = ""
+  default = "roles/editor"
 }
 
 variable "sa_group" {
   default = ""
 }
 
-variable "activate_apis" {
-  type = "list"
+variable "region" {
+  default = "us-east4"
 }
-
-variable "region" {}
 
 variable "gsuite_admin_account" {}

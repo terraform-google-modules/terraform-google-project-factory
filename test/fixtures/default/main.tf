@@ -44,8 +44,12 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   sa_role             = "${var.sa_role}"
   sa_group            = "${var.sa_group}"
-  activate_apis       = "${var.activate_apis}"
   credentials_path    = "${var.credentials_path}"
+
+  activate_apis       = [
+    "compute.googleapis.com",
+    "container.googleapis.com"
+  ]
 
   app_engine {
     location_id = "${var.region}"
