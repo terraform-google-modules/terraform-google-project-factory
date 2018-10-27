@@ -17,44 +17,48 @@
 /******************************************
   Project random id suffix configuration
  *****************************************/
-resource "random_id" "random_project_id_suffix" {
-  byte_length = 2
-}
+ resource "random_pet" "name" {
+
+ }
+
+ resource "random_integer" "suffix" {
+   min     = 10000
+   max     = 99999
+ }
 
 
 
-data "external" "random_word" {
-  //program = ["/home/vagrant/google-network/modules/project-factory/random_word.sh"]
-  program = ["bash", "${path.module}/random_word.sh"]
-  query = {
-    word1 = "word1"
-    word2 = "word2"
-  }
-}
+ /******************************************
+   Locals configuration
+  *****************************************/
+ locals {
+   project_id             = "${google_project.project.project_id}"
+   project_number         = "${google_project.project.number}"
+   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
+   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
+   temp_project_id        = "${var.random_project_id ? format("%s-%s", random_pet.name.id, random_integer.suffix.id) : var.name}"
+   domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
+   args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
+   labels_missing         = "${length(keys(var.labels)) == 0 ? 1 : 0}"
+   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
+   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
+   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
+   gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
+   gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
+   gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
+   project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
+   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
+   gsuite_group           = "${var.group_name != "" || var.create_group}"
+   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
-/******************************************
-  Locals configuration
- *****************************************/
-locals {
-  project_id          = "${google_project.project.project_id}"
-  project_number      = "${google_project.project.number}"
-  project_org_id      = "${var.folder_id != "" ? "" : var.org_id}"
-  project_folder_id   = "${var.folder_id != "" ? var.folder_id : ""}"
-  temp_project_id     = "${var.random_project_id ? format("%s-%s-%s",data.external.random_word.result.word1,data.external.random_word.result.word2,random_id.random_project_id_suffix.hex) : var.name}"
-  domain              = "${data.google_organization.org.domain}"
-  s_account_fmt       = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
-  api_s_account       = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
-  api_s_account_fmt   = "${format("serviceAccount:%s", local.api_s_account)}"
-  project_bucket_name = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
-  create_bucket       = "${var.bucket_project != "" ? "true" : "false"}"
-  gsuite_group        = "${var.group_name != "" || var.create_group}"
-  app_engine_enabled  = "${length(keys(var.app_engine)) > 0 ? true : false}"
+   shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
+   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                                                     # Workaround for https://github.com/hashicorp/terraform/issues/10857
 
-  app_engine_config = {
-    enabled  = "${list(var.app_engine)}"
-    disabled = "${list()}"
-  }
-}
+   app_engine_config = {
+     enabled  = "${list(var.app_engine)}"
+     disabled = "${list()}"
+   }
+ }
 
 /******************************************
   Group email to be used on resources
