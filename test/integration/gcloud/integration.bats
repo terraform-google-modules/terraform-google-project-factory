@@ -132,7 +132,7 @@
   run gcloud compute project-info describe --format="flattened[no-pad](usageExportLocation)"
   [ "$status" -eq 0 ]
   [[ "${lines[0]}" = "usageExportLocation.bucketName: $USAGE_BUCKET_NAME" ]]
-  [[ "${lines[1]}" = "usageExportLocation.reportNamePrefix: usage-$PROJECT_ID" ]]
+  [[ "${lines[1]}" = "usageExportLocation.reportNamePrefix: $USAGE_BUCKET_PREFIX" ]]
 }
 
 @test "Test both service account and GSuite group has role:roles/compute.networkUser on host project (shared VPC)" {
@@ -143,6 +143,90 @@
   run gcloud projects get-iam-policy $SHARED_VPC --format=list[compact] --filter="bindings.role=roles/compute.networkUser AND bindings.members=group:$GROUP_EMAIL AND bindings.members=serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com"
   [ "$status" -eq 0 ]
   [[ "$output" = *"{u'role': u'roles/compute.networkUser', u'members': [u'group:$GROUP_EMAIL', u'serviceAccount:project-service-account@$PROJECT_ID.iam.gserviceaccount.com']}"* ]]
+}
+
+@test "Test that the GKE service account has the role:roles/container.hostServiceAgentUser and role:/roles/compute.networkUser on host project (shared VPC for GKE)" {
+
+  export PROJECT_NUM="$(terraform output project_info_number)"
+
+  run gcloud projects get-iam-policy $SHARED_VPC --flatten="bindings[].members" --format='table(bindings.role)' --filter="bindings.members:service-$PROJECT_NUM@container-engine-robot.iam.gserviceaccount.com"
+  [ "$status" -eq 0 ]
+  [[ "${lines[1]}" = "roles/compute.networkUser" ]]
+  [[ "${lines[2]}" = "roles/container.hostServiceAgentUser" ]]
+}
+
+@test "Confirm Terraform project IAM management is additive" {
+  if [ "$SA_ROLE" == "" ]; then
+    skip "SA_ROLE variable not set, skipping project IAM management test"
+  fi
+
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
+
+  gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+
+  gcloud projects add-iam-policy-binding \
+      $PROJECT_ID \
+      --member "serviceAccount:${SA_EMAIL}" \
+      --role "$SA_ROLE"
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
+}
+
+@test "Confirm Terraform network user IAM management is additive" {
+  if [ "${SHARED_VPC}" == "" ]; then
+    skip "SHARED_VPC variable not set, skipping network user IAM management test"
+  fi
+
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
+
+  gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+
+  gcloud projects add-iam-policy-binding \
+      $SHARED_VPC \
+      --member "serviceAccount:${SA_EMAIL}" \
+      --role "roles/compute.networkUser"
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
+}
+
+@test "Confirm Terraform service account IAM membership is additive" {
+  if [ "$GROUP_NAME" == "" -o "$CREATE_GROUP" != "true" ]; then
+    skip "GROUP_NAME is unset and CREATE_GROUP is false, skipping service account IAM management test"
+  fi
+
+  MANAGED_SA_EMAIL="$(terraform output service_account_email)"
+
+  PROJECT_ID="$(terraform output project_info_example)"
+  SA_ID="sa-${RANDOM}"
+  SA_EMAIL="${SA_ID}@${PROJECT_ID}.iam.gserviceaccount.com"
+
+  gcloud iam service-accounts create "$SA_ID" \
+    --project "$PROJECT_ID"
+
+  gcloud iam service-accounts add-iam-policy-binding \
+      $MANAGED_SA_EMAIL \
+      --member "serviceAccount:${SA_EMAIL}" \
+      --role "roles/iam.serviceAccountUser"
+
+  run terraform plan
+  [[ "$output" =~ No\ changes ]]
+
+  # tear down test iam account
+  gcloud --quiet iam service-accounts delete "$SA_EMAIL" --project "$PROJECT_ID"
 }
 
 @test "Test App Engine app created with the correct settings" {

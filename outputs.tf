@@ -18,6 +18,10 @@ output "project_id" {
   value = "${local.project_id}"
 }
 
+output "project_number" {
+  value = "${local.project_number}"
+}
+
 output "domain" {
   value       = "${local.domain}"
   description = "The organization's domain"

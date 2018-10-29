@@ -1,5 +1,7 @@
 # Google Cloud Project Factory Terraform Module
 
+[FAQ](./docs/FAQ.md) | [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
+
 This module allows you to create opinionated Google Cloud Platform projects. It creates projects and configures aspects like Shared VPC connectivity, IAM access, Service Accounts, and API enablement to follow best practices.
 
 ## Usage
@@ -7,16 +9,20 @@ There are multiple examples included in the [examples](./examples/) folder but s
 
 ```hcl
 module "project-factory" {
-  source             = "github.com/terraform-google-modules/terraform-google-project-factory"
-  name               = "pf-test-1"
-  random_project_id  = "true"
-  org_id             = "1234567890"
-  usage_bucket_name  = "pf-test-1-usage-report-bucket"
-  billing_account    = "ABCDEF-ABCDEF-ABCDEF"
-  group_role         = "roles/editor"
-  shared_vpc         = "shared_vpc_host_name"
-  sa_group           = "test_sa_group@yourdomain.com"
-  credentials_path   = "${local.credentials_file_path}"
+  source              = "terraform-google-modules/project-factory/google"
+  version             = "0.2.1"
+
+  name                = "pf-test-1"
+  random_project_id   = "true"
+  org_id              = "1234567890"
+  usage_bucket_name   = "pf-test-1-usage-report-bucket"
+  usage_bucket_prefix = "pf/test/1/integration"
+  billing_account     = "ABCDEF-ABCDEF-ABCDEF"
+  group_role          = "roles/editor"
+  shared_vpc          = "shared_vpc_host_name"
+  sa_group            = "test_sa_group@yourdomain.com"
+  credentials_path    = "${local.credentials_file_path}"
+
   shared_vpc_subnets = [
     "projects/base-project-196723/regions/us-east1/subnetworks/default",
     "projects/base-project-196723/regions/us-central1/subnetworks/default",
@@ -69,11 +75,54 @@ The roles granted are specifically:
   - `storage.admin` on `bucket_name` GCS bucket
   - MEMBER of the specified `api_sa_group`
 
-### Variables
-Please refer the [variables.tf](./variables.tf) file for the required and optional variables.
+[^]: (autogen_docs_start)
 
-### Outputs
-Please refer the [outputs.tf](./outputs.tf) file for the outputs that you can get with the `terraform output` command
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| activate_apis | The list of apis to activate within the project | list | `<list>` | no |
+| api_sa_group | A GSuite group to place the Google APIs Service Account for the project in | string | `` | no |
+| app_engine | A map for app engine configuration | map | `<map>` | no |
+| auto_create_network | Create the default network | string | `false` | no |
+| billing_account | The ID of the billing account to associate this project with | string | - | yes |
+| bucket_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `` | no |
+| bucket_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `` | no |
+| create_group | Whether to create the group or not | string | `false` | no |
+| credentials_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
+| folder_id | The ID of a folder to host this project | string | `` | no |
+| group_name | A group to control the project by being assigned group_role - defaults to ${project_name}-editors | string | `` | no |
+| group_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `roles/editor` | no |
+| labels | Map of labels for project | map | `<map>` | no |
+| name | The name for the project | string | - | yes |
+| org_id | The organization id for the associated services | string | - | yes |
+| random_project_id | Enables project random id generation | string | `false` | no |
+| sa_group | A GSuite group to place the default Service Account for the project in | string | `` | no |
+| sa_role | A role to give the default Service Account for the project (defaults to none) | string | `` | no |
+| shared_vpc | The ID of the host project which hosts the shared VPC | string | `` | no |
+| shared_vpc_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
+| usage_bucket_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `` | no |
+| usage_bucket_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| app_engine_enabled | Whether app engine is enabled |
+| domain | The organization's domain |
+| group_email | The email of the created GSuite group with group_name |
+| project_bucket_self_link | Project's bucket selfLink |
+| project_bucket_url | Project's bucket url |
+| project_id |  |
+| project_number |  |
+| service_account_display_name | The display name of the default service account |
+| service_account_email | The email of the default service account |
+| service_account_id | The id of the default service account |
+| service_account_name | The fully-qualified name of the default service account |
+| service_account_unique_id | The unique id of the default service account |
+
+[^]: (autogen_docs_end)
 
 ## File structure
 The project has the following folders and files:
@@ -86,7 +135,7 @@ The project has the following folders and files:
 - /main.tf: main file for this module, contains all the resources to create
 - /variables.tf: all the variables for the module
 - /output.tf: the outputs of the module
-- /readme.MD: this file
+- /readme.md: this file
 
 ## Requirements
 ### Terraform plugins
@@ -116,17 +165,23 @@ Additionally, if you want to use the group management functionality included, yo
 A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
 
 ```
-./helpers/set-host-sa-permissions.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME> <SERVICE_ACCOUNT_ID>
+./helpers/setup-sa.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME>
 ```
 
 ### APIs
 In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
 
-- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com`
-- Cloud Billing API - `cloudbilling.googleapis.com`
-- Identity and Access Management API - `iam.googleapis.com`
-- Admin SDK - `admin.googleapis.com`
-- Google App Engine Admin API - `appengine.googleapis.com`
+- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudresourcemanagergoogleapiscom)
+- Cloud Billing API - `cloudbilling.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudbillinggoogleapiscom)
+- Identity and Access Management API - `iam.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-iamgoogleapiscom)
+- Admin SDK - `admin.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-admingoogleapiscom)
+- Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
+
+## Caveats
+
+### Moving projects from org into a folder
+
+There is currently a bug with moving a project which was originally created at the root of the organization into a folder. The bug and workaround is described [here](https://github.com/terraform-providers/terraform-provider-google/issues/1701), but as a general best practice it is easier to create all projects within folders to start. Moving projects between different folders *is* supported.
 
 ## Caveats
 
@@ -170,6 +225,7 @@ The script will do:
 ### Requirements
 - [bats](https://github.com/sstephenson/bats) 0.4.0
 - [jq](https://stedolan.github.io/jq/) 1.5
+- [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
 
 ### Integration testing
 The integration tests for this module are built with bats, basically the test checks the following:
@@ -183,6 +239,12 @@ The integration tests for this module are built with bats, basically the test ch
 You can use the following command to run the integration test in the folder */test/integration/gcloud-test*
 
   `. launch.sh`
+
+### Autogeneration of documentation from .tf files
+Run
+```
+make generate_docs
+```
 
 ### Linting
 The makefile in this project will lint or sometimes just format any shell,

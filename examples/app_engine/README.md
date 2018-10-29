@@ -11,3 +11,24 @@ Expected variables:
 - `admin_email`
 - `organization_id`
 - `billing_account`
+
+[^]: (autogen_docs_start)
+
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|:----:|:-----:|:-----:|
+| admin_email | Admin user email on Gsuite | string | - | yes |
+| billing_account | The ID of the billing account to associate this project with | string | - | yes |
+| organization_id | The organization id for the associated services | string | - | yes |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| app_engine_enabled_example | Whether app engine is enabled |
+| domain_example | The organization's domain |
+| project_info_example | The ID of the created project |
+
+[^]: (autogen_docs_end)

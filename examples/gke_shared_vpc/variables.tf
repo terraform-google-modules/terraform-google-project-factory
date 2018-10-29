@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-variable "admin_email" {
-  description = "Admin user email on Gsuite"
-}
-
-variable "organization_id" {}
-
-variable "billing_account" {}
-
 variable "credentials_path" {
   description = "Path to a Service Account credentials file with permissions documented in the readme"
+}
+
+variable "org_id" {
+  description = "organization id"
+}
+
+variable "billing_account" {
+  description = "billing account"
+}
+
+variable "shared_vpc" {
+  description = "The ID of the host project which hosts the shared VPC"
+}
+
+variable "shared_vpc_subnets" {
+  description = "List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID)"
+  type        = "list"
+  default     = [""]
 }

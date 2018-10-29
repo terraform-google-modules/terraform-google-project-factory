@@ -18,28 +18,18 @@ locals {
   credentials_file_path = "${var.credentials_path}"
 }
 
-/******************************************
-  Provider configuration
- *****************************************/
 provider "google" {
   credentials = "${file(local.credentials_file_path)}"
 }
 
-provider "gsuite" {
-  credentials             = "${file(local.credentials_file_path)}"
-  impersonated_user_email = "${var.admin_email}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.user",
-  ]
-}
-
 module "project-factory" {
-  source            = "../../"
-  random_project_id = "true"
-  name              = "simple-sample-project"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
+  source             = "../../"
+  random_project_id  = "true"
+  name               = "sample-gke-shared-project"
+  org_id             = "${var.org_id}"
+  billing_account    = "${var.billing_account}"
+  shared_vpc         = "${var.shared_vpc}"
+  activate_apis      = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
+  credentials_path   = "${local.credentials_file_path}"
+  shared_vpc_subnets = "${var.shared_vpc_subnets}"
 }
