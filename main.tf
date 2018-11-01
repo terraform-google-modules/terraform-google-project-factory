@@ -18,52 +18,64 @@
   Project random id suffix configuration
  *****************************************/
 
- resource "random_pet" "name" {
+resource "random_pet" "name" {
 
- }
+}
 
- resource "random_integer" "suffix" {
-   min     = 10000
-   max     = 99999
- }
+resource "random_integer" "suffix" {
+  min     = 100000
+  max     = 999999
+}
 
 
 
- /******************************************
-   Locals configuration
-  *****************************************/
- locals {
-   project_id             = "${google_project.project.project_id}"
-   project_number         = "${google_project.project.number}"
-   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
-   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
-   temp_project_id        = "${var.random_project_id ? format("%s-%s", random_pet.name.id, random_integer.suffix.id) : var.name}"
-   domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
-   args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
-   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
-   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
-   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
-   gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
-   gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
-   gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
-   project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
-   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
-   gsuite_group           = "${var.group_name != "" || var.create_group}"
-   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
+/******************************************
+  Locals configuration
+ *****************************************/
+locals {
+  project_id             = "${google_project.project.project_id}"
+  project_number         = "${google_project.project.number}"
+  project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
+  project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
+  temp_project_name      = "${var.name != "" ? var.name : random_pet.name.id}"
+  temp_project_id        = "${var.random_project_id == "false" && var.name != "" ? format("%s-%s", var.name, random_integer.suffix.id) : format("%s-%s", random_pet.name.id, random_integer.suffix.id)}"
+  name_or_id_missing     = "${var.name == "" && var.random_project_id == "false" ? 1 : 0}"
+  domain                 = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
+  args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
+  labels_missing         = "${length(keys(var.labels)) == 0 ? 1 : 0}"
+  s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
+  api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
+  api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
+  gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
+  gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
+  gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
+  project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
+  create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
+  gsuite_group           = "${var.group_name != "" || var.create_group}"
+  app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
-   shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
-   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                                                     # Workaround for https://github.com/hashicorp/terraform/issues/10857
+  shared_vpc_users        = "${compact(list(local.s_account_fmt, data.null_data_source.data_group_email_format.outputs["group_fmt"], local.api_s_account_fmt, local.gke_s_account_fmt))}"
+  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                                                     # Workaround for https://github.com/hashicorp/terraform/issues/10857
 
-   app_engine_config = {
-     enabled  = "${list(var.app_engine)}"
-     disabled = "${list()}"
-   }
- }
+  app_engine_config = {
+    enabled  = "${list(var.app_engine)}"
+    disabled = "${list()}"
+  }
+}
 
+resource "null_resource" "name_or_id" {
+  count        = "${local.name_or_id_missing}"
+  "Please provide a project name or ID" = true
+}
 
 resource "null_resource" "args_missing" {
   count                                                                                           = "${local.args_missing}"
   "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
+}
+
+resource "null_resource" "labels_missing" {
+  count                   = "${local.labels_missing}"
+  "Please provide labels" = true
 }
 
 /******************************************
@@ -96,7 +108,7 @@ data "google_organization" "org" {
   Project creation
  *******************************************/
 resource "google_project" "project" {
-  name                = "${var.name}"
+  name                = "${local.temp_project_name}"
   project_id          = "${local.temp_project_id}"
   org_id              = "${local.project_org_id}"
   folder_id           = "${local.project_folder_id}"
@@ -116,7 +128,6 @@ resource "google_project_service" "project_services" {
 
   project = "${local.project_id}"
   service = "${element(var.activate_apis, count.index)}"
-
   depends_on = ["google_project.project"]
 }
 
@@ -160,7 +171,7 @@ resource "null_resource" "delete_default_compute_service_account" {
  *****************************************/
 resource "google_service_account" "default_service_account" {
   account_id   = "project-service-account"
-  display_name = "${var.name} Project Service Account"
+  display_name = "${local.temp_project_name} Project Service Account"
   project      = "${local.project_id}"
 }
 
@@ -334,6 +345,17 @@ resource "google_project_iam_member" "gke_host_agent" {
   project = "${var.shared_vpc}"
   role    = "roles/container.hostServiceAgentUser"
   member  = "${local.gke_s_account_fmt}"
+
+  depends_on = ["google_project_service.project_services"]
+}
+
+/******************************************
+  Add oslogin metadata key to all projects
+ *****************************************/
+resource "google_compute_project_metadata_item" "oslogin" {
+  key     = "enable-oslogin"
+  value   = "true"
+  project = "${local.project_id}"
 
   depends_on = ["google_project_service.project_services"]
 }
