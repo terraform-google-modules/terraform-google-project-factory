@@ -21,7 +21,7 @@ usage_bucket_prefix         = attribute('usage_bucket_prefix')
 credentials_path            = attribute('credentials_path')
 
 ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
-  File.join("../..", credentials_path),
+  credentials_path,
   __FILE__)
 
 control 'project-factory' do
