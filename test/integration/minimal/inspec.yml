@@ -1,0 +1,14 @@
+name: minimal
+attributes:
+  - name: project_id
+    required: true
+
+  - name: project_number
+    required: true
+
+  - name: service_account_email
+    required: true
+
+  - name: credentials_path
+    required: true
+    type: string
