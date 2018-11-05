@@ -228,6 +228,31 @@ Two test-kitchen instances are defined:
 - `full-local` - Test coverage for all project-factory features.
 - `full-minimal` - Test coverage for a minimal set of project-factory features.
 
+#### Setup
+
+1. Configure the [test fixtures](#test-configuration).
+2. Download a Service Account key with the necessary [permissions](#permissions) and put it in the module's root directory with the name `credentials.json`.
+3. Build the Docker containers for testing.
+
+    ```
+    make docker_build_terraform
+    make docker_build_kitchen_terraform
+    ```
+4. Run the testing container in interactive mode.
+
+    ```
+    make docker_run
+    ```
+
+    The module root directory will be loaded into the Docker container at `/cftk/workdir/`.
+5. Run kitchen-terraform to test the infrastructure.
+
+    1. `kitchen create` creates Terraform state.
+    2. `kitchen converge` creates the underlying resources. You can run `kitchen converge minimal` to only create the minimal fixture.
+    3. `kitchen verify` tests the created infrastructure. Run `kitchen verify minimal` to run the smaller test suite.
+
+Alternatively, you can simply run `make test_integration_docker` to run all the test steps non-interactively.
+
 #### Test configuration
 Each test-kitchen instance is configured with a `terraform.tfvars` file in the test fixture directory.
 
@@ -240,20 +265,6 @@ done
 
 Integration tests can be run within a pre-configured docker container. Tests can be run without
 user interaction for quick validation, or with user interaction during development.
-
-#### Non-interactive
-```sh
-# Build the docker image
-make docker_build_terraform
-make docker_build_kitchen_terraform
-
-for instance in full minimal; do
-  cp "test/fixtures/$instance/terraform.tfvars.example" "test/fixtures/$instance/terraform.tfvars"
-  $EDITOR "test/fixtures/$instance/terraform.tfvars"
-done
-
-make test_integration_docker
-```
 
 ### Autogeneration of documentation from .tf files
 Run
