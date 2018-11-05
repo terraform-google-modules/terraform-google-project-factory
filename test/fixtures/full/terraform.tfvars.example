@@ -45,3 +45,15 @@ gsuite_admin_account="admin@example.com"
 # gcloud compute shared-vpc organizations list-host-projects $org_id
 # ```
 # shared_vpc = "host-vpc-project-id"
+
+##### Optional variables ####
+
+# A G Suite group to be given access to the project
+# group_name = "my-developers
+
+# Variables for setting GCE usage export
+# usage_bucket_name = "usage-export-bucket"
+# usage_bucket_prefix = "pfactory-test-"
+
+# A G Suite group to store service accounts
+# sa_group = "my-svc-account@example.com"
