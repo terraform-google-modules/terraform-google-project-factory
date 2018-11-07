@@ -20,9 +20,9 @@ usage_bucket_name           = attribute('usage_bucket_name')
 usage_bucket_prefix         = attribute('usage_bucket_prefix')
 credentials_path            = attribute('credentials_path')
 
-ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
   credentials_path,
-  __FILE__)
+  File.join(__dir__, "../../../fixtures/full"))
 
 control 'project-factory' do
   title 'Project Factory'

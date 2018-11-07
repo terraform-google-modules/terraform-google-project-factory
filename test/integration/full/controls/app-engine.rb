@@ -17,9 +17,9 @@ project_id       = attribute('project_id')
 region           = attribute('region')
 credentials_path = attribute('credentials_path')
 
-ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
   credentials_path,
-  __FILE__)
+  File.join(__dir__, "../../../fixtures/full"))
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"

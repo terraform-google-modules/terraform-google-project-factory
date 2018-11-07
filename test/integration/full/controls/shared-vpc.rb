@@ -20,9 +20,9 @@ service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
 credentials_path            = attribute('credentials_path')
 
-ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.expand_path(
+ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
   credentials_path,
-  __FILE__)
+  File.join(__dir__, "../../../fixtures/full"))
 
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
