@@ -129,3 +129,9 @@ variable "app_engine" {
   type        = "map"
   default     = {}
 }
+
+variable "lien" {
+  description = "Add a lien on the project to prevent accidental deletion"
+  default     = "false"
+  type        = "string"
+}

@@ -100,6 +100,17 @@ resource "google_project" "project" {
 }
 
 /******************************************
+  Project lien
+ *****************************************/
+resource "google_resource_manager_lien" "lien" {
+  count        = "${var.lien ? 1 : 0}"
+  parent       = "projects/${google_project.project.number}"
+  restrictions = ["resourcemanager.projects.delete"]
+  origin       = "project-factory"
+  reason       = "Project Factory lien"
+}
+
+/******************************************
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {

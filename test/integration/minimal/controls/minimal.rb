@@ -50,4 +50,21 @@ control 'project-factory-minimal' do
 
     it { expect(service_accounts).to include service_account_email }
   end
+
+  describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do
+    its('exit_status') { should be 0 }
+    its('stderr') { should eq '' }
+
+    let(:liens) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)
+      else
+        []
+      end
+    end
+
+    it "has no liens" do
+      expect(liens).to be_empty
+    end
+  end
 end
