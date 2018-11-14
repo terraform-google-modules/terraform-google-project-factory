@@ -30,6 +30,10 @@ output "group_email" {
   value = "${module.project-factory.group_email}"
 }
 
+output "group_role" {
+  value = "${var.group_role}"
+}
+
 output "service_account_email" {
   value = "${module.project-factory.service_account_email}"
 }
@@ -49,4 +53,20 @@ output "region" {
 // Pass through the `credentials_path` variable so that InSpec can reuse the credentials.
 output "credentials_path" {
   value = "${var.credentials_path}"
+}
+
+output "sa_role" {
+  value = "${var.sa_role}"
+}
+
+output "shared_vpc" {
+  value = "${var.shared_vpc}"
+}
+
+output "usage_bucket_name" {
+  value = "${var.usage_bucket_name}"
+}
+
+output "usage_bucket_prefix" {
+  value = "${var.usage_bucket_prefix}"
 }
