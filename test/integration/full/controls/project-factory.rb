@@ -12,13 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+credentials_path            = attribute('credentials_path')
 extra_service_account_email = attribute('extra_service_account_email')
 project_id                  = attribute('project_id')
 sa_role                     = attribute('sa_role')
 service_account_email       = attribute('service_account_email')
 usage_bucket_name           = attribute('usage_bucket_name')
 usage_bucket_prefix         = attribute('usage_bucket_prefix')
-credentials_path            = attribute('credentials_path')
+
+# Set a reasonable default value for `usage_bucket_prefix` if the Terraform
+# provided value is empty.
+usage_bucket_prefix = "usage-#{project_id}" if usage_bucket_prefix.empty?
 
 ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
   credentials_path,
@@ -69,8 +73,6 @@ end
 control 'project-factory-sa-role' do
   title "Project factory service account role"
 
-  only_if { !(sa_role.nil? || sa_role == '') }
-
   describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
     its('exit_status') { should eq 0 }
     its('stderr') { should eq '' }
@@ -83,9 +85,9 @@ control 'project-factory-sa-role' do
       end
     end
 
-    it "does not overwrite the membership of the service account role" do
-      binding = bindings.find { |b| b['role'] == sa_role }
-      expect(binding).to be_nil
+    it "does not overwrite the membership of role #{sa_role.inspect} when adding the project service account" do
+      binding = bindings.find { |b| b[:role] == sa_role }
+      expect(binding).to_not be_nil
 
       expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
       expect(binding[:members]).to include "serviceAccount:#{service_account_email}"
@@ -96,7 +98,7 @@ end
 control 'project-factory-usage' do
   title "Project factory usage bucket"
 
-  only_if { !(usage_bucket_name.nil? || usage_bucket_prefix == '') }
+  only_if { !(usage_bucket_name.nil? || usage_bucket_name.empty?) }
 
   describe command("gcloud compute project-info describe --project #{project_id} --format='json(usageExportLocation)'") do
     its('exit_status') { should be 0 }
@@ -110,7 +112,7 @@ control 'project-factory-usage' do
       end
     end
 
-    it { expect(usage[:bucketName]).to eq usage_bucket_name }
-    it { expect(usage[:reportNamePrefix]).to eq usage_bucket_prefix }
+    it { expect(usage).to include(bucketName: usage_bucket_name) }
+    it { expect(usage).to include(reportNamePrefix: usage_bucket_prefix) }
   end
 end

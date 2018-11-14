@@ -49,7 +49,7 @@ control 'project-factory-shared-vpc' do
 
     describe "roles/compute.networkUser" do
       let(:binding) do
-        bindings.find { |b| b['role'] == 'roles/compute.networkUser' }
+        bindings.find { |b| b[:role] == 'roles/compute.networkUser' }
       end
 
       it "includes the project service account in the roles/compute.networkUser IAM binding" do
@@ -58,26 +58,29 @@ control 'project-factory-shared-vpc' do
 
       it "includes the group email in the roles/compute.networkUser IAM binding" do
         if group_email.nil? || group_email.empty?
-          pending "group email not defined"
+          pending "group_email not defined - skipping test"
         end
 
         expect(binding[:members]).to include "group:#{group_email}"
       end
 
       it "includes the GKE service account in the roles/compute.networkUser IAM binding" do
-        expect(binding[:members]).to include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+        member = "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+        expect(binding[:members]).to include member
       end
 
       it "does not overwrite the membership of roles/compute.networkUser" do
-        expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
+        member = "serviceAccount:#{extra_service_account_email}"
+        expect(binding[:members]).to include member
       end
     end
 
     it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
-      binding = bindings.find { |b| b['role'] == 'roles/container.hostServiceAgentUser' }
+      binding = bindings.find { |b| b[:role] == 'roles/container.hostServiceAgentUser' }
       expect(binding).to_not be_nil
 
-      expect(binding[:members]).to include "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+      member = "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+      expect(binding[:members]).to include member
     end
   end
 end

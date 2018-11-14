@@ -40,12 +40,8 @@ control 'project-factory-gsuite' do
       end
     end
 
-    it "includes the gsuite group in the given role" do
-      if !group_role
-        pending
-      end
-
-      binding = bindings.find { |b| b['role'] == group_role }
+    it "includes the group #{group_email.inspect} in role #{group_role.inspect}" do
+      binding = bindings.find { |b| b[:role] == group_role }
       expect(binding).to_not be_nil
       expect(binding[:members]).to include("group:#{group_email}")
     end
@@ -63,14 +59,14 @@ control 'project-factory-gsuite' do
       end
     end
 
-    it "includes the group email " do
-      binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
+    it "includes gsuite group #{group_email.inspect} in the binding 'roles/iam.serviceAccountUser'" do
+      binding = bindings.find { |b| b[:role] == 'roles/iam.serviceAccountUser' }
       expect(binding).to_not be_nil
       expect(binding[:members]).to include "group:#{group_email}"
     end
 
-    it "does not overwrite the membership of role roles/iam.serviceAccountUser" do
-      binding = bindings.find { |b| b['role'] == 'roles/iam.serviceAccountUser' }
+    it "does not overwrite the membership of role 'roles/iam.serviceAccountUser'" do
+      binding = bindings.find { |b| b[:role] == 'roles/iam.serviceAccountUser' }
       expect(binding).to_not be_nil
       expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
     end
