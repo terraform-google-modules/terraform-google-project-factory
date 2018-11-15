@@ -175,7 +175,10 @@ In order to operate the Project Factory, you must activate the following APIs on
 - Cloud Billing API - `cloudbilling.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudbillinggoogleapiscom)
 - Identity and Access Management API - `iam.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-iamgoogleapiscom)
 - Admin SDK - `admin.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-admingoogleapiscom)
+
+#### Optional APIs
 - Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
+  - This is required if you're using the app_engine input 
 
 ## Caveats
 
