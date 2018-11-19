@@ -176,9 +176,9 @@ sudo apt-get -y upgrade
 sudo apt-get install -y python3-pip
 sudo pip3 install --upgrade google-api-python-client
 
- ####################################### #
-        Bats  installation               #
- ####################################### #
+# ####################################### #
+#        Bats installation                #
+# ####################################### #
 
 sudo rm -rf $BATS_HOME/*
 sudo mkdir -p $BATS_HOME
