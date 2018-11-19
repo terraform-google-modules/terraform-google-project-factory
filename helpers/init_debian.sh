@@ -119,7 +119,7 @@ EOF
 # ####################################### #
 # Install dep
 # Download and install dep
-sudo curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo env GOBIN=$GOBIN GOPATH=$GOPATH PATH=$PATH sh
 # Set PATH
 export PATH="$PATH:/opt/go/bin"
 
