@@ -48,9 +48,9 @@ module "project-factory" {
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
 
-  activate_apis       = [
+  activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com"
+    "container.googleapis.com",
   ]
 
   app_engine {
