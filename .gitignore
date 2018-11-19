@@ -39,3 +39,4 @@ crash.log
 
 .kitchen
 terraform.tfstate.d/
+*.auto.tfvars
