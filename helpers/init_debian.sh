@@ -147,7 +147,7 @@ cd terraform-provider-google || exit
 # Compile it
 sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make build
 
-yes | sudo cp -f "$GOBIN/terraform-provider-google" "$HOME/.terraform.d/plugins/terraform-provider-google"
+yes | sudo cp -f "$GOBIN/terraform-provider-google" "$TERRAFORM_PLUGINS_PATH/terraform-provider-google"
 
 # ####################################### #
 #        Google SDK Installation          #
@@ -201,5 +201,5 @@ echo "Go version: $(go version)"
 echo "Python3 version: $(python3 --version)"
 echo "pip3 version: $(pip3 --version)"
 echo "Bats version: $(bats)"
-echo "Terraform plugins: $(ls -l "$HOME/.terraform.d/plugins")"
+echo "Terraform plugins: $(ls -l "$TERRAFORM_PLUGINS_PATH")"
 echo "gcloud version: $(gcloud version)"
