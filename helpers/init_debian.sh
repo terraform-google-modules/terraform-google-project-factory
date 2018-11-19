@@ -114,6 +114,8 @@ EOF
 #         PLUGINS INSTALLATION            #
 # ####################################### #
 
+sudo mkdir -p $TERRAFORM_PLUGINS_PATH
+
 # ####################################### #
 #  Install the terraform-provider-gsuite  #
 # ####################################### #
