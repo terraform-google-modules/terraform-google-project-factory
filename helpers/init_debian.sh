@@ -138,20 +138,6 @@ sudo rm -rf $GOPATH/src/github.com/DeviaVir/terraform-provider-gsuite/vendor/git
 sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" make dev
 
 # ####################################### #
-#  Install the terraform-provider-google  #
-# ####################################### #
-
-sudo mkdir -p $GOPATH/src/github.com/terraform-providers
-cd $GOPATH/src/github.com/terraform-providers || exit
-
-sudo git clone https://github.com/terraform-providers/terraform-provider-google.git
-cd terraform-provider-google || exit
-# Compile it
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make build
-
-yes | sudo cp -f "$GOBIN/terraform-provider-google" "$TERRAFORM_PLUGINS_PATH/terraform-provider-google"
-
-# ####################################### #
 #        Google SDK Installation          #
 # ####################################### #
 
