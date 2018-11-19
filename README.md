@@ -10,7 +10,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source              = "terraform-google-modules/project-factory/google"
-  version             = "0.2.1"
+  version             = "v0.2.1"
 
   name                = "pf-test-1"
   random_project_id   = "true"
