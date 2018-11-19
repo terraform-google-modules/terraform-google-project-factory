@@ -24,6 +24,7 @@ locals {
 provider "gsuite" {
   credentials             = "${file(local.credentials_file_path)}"
   impersonated_user_email = "${var.admin_email}"
+  version                 = "~> 0.1.9"
 }
 
 module "project-factory" {

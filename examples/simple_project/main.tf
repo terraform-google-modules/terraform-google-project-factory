@@ -34,6 +34,8 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group",
     "https://www.googleapis.com/auth/admin.directory.user",
   ]
+
+  version = "~> 0.1.9"
 }
 
 module "project-factory" {

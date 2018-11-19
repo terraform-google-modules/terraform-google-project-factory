@@ -119,23 +119,9 @@ sudo mkdir -p $TERRAFORM_PLUGINS_PATH
 # ####################################### #
 #  Install the terraform-provider-gsuite  #
 # ####################################### #
-# Install dep
-# Download and install dep
-curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sudo env GOBIN=$GOBIN GOPATH=$GOPATH PATH=$PATH sh
-# Set PATH
-export PATH="$PATH:/opt/go/bin"
 
-sudo mkdir -p $GOPATH/src/github.com/DeviaVir/
-cd $GOPATH/src/github.com/DeviaVir/ || exit
-
-sudo git clone https://github.com/DeviaVir/terraform-provider-gsuite.git
-cd terraform-provider-gsuite || exit
-
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" $GOBIN/dep ensure
-
-sudo rm -rf $GOPATH/src/github.com/DeviaVir/terraform-provider-gsuite/vendor/github.com/DeviaVir/terraform-provider-gsuite
-
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" make dev
+TERRAFORM_PROVIDER_GSUITE=https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v0.1.9/terraform-provider-gsuite_0.1.9_linux_amd64.tgz
+curl -L $TERRAFORM_PROVIDER_GSUITE | sudo tar -C $TERRAFORM_PLUGINS_PATH -xz
 
 # ####################################### #
 #        Google SDK Installation          #
