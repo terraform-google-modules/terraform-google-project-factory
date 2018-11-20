@@ -16,6 +16,7 @@
 
 provider "google" {
   credentials = "${file(var.credentials_path)}"
+  version = "~> 1.19"
 }
 
 provider "gsuite" {
@@ -26,6 +27,8 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group",
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
+
+  version = "~> 0.1.9"
 }
 
 module "project-factory" {
@@ -45,9 +48,9 @@ module "project-factory" {
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
 
-  activate_apis       = [
+  activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com"
+    "container.googleapis.com",
   ]
 
   app_engine {

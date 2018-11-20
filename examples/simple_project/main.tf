@@ -23,6 +23,7 @@ locals {
  *****************************************/
 provider "google" {
   credentials = "${file(local.credentials_file_path)}"
+  version = "~> 1.19"
 }
 
 provider "gsuite" {
@@ -33,6 +34,8 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group",
     "https://www.googleapis.com/auth/admin.directory.user",
   ]
+
+  version = "~> 0.1.9"
 }
 
 module "project-factory" {

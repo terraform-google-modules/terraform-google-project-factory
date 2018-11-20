@@ -169,7 +169,7 @@ if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
 \ \ role: roles/billing.user" policy-tmp-$$.yml
     gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
   elif [ "$unamestr" = 'Linux' ]; then
-    sed -i '' -e "/^etag:.*/i \\
+    sed -i -e "/^etag:.*/i \\
 - members:\\
 \ \ - serviceAccount:${SA_ID}\\
 \ \ role: roles/billing.user" policy-tmp-$$.yml
