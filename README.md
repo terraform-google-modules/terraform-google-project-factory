@@ -243,8 +243,8 @@ Two test-kitchen instances are defined:
 3. Build the Docker containers for testing.
 
     ```
-    make docker_build_terraform
-    make docker_build_kitchen_terraform
+    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_terraform
+    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_kitchen_terraform
     ```
 4. Run the testing container in interactive mode.
 
