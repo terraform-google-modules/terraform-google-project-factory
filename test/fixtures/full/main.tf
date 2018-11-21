@@ -28,6 +28,31 @@ provider "gsuite" {
   ]
 }
 
+module "vpc" {
+  source          = "terraform-google-modules/network/google"
+  version         = "~> 0.4.0"
+  network_name    = "${var.name}"
+  project_id      = "${var.shared_vpc}"
+  shared_vpc_host = "true"
+
+  subnets = [
+    {
+      subnet_name   = "subnet-01"
+      subnet_ip     = "10.10.10.0/24"
+      subnet_region = "us-east4"
+    },
+  ]
+
+  secondary_ranges = {
+    subnet-01 = [
+      {
+        range_name    = "subnet-01-secondary"
+        ip_cidr_range = "192.168.64.0/24"
+      },
+    ]
+  }
+}
+
 module "project-factory" {
   source              = "../../../"
   name                = "${var.name}"
@@ -41,13 +66,14 @@ module "project-factory" {
   group_role          = "${var.group_role}"
   group_name          = "${var.group_name}"
   shared_vpc          = "${var.shared_vpc}"
+  shared_vpc_subnets  = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
   sa_role             = "${var.sa_role}"
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
 
-  activate_apis       = [
+  activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com"
+    "container.googleapis.com",
   ]
 
   app_engine {
