@@ -86,11 +86,10 @@ control 'project-factory-sa-role' do
     end
 
     it "does not overwrite the membership of role #{sa_role.inspect} when adding the project service account" do
-      binding = bindings.find { |b| b[:role] == sa_role }
-      expect(binding).to_not be_nil
-
-      expect(binding[:members]).to include "serviceAccount:#{extra_service_account_email}"
-      expect(binding[:members]).to include "serviceAccount:#{service_account_email}"
+      expect(bindings).to include(
+        members: including("serviceAccount:#{extra_service_account_email}", "serviceAccount:#{service_account_email}"),
+        role: sa_role,
+      )
     end
   end
 end
