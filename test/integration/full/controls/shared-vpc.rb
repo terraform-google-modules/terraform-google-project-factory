@@ -48,12 +48,11 @@ control 'project-factory-shared-vpc' do
     end
 
     describe "roles/compute.networkUser" do
-      let(:binding) do
-        bindings.find { |b| b[:role] == 'roles/compute.networkUser' }
-      end
-
       it "includes the project service account in the roles/compute.networkUser IAM binding" do
-        expect(binding[:members]).to include "serviceAccount:#{service_account_email}"
+        expect(bindings).to include(
+          members: including("serviceAccount:#{service_account_email}"),
+          role: "roles/compute.networkUser",
+        )
       end
 
       it "includes the group email in the roles/compute.networkUser IAM binding" do
@@ -61,26 +60,34 @@ control 'project-factory-shared-vpc' do
           pending "group_email not defined - skipping test"
         end
 
-        expect(binding[:members]).to include "group:#{group_email}"
+        expect(bindings).to include(
+          members: including("group:#{group_email}"),
+          role: "roles/compute.networkUser",
+        )
       end
 
       it "includes the GKE service account in the roles/compute.networkUser IAM binding" do
-        member = "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
-        expect(binding[:members]).to include member
+        expect(bindings).to include(
+          members: including(
+            "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+          ),
+          role: "roles/compute.networkUser",
+        )
       end
 
       it "does not overwrite the membership of roles/compute.networkUser" do
-        member = "serviceAccount:#{extra_service_account_email}"
-        expect(binding[:members]).to include member
+        expect(bindings).to include(
+          members: including("serviceAccount:#{extra_service_account_email}"),
+          role: "roles/compute.networkUser",
+        )
       end
     end
 
     it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
-      binding = bindings.find { |b| b[:role] == 'roles/container.hostServiceAgentUser' }
-      expect(binding).to_not be_nil
-
-      member = "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
-      expect(binding[:members]).to include member
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"),
+        role: "roles/container.hostServiceAgentUser",
+      )
     end
   end
 end
