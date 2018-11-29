@@ -23,7 +23,7 @@ locals {
   api_s_account     = "${module.project-factory.api_s_account}"
   api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
   domain            = "${module.project-factory.domain}"
-  args_missing      = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
+  args_missing      = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
 
   // default group_name to ${project_name}-editors
   group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
