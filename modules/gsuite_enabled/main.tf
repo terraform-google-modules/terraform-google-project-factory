@@ -20,11 +20,14 @@
 
 locals {
   api_s_account = "${module.project-factory.api_s_account}"
-  domain        = "${module.project-factory.domain}"
 
   // default group_name to ${project_name}-editors
-  group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
-  given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
+  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+
+  given_group_email = "${
+    var.create_group == "false" ? format("%s@%s", var.group_name, module.google_organization.domain) : ""
+  }"
+
   final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : local.given_group_email}"
 }
 
@@ -41,13 +44,26 @@ resource "gsuite_group_member" "service_account_sa_group_member" {
   depends_on = ["module.project-factory"]
 }
 
+/*****************************************
+  Organization info retrieval
+ *****************************************/
+module "google_organization" {
+  source = "../google_organization"
+
+  domain = "${var.domain}"
+  org_id = "${var.org_id}"
+}
+
 /******************************************
   Gsuite Group Configuration
  *****************************************/
 resource "gsuite_group" "group" {
   count = "${var.create_group ? 1 : 0}"
 
-  email       = "${var.group_name != "" ? format("%s@%s", var.group_name, local.domain) : format("%s-editors@%s", var.name, local.domain)}"
+  email = "${var.group_name != "" ?
+          format("%s@%s", var.group_name, module.google_organization.domain) :
+          format("%s-editors@%s", var.name, module.google_organization.domain)}"
+
   name        = "${var.group_name != "" ? var.group_name : format("%s-editors",var.name)}"
   description = "${var.name} project group"
 }
