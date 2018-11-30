@@ -39,12 +39,13 @@ locals {
   project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
-  shared_vpc_users       = "${compact(list(local.s_account_fmt, local.group_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
+
+  shared_vpc_users = "${
+    compact(list(local.s_account_fmt, module.google_group.id, local.api_s_account_fmt, local.gke_s_account_fmt))
+  }"
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
-  final_group_email       = "${var.group_email != "" ? var.group_email : (var.group_name != "" ? format("%s@%s", var.group_name, module.google_organization.domain) : "")}"
-  group_fmt               = "${local.final_group_email != "" ? format("group:%s", local.final_group_email) : ""}"
 
   app_engine_config = {
     enabled  = "${list(var.app_engine)}"
@@ -52,6 +53,12 @@ locals {
   }
 }
 
+module "google_group" {
+  source = "../google_group"
+
+  domain = "${module.google_organization.domain}"
+  email  = "${var.group_email}"
+  name   = "${var.group_name}"
 }
 
 /*****************************************
@@ -193,7 +200,7 @@ resource "google_project_iam_member" "gsuite_group_role" {
 
   project = "${local.project_id}"
   role    = "${var.group_role}"
-  member  = "${local.group_fmt}"
+  member  = "${module.google_group.id}"
 }
 
 /******************************************
@@ -205,7 +212,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   service_account_id = "projects/${local.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
   role               = "roles/iam.serviceAccountUser"
 
-  member = "${local.group_fmt}"
+  member = "${module.google_group.id}"
 }
 
 /*************************************************************************************
@@ -244,7 +251,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   role       = "roles/compute.networkUser"
   region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
   project    = "${var.shared_vpc}"
-  member     = "${local.group_fmt}"
+  member     = "${module.google_group.id}"
 }
 
 /*************************************************************************************
@@ -293,7 +300,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
 
   bucket = "${google_storage_bucket.project_bucket.name}"
   role   = "roles/storage.admin"
-  member = "${local.group_fmt}"
+  member = "${module.google_group.id}"
 }
 
 /***********************************************
