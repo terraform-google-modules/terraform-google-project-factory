@@ -23,7 +23,7 @@ output "project_number" {
 }
 
 output "domain" {
-  value       = "${local.domain}"
+  value       = "${module.google_organization.domain}"
   description = "The organization's domain"
 }
 

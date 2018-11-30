@@ -25,25 +25,26 @@ resource "random_id" "random_project_id_suffix" {
   Locals configuration
  *****************************************/
 locals {
-  project_id              = "${google_project.project.project_id}"
-  project_number          = "${google_project.project.number}"
-  project_org_id          = "${var.folder_id != "" ? "" : var.org_id}"
-  project_folder_id       = "${var.folder_id != "" ? var.folder_id : ""}"
-  temp_project_id         = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
-  domain                  = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
-  args_missing            = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
-  s_account_fmt           = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
-  api_s_account           = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
-  api_s_account_fmt       = "${format("serviceAccount:%s", local.api_s_account)}"
-  gke_shared_vpc_enabled  = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
-  gke_s_account           = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
-  gke_s_account_fmt       = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
-  project_bucket_name     = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
-  create_bucket           = "${var.bucket_project != "" ? "true" : "false"}"
-  app_engine_enabled      = "${length(keys(var.app_engine)) > 0 ? true : false}"
-  shared_vpc_users        = "${compact(list(local.s_account_fmt, local.group_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
-  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"                                                                                  # Workaround for https://github.com/hashicorp/terraform/issues/10857
-  final_group_email       = "${var.group_email != "" ? var.group_email : (var.group_name != "" ? format("%s@%s", var.group_name, local.domain) : "")}"
+  project_id             = "${google_project.project.project_id}"
+  project_number         = "${google_project.project.number}"
+  project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
+  project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
+  temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
+  args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
+  s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
+  api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
+  api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
+  gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
+  gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
+  gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
+  project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
+  create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
+  app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
+  shared_vpc_users       = "${compact(list(local.s_account_fmt, local.group_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
+
+  # Workaround for https://github.com/hashicorp/terraform/issues/10857
+  shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
+  final_group_email       = "${var.group_email != "" ? var.group_email : (var.group_name != "" ? format("%s@%s", var.group_name, module.google_organization.domain) : "")}"
   group_fmt               = "${local.final_group_email != "" ? format("group:%s", local.final_group_email) : ""}"
 
   app_engine_config = {
@@ -57,12 +58,14 @@ resource "null_resource" "args_missing" {
   "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
 }
 
-/******************************************
+/*****************************************
   Organization info retrieval
  *****************************************/
-data "google_organization" "org" {
-  count        = "${var.org_id == "" ? 0 : 1}"
-  organization = "${var.org_id}"
+module "google_organization" {
+  source = "../google_organization"
+
+  domain = "${var.domain}"
+  org_id = "${var.org_id}"
 }
 
 /*******************************************
