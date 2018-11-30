@@ -14,15 +14,6 @@
  * limitations under the License.
  */
 
-locals {
-  args_missing = "${(var.group_name != "" && var.org_id == "" && var.domain == "") ? 1 : 0}"
-}
-
-resource "null_resource" "args_missing" {
-  count                                                                                           = "${local.args_missing}"
-  "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
-}
-
 module "project-factory" {
   source = "modules/core_project_factory"
 
