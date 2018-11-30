@@ -19,10 +19,8 @@
  *****************************************/
 
 locals {
-  project_number    = "${module.project-factory.project_number}"
-  api_s_account     = "${module.project-factory.api_s_account}"
-  api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
-  domain            = "${module.project-factory.domain}"
+  api_s_account = "${module.project-factory.api_s_account}"
+  domain        = "${module.project-factory.domain}"
 
   // default group_name to ${project_name}-editors
   group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
