@@ -91,7 +91,7 @@ resource "google_project" "project" {
   project_id          = "${local.temp_project_id}"
   org_id              = "${local.project_org_id}"
   folder_id           = "${local.project_folder_id}"
-  billing_account     = "${var.billing_account}"
+
   auto_create_network = "${var.auto_create_network}"
 
   labels = "${var.labels}"
