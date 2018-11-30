@@ -38,10 +38,6 @@ variable "shared_vpc" {
   default     = ""
 }
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
-}
-
 variable "folder_id" {
   description = "The ID of a folder to host this project"
   default     = ""
