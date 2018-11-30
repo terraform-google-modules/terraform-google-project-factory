@@ -23,17 +23,11 @@ locals {
   api_s_account     = "${module.project-factory.api_s_account}"
   api_s_account_fmt = "${module.project-factory.api_s_account_fmt}"
   domain            = "${module.project-factory.domain}"
-  args_missing      = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
 
   // default group_name to ${project_name}-editors
   group_name        = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
   given_group_email = "${var.create_group == "false" ? format("%s@%s", var.group_name, local.domain) : ""}"
   final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : local.given_group_email}"
-}
-
-resource "null_resource" "args_missing" {
-  count                                                                                           = "${local.args_missing}"
-  "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = true
 }
 
 /***********************************************
