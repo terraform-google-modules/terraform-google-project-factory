@@ -14,21 +14,20 @@ Expected variables:
 
 [^]: (autogen_docs_start)
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin_email | Admin user email on Gsuite | string | - | yes |
-| billing_account | The ID of the billing account to associate this project with | string | - | yes |
-| organization_id | The organization id for the associated services | string | - | yes |
+| admin\_email | Admin user email on Gsuite | string | - | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
+| organization\_id | The organization id for the associated services | string | - | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| app_engine_enabled_example | Whether app engine is enabled |
-| domain_example | The organization's domain |
-| project_info_example | The ID of the created project |
+| app\_engine\_enabled\_example | Whether app engine is enabled |
+| domain\_example | The organization's domain |
+| project\_info\_example | The ID of the created project |
 
 [^]: (autogen_docs_end)
