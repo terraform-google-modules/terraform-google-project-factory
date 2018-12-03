@@ -23,3 +23,8 @@ output "id" {
   description = "The identity of the group, in the format 'group:{email ID}'"
   value       = "${local.id}"
 }
+
+output "name" {
+  description = "The name of the group"
+  value       = "${local.name}"
+}
