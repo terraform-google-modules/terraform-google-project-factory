@@ -40,9 +40,7 @@ locals {
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
   app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
-  shared_vpc_users = "${
-    compact(list(local.s_account_fmt, module.google_group.id, local.api_s_account_fmt, local.gke_s_account_fmt))
-  }"
+  shared_vpc_users = "${compact(list(local.s_account_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
@@ -194,7 +192,8 @@ resource "google_project_iam_member" "default_service_account_membership" {
 }
 
 /*************************************************************************************
-  compute.networkUser role granted to GSuite group, APIs Service account, Project Service Account, and GKE Service Account on shared VPC
+  compute.networkUser role granted to APIs Service account, Project Service Account, and GKE Service Account on shared 
+  VPC
  *************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
   count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? local.shared_vpc_users_length : 0}"
