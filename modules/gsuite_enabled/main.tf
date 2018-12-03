@@ -137,3 +137,14 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   role       = "roles/compute.networkUser"
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
 }
+
+/***********************************************
+  Project's bucket storage.admin granting to group
+ ***********************************************/
+resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_bucket" {
+  count = "${var.bucket_project != "" ? 1 : 0}"
+
+  bucket = "${module.project-factory.project_bucket_name}"
+  member = "${module.google_group.id}"
+  role   = "roles/storage.admin"
+}
