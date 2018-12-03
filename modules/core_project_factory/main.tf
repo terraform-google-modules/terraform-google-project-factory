@@ -167,17 +167,6 @@ resource "google_project_iam_member" "default_service_account_membership" {
 }
 
 /******************************************
-  Gsuite Group Role Configuration
- *****************************************/
-resource "google_project_iam_member" "gsuite_group_role" {
-  count = "${var.group_name != "" ? 1 : 0}"
-
-  project = "${local.project_id}"
-  role    = "${var.group_role}"
-  member  = "${module.google_group.id}"
-}
-
-/******************************************
   Granting serviceAccountUser to group
  *****************************************/
 resource "google_service_account_iam_member" "service_account_grant_to_group" {

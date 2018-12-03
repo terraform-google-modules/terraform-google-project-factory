@@ -109,3 +109,12 @@ module "project-factory" {
   auto_create_network = "${var.auto_create_network}"
   app_engine          = "${var.app_engine}"
 }
+
+/******************************************
+  Gsuite Group Role Configuration
+ *****************************************/
+resource "google_project_iam_member" "gsuite_group_role" {
+  member  = "${module.google_group.id}"
+  project = "${module.project-factory.project_id}"
+  role    = "${var.group_role}"
+}
