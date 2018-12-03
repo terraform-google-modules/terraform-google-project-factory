@@ -113,3 +113,14 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}
   EOS
 }
+
+/*************************************************************************************
+  compute.networkUser role granted to GSuite group on shared VPC
+ *************************************************************************************/
+resource "google_project_iam_member" "controlling_group_vpc_membership" {
+  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? 1 : 0}"
+
+  member  = "${module.google_group.id}"
+  project = "${var.shared_vpc}"
+  role    = "roles/compute.networkUser"
+}
