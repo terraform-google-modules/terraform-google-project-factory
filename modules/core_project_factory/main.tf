@@ -230,17 +230,6 @@ resource "google_storage_bucket" "project_bucket" {
 }
 
 /***********************************************
-  Project's bucket storage.admin granting to group
- ***********************************************/
-resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_bucket" {
-  count = "${local.create_bucket && var.group_name != "" ? 1 : 0}"
-
-  bucket = "${google_storage_bucket.project_bucket.name}"
-  role   = "roles/storage.admin"
-  member = "${module.google_group.id}"
-}
-
-/***********************************************
   Project's bucket storage.admin granting to default compute service account
  ***********************************************/
 resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_bucket" {

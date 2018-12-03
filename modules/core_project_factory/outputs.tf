@@ -57,6 +57,11 @@ output "service_account_unique_id" {
   description = "The unique id of the default service account"
 }
 
+output "project_bucket_name" {
+  description = "The name of the projec's bucket"
+  value       = "${google_storage_bucket.project_bucket.*.name}"
+}
+
 output "project_bucket_self_link" {
   value       = "${google_storage_bucket.project_bucket.*.self_link}"
   description = "Project's bucket selfLink"
