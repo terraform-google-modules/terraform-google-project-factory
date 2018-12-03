@@ -219,19 +219,6 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 }
 
 /*************************************************************************************
-  compute.networkUser role granted to GSuite group on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && var.group_name != "" ? length(var.shared_vpc_subnets) : 0 }"
-
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
-  role       = "roles/compute.networkUser"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
-  project    = "${var.shared_vpc}"
-  member     = "${module.google_group.id}"
-}
-
-/*************************************************************************************
   compute.networkUser role granted to APIs Service Account on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
