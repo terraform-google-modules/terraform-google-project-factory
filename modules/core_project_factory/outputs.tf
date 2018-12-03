@@ -27,11 +27,6 @@ output "domain" {
   description = "The organization's domain"
 }
 
-output "group_email" {
-  value       = "${var.group_name != "" ? module.google_group.email : ""}"
-  description = "The email of the created GSuite group with group_name"
-}
-
 output "service_account_id" {
   value       = "${google_service_account.default_service_account.account_id}"
   description = "The id of the default service account"

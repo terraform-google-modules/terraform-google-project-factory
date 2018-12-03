@@ -51,15 +51,6 @@ locals {
   }
 }
 
-module "google_group" {
-  source = "../google_group"
-
-  domain       = "${module.google_organization.domain}"
-  email        = "${var.group_email}"
-  name         = "${var.group_name}"
-  project_name = "${var.name}"
-}
-
 /*****************************************
   Organization info retrieval
  *****************************************/

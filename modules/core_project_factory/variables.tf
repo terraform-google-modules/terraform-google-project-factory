@@ -53,16 +53,6 @@ variable "folder_id" {
   default     = ""
 }
 
-variable "group_name" {
-  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
-  default     = ""
-}
-
-variable "group_email" {
-  description = "The email used for the group, this is automatically created"
-  default     = ""
-}
-
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
