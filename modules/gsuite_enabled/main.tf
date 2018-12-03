@@ -80,7 +80,6 @@ module "project-factory" {
   folder_id           = "${var.folder_id}"
   group_name          = "${module.google_group.name}"
   group_email         = "${module.google_group.email}"
-  group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
   usage_bucket_name   = "${var.usage_bucket_name}"
