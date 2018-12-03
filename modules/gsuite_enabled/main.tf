@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-/******************************************
-  Locals configuration
- *****************************************/
-
-locals {
-  api_s_account = "${module.project-factory.api_s_account}"
-}
-
 module "google_group" {
   source = "../google_group"
 
@@ -71,7 +63,7 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
   count = "${var.api_sa_group != "" ? 1 : 0}"
 
   group = "${var.api_sa_group}"
-  email = "${local.api_s_account}"
+  email = "${module.project-factory.api_s_account}"
   role  = "MEMBER"
 }
 
