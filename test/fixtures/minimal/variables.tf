@@ -30,8 +30,4 @@ variable "domain" {
   default = ""
 }
 
-variable "gsuite_admin_account" {
-  default = ""
-}
-
 variable "billing_account" {}

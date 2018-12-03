@@ -16,19 +16,7 @@
 
 provider "google" {
   credentials = "${file(var.credentials_path)}"
-  version = "~> 1.19"
-}
-
-provider "gsuite" {
-  credentials             = "${file(var.credentials_path)}"
-  impersonated_user_email = "${var.gsuite_admin_account}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member",
-  ]
-
-  version = "~> 0.1.9"
+  version     = "~> 1.19"
 }
 
 module "project-factory" {

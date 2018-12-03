@@ -24,8 +24,3 @@ billing_account="000000-000000-000000"
 
 # The service account credentials to use when running Terraform.
 credentials_path="/cftk/workdir/credentials.json"
-
-# A G Suite admin account to impersonate. This isn't used within the minimal
-# test suite, but must be specified until the gsuite dependency becomes
-# optional.
-gsuite_admin_account="admin@example.com"
