@@ -15,8 +15,6 @@
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
 | domain | The domain name (optional if `org_id` is passed) | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
-| group\_email | The email used for the group, this is automatically created | string | `` | no |
-| group\_name | A group to control the project by being assigned group_role - defaults to ${project_name}-editors | string | `` | no |
 | labels | Map of labels for project | map | `<map>` | no |
 | name | The name for the project | string | - | yes |
 | org\_id | The organization id (optional if `domain` is passed) | string | `` | no |
@@ -35,7 +33,7 @@
 | api\_s\_account\_fmt | API service account email formatted for terraform use |
 | app\_engine\_enabled | Whether app engine is enabled |
 | domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
+| project\_bucket\_name | The name of the projec's bucket |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id | - |
