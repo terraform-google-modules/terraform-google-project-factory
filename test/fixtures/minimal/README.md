@@ -10,7 +10,6 @@
 | credentials\_path | - | string | - | yes |
 | domain | - | string | `` | no |
 | folder\_id | - | string | `` | no |
-| gsuite\_admin\_account | - | string | `` | no |
 | name | - | string | `pf-test-int-minimal` | no |
 | org\_id | - | string | - | yes |
 
