@@ -26,7 +26,6 @@ module "project-factory" {
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
   group_name          = "${var.group_name}"
-  group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
   usage_bucket_name   = "${var.usage_bucket_name}"
