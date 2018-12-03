@@ -42,3 +42,4 @@ terraform.tfstate.d/
 *.auto.tfvars
 credentials.json
 .vscode/
+env/
