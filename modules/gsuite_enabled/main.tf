@@ -101,3 +101,15 @@ resource "google_project_iam_member" "gsuite_group_role" {
   project = "${module.project-factory.project_id}"
   role    = "${var.group_role}"
 }
+
+/******************************************
+  Granting serviceAccountUser to group
+ *****************************************/
+resource "google_service_account_iam_member" "service_account_grant_to_group" {
+  member = "${module.google_group.id}"
+  role   = "roles/iam.serviceAccountUser"
+
+  service_account_id = <<EOS
+  projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}
+  EOS
+}
