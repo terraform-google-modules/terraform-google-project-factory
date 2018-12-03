@@ -24,11 +24,17 @@ locals {
   // default group_name to ${project_name}-editors
   group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
 
-  given_group_email = "${
-    var.create_group == "false" ? format("%s@%s", var.group_name, module.google_organization.domain) : ""
+  group_email = "${
+    var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) :
+    module.google_group.email
   }"
+}
 
-  final_group_email = "${var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) : local.given_group_email}"
+module "google_group" {
+  source = "../google_group"
+
+  domain = "${module.google_organization.domain}"
+  name   = "${var.group_name}"
 }
 
 /***********************************************
@@ -91,7 +97,7 @@ module "project-factory" {
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
   group_name          = "${var.create_group ? gsuite_group.group.name : local.group_name}"
-  group_email         = "${local.final_group_email}"
+  group_email         = "${local.group_email}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
