@@ -166,18 +166,6 @@ resource "google_project_iam_member" "default_service_account_membership" {
   member = "${local.s_account_fmt}"
 }
 
-/******************************************
-  Granting serviceAccountUser to group
- *****************************************/
-resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  count = "${var.group_name != "" ? 1 : 0}"
-
-  service_account_id = "projects/${local.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
-  role               = "roles/iam.serviceAccountUser"
-
-  member = "${module.google_group.id}"
-}
-
 /*************************************************************************************
   compute.networkUser role granted to GSuite group, APIs Service account, Project Service Account, and GKE Service Account on shared VPC
  *************************************************************************************/
