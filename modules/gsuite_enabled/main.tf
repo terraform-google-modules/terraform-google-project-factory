@@ -20,11 +20,6 @@
 
 locals {
   api_s_account = "${module.project-factory.api_s_account}"
-
-  group_email = "${
-    var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) :
-    module.google_group.email
-  }"
 }
 
 module "google_group" {
@@ -64,11 +59,8 @@ module "google_organization" {
 resource "gsuite_group" "group" {
   count = "${var.create_group ? 1 : 0}"
 
-  email = "${var.group_name != "" ?
-          format("%s@%s", var.group_name, module.google_organization.domain) :
-          format("%s-editors@%s", var.name, module.google_organization.domain)}"
-
   description = "${var.name} project group"
+  email       = "${module.google_group.email}"
   name        = "${module.google_group.name}"
 }
 
@@ -94,8 +86,8 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_email         = "${local.group_email}"
   group_name          = "${module.google_group.name}"
+  group_email         = "${module.google_group.email}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
