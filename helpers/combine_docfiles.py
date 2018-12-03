@@ -33,7 +33,7 @@ exclude_separator_regex = '(.*?)Copyright 20\d\d Google LLC.*?limitations under 
 
 if len(sys.argv) != 3:
   sys.exit(1)
-
+print(sys.argv[1])
 input = open(sys.argv[1], "r").read()
 replace_content = open(sys.argv[2], "r").read()
 
