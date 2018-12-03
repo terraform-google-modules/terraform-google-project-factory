@@ -41,3 +41,4 @@ crash.log
 terraform.tfstate.d/
 *.auto.tfvars
 credentials.json
+.vscode/
