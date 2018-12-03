@@ -21,9 +21,6 @@
 locals {
   api_s_account = "${module.project-factory.api_s_account}"
 
-  // default group_name to ${project_name}-editors
-  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
-
   group_email = "${
     var.create_group == "true" ? element(coalescelist(gsuite_group.group.*.email, list("")), 0) :
     module.google_group.email
@@ -33,8 +30,9 @@ locals {
 module "google_group" {
   source = "../google_group"
 
-  domain = "${module.google_organization.domain}"
-  name   = "${var.group_name}"
+  domain       = "${module.google_organization.domain}"
+  name         = "${var.group_name}"
+  project_name = "${var.name}"
 }
 
 /***********************************************
@@ -70,8 +68,8 @@ resource "gsuite_group" "group" {
           format("%s@%s", var.group_name, module.google_organization.domain) :
           format("%s-editors@%s", var.name, module.google_organization.domain)}"
 
-  name        = "${var.group_name != "" ? var.group_name : format("%s-editors",var.name)}"
   description = "${var.name} project group"
+  name        = "${module.google_group.name}"
 }
 
 /***********************************************
@@ -96,8 +94,8 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${var.create_group ? gsuite_group.group.name : local.group_name}"
   group_email         = "${local.group_email}"
+  group_name          = "${module.google_group.name}"
   group_role          = "${var.group_role}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"

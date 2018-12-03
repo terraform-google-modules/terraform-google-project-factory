@@ -31,3 +31,7 @@ variable "name" {
 
   default = ""
 }
+
+variable "project_name" {
+  description = "The name of the project in which the group will exist"
+}

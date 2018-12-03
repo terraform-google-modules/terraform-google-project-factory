@@ -15,6 +15,7 @@
  */
 
 locals {
-  email = "${var.email != "" ? var.email : (var.name != "" ? format("%s@%s", var.name, var.domain) : "")}"
-  id    = "${local.email != "" ? format("group:%s", local.email) : ""}"
+  email = "${var.email != "" ? var.email : format("%s@%s", local.name, var.domain)}"
+  id    = "${format("group:%s", local.email)}"
+  name  = "${var.name != "" ? var.name : format("%s-editors", var.project_name)}"
 }
