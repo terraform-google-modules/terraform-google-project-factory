@@ -124,3 +124,16 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"
 }
+
+/*************************************************************************************
+  compute.networkUser role granted to GSuite group on vpc subnets
+ *************************************************************************************/
+resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
+  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
+
+  member     = "${module.google_group.id}"
+  project    = "${var.shared_vpc}"
+  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
+  role       = "roles/compute.networkUser"
+  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
+}
