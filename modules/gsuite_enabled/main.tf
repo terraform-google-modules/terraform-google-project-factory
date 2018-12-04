@@ -107,9 +107,9 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   member = "${module.google_group.id}"
   role   = "roles/iam.serviceAccountUser"
 
-  service_account_id = <<EOS
-  projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}
-  EOS
+  service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${
+    module.project-factory.service_account_email
+  }"
 }
 
 /*************************************************************************************
