@@ -78,8 +78,6 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${module.google_group.name}"
-  group_email         = "${module.google_group.email}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
   usage_bucket_name   = "${var.usage_bucket_name}"
