@@ -25,7 +25,6 @@ module "project-factory" {
   shared_vpc          = "${var.shared_vpc}"
   billing_account     = "${var.billing_account}"
   folder_id           = "${var.folder_id}"
-  group_name          = "${var.group_name}"
   sa_role             = "${var.sa_role}"
   activate_apis       = "${var.activate_apis}"
   usage_bucket_name   = "${var.usage_bucket_name}"
