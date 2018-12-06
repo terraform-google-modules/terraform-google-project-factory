@@ -132,6 +132,18 @@ class TestTerraformModule(unittest.TestCase):
 
 class TestTerraformResource(unittest.TestCase):
 
+    def test_root_resource_from_path(self):
+        resource = migrate.TerraformResource.from_path("google_project.project")
+        assert resource.module == ''
+        assert resource.resource_type == 'google_project'
+        assert resource.name == 'project'
+
+    def test_module_resource_from_path(self):
+        resource = migrate.TerraformResource.from_path("module.project-factory.google_project.project")
+        assert resource.module == 'module.project-factory'
+        assert resource.resource_type == 'google_project'
+        assert resource.name == 'project'
+
     def test_resource_init(self):
         resource = migrate.TerraformResource('', 'google_project', 'project')
         assert resource.module == ''
