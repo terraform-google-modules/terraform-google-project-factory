@@ -144,6 +144,11 @@ class TestTerraformResource(unittest.TestCase):
         assert resource.resource_type == 'google_project'
         assert resource.name == 'project'
 
+    def test_invalid_resource_from_path(self):
+        self.assertRaises(
+            Exception,
+            lambda: migrate.TerraformResource.from_path("not a resource path!"))
+
     def test_resource_init(self):
         resource = migrate.TerraformResource('', 'google_project', 'project')
         assert resource.module == ''

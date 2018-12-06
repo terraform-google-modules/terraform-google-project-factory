@@ -19,6 +19,7 @@ import copy
 import subprocess
 import sys
 import shutil
+import re
 
 
 class GSuiteMigration:
@@ -153,6 +154,9 @@ class TerraformResource:
         Generate a new Terraform resource, based on the fully qualified
         Terraform resource path.
         """
+        if re.match(r'\A[\w.\[\]-]+\Z', path) is None:
+            raise ValueError("Invalid Terraform resource path {!r}".format(path))
+
         parts = path.split(".")
         name = parts.pop()
         resource_type = parts.pop()
