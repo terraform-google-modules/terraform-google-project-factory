@@ -27,10 +27,6 @@ sys.path.append(
 import migrate  # noqa: E402
 
 TERRAFORM_STATE_LIST = [
-    "google_project_iam_member.additive_sa_role",
-    "google_project_iam_member.additive_shared_vpc_role",
-    "google_service_account.extra_service_account",
-    "google_service_account_iam_member.additive_service_account_grant_to_group",
     "module.project-factory.google_compute_default_service_account.default",
     "module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment",
     "module.project-factory.google_project.project",
@@ -103,7 +99,6 @@ class TestTerraformModule(unittest.TestCase):
         self.resources = [
             migrate.TerraformResource.from_path(path)
             for path in TERRAFORM_STATE_LIST
-            if path.startswith("module.project-factory")
         ]
 
         self.module = migrate.TerraformModule(
