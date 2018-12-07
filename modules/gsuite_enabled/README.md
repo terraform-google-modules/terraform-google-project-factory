@@ -1,4 +1,66 @@
-# gsuite_enabled
+# Google Cloud Project Factory with G Suite Terraform Module
+
+This module performs the same functions as the
+[root module][root-module] with the addition of integrating G Suite.
+
+## Usage
+
+There are multiple examples included in the [examples] folder but simple usage is as follows:
+
+```hcl
+module "project-factory" {
+  source = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
+  version = "0.2.1"
+
+  billing_account   = "ABCDEF-ABCDEF-ABCDEF"
+  create_group      = "true"
+  credentials_path  = "${local.credentials_file_path}"
+  group_name        = "test_sa_group"
+  group_role        = "roles/editor"
+  name              = "pf-test-1"
+  org_id            = "1234567890"
+  random_project_id = "true"
+  sa_group          = "test_sa_group@yourdomain.com"
+  shared_vpc        = "shared_vpc_host_name"
+
+  shared_vpc_subnets = [
+    "projects/base-project-196723/regions/us-east1/subnetworks/default",
+    "projects/base-project-196723/regions/us-central1/subnetworks/default",
+    "projects/base-project-196723/regions/us-central1/subnetworks/subnet-1",
+  ]
+
+  usage_bucket_name   = "pf-test-1-usage-report-bucket"
+  usage_bucket_prefix = "pf/test/1/integration"
+}
+```
+
+## Features
+
+The G Suite Enabled module will perform the following actions in
+addition to those of the root module:
+
+1. Create a new Google group for the project using `group_name` if
+   `create_group` is `"true"`.
+1. Give the group access to the project with the `group_role`.
+1. Give the project controlling group specified in `group_name` network
+   access on the specified subnets if `shared_vpc` is specified.
+1. Add the new default service account for the project to the
+   `sa_group` in Google Groups, if specified.
+1. Give the group Storage Admin on `bucket_name`, if specified.
+1. Add the Google APIs service account to the `api_sa_group`,
+   if specified.
+
+The roles granted are specifically:
+
+- New Default Service Account
+  - MEMBER of the specified `sa_group`
+- `group_name` is the new controlling group
+  - `compute.networkUser` on host project or specific subnets
+  - Specified `group_role` on project
+  - `iam.serviceAccountUser` on the default Service Account
+  - `storage.admin` on `bucket_name` GCS bucket
+- Google APIs Service Account
+  - MEMBER of the specified `api_sa_group`
 
 [^]: (autogen_docs_start)
 
@@ -48,3 +110,6 @@
 | service\_account\_unique\_id | The unique id of the default service account |
 
 [^]: (autogen_docs_end)
+
+[examples]: ../../examples/
+[root-module]: ../../README.md
