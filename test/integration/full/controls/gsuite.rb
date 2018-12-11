@@ -41,7 +41,10 @@ control 'project-factory-gsuite' do
     end
 
     it "includes the group #{group_email.inspect} in role #{group_role.inspect}" do
-      expect(bindings).to include members: including("group:#{group_email}"), role: group_role
+      expect(bindings).to include(
+        members: including("group:#{group_email}"),
+        role: group_role,
+      )
     end
   end
 
@@ -58,12 +61,17 @@ control 'project-factory-gsuite' do
     end
 
     it "includes gsuite group #{group_email.inspect} in the binding 'roles/iam.serviceAccountUser'" do
-      expect(bindings).to include members: including("group:#{group_email}"), role: 'roles/iam.serviceAccountUser'
+      expect(bindings).to include(
+        members: including("group:#{group_email}"),
+        role: "roles/iam.serviceAccountUser",
+      )
     end
 
     it "does not overwrite the membership of role 'roles/iam.serviceAccountUser'" do
-      expect(bindings).to include members: including("serviceAccount:#{extra_service_account_email}"),
-                                  role: 'roles/iam.serviceAccountUser'
+      expect(bindings).to include(
+        members: including("serviceAccount:#{extra_service_account_email}"),
+        role: "roles/iam.serviceAccountUser",
+      )
     end
   end
 end
