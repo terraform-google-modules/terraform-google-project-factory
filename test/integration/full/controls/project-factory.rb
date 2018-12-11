@@ -64,6 +64,35 @@ control 'project-factory' do
       expect(service_accounts).to include extra_service_account_email
     end
   end
+
+  describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do
+    its('exit_status') { should be 0 }
+    its('stderr') { should eq '' }
+
+    let(:liens) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)
+      else
+        []
+      end
+    end
+
+    it "has one lien" do
+      expect(liens.count).to eq 1
+    end
+
+    it "sets the lien origin" do
+      expect(liens.first).to include(origin: 'project-factory')
+    end
+
+    it "sets the lien reason" do
+      expect(liens.first).to include(reason: 'Project Factory lien')
+    end
+
+    it "restricts the delete permission on the project" do
+      expect(liens.first).to include(restrictions: ['resourcemanager.projects.delete'])
+    end
+  end
 end
 
 control 'project-factory-sa-role' do
