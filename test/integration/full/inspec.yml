@@ -37,8 +37,8 @@ attributes:
     default: null
 
   - name: group_role
-    required: false
-    default: null
+    type: string
+    required: true
 
   - name: group_email
     required: true
