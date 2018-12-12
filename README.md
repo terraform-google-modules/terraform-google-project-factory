@@ -86,6 +86,7 @@ To include G Suite integration, use the
 | domain | The domain name (optional if `org_id` is passed) | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
 | labels | Map of labels for project | map | `<map>` | no |
+| lien | Add a lien on the project to prevent accidental deletion | string | `false` | no |
 | name | The name for the project | string | - | yes |
 | org\_id | The organization id (optional if `domain` is passed) | string | `` | no |
 | random\_project\_id | Enables project random id generation | string | `false` | no |
@@ -101,7 +102,6 @@ To include G Suite integration, use the
 |------|-------------|
 | app\_engine\_enabled | Whether app engine is enabled |
 | domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id | - |

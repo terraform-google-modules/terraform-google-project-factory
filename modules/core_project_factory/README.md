@@ -16,6 +16,7 @@
 | domain | The domain name (optional if `org_id` is passed) | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
 | labels | Map of labels for project | map | `<map>` | no |
+| lien | Add a lien on the project to prevent accidental deletion | string | `false` | no |
 | name | The name for the project | string | - | yes |
 | org\_id | The organization id (optional if `domain` is passed) | string | `` | no |
 | random\_project\_id | Enables project random id generation | string | `false` | no |
