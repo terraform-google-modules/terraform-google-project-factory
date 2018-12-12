@@ -33,14 +33,15 @@ ARG BUILD_PROVIDER_GOOGLE_VERSION
 ENV PROVIDER_GOOGLE_VERSION="${BUILD_PROVIDER_GOOGLE_VERSION}"
 
 RUN mkdir -p $APP_BASE_DIR/home/.terraform.d/plugins && \
-    mkdir -p $GOPATH/src/github.com/terraform-providers && \
-    cd $GOPATH/src/github.com/terraform-providers && \
-    git clone https://github.com/terraform-providers/terraform-provider-google.git && \
-    cd terraform-provider-google && \
-    git fetch --all --tags --prune && \
-    git checkout tags/v${PROVIDER_GOOGLE_VERSION} -b v${PROVIDER_GOOGLE_VERSION} && \
-    make build && \
-    mv $GOPATH/bin/terraform-provider-google $APP_BASE_DIR/home/.terraform.d/plugins
+  mkdir -p $GOPATH/src/github.com/terraform-providers && \
+  cd $GOPATH/src/github.com/terraform-providers && \
+  git clone https://github.com/terraform-providers/terraform-provider-google.git && \
+  cd terraform-provider-google && \
+  git fetch --all --tags --prune && \
+  git checkout tags/v${PROVIDER_GOOGLE_VERSION} -b v${PROVIDER_GOOGLE_VERSION} && \
+  make build && \
+  mv $GOPATH/bin/terraform-provider-google \
+  $APP_BASE_DIR/home/.terraform.d/plugins/terraform-provider-google_v${PROVIDER_GOOGLE_VERSION}
 
 
 
@@ -93,8 +94,8 @@ ARG BUILD_PROVIDER_GSUITE_VERSION
 ENV PROVIDER_GSUITE_VERSION="${BUILD_PROVIDER_GSUITE_VERSION}"
 
 RUN curl -LO https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v${PROVIDER_GSUITE_VERSION}/terraform-provider-gsuite_${PROVIDER_GSUITE_VERSION}_linux_amd64.tgz && \
-    tar xzf terraform-provider-gsuite_${PROVIDER_GSUITE_VERSION}_linux_amd64.tgz && \
-    rm terraform-provider-gsuite_${PROVIDER_GSUITE_VERSION}_linux_amd64.tgz && \
-    mv terraform-provider-gsuite_v${PROVIDER_GSUITE_VERSION} $APP_BASE_DIR/home/.terraform.d/plugins/terraform-provider-gsuite
+  tar xzf terraform-provider-gsuite_${PROVIDER_GSUITE_VERSION}_linux_amd64.tgz && \
+  rm terraform-provider-gsuite_${PROVIDER_GSUITE_VERSION}_linux_amd64.tgz && \
+  mv terraform-provider-gsuite_v${PROVIDER_GSUITE_VERSION} $APP_BASE_DIR/home/.terraform.d/plugins/
 
 WORKDIR $APP_BASE_DIR/workdir
