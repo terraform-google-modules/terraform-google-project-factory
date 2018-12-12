@@ -31,10 +31,15 @@
 | domain | - |
 | extra\_service\_account\_email | - |
 | group\_email | - |
+| group\_role | - |
 | gsuite\_admin\_account | - |
 | project\_id | - |
 | project\_number | - |
 | region | - |
+| sa\_role | - |
 | service\_account\_email | - |
+| shared\_vpc | - |
+| usage\_bucket\_name | - |
+| usage\_bucket\_prefix | - |
 
 [^]: (autogen_docs_end)

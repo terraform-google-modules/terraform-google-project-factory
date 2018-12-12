@@ -108,7 +108,6 @@ To include G Suite integration, use the
 |------|-------------|
 | app\_engine\_enabled | Whether app engine is enabled |
 | domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id | - |
