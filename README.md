@@ -1,11 +1,16 @@
 # Google Cloud Project Factory Terraform Module
 
-[FAQ](./docs/FAQ.md) | [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
+[FAQ](./docs/FAQ.md) | [Troubleshooting Guide](./docs/TROUBLESHOOTING.md) |
+[Glossary][glossary].
 
-This module allows you to create opinionated Google Cloud Platform projects. It creates projects and configures aspects like Shared VPC connectivity, IAM access, Service Accounts, and API enablement to follow best practices.
+This module allows you to create opinionated Google Cloud Platform projects. It
+creates projects and configures aspects like Shared VPC connectivity, IAM
+access, Service Accounts, and API enablement to follow best practices.
 
 ## Usage
-There are multiple examples included in the [examples](./examples/) folder but simple usage is as follows:
+
+There are multiple examples included in the [examples](./examples/) folder but
+simple usage is as follows:
 
 ```hcl
 module "project-factory" {
@@ -32,12 +37,14 @@ module "project-factory" {
 ```
 
 ### Features
+
 The Project Factory module will take the following actions:
 
 1. Create a new GCP project using the `project_name`.
 1. If a shared VPC is specified, attach the new project to the `shared_vpc`.
 
-    It will also give the following users network access on the specified subnets:
+    It will also give the following users network access on the specified
+    subnets:
 
       - The prroject's new default service account (see step 4)
       - The Google API service account for the project
@@ -48,12 +55,15 @@ The Project Factory module will take the following actions:
     1. Give it access to the shared VPC (to be able to launch instances).
     1. Add it to the `sa_group` in Google Groups, if specified.
 1. Attach the billing account (`billing_account`) to the project.
-1. Create a new Google Group for the project (`group_name`) if `create_group` is `true`.
+1. Create a new Google Group for the project (`group_name`) if `create_group` is
+   `true`.
 1. Give the controlling group access to the project, with the `group_role`.
 1. Enable the required and specified APIs (`activate_apis`).
 1. Delete the default network.
-1. Enable usage report for GCE into central project bucket (`target_usage_bucket`), if provided.
-1. If specified, create the GCS bucket `bucket_name` and give the following groups Storage Admin on it:
+1. Enable usage report for GCE into central project bucket
+   (`target_usage_bucket`), if provided.
+1. If specified, create the GCS bucket `bucket_name` and give the following
+   groups Storage Admin on it:
     1. The controlling group (`group_name`)
     1. The new default compute service account created for the project
     1. The Google APIs service account for the project
@@ -129,8 +139,10 @@ The project has the following folders and files:
 
 - /: root folder
 - /examples: examples for using this module
-- /scripts: Scripts for specific tasks on module (see Infrastructure section on this file)
-- /test: Folders with files for testing the module (see Testing section on this file)
+- /scripts: Scripts for specific tasks on module (see Infrastructure section on
+  this file)
+- /test: Folders with files for testing the module (see Testing section on this
+  file)
 - /helpers: Optional helper scripts for ease of use
 - /main.tf: main file for this module, contains all the resources to create
 - /variables.tf: all the variables for the module
@@ -138,6 +150,7 @@ The project has the following folders and files:
 - /readme.md: this file
 
 ## Requirements
+
 ### Terraform plugins
 
 -   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
@@ -145,9 +158,12 @@ The project has the following folders and files:
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
-In order to execute this module you must have a Service Account with the following roles:
 
-- roles/resourcemanager.folderViewer on the folder that you want to create the project in
+In order to execute this module you must have a Service Account with the
+following roles:
+
+- roles/resourcemanager.folderViewer on the folder that you want to create the
+  project in
 - roles/resourcemanager.organizationViewer on the organization
 - roles/resourcemanager.projectCreator on the organization
 - roles/billing.user on the organization
@@ -160,36 +176,51 @@ In order to execute this module you must have a Service Account with the followi
   - roles/browser on the Shared VPC host project
   - roles/resourcemanager.projectIamAdmin on the Shared VPC host project
 
-Additionally, if you want to use the group management functionality included, you must [enable domain delegation](#g-suite).
+Additionally, if you want to use the group management functionality included,
+you must [enable domain delegation](#g-suite).
 
 #### Script Helper
-A [helper script](./helpers/setup-sa.sh) is included to automatically grant all the required roles. Run it as follows:
 
-```
-./helpers/setup-sa.sh <ORGANIZATION_ID> <HOST_PROJECT_NAME>
+A [helper script](./helpers/setup-sa.sh) is included to create the Seed Service
+Account in the Seed Project, grant the necessary roles to the Seed Service
+Account, and enable the necessary API's in the Seed Project.  Run it as follows:
+
+```sh
+./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME>
 ```
 
 ### APIs
-In order to operate the Project Factory, you must activate the following APIs on the base project where the Service Account was created:
 
-- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudresourcemanagergoogleapiscom)
-- Cloud Billing API - `cloudbilling.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudbillinggoogleapiscom)
-- Identity and Access Management API - `iam.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-iamgoogleapiscom)
-- Admin SDK - `admin.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-admingoogleapiscom)
+In order to operate the Project Factory, you must activate the following APIs on
+the base project where the Service Account was created:
+
+- Cloud Resource Manager API - `cloudresourcemanager.googleapis.com`
+  [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudresourcemanagergoogleapiscom)
+- Cloud Billing API - `cloudbilling.googleapis.com`
+  [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-cloudbillinggoogleapiscom)
+- Identity and Access Management API - `iam.googleapis.com`
+  [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-iamgoogleapiscom)
+- Admin SDK - `admin.googleapis.com`
+  [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-admingoogleapiscom)
 
 #### Optional APIs
-- Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
+
+- Google App Engine Admin API - `appengine.googleapis.com`
+  [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
   - This is required if you're using the app_engine input
 
 ### Verifying setup
-A [preconditions checker script](./scripts/preconditions/preconditions.py) is included to verify that all
-preconditions are met before the Project Factory runs. The script will run automatically if the script dependencies
-(Python, "google-auth", and "google-api-python-client") are available at runtime. If the dependencies are not met, the
-precondition checking step will be skipped.
 
-The precondition checker script can be directly invoked before running the project factory:
+A [preconditions checker script](./scripts/preconditions/preconditions.py) is
+included to verify that all preconditions are met before the Project Factory
+runs. The script will run automatically if the script dependencies (Python,
+"google-auth", and "google-api-python-client") are available at runtime. If the
+dependencies are not met, the precondition checking step will be skipped.
 
-```
+The precondition checker script can be directly invoked before running the
+project factory:
+
+```sh
 ./scripts/preconditions/preconditions.py \
   --credentials_path "./credentials.json" \
   --billing_account 000000-000000-000000 \
@@ -202,19 +233,35 @@ The precondition checker script can be directly invoked before running the proje
 
 ### Moving projects from org into a folder
 
-There is currently a bug with moving a project which was originally created at the root of the organization into a folder. The bug and workaround is described [here](https://github.com/terraform-providers/terraform-provider-google/issues/1701), but as a general best practice it is easier to create all projects within folders to start. Moving projects between different folders *is* supported.
+There is currently a bug with moving a project which was originally created at
+the root of the organization into a folder. The bug and workaround is described
+[here](https://github.com/terraform-providers/terraform-provider-google/issues/1701),
+but as a general best practice it is easier to create all projects within
+folders to start. Moving projects between different folders *is* supported.
 
 ## G Suite
-The Project Factory module *optionally* includes functionality to manage G Suite groups as part of the project set up process. This functionality can be used to create groups to hold the project owners and place all Service Accounts into groups automatically for easier IAM management. **This functionality is optional and can easily be disabled by deleting the `gsuite_override.tf` file**.
 
-If you do want to use the G Suite functionality, you will need to be an administator in the [Google Admin console](https://support.google.com/a/answer/182076?hl=en). As an admin, you must [enable domain-wide delegation] for the Project Factory Service Account and grant it the following scopes:
+The Project Factory module *optionally* includes functionality to manage G Suite
+groups as part of the project set up process. This functionality can be used to
+create groups to hold the project owners and place all Service Accounts into
+groups automatically for easier IAM management. **This functionality is optional
+and can easily be disabled by deleting the `gsuite_override.tf` file**.
+
+If you do want to use the G Suite functionality, you will need to be an
+administator in the [Google Admin
+console](https://support.google.com/a/answer/182076?hl=en). As an admin, you
+must [enable domain-wide delegation] for the Project Factory Service Account and
+grant it the following scopes:
 
 - https://www.googleapis.com/auth/admin.directory.group
 - https://www.googleapis.com/auth/admin.directory.group.member
 
 ## Install
 ### Terraform
-Be sure you have the correct Terraform version (0.10.x), you can choose the binary here:
+
+Be sure you have the correct Terraform version (0.10.x), you can choose the
+binary here:
+
 - https://releases.hashicorp.com/terraform/
 
 ### Terraform plugins
@@ -226,7 +273,9 @@ Be sure you have the following plugins in $HOME/.terraform.d/plugins:
 See each plugin page for more information about how to compile and use them
 
 ### Fast install (optional)
-For a fast install, please configure the variables on init_centos.sh or init_debian.sh script in the helpers directory and then launch it.
+
+For a fast install, please configure the variables on init_centos.sh or
+init_debian.sh script in the helpers directory and then launch it.
 
 The script will do:
 
@@ -238,13 +287,15 @@ The script will do:
 
 ## Development
 ### Requirements
+
 - [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
 - Ruby 2.3 or greater
 - Bundler 1.10 or greater
 
 ### Integration testing
 
-Integration tests are run though [test-kitchen](https://github.com/test-kitchen/test-kitchen),
+Integration tests are run though
+[test-kitchen](https://github.com/test-kitchen/test-kitchen),
 [kitchen-terraform](https://github.com/newcontext-oss/kitchen-terraform), and
 [InSpec](https://github.com/inspec/inspec).
 
@@ -256,15 +307,14 @@ Two test-kitchen instances are defined:
 #### Setup
 
 1. Configure the [test fixtures](#test-configuration).
-2. Download a Service Account key with the necessary [permissions](#permissions) and put it in the module's root directory with the name `credentials.json`.
+2. Download a Service Account key with the necessary [permissions](#permissions)
+   and put it in the module's root directory with the name `credentials.json`.
 3. Build the Docker containers for testing.
-
     ```
     CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_terraform
     CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_kitchen_terraform
     ```
 4. Run the testing container in interactive mode.
-
     ```
     make docker_run
     ```
@@ -276,34 +326,40 @@ Two test-kitchen instances are defined:
     2. `kitchen converge` creates the underlying resources. You can run `kitchen converge minimal` to only create the minimal fixture.
     3. `kitchen verify` tests the created infrastructure. Run `kitchen verify minimal` to run the smaller test suite.
 
-Alternatively, you can simply run `make test_integration_docker` to run all the test steps non-interactively.
+Alternatively, you can simply run `make test_integration_docker` to run all the
+test steps non-interactively.
 
 #### Test configuration
-Each test-kitchen instance is configured with a `terraform.tfvars` file in the test fixture directory.
+
+Each test-kitchen instance is configured with a `terraform.tfvars` file in the
+test fixture directory.
 
 ```sh
 for instance in full minimal; do
-  cp "test/fixtures/$instance/terraform.tfvars.example" "test/fixtures/$instance/terraform.tfvars"
+  cp "test/fixtures/$instance/terraform.tfvars.example" \
+    "test/fixtures/$instance/terraform.tfvars"
   $EDITOR "test/fixtures/$instance/terraform.tfvars"
 done
 ```
 
-Integration tests can be run within a pre-configured docker container. Tests can be run without
-user interaction for quick validation, or with user interaction during development.
+Integration tests can be run within a pre-configured docker container. Tests can
+be run without user interaction for quick validation, or with user interaction
+during development.
 
 ### Autogeneration of documentation from .tf files
+
 Run
 ```
 make generate_docs
 ```
 
 ### Linting
-The makefile in this project will lint or sometimes just format any shell,
-Python, golang, Terraform, or Dockerfiles. The linters will only be run if
-the makefile finds files with the appropriate file extension.
 
-All of the linter checks are in the default make target, so you just have to
-run
+The makefile in this project will lint or sometimes just format any shell,
+Python, golang, Terraform, or Dockerfiles. The linters will only be run if the
+makefile finds files with the appropriate file extension.
+
+All of the linter checks are in the default make target, so you just have to run
 
 ```
 make -s
@@ -332,15 +388,20 @@ command.
 
 ## Releasing New Versions
 
-New versions can be released by pushing tags to this repository's origin on GitHub. There is a Make target to facilitate the process:
+New versions can be released by pushing tags to this repository's origin on
+GitHub. There is a Make target to facilitate the process:
 
 ```
 make release-new-version
 ```
 
-The new version must be documented in [CHANGELOG.md](CHANGELOG.md) for the target to work.
+The new version must be documented in [CHANGELOG.md](CHANGELOG.md) for the
+target to work.
 
-See the Terraform documentation for more info on this: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions.
-=======
+See the Terraform documentation for more info on [releasing new
+versions][release-new-version].
+
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
+[glossary]: /docs/GLOSSARY.md
+[release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
