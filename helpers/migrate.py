@@ -220,6 +220,22 @@ def read_state(statefile):
     return elements
 
 
+def state_changes_for_module(module, statefile):
+    """
+    Compute the Terraform state changes (deletions and moves) for a single
+    project-factory module.
+    """
+    commands = []
+
+    migration = GSuiteMigration(module)
+
+    for (old, new) in migration.moves():
+        argv = ["terraform", "state", "mv", "-state", statefile, old, new]
+        commands.append(argv)
+
+    return commands
+
+
 def migrate(statefile, dryrun=False):
     """
     Migrate the terraform state in `statefile` to match the post-refactor
@@ -251,13 +267,11 @@ def migrate(statefile, dryrun=False):
 
     # Collect a list of resources for each project factory that need to be
     # migrated.
-    to_move = []
+    commands = []
     for factory in factories:
-        migration = GSuiteMigration(factory)
-        to_move += migration.moves()
+        commands += state_changes_for_module(factory, statefile)
 
-    for (old, new) in to_move:
-        argv = ["terraform", "state", "mv", "-state", statefile, old, new]
+    for argv in commands:
         if dryrun:
             print(" ".join(argv))
         else:
