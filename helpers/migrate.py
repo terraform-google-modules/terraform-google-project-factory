@@ -21,31 +21,95 @@ import sys
 import shutil
 import re
 
+MIGRATIONS = [
+    {
+        "resource_type": "random_id",
+        "name": "random_project_id_suffix",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project",
+        "name": "project",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project_service",
+        "name": "project_services",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_compute_shared_vpc_service_project",
+        "name": "shared_vpc_attachment",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "null_resource",
+        "name": "delete_default_compute_service_account",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_service_account",
+        "name": "default_service_account",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project_iam_member",
+        "name": "default_service_account_membership",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project_iam_member",
+        "name": "controlling_group_vpc_membership",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_compute_subnetwork_iam_member",
+        "name": "service_account_role_to_vpc_subnets",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_compute_subnetwork_iam_member",
+        "name": "apis_service_account_role_to_vpc_subnets",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project_usage_export_bucket",
+        "name": "usage_report_export",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_storage_bucket",
+        "name": "project_bucket",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_storage_bucket_iam_member",
+        "name": "s_account_storage_admin_on_project_bucket",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_storage_bucket_iam_member",
+        "name": "api_s_account_storage_admin_on_project_bucket",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_compute_subnetwork_iam_member",
+        "name": "gke_shared_vpc_subnets",
+        "module": ".module.project-factory"
+    },
+    {
+        "resource_type": "google_project_iam_member",
+        "name": "gke_host_agent",
+        "module": ".module.project-factory"
+    },
+]
+
 
 class GSuiteMigration:
     """
     Migrate the resources from a flat project factory to match the new
     module structure created by the G Suite refactor.
     """
-
-    CORE_PROJECT_FACTORY_SELECTORS = [
-        ("google_organization", "org"),
-        ("google_compute_default_service_account", "default"),
-        ("null_data_source", "data_final_group_email"),
-        ("null_data_source", "data_group_email_format"),
-        ("google_compute_shared_vpc_service_project", None),
-        ("google_compute_subnetwork_iam_member", None),
-        ("google_project", None),
-        ("google_project_iam_member", None),
-        ("google_project_service", None),
-        ("google_project_usage_export_bucket", None),
-        ("google_service_account", None),
-        ("google_service_account_iam_member", None),
-        ("google_storage_bucket", None),
-        ("google_storage_bucket_iam_member", None),
-        ("null_resource", None),
-        ("random_id", None),
-    ]
 
     def __init__(self, project_factory):
         self.project_factory = project_factory
@@ -57,9 +121,9 @@ class GSuiteMigration:
         """
         resources = self.targets()
         moves = []
-        for old in resources:
+        for (old, module) in resources:
             new = copy.deepcopy(old)
-            new.module += ".module.project-factory"
+            new.module += module
 
             pair = (old.path(), new.path())
             moves.append(pair)
@@ -73,13 +137,13 @@ class GSuiteMigration:
         """
         to_move = []
 
-        for selector in self.__class__.CORE_PROJECT_FACTORY_SELECTORS:
-            resource_type = selector[0]
-            resource_name = selector[1]
+        for selector in MIGRATIONS:
+            resource_type = selector["resource_type"]
+            resource_name = selector["name"]
             matching_resources = self.project_factory.get_resources(
                 resource_type,
                 resource_name)
-            to_move += matching_resources
+            to_move += [(r, selector["module"]) for r in matching_resources]
 
         return to_move
 
