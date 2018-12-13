@@ -50,11 +50,10 @@ RUN terraform --version && \
     ruby --version && \
     bundle --version
 
-COPY ./Gemfile /opt/kitchen/
+WORKDIR $APP_BASE_DIR/workdir
 
-RUN cd /opt/kitchen && \
-    bundle install
+COPY ./Gemfile ./
+
+RUN bundle install
 
 RUN gcloud components install beta --quiet
-
-WORKDIR $APP_BASE_DIR/workdir
