@@ -188,7 +188,7 @@ class TerraformResource:
             self.name)
 
 
-def group(resources):
+def group_by_module(resources):
     """
     Group a set of resources according to their containing module.
     """
@@ -234,7 +234,7 @@ def migrate(statefile, dryrun=False):
     ]
 
     # Group resources based on the module where they're defined.
-    modules = group(resources)
+    modules = group_by_module(resources)
 
     # Filter our list of Terraform modules down to anything that lookst like a
     # project-factory module. We key this off the presence off of
