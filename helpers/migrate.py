@@ -272,7 +272,8 @@ def main(argv):
     shutil.copy(args.oldstate, args.newstate)
 
     migrate(args.newstate, dryrun=args.dryrun)
-    print("State migration complete, verify migration with `terraform plan`")
+    print("State migration complete, verify migration with "
+          "`terraform plan -state '{}'`".format(args.newstate))
 
 
 def argparser():
