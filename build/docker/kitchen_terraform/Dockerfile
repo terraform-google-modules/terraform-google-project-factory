@@ -57,3 +57,5 @@ COPY ./Gemfile ./
 RUN bundle install
 
 RUN gcloud components install beta --quiet
+RUN gcloud components install alpha --quiet
+
