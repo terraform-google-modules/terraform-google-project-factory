@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-module "google_group" {
-  source = "../google_group"
-
-  domain       = "${module.google_organization.domain}"
-  name         = "${var.group_name}"
-  project_name = "${var.name}"
+locals {
+  group_email = "${format("%s@%s", local.group_name, module.google_organization.domain)}"
+  group_id    = "${format("group:%s", local.group_email)}"
+  group_name  = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
 }
 
 /***********************************************
@@ -52,8 +50,8 @@ resource "gsuite_group" "group" {
   count = "${var.create_group ? 1 : 0}"
 
   description = "${var.name} project group"
-  email       = "${module.google_group.email}"
-  name        = "${module.google_group.name}"
+  email       = "${local.group_email}"
+  name        = "${local.group_name}"
 }
 
 /***********************************************
@@ -95,7 +93,7 @@ module "project-factory" {
   Gsuite Group Role Configuration
  *****************************************/
 resource "google_project_iam_member" "gsuite_group_role" {
-  member  = "${module.google_group.id}"
+  member  = "${local.group_id}"
   project = "${module.project-factory.project_id}"
   role    = "${var.group_role}"
 }
@@ -104,7 +102,7 @@ resource "google_project_iam_member" "gsuite_group_role" {
   Granting serviceAccountUser to group
  *****************************************/
 resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  member = "${module.google_group.id}"
+  member = "${local.group_id}"
   role   = "roles/iam.serviceAccountUser"
 
   service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${
@@ -118,7 +116,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
   count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? 1 : 0}"
 
-  member  = "${module.google_group.id}"
+  member  = "${local.group_id}"
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"
 }
@@ -129,7 +127,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
 
-  member     = "${module.google_group.id}"
+  member     = "${local.group_id}"
   project    = "${var.shared_vpc}"
   region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
   role       = "roles/compute.networkUser"
@@ -143,6 +141,6 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
   count = "${var.bucket_project != "" ? 1 : 0}"
 
   bucket = "${module.project-factory.project_bucket_name}"
-  member = "${module.google_group.id}"
+  member = "${local.group_id}"
   role   = "roles/storage.admin"
 }
