@@ -170,8 +170,9 @@ class TerraformModule:
             matches_type = (resource_type is None or
                             resource_type == resource.resource_type)
 
+            name_pattern = re.compile(r'%s(\[\d+\])?' % resource_name)
             matches_name = (resource_name is None or
-                            resource_name == resource.name)
+                            name_pattern.match(resource.name))
 
             if matches_type and matches_name:
                 ret.append(resource)
