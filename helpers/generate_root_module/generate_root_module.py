@@ -65,13 +65,13 @@ def outputs_tf(outputs):
 
     buf += "\n\n"
     for name in sorted(outputs):
-        desc = outputs[name].get("desc", None)
+        desc = outputs[name].get("description", None)
 
         buf += 'output \"%s\" {\n' % name
         buf += 'value = "${module.project-factory.%s}"\n' % name
 
         if desc:
-            buf += 'description = "{0}"\n' % desc
+            buf += 'description = "{desc}"\n'.format(desc=desc)
 
         buf += "}\n"
 
