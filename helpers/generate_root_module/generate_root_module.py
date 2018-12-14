@@ -41,7 +41,7 @@ module "project-factory" {
 
 """
 
-    for varname in variables:
+    for varname in sorted(variables):
         buf += '%s = "${var.%s}"\n' % (varname, varname)
 
     buf += "}\n"
