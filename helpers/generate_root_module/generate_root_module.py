@@ -63,7 +63,7 @@ def outputs_tf(outputs):
     buf = boilerplate()
     buf += "\n\n"
 
-    for name, attrs in outputs.iteritems():
+    for name, attrs in outputs.items():
         desc = attrs.get("desc", None)
 
         buf += 'output \"%s\" {\n' % name
