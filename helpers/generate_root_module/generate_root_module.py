@@ -38,6 +38,7 @@ def main_tf(variables):
 
 module "project-factory" {
   source = "modules/core_project_factory"
+
 """
 
     for varname in variables:
