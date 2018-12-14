@@ -14,14 +14,39 @@
  * limitations under the License.
  */
 
-variable "random_project_id" {
-  description = "Enables project random id generation"
+variable "activate_apis" {
+  description = "The list of apis to activate within the project"
+  type        = "list"
+  default     = ["compute.googleapis.com"]
+}
+
+variable "app_engine" {
+  description = "A map for app engine configuration"
+  type        = "map"
+  default     = {}
+}
+
+variable "auto_create_network" {
+  description = "Create the default network"
   default     = "false"
 }
 
-variable "org_id" {
-  description = "The organization id (optional if `domain` is passed)"
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+}
+
+variable "bucket_name" {
+  description = "A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional)"
   default     = ""
+}
+
+variable "bucket_project" {
+  description = "A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional)"
+  default     = ""
+}
+
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
 }
 
 variable "domain" {
@@ -29,22 +54,35 @@ variable "domain" {
   default     = ""
 }
 
+variable "folder_id" {
+  description = "The ID of a folder to host this project"
+  default     = ""
+}
+
+variable "labels" {
+  description = "Map of labels for project"
+  type        = "map"
+  default     = {}
+}
+
+variable "lien" {
+  description = "Add a lien on the project to prevent accidental deletion"
+  default     = "false"
+  type        = "string"
+}
+
 variable "name" {
   description = "The name for the project"
 }
 
-variable "shared_vpc" {
-  description = "The ID of the host project which hosts the shared VPC"
+variable "org_id" {
+  description = "The organization id (optional if `domain` is passed)"
   default     = ""
 }
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
-}
-
-variable "folder_id" {
-  description = "The ID of a folder to host this project"
-  default     = ""
+variable "random_project_id" {
+  description = "Enables project random id generation"
+  default     = "false"
 }
 
 variable "sa_role" {
@@ -52,10 +90,15 @@ variable "sa_role" {
   default     = ""
 }
 
-variable "activate_apis" {
-  description = "The list of apis to activate within the project"
+variable "shared_vpc" {
+  description = "The ID of the host project which hosts the shared VPC"
+  default     = ""
+}
+
+variable "shared_vpc_subnets" {
+  description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
   type        = "list"
-  default     = ["compute.googleapis.com"]
+  default     = [""]
 }
 
 variable "usage_bucket_name" {
@@ -66,47 +109,4 @@ variable "usage_bucket_name" {
 variable "usage_bucket_prefix" {
   description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
   default     = ""
-}
-
-variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
-}
-
-variable "shared_vpc_subnets" {
-  description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
-  type        = "list"
-  default     = [""]
-}
-
-variable "labels" {
-  description = "Map of labels for project"
-  type        = "map"
-  default     = {}
-}
-
-variable "bucket_project" {
-  description = "A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional)"
-  default     = ""
-}
-
-variable "bucket_name" {
-  description = "A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional)"
-  default     = ""
-}
-
-variable "auto_create_network" {
-  description = "Create the default network"
-  default     = "false"
-}
-
-variable "app_engine" {
-  description = "A map for app engine configuration"
-  type        = "map"
-  default     = {}
-}
-
-variable "lien" {
-  description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = "string"
 }
