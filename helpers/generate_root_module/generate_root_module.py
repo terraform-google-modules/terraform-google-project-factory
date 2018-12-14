@@ -89,10 +89,10 @@ def main(argv):
         # Copy `variables.tf` without modification
         fh.write(variables_text)
 
-    with open("main.tf", "w") as fh:
+    with open("./main.tf", "w") as fh:
         fh.write(main_tf(variables))
 
-    with open("outputs.tf", "w") as fh:
+    with open("./outputs.tf", "w") as fh:
         fh.write(outputs_tf(outputs))
 
     subprocess.call(["terraform", "fmt"])
