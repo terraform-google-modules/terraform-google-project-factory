@@ -159,4 +159,4 @@ help: ## Prints help for targets with comments
 
 .PHONY: generate
 generate:
-	@./helpers/generate_root_module.py
+	@./helpers/generate_root_module/generate_root_module.py
