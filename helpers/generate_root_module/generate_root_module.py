@@ -60,11 +60,12 @@ def outputs_tf(outputs):
     Returns:
         str: The contents of `outputs.tf`
     """
-    buf = boilerplate()
-    buf += "\n\n"
 
-    for name, attrs in outputs.items():
-        desc = attrs.get("desc", None)
+    buf = boilerplate()
+
+    buf += "\n\n"
+    for name in sorted(outputs):
+        desc = outputs[name].get("desc", None)
 
         buf += 'output \"%s\" {\n' % name
         buf += 'value = "${module.project-factory.%s}"\n' % name
