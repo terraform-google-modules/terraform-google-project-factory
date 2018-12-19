@@ -83,18 +83,18 @@ data "google_organization" "org" {
   organization = "${var.org_id}"
 }
 
-resource "null_resource" "check_preconditions" {
+resource "null_resource" "preconditions" {
   triggers {
     credentials_path = "${var.credentials_path}"
-    billing_account = "${var.billing_account}"
-    org_id = "${var.org_id}"
-    folder_id = "${var.folder_id}"
-    shared_vpc = "${var.shared_vpc}"
+    billing_account  = "${var.billing_account}"
+    org_id           = "${var.org_id}"
+    folder_id        = "${var.folder_id}"
+    shared_vpc       = "${var.shared_vpc}"
   }
 
   provisioner "local-exec" {
     command = <<EOD
-${path.module}/scripts/check-preconditions.sh \
+${path.module}/scripts/preconditions.sh \
     --credentials_path '${var.credentials_path}' \
     --billing_account '${var.billing_account}' \
     --org_id '${var.org_id}' \
@@ -123,7 +123,7 @@ resource "google_project" "project" {
 
   app_engine = "${local.app_engine_config["${local.app_engine_enabled ? "enabled" : "disabled"}"]}"
 
-  depends_on = ["null_resource.check_preconditions"]
+  depends_on = ["null_resource.preconditions"]
 }
 
 /******************************************
