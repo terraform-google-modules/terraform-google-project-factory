@@ -22,7 +22,7 @@ import os
 
 try:
     from google.oauth2 import service_account
-    from googleapiclient import discovery
+    from googleapiclient import discovery, errors
 except ImportError as e:
     if os.environ.get('GRACEFUL_IMPORTERROR', '') != '':
         sys.stderr.write("Unable to import Google API dependencies, skipping "
@@ -287,7 +287,10 @@ class BillingAccount:
         request = service.billingAccounts().testIamPermissions(
             resource=resource,
             body=body)
-        response = request.execute()
+        try:
+            response = request.execute()
+        except errors.HttpError:
+            response = {"permissions": []}
 
         req = Requirements(
             "Service account permissions on billing account",
