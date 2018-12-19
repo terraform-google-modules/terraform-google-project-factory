@@ -133,7 +133,7 @@ class OrgPermissions:
             "Service account permissions on organization",
             resource,
             self.permissions,
-            response["permissions"],
+            response.get("permissions", []),
         )
 
         return req.asdict()
@@ -210,7 +210,7 @@ class HostVpcProjectPermissions:
             "Service account permissions on host VPC project",
             resource,
             self.permissions,
-            response["permissions"],
+            response.get("permissions", []),
         )
 
         return req.asdict()
