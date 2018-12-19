@@ -103,7 +103,7 @@ ${path.module}/scripts/preconditions.sh \
 EOD
 
     environment {
-      GRACEFUL_IMPORTERROR = true
+      GRACEFUL_IMPORTERROR = "true"
     }
   }
 }
