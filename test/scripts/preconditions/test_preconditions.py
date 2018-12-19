@@ -35,6 +35,7 @@ class TestRequirements(unittest.TestCase):
             "cloudresourcemanager.googleapis.com",
             "iam.googleapis.com",
         ]
+        self.required.sort()
 
     def test_is_satisfied(self):
         req = preconditions.Requirements(
@@ -51,7 +52,11 @@ class TestRequirements(unittest.TestCase):
         )
 
         self.assertTrue(req.is_satisfied())
-        self.assertItemsEqual(self.required, req.satisfied())
+
+        satisfied = req.satisfied()
+        satisfied.sort()
+
+        self.assertEqual(self.required, satisfied)
 
     def test_extra_is_satisfied(self):
         req = preconditions.Requirements(
@@ -70,7 +75,11 @@ class TestRequirements(unittest.TestCase):
         )
 
         self.assertTrue(req.is_satisfied())
-        self.assertItemsEqual(self.required, req.satisfied())
+
+        satisfied = req.satisfied()
+        satisfied.sort()
+
+        self.assertEqual(self.required, satisfied)
 
     def test_is_not_satisfied(self):
         req = preconditions.Requirements(
