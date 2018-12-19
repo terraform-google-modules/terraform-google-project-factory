@@ -390,22 +390,27 @@ def validators_for(opts, seed_project):
 
 
 def main(argv):
-    opts = argparser().parse_args(argv[1:])
-    credentials = get_credentials(opts.credentials_path)
-    validators = validators_for(opts, credentials.project_id)
+    try:
+        opts = argparser().parse_args(argv[1:])
+        credentials = get_credentials(opts.credentials_path)
+        validators = validators_for(opts, credentials.project_id)
 
-    results = []
-    for validator in validators:
-        results.append(validator.validate(credentials))
+        results = []
+        for validator in validators:
+            results.append(validator.validate(credentials))
 
-    retcode = 0
-    for result in results:
-        if len(result["unsatisfied"]) > 0:
-            retcode = 1
+        retcode = 0
+        for result in results:
+            if len(result["unsatisfied"]) > 0:
+                retcode = 1
 
-    if retcode == 1 or opts.verbose:
-        s = json.dumps(results, sys.stdout, indent=4)
-        print(s)
+        if retcode == 1 or opts.verbose:
+            s = json.dumps(results, sys.stdout, indent=4)
+            print(s)
+    except FileNotFoundError as error:
+        terror = error
+        print(terror)
+        retcode = 1
 
     return retcode
 
