@@ -382,10 +382,16 @@ def validators_for(opts, seed_project):
     else:
         has_shared_vpc = False
 
-    org_validator = OrgPermissions(opts.org_id,
-                                   parent=True,
-                                   shared_vpc=has_shared_vpc)
-    validators.append(org_validator)
+    if opts.folder_id is not None:
+        validators.append(FolderPermissions(opts.folder_id, parent=True))
+        org_parent = False
+    else:
+        org_parent = True
+
+    validators.append(
+        OrgPermissions(
+            opts.org_id, parent=org_parent, shared_vpc=has_shared_vpc))
+
     return validators
 
 
