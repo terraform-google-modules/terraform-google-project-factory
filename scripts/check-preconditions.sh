@@ -16,7 +16,7 @@
 
 if command -v python 1>/dev/null; then
     BASEDIR="$(dirname "$0")"
-    SCRIPT="$BASEDIR/preconditions.py"
+    SCRIPT="$BASEDIR/preconditions/preconditions.py"
     exec "$SCRIPT" "$@"
 else
     echo "Unable to check project-factory preconditions: python executable not in PATH" 1>&2

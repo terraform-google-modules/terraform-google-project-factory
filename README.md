@@ -182,15 +182,15 @@ In order to operate the Project Factory, you must activate the following APIs on
   - This is required if you're using the app_engine input 
 
 ### Verifying setup
-A [preconditions checker script](./scripts/preconditions.py) is included to verify that all preconditions are met
-before the Project Factory runs. The script will run automatically if the script dependencies (Python, "google-auth",
-and "google-api-python-client") are available at runtime. If the dependencies are not met, the precondition checking
-step will be skipped.
+A [preconditions checker script](./scripts/preconditions/preconditions.py) is included to verify that all
+preconditions are met before the Project Factory runs. The script will run automatically if the script dependencies
+(Python, "google-auth", and "google-api-python-client") are available at runtime. If the dependencies are not met, the
+precondition checking step will be skipped.
 
 The precondition checker script can be directly invoked before running the project factory:
 
 ```
-./scripts/preconditions.py \
+./scripts/preconditions/preconditions.py \
   --credentials_path "./credentials.json" \
   --billing_account 000000-000000-000000 \
   --org_id 000000000000 \
