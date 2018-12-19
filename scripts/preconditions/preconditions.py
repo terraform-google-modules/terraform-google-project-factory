@@ -408,8 +408,7 @@ def main(argv):
             s = json.dumps(results, sys.stdout, indent=4)
             print(s)
     except FileNotFoundError as error:
-        terror = error
-        print(terror)
+        print(error)
         retcode = 1
 
     return retcode
