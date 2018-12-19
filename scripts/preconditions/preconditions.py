@@ -176,7 +176,7 @@ class FolderPermissions:
             "Service account permissions on parent folder",
             resource,
             self.permissions,
-            response["permissions"],
+            response.get("permissions", [])
         )
 
         return req.asdict()
