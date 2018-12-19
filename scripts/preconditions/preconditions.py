@@ -182,7 +182,7 @@ class FolderPermissions:
         return req.asdict()
 
 
-class HostVpcProjectPermissions:
+class SharedVpcProjectPermissions:
     ALL_PERMISSIONS = [
         # Typically granted with 'roles/resourcemanager.projectIamAdmin'
         "resourcemanager.projects.setIamPolicy",
@@ -376,7 +376,7 @@ def validators_for(opts, seed_project):
     ]
 
     if opts.shared_vpc is not None:
-        host_vpc_validator = HostVpcProjectPermissions(opts.shared_vpc)
+        host_vpc_validator = SharedVpcProjectPermissions(opts.shared_vpc)
         validators.append(host_vpc_validator)
         has_shared_vpc = True
     else:
