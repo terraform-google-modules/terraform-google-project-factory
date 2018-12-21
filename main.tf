@@ -100,6 +100,17 @@ resource "google_project" "project" {
 }
 
 /******************************************
+  Project lien
+ *****************************************/
+resource "google_resource_manager_lien" "lien" {
+  count        = "${var.lien ? 1 : 0}"
+  parent       = "projects/${google_project.project.number}"
+  restrictions = ["resourcemanager.projects.delete"]
+  origin       = "project-factory"
+  reason       = "Project Factory lien"
+}
+
+/******************************************
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
@@ -193,7 +204,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   compute.networkUser role granted to GSuite group, APIs Service account, Project Service Account, and GKE Service Account on shared VPC
  *************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) == 0)) ? local.shared_vpc_users_length : 0}"
+  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? local.shared_vpc_users_length : 0}"
 
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"

@@ -16,13 +16,13 @@
 SHELL := /usr/bin/env bash
 
 # Docker build config variables
-BUILD_TERRAFORM_VERSION ?= 0.11.8
+BUILD_TERRAFORM_VERSION ?= 0.11.10
 BUILD_CLOUD_SDK_VERSION ?= 216.0.0
-BUILD_PROVIDER_GOOGLE_VERSION ?= 1.17.1
-BUILD_PROVIDER_GSUITE_VERSION ?= 0.1.8
+BUILD_PROVIDER_GOOGLE_VERSION ?= 1.19.1
+BUILD_PROVIDER_GSUITE_VERSION ?= 0.1.10
 DOCKER_IMAGE_TERRAFORM := cftk/terraform
 DOCKER_TAG_TERRAFORM ?= ${BUILD_TERRAFORM_VERSION}_${BUILD_CLOUD_SDK_VERSION}_${BUILD_PROVIDER_GOOGLE_VERSION}_${BUILD_PROVIDER_GSUITE_VERSION}
-BUILD_RUBY_VERSION := 2.4.2
+BUILD_RUBY_VERSION ?= 2.5.3
 DOCKER_IMAGE_KITCHEN_TERRAFORM := cftk/kitchen_terraform
 DOCKER_TAG_KITCHEN_TERRAFORM ?= ${BUILD_TERRAFORM_VERSION}_${BUILD_CLOUD_SDK_VERSION}_${BUILD_PROVIDER_GOOGLE_VERSION}_${BUILD_PROVIDER_GSUITE_VERSION}
 
@@ -122,28 +122,28 @@ docker_create: ## Run `kitchen create` within the Docker test environment
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "kitchen create"
+		/bin/bash -c "bundle exec kitchen create"
 
 .PHONY: docker_converge
 docker_converge: ## Run `kitchen converge` within the Docker test environment
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "kitchen converge && kitchen converge"
+		/bin/bash -c "bundle exec kitchen converge && bundle exec kitchen converge"
 
 .PHONY: docker_verify
 docker_verify: ## Run `kitchen verify` within the Docker test environment
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "kitchen verify"
+		/bin/bash -c "bundle exec kitchen verify"
 
 .PHONY: docker_destroy
 docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 	docker run --rm -it \
 		-v $(CURDIR):/cftk/workdir \
 		${DOCKER_IMAGE_KITCHEN_TERRAFORM}:${DOCKER_TAG_KITCHEN_TERRAFORM} \
-		/bin/bash -c "kitchen destroy"
+		/bin/bash -c "bundle exec kitchen destroy"
 
 .PHONY: test_integration_docker
 test_integration_docker: docker_create docker_converge docker_verify docker_destroy ## Run a full integration test cycle

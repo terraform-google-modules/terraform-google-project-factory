@@ -114,40 +114,14 @@ EOF
 #         PLUGINS INSTALLATION            #
 # ####################################### #
 
+sudo mkdir -p $TERRAFORM_PLUGINS_PATH
+
 # ####################################### #
 #  Install the terraform-provider-gsuite  #
 # ####################################### #
-# Install dep
-# Download and install dep
-sudo curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-# Set PATH
-export PATH="$PATH:/opt/go/bin"
 
-sudo mkdir -p $GOPATH/src/github.com/DeviaVir/
-cd $GOPATH/src/github.com/DeviaVir/ || exit
-
-sudo git clone https://github.com/DeviaVir/terraform-provider-gsuite.git
-cd terraform-provider-gsuite || exit
-
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" $GOBIN/dep ensure
-
-sudo rm -rf $GOPATH/src/github.com/DeviaVir/terraform-provider-gsuite/vendor/github.com/DeviaVir/terraform-provider-gsuite
-
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:$GOBIN:/usr/local/go/bin" make dev
-
-# ####################################### #
-#  Install the terraform-provider-google  #
-# ####################################### #
-
-sudo mkdir -p $GOPATH/src/github.com/terraform-providers
-cd $GOPATH/src/github.com/terraform-providers || exit
-
-sudo git clone https://github.com/terraform-providers/terraform-provider-google.git
-cd terraform-provider-google || exit
-# Compile it
-sudo GOPATH="$GOPATH" GOBIN="$GOBIN" PATH="$PATH:/usr/local/go/bin" make build
-
-yes | sudo cp -f "$GOBIN/terraform-provider-google" "$HOME/.terraform.d/plugins/terraform-provider-google"
+TERRAFORM_PROVIDER_GSUITE=https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v0.1.9/terraform-provider-gsuite_0.1.9_linux_amd64.tgz
+curl -L $TERRAFORM_PROVIDER_GSUITE | sudo tar -C $TERRAFORM_PLUGINS_PATH -xz
 
 # ####################################### #
 #        Google SDK Installation          #
@@ -174,9 +148,9 @@ sudo apt-get -y upgrade
 sudo apt-get install -y python3-pip
 sudo pip3 install --upgrade google-api-python-client
 
- ####################################### #
-        Bats  installation               #
- ####################################### #
+# ####################################### #
+#        Bats installation                #
+# ####################################### #
 
 sudo rm -rf $BATS_HOME/*
 sudo mkdir -p $BATS_HOME
@@ -201,5 +175,5 @@ echo "Go version: $(go version)"
 echo "Python3 version: $(python3 --version)"
 echo "pip3 version: $(pip3 --version)"
 echo "Bats version: $(bats)"
-echo "Terraform plugins: $(ls -l "$HOME/.terraform.d/plugins")"
+echo "Terraform plugins: $(ls -l "$TERRAFORM_PLUGINS_PATH")"
 echo "gcloud version: $(gcloud version)"

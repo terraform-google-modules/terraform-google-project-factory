@@ -39,3 +39,5 @@ crash.log
 
 .kitchen
 terraform.tfstate.d/
+*.auto.tfvars
+credentials.json

@@ -139,9 +139,10 @@ The project has the following folders and files:
 
 ## Requirements
 ### Terraform plugins
-- [Terraform](https://www.terraform.io/downloads.html) 0.10.x
-- [terraform-provider-google](https://github.com/terraform-providers/terraform-provider-google) plugin v1.8.0
-- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin if GSuite functionality is desired
+
+-   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
+-   [terraform-provider-google] plugin 1.19.x
+-   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
 In order to execute this module you must have a Service Account with the following roles:
@@ -200,9 +201,10 @@ Be sure you have the correct Terraform version (0.10.x), you can choose the bina
 - https://releases.hashicorp.com/terraform/
 
 ### Terraform plugins
-Be sure you have the compiled plugins on $HOME/.terraform.d/plugins/
 
-- [terraform-provider-gsuite](https://github.com/DeviaVir/terraform-provider-gsuite) plugin 0.1.0 (there are not compatible releases, you have to compile it from master branch)
+Be sure you have the following plugins in $HOME/.terraform.d/plugins:
+
+-   [terraform-provider-gsuite] 0.1.x
 
 See each plugin page for more information about how to compile and use them
 
@@ -210,13 +212,12 @@ See each plugin page for more information about how to compile and use them
 For a fast install, please configure the variables on init_centos.sh or init_debian.sh script in the helpers directory and then launch it.
 
 The script will do:
-- Environment variables setting
-- Installation of base packages like wget, curl, unzip, gcloud, etc.
-- Installation of go 1.9.0
-- Installation of Terraform 0.10.x
-- Download the terraform-provider-gsuite plugin
-- Compile the terraform-provider-gsuite plugin
-- Move the terraform-provider-gsuite to the right location
+
+-   Environment variables setting
+-   Installation of base packages like wget, curl, unzip, gcloud, etc.
+-   Installation of go 1.9.0
+-   Installation of Terraform 0.10.x
+-   Installation of terraform-provider-gsuite plugin 0.1.x
 
 ## Development
 ### Requirements
@@ -242,8 +243,8 @@ Two test-kitchen instances are defined:
 3. Build the Docker containers for testing.
 
     ```
-    make docker_build_terraform
-    make docker_build_kitchen_terraform
+    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_terraform
+    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_kitchen_terraform
     ```
 4. Run the testing container in interactive mode.
 
@@ -323,3 +324,6 @@ make release-new-version
 The new version must be documented in [CHANGELOG.md](CHANGELOG.md) for the target to work.
 
 See the Terraform documentation for more info on this: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions.
+=======
+[terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
+[terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
