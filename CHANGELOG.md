@@ -1,18 +1,17 @@
-## 0.2.2
+## 0.3.0
 
-- Troubleshooting guide added.
+IMPROVEMENTS:
+
 - Implement billing account role.
-- Installation helper refactoring.
-- Start FAQ document.
 - Remove `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`.
-- Test refactoring.
-- Correctly expand relative `credentials_path` attribute.
-- `help` Make target.
+- Lien support.
+
+BUG FIXES:
+
+- Fix/refactor `helpers/init_debian.sh`.
 
 ## 0.2.1
 
-- Test suite refactoring.
-- Versioning script.
 - Explicit dependency on `google_project_service`.
 
 ## 0.2.0
