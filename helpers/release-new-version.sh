@@ -30,7 +30,7 @@ fi
 
 echo -e "\nUpdating usage examples in README to use $NEW_RELEASE_NAME and commiting...\n"
 
-sed -i '' "s/$CURRENT_RELEASE_NAME/$NEW_RELEASE_NAME/g" README.md
+sed -i.bak "s/$CURRENT_RELEASE_NAME/$NEW_RELEASE_NAME/g" README.md && rm README.md.bak
 
 git checkout master && \
   git add README.md && \
