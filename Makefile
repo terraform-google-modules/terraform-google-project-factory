@@ -88,10 +88,9 @@ test_integration: ## Run integration tests
 generate_docs: ## Update README documentation for Terraform variables and outputs
 	@source test/make.sh && generate_docs
 
-# Versioning
-.PHONY: version
-version:
-	@source helpers/version-repo.sh
+.PHONY: release-new-version
+release-new-version:
+	@source helpers/release-new-version.sh
 
 # Build Docker
 .PHONY: docker_build_terraform

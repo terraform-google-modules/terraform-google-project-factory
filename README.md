@@ -10,7 +10,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source              = "terraform-google-modules/project-factory/google"
-  version             = "0.2.1"
+  version             = "v0.2.1"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -179,7 +179,7 @@ In order to operate the Project Factory, you must activate the following APIs on
 
 #### Optional APIs
 - Google App Engine Admin API - `appengine.googleapis.com` [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
-  - This is required if you're using the app_engine input 
+  - This is required if you're using the app_engine input
 
 ## Caveats
 
@@ -313,5 +313,17 @@ is a compiled language so there is no standard linter.
 command.
 * Dockerfiles - hadolint. Can be found in homebrew
 
+## Releasing New Versions
+
+New versions can be released by pushing tags to this repository's origin on GitHub. There is a Make target to facilitate the process:
+
+```
+make release-new-version
+```
+
+The new version must be documented in [CHANGELOG.md](CHANGELOG.md) for the target to work.
+
+See the Terraform documentation for more info on this: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions.
+=======
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
