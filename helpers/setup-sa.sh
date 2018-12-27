@@ -162,17 +162,11 @@ if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
   echo "Enabling the billing account..."
   gcloud beta billing accounts get-iam-policy $BILLING_ACCOUNT > policy-tmp-$$.yml
   unamestr=`uname`
-  if [ "$unamestr" = 'Darwin' ]; then
-    sed -i '' -e "/^etag:.*/i \\
+  if [ "$unamestr" = 'Darwin' || "$unamestr" = 'Linux' ]; then
+    sed -i.bak -e "/^etag:.*/i \\
 - members:\\
 \ \ - serviceAccount:${SA_ID}\\
-\ \ role: roles/billing.user" policy-tmp-$$.yml
-    gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
-  elif [ "$unamestr" = 'Linux' ]; then
-    sed -i -e "/^etag:.*/i \\
-- members:\\
-\ \ - serviceAccount:${SA_ID}\\
-\ \ role: roles/billing.user" policy-tmp-$$.yml
+\ \ role: roles/billing.user" policy-tmp-$$.yml && rm policy-tmp-$$.yml.bak
     gcloud beta billing accounts set-iam-policy $BILLING_ACCOUNT policy-tmp-$$.yml
   else
     echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
