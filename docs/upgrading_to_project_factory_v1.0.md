@@ -1,18 +1,19 @@
 # Upgrading to Project Factory v1.0
 
 The v1.0 release of Project Factory is a backwards incompatible release and
-features significant changes, specifically with how GSuite resources are
+features significant changes, specifically with how G Suite resources are
 managed. A state migration script is provided to update your existing states
 to minimize or eliminate resource re-creations.
 
 ## Migration Instructions
 
-### Without GSuite
-
 This migration was performed with the following example configuration.
 
+Note that the "project-factory" module does not require G Suite functionality,
+while the "project-factory-gsuite" module does.
+
 ```hcl
-/// @file simple_project/main.tf
+/// @file main.tf
 
 provider "google" {
   credentials = "${file(var.credentials_path)}"
@@ -20,7 +21,12 @@ provider "google" {
 
 provider "gsuite" {
   credentials             = "${file(var.credentials_path)}"
-  impersonated_user_email = "disabled"
+  impersonated_user_email = "${var.admin_email}"
+
+  oauth_scopes = [
+    "https://www.googleapis.com/auth/admin.directory.group",
+    "https://www.googleapis.com/auth/admin.directory.group.member"
+  ]
 }
 
 module "project-factory" {
@@ -32,18 +38,33 @@ module "project-factory" {
   billing_account   = "${var.billing_account}"
   credentials_path  = "${var.credentials_path}"
 }
+
+module "project-factory-gsuite" {
+  source             = "terraform-google-modules/project-factory/google"
+  version            = "v0.3.0"
+  random_project_id  = "true"
+  name               = "pf-gsuite-migrate-group"
+  org_id             = "${var.org_id}"
+  billing_account    = "${var.billing_account}"
+  credentials_path   = "${var.credentials_path}"
+  create_group       = "true"
+  group_name         = "${var.project_group_name}"
+  api_sa_group       = "${var.api_sa_group}"
+  shared_vpc         = "${var.shared_vpc}"
+  shared_vpc_subnets = "${var.shared_vpc_subnets}"
+}
 ```
 
-#### 1. Update the project-factory source and re-initialize Terraform
+### 1. Update the project-factory source
 
 Update the project-factory module source to the Project Factory v1.0.0 release:
 ```diff
-diff --git i/simple_project/main.tf w/simple_project/main.tf
+diff --git i/main.tf w/main.tf
 index d876954..ebb3b1e 100755
---- i/simple_project/main.tf
-+++ w/simple_project/main.tf
-@@ -33,7 +33,7 @@ provider "gsuite" {
-
+--- i/main.tf
++++ w/main.tf
+@@ -14,7 +14,7 @@ provider "gsuite" {
+ 
  module "project-factory" {
    source            = "terraform-google-modules/project-factory/google"
 -  version           = "v0.3.0"
@@ -51,15 +72,24 @@ index d876954..ebb3b1e 100755
    random_project_id = "true"
    name              = "pf-gsuite-migrate-simple"
    org_id            = "${var.org_id}"
+@@ -24,7 +24,7 @@ module "project-factory" {
+ 
+ module "project-factory-gsuite" {
+   source             = "terraform-google-modules/project-factory/google"
+-  version            = "v0.3.0"
++  version            = "v1.0.0"
+   random_project_id  = "true"
+   name               = "pf-gsuite-migrate-group"
+   org_id             = "${var.org_id}"
 ```
 
-#### 2.  Reinitialize Terraform
+### 2.  Reinitialize Terraform
 
 ```
 terraform init -upgrade
 ```
 
-#### 3. Download the state migration script
+### 3. Download the state migration script
 
 ```
 curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/v1.0.0/helpers/migrate.py
