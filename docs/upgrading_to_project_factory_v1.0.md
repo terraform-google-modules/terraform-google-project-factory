@@ -120,7 +120,7 @@ After commenting out your remote state configuration, you must re-initialize Ter
 terraform init
 ```
 
-#### Migrate the Terraform state to match the new Project Factory module structure
+### Migrate the Terraform state to match the new Project Factory module structure
 
 ```
 ./migrate.py terraform.tfstate terraform.tfstate.new
@@ -139,13 +139,13 @@ Moved module.project-factory.google_service_account.default_service_account to m
 State migration complete, verify migration with `terraform plan -state 'terraform.tfstate.new'`
 ```
 
-#### Check that terraform plans for expected changes
+### Check that terraform plans for expected changes
 
 ```
 terraform plan -state terraform.tfstate.new
 ```
 
-The GSuite refactor adds an additional IAM membership and needs to re-create
+The G Suite refactor adds an additional IAM membership and needs to re-create
 two resources, due to how resources were split up between the `gsuite_enabled`
 and `core_project_factory` modules.
 
