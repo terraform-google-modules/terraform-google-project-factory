@@ -5,6 +5,8 @@ features significant changes, specifically with how G Suite resources are
 managed. A state migration script is provided to update your existing states
 to minimize or eliminate resource re-creations.
 
+Note that upgrading requires you to have Python 3.7 installed.
+
 ## Migration Instructions
 
 This migration was performed with the following example configuration.
@@ -55,9 +57,12 @@ module "project-factory-gsuite" {
 }
 ```
 
-### 1. Update the project-factory source
+### Update the project-factory source
 
-Update the project-factory module source to the Project Factory v1.0.0 release:
+Update the project-factory module source to the Project Factory v1.0.0 release.
+
+Note that any projects which depend on G Suite features must be updated to point to the [gsuite-enabled submodule](../modules/gsuite_enabled).
+
 ```diff
 diff --git i/main.tf w/main.tf
 index d876954..ebb3b1e 100755
@@ -72,31 +77,27 @@ index d876954..ebb3b1e 100755
    random_project_id = "true"
    name              = "pf-gsuite-migrate-simple"
    org_id            = "${var.org_id}"
-@@ -24,7 +24,7 @@ module "project-factory" {
+@@ -24,8 +24,8 @@ module "project-factory" {
  
  module "project-factory-gsuite" {
-   source             = "terraform-google-modules/project-factory/google"
+-  source             = "terraform-google-modules/project-factory/google"
 -  version            = "v0.3.0"
++  source             = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
 +  version            = "v1.0.0"
    random_project_id  = "true"
    name               = "pf-gsuite-migrate-group"
    org_id             = "${var.org_id}"
 ```
 
-### 2.  Reinitialize Terraform
+### Locally download your Terraform state
+
+This step is only required if you are using [remote state](https://www.terraform.io/docs/state/remote.html).
 
 ```
-terraform init -upgrade
+terraform state pull >> terraform.tfstate
 ```
 
-### 3. Download the state migration script
-
-```
-curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/v1.0.0/helpers/migrate.py
-chmod +x migrate.py
-```
-
-#### 4. Migrate the Terraform state to match the new Project Factory module structure
+#### Migrate the Terraform state to match the new Project Factory module structure
 
 ```
 ./migrate.py terraform.tfstate terraform.tfstate.new
@@ -115,143 +116,23 @@ Moved module.project-factory.google_service_account.default_service_account to m
 State migration complete, verify migration with `terraform plan -state 'terraform.tfstate.new'`
 ```
 
-#### 5. Check that terraform does not detect changes
+#### Temporarily disable remote state
 
-```
-terraform plan -state terraform.tfstate.new
-```
+If you have a remote state backend configured, you should temporarily disable it:
 
-Expected output:
-```txt
-Refreshing Terraform state in-memory prior to plan...
-The refreshed state will be used to calculate this plan, but will not be
-persisted to local or remote state storage.
-
-random_id.random_project_id_suffix: Refreshing state... (ID: l3A)
-google_project.project: Refreshing state... (ID: pf-gsuite-migrate-simple-9770)
-data.google_organization.org: Refreshing state...
-google_service_account.default_service_account: Refreshing state... (ID: projects/pf-gsuite-migrate-simple-9770/...te-simple-9770.iam.gserviceaccount.com)
-google_project_service.project_services: Refreshing state... (ID: pf-gsuite-migrate-simple-9770/compute.googleapis.com)
-data.google_compute_default_service_account.default: Refreshing state...
-null_resource.delete_default_compute_service_account: Refreshing state... (ID: 4378457466829456087)
-
-------------------------------------------------------------------------
-
-No changes. Infrastructure is up-to-date.
-
-This means that Terraform did not detect any differences between your
-configuration and real physical resources that exist. As a result, no
-actions need to be performed.
-```
-
-#### 6. Back up the old Terraform state and switch to the new Terraform state
-
-If the Terraform plan suggests no changes, replace the old state file with the new state file.
-
-```
-mv terraform.tfstate terraform.tfstate.pre-migrate
-mv terraform.tfstate.new terraform.tfstate
-```
-
-### With GSuite Integration
-
-This migration was performed with the following example configuration.
 ```hcl
-/// @file group_project/main.tf
-provider "google" {
-  credentials = "${file(var.credentials_path)}"
-}
-
-provider "gsuite" {
-  credentials             = "${file(var.credentials_path)}"
-  impersonated_user_email = "${var.admin_email}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member"
-  ]
-}
-
-module "project-factory" {
-  source             = "terraform-google-modules/project-factory/google"
-  version            = "v0.3.0"
-  random_project_id  = "true"
-  name               = "pf-gsuite-migrate-group"
-  org_id             = "${var.org_id}"
-  billing_account    = "${var.billing_account}"
-  credentials_path   = "${var.credentials_path}"
-  create_group       = "true"
-  group_name         = "${var.project_group_name}"
-  api_sa_group       = "${var.api_sa_group}"
-  shared_vpc         = "${var.shared_vpc}"
-  shared_vpc_subnets = "${var.shared_vpc_subnets}"
-}
+# terraform {
+#   backend "gcs" {
+#     bucket  = "my-bucket-name"
+#     prefix  = "terraform/state/projects"
+#   }
+# }
 ```
 
-#### 1. Update the project-factory source and re-initialize Terraform
+After commenting out your remote state configuration, you must re-initialize Terraform.
 
-Update the project-factory module source to the v1.0.0 release and the gsuite_enabled module:
 
-```diff
-diff --git i/group_project/main.tf w/group_project/main.tf
-index 7f8c3d0..e026b19 100755
---- i/group_project/main.tf
-+++ w/group_project/main.tf
-@@ -32,8 +32,8 @@ provider "gsuite" {
- }
-
- module "project-factory" {
--  source             = "terraform-google-modules/project-factory/google"
--  version            = "v0.3.0"
-+  source             = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
-+  version            = "v1.0.0"
-   random_project_id  = "true"
-   name               = "pf-gsuite-migrate-group"
-   org_id             = "${var.org_id}"
-```
-
-#### 2.  Reinitialize Terraform
-
-```
-terraform init -upgrade
-```
-
-#### 3. Download the state migration script
-
-```
-curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/v1.0.0/helpers/migrate.py
-chmod +x migrate.py
-```
-
-#### 4. Migrate the Terraform state to match the new Project Factory module structure
-
-```
-./migrate.py terraform.tfstate terraform.tfstate.new
-```
-
-Expected output:
-```txt
-cp terraform.tfstate terraform.tfstate.new
----- Migrating the following project-factory modules:
--- module.project-factory
-Moved module.project-factory.random_id.random_project_id_suffix to module.project-factory.module.project-factory.random_id.random_project_id_suffix
-Moved module.project-factory.google_project.project to module.project-factory.module.project-factory.google_project.project
-Moved module.project-factory.google_project_service.project_services to module.project-factory.module.project-factory.google_project_service.project_services
-Moved module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment to module.project-factory.module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment
-Moved module.project-factory.null_resource.delete_default_compute_service_account to module.project-factory.module.project-factory.null_resource.delete_default_compute_service_account
-Moved module.project-factory.google_service_account.default_service_account to module.project-factory.module.project-factory.google_service_account.default_service_account
-Moved module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0] to module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]
-Moved module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1] to module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]
-Moved module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2] to module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]
-Moved module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0]
-Moved module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1]
-Moved module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2]
-Moved module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0]
-Moved module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1]
-Moved module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2] to module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2]
-```
-
-#### 5. Check that terraform plans for expected changes
+#### Check that terraform plans for expected changes
 
 ```
 terraform plan -state terraform.tfstate.new
@@ -333,6 +214,15 @@ can't guarantee that exactly these actions will be performed if
 
 #### 6. Back up the old Terraform state and switch to the new Terraform state
 
+If the Terraform plan suggests no changes, replace the old state file with the new state file.
+
+```
+mv terraform.tfstate terraform.tfstate.pre-migrate
+mv terraform.tfstate.new terraform.tfstate
+```
+
+#### 6. Back up the old Terraform state and switch to the new Terraform state
+
 If `terraform plan` suggests the above changes, replace the old state file with the new state file.
 
 ```
@@ -344,4 +234,39 @@ mv terraform.tfstate.new terraform.tfstate
 
 ```
 terraform apply
+```
+
+## Troubleshooting
+
+### Errors about invalid arguments
+
+You might get errors about invalid arguments, such as:
+
+```
+Error: module "project-pfactory-development": "sa_group" is not a valid argument
+Error: module "project-pfactory-development": "api_sa_group" is not a valid argument
+Error: module "project-pfactory-development": "create_group" is not a valid argument
+```
+
+These are related to projects which depend on G Suite functionality.
+Make sure to update the source of such projects to point to the [G Suite module](../modules/gsuite_enabled)
+
+### The migration script fails to run
+
+If you get an error like this when running the migration script, it means you need upgrade
+your Python version to 3.7.
+
+```
+Traceback (most recent call last):
+  File "./migrate.py", line 372, in <module>
+    main(sys.argv)
+  File "./migrate.py", line 353, in main
+    migrate(args.newstate, dryrun=args.dryrun)
+  File "./migrate.py", line 314, in migrate
+    for path in read_state(statefile)
+  File "./migrate.py", line 282, in read_state
+    encoding='utf-8')
+  File "/usr/local/Cellar/python3/3.6.3/Frameworks/Python.framework/Versions/3.6/lib/python3.6/subprocess.py", line 403, in run
+    with Popen(*popenargs, **kwargs) as process:
+TypeError: __init__() got an unexpected keyword argument 'capture_output'
 ```
