@@ -89,12 +89,35 @@ index d876954..ebb3b1e 100755
    org_id             = "${var.org_id}"
 ```
 
+### Reinitialize Terraform
+
+```
+terraform init -upgrade
+```
+
 ### Locally download your Terraform state
 
 This step is only required if you are using [remote state](https://www.terraform.io/docs/state/remote.html).
 
 ```
 terraform state pull >> terraform.tfstate
+```
+
+You should then disable remote state temporarily:
+
+```hcl
+# terraform {
+#   backend "gcs" {
+#     bucket  = "my-bucket-name"
+#     prefix  = "terraform/state/projects"
+#   }
+# }
+```
+
+After commenting out your remote state configuration, you must re-initialize Terraform.
+
+```
+terraform init
 ```
 
 #### Migrate the Terraform state to match the new Project Factory module structure
@@ -115,22 +138,6 @@ Moved module.project-factory.null_resource.delete_default_compute_service_accoun
 Moved module.project-factory.google_service_account.default_service_account to module.project-factory.module.project-factory.google_service_account.default_service_account
 State migration complete, verify migration with `terraform plan -state 'terraform.tfstate.new'`
 ```
-
-#### Temporarily disable remote state
-
-If you have a remote state backend configured, you should temporarily disable it:
-
-```hcl
-# terraform {
-#   backend "gcs" {
-#     bucket  = "my-bucket-name"
-#     prefix  = "terraform/state/projects"
-#   }
-# }
-```
-
-After commenting out your remote state configuration, you must re-initialize Terraform.
-
 
 #### Check that terraform plans for expected changes
 
@@ -212,28 +219,38 @@ can't guarantee that exactly these actions will be performed if
 "terraform apply" is subsequently run.
 ```
 
-#### 6. Back up the old Terraform state and switch to the new Terraform state
+### Back up the old Terraform state and switch to the new Terraform state
 
-If the Terraform plan suggests no changes, replace the old state file with the new state file.
-
-```
-mv terraform.tfstate terraform.tfstate.pre-migrate
-mv terraform.tfstate.new terraform.tfstate
-```
-
-#### 6. Back up the old Terraform state and switch to the new Terraform state
-
-If `terraform plan` suggests the above changes, replace the old state file with the new state file.
+If the Terraform plan suggests no changes or only the IAM changes above, replace the old state file with the new state file.
 
 ```
 mv terraform.tfstate terraform.tfstate.pre-migrate
 mv terraform.tfstate.new terraform.tfstate
 ```
 
-#### 7. Run Terraform to reconcile any differences
+### Run Terraform to reconcile any differences
 
 ```
 terraform apply
+```
+
+### Re-enable remote state
+
+You should then re-enable remote state:
+
+```hcl
+terraform {
+  backend "gcs" {
+    bucket  = "my-bucket-name"
+    prefix  = "terraform/state/projects"
+  }
+}
+```
+
+After restoring remote state, you need to re-initialize Terraform and push your local state to the remote:
+
+```
+terraform init -force-copy
 ```
 
 ## Troubleshooting
