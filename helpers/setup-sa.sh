@@ -26,6 +26,9 @@ if [ $# -lt 2 ]; then
   echo "  project id (required)"
   echo "  billing account id (optional)"
   echo
+  echo "The billing account id is required if owned by a different organization"
+  echo "than the Seed Project organization."
+  echo
   exit 1
 fi
 
@@ -39,13 +42,13 @@ then
   exit 1;
 fi
 
-# Host project
+ # Seed Project
 echo "Verifying project..."
-HOST_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
+SEED_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
 
-if [[ $HOST_PROJECT == "" ]];
+if [[ $SEED_PROJECT == "" ]];
 then
-  echo "The host project does not exist. Exiting."
+   echo "The Seed Project does not exist. Exiting."
   exit 1;
 fi
 
@@ -63,15 +66,15 @@ else
   echo "Skipping billing account verification... (parameter not passed)"
 fi
 
-# Service Account creation
+ # Seed Service Account creation
 SA_NAME="project-factory-${RANDOM}"
-SA_ID="${SA_NAME}@${HOST_PROJECT}.iam.gserviceaccount.com"
+SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
 KEY_FILE="${STAGING_DIR}/credentials.json"
 
-echo "Creating service account..."
+ echo "Creating Seed Service Account..."
 gcloud iam service-accounts \
-    --project ${HOST_PROJECT} create ${SA_NAME} \
+    --project ${SEED_PROJECT} create ${SA_NAME} \
     --display-name ${SA_NAME}
 
 echo "Downloading key to credentials.json..."
@@ -79,8 +82,8 @@ gcloud iam service-accounts keys create ${KEY_FILE} \
     --iam-account ${SA_ID} \
     --user-output-enabled false
 
-echo "Applying permissions for org $ORG_ID and project $HOST_PROJECT..."
-# Grant roles/resourcemanager.organizationViewer to the service account on the organization
+echo "Applying permissions for org $ORG_ID and project $SEED_PROJECT..."
+ # Grant roles/resourcemanager.organizationViewer to the Seed Service Account on the organization
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
@@ -127,10 +130,10 @@ gcloud organizations add-iam-policy-binding \
   --role="roles/iam.serviceAccountAdmin" \
   --user-output-enabled false
 
-# Grant roles/resourcemanager.projectIamAdmin to the service account on the host project
+ # Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
 echo "Adding role roles/resourcemanager.projectIamAdmin..."
 gcloud projects add-iam-policy-binding \
-  "${HOST_PROJECT}" \
+  "${SEED_PROJECT}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/resourcemanager.projectIamAdmin" \
   --user-output-enabled false
@@ -139,23 +142,23 @@ gcloud projects add-iam-policy-binding \
 echo "Enabling APIs..."
 gcloud services enable \
   cloudresourcemanager.googleapis.com \
-  --project ${HOST_PROJECT}
+  --project ${SEED_PROJECT}
 
 gcloud services enable \
   cloudbilling.googleapis.com \
-  --project ${HOST_PROJECT}
+  --project ${SEED_PROJECT}
 
 gcloud services enable \
   iam.googleapis.com \
-  --project ${HOST_PROJECT}
+  --project ${SEED_PROJECT}
 
 gcloud services enable \
   admin.googleapis.com \
-  --project ${HOST_PROJECT}
+  --project ${SEED_PROJECT}
 
 gcloud services enable \
   appengine.googleapis.com \
-  --project ${HOST_PROJECT}
+  --project ${SEED_PROJECT}
 
 # enable the billing account
 if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
