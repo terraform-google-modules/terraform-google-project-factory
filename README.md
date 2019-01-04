@@ -90,6 +90,8 @@ The roles granted are specifically:
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
 | domain | The domain name (optional if `org_id` is passed) | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
+| group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `` | no |
+| group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `roles/editor` | no |
 | labels | Map of labels for project | map | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `false` | no |
 | name | The name for the project | string | - | yes |

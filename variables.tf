@@ -47,6 +47,16 @@ variable "folder_id" {
   default     = ""
 }
 
+variable "group_name" {
+  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+  default     = ""
+}
+
+variable "group_role" {
+  description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
+  default     = "roles/editor"
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
