@@ -7,6 +7,9 @@ This module allows you to create opinionated Google Cloud Platform projects. It
 creates projects and configures aspects like Shared VPC connectivity, IAM
 access, Service Accounts, and API enablement to follow best practices.
 
+To include G Suite integration, use the
+[gsuite_enabled module][gsuite-enabled-module].
+
 ## Usage
 
 There are multiple examples included in the [examples](./examples/) folder but simple usage is as follows:
@@ -71,9 +74,6 @@ The roles granted are specifically:
 - Google APIs Service Account
   - `compute.networkUser` on host project or specified subnets
   - `storage.admin` on `bucket_name` GCS bucket
-
-To include G Suite integration, use the
-[gsuite_enabled module][gsuite-enabled-module].
 
 [^]: (autogen_docs_start)
 
