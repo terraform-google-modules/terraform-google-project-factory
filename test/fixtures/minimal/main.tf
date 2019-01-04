@@ -33,7 +33,7 @@ provider "gsuite" {
 
 module "project-factory" {
   source            = "../../../"
-  name              = "${var.name}"
+  name              = "pf-int-test-minimal"
   random_project_id = true
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"
