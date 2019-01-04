@@ -39,7 +39,7 @@ provider "gsuite" {
 module "vpc" {
   source          = "terraform-google-modules/network/google"
   version         = "~> 0.4.0"
-  network_name    = "${var.name}"
+  network_name    = "pf-test-int-full"
   project_id      = "${var.shared_vpc}"
   shared_vpc_host = "true"
 
@@ -63,7 +63,7 @@ module "vpc" {
 
 module "project-factory" {
   source              = "../../../"
-  name                = "${var.name}"
+  name                = "pf-test-int-full"
   random_project_id   = true
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
