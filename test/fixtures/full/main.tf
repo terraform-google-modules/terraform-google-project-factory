@@ -31,10 +31,16 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
+resource "random_string" "suffix" {
+  length = 4
+  special = false
+  upper = false
+}
+
 module "vpc" {
   source          = "terraform-google-modules/network/google"
   version         = "~> 0.4.0"
-  network_name    = "pf-test-int-full"
+  network_name    = "pf-test-int-full-${random_string.suffix.result}"
   project_id      = "${var.shared_vpc}"
   shared_vpc_host = "true"
 
@@ -58,7 +64,7 @@ module "vpc" {
 
 module "project-factory" {
   source              = "../../../"
-  name                = "pf-test-int-full"
+  name                = "pf-test-int-full-${random_string.suffix.result}"
   random_project_id   = true
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
