@@ -36,9 +36,15 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
+resource "random_string" "suffix" {
+  length = 4
+  special = false
+  upper = false
+}
+
 module "project-factory" {
   source            = "../../../"
-  name              = "pf-int-test-minimal"
+  name              = "pf-int-test-minimal-${random_string.suffix.result}"
   random_project_id = true
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"
