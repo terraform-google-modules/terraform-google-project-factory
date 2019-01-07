@@ -18,9 +18,9 @@ Expected variables:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin\_email | Admin user email on Gsuite | string | - | yes |
-| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
-| organization\_id | The organization id for the associated services | string | - | yes |
+| admin\_email | Admin user email on Gsuite | string | n/a | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| organization\_id | The organization id for the associated services | string | n/a | yes |
 
 ## Outputs
 
