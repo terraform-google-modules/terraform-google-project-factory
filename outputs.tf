@@ -27,6 +27,11 @@ output "domain" {
   description = "The organization's domain"
 }
 
+output "group_email" {
+  value       = "${module.project-factory.group_email}"
+  description = "The email of the created GSuite group with group_name"
+}
+
 output "service_account_id" {
   value       = "${module.project-factory.service_account_id}"
   description = "The id of the default service account"

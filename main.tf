@@ -17,6 +17,8 @@
 module "project-factory" {
   source = "modules/core_project_factory"
 
+  group_name          = "${var.group_name}"
+  group_role          = "${var.group_role}"
   lien                = "${var.lien}"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"

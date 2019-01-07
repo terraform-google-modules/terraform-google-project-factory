@@ -23,8 +23,13 @@ output "project_number" {
 }
 
 output "domain" {
-  value       = "${module.google_organization.domain}"
+  value       = "${module.gsuite_group.domain}"
   description = "The organization's domain"
+}
+
+output "group_email" {
+  value       = "${local.gsuite_group_id ? module.gsuite_group.email : ""}"
+  description = "The email of the created GSuite group with group_name"
 }
 
 output "service_account_id" {

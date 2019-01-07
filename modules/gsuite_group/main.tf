@@ -16,6 +16,7 @@
 
 locals {
   domain = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
+  email  = "${format("%s@%s", var.name, local.domain)}"
 }
 
 /*****************************************

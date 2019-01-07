@@ -15,9 +15,7 @@
  */
 
 locals {
-  group_email = "${format("%s@%s", local.group_name, module.google_organization.domain)}"
-  group_id    = "${format("group:%s", local.group_email)}"
-  group_name  = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
+  group_name = "${var.group_name != "" ? var.group_name : format("%s-editors", var.name)}"
 }
 
 /***********************************************
@@ -34,12 +32,13 @@ resource "gsuite_group_member" "service_account_sa_group_member" {
 }
 
 /*****************************************
-  Organization info retrieval
+  G Suite group information retrieval
  *****************************************/
-module "google_organization" {
-  source = "../google_organization"
+module "gsuite_group" {
+  source = "../gsuite_group"
 
   domain = "${var.domain}"
+  name   = "${local.group_name}"
   org_id = "${var.org_id}"
 }
 
@@ -50,7 +49,7 @@ resource "gsuite_group" "group" {
   count = "${var.create_group ? 1 : 0}"
 
   description = "${var.name} project group"
-  email       = "${local.group_email}"
+  email       = "${module.gsuite_group.email}"
   name        = "${local.group_name}"
 }
 
@@ -68,6 +67,8 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
 module "project-factory" {
   source = "../core_project_factory/"
 
+  group_name          = "${local.group_name}"
+  group_role          = "${var.group_role}"
   lien                = "${var.lien}"
   random_project_id   = "${var.random_project_id}"
   org_id              = "${var.org_id}"
@@ -87,60 +88,4 @@ module "project-factory" {
   bucket_name         = "${var.bucket_name}"
   auto_create_network = "${var.auto_create_network}"
   app_engine          = "${var.app_engine}"
-}
-
-/******************************************
-  Gsuite Group Role Configuration
- *****************************************/
-resource "google_project_iam_member" "gsuite_group_role" {
-  member  = "${local.group_id}"
-  project = "${module.project-factory.project_id}"
-  role    = "${var.group_role}"
-}
-
-/******************************************
-  Granting serviceAccountUser to group
- *****************************************/
-resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  member = "${local.group_id}"
-  role   = "roles/iam.serviceAccountUser"
-
-  service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${
-    module.project-factory.service_account_email
-  }"
-}
-
-/*************************************************************************************
-  compute.networkUser role granted to GSuite group on shared VPC
- *************************************************************************************/
-resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? 1 : 0}"
-
-  member  = "${local.group_id}"
-  project = "${var.shared_vpc}"
-  role    = "roles/compute.networkUser"
-}
-
-/*************************************************************************************
-  compute.networkUser role granted to GSuite group on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
-
-  member     = "${local.group_id}"
-  project    = "${var.shared_vpc}"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
-  role       = "roles/compute.networkUser"
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
-}
-
-/***********************************************
-  Project's bucket storage.admin granting to group
- ***********************************************/
-resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_bucket" {
-  count = "${var.bucket_project != "" ? 1 : 0}"
-
-  bucket = "${module.project-factory.project_bucket_name}"
-  member = "${local.group_id}"
-  role   = "roles/storage.admin"
 }

@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+variable "group_name" {
+  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+}
+
+variable "group_role" {
+  description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
+}
+
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
   default     = "false"

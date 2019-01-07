@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-output "domain" {
-  value       = "${local.domain}"
-  description = "The organization's domain"
+variable "domain" {
+  description = "The domain name (optional if `org_id` is passed)"
+  default     = ""
+}
+
+variable "name" {
+  description = "The name of the group."
+}
+
+variable "org_id" {
+  description = "The organization id (optional if `domain` is passed)"
+  default     = ""
 }

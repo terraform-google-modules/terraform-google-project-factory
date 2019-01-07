@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-variable "domain" {
-  description = "The domain name (optional if `org_id` is passed)"
-  default     = ""
+output "domain" {
+  value       = "${local.domain}"
+  description = "The domain of the group's organization."
 }
 
-variable "org_id" {
-  description = "The organization id (optional if `domain` is passed)"
-  default     = ""
+output "email" {
+  description = "The email address of the group."
+  value       = "${local.email}"
 }

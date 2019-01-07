@@ -28,7 +28,7 @@ output "domain" {
 }
 
 output "group_email" {
-  value       = "${local.group_email}"
+  value       = "${module.gsuite_group.email}"
   description = "The email of the created GSuite group with group_name"
 }
 
