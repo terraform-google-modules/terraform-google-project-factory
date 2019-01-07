@@ -41,12 +41,8 @@ addition to those of the root module:
 
 1. Create a new Google group for the project using `group_name` if
    `create_group` is `"true"`.
-1. Give the group access to the project with the `group_role`.
-1. Give the project controlling group specified in `group_name` network
-   access on the specified subnets if `shared_vpc` is specified.
 1. Add the new default service account for the project to the
    `sa_group` in Google Groups, if specified.
-1. Give the group Storage Admin on `bucket_name`, if specified.
 1. Add the Google APIs service account to the `api_sa_group`,
    if specified.
 
@@ -54,11 +50,6 @@ The roles granted are specifically:
 
 - New Default Service Account
   - MEMBER of the specified `sa_group`
-- `group_name` is the new controlling group
-  - `compute.networkUser` on host project or specific subnets
-  - Specified `group_role` on project
-  - `iam.serviceAccountUser` on the default Service Account
-  - `storage.admin` on `bucket_name` GCS bucket
 - Google APIs Service Account
   - MEMBER of the specified `api_sa_group`
 

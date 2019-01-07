@@ -44,11 +44,11 @@ The Project Factory module will take the following actions:
 1. If a shared VPC is specified, attach the new project to the
    `shared_vpc`.
 
-    It will also give the following users network access on the specified
-    subnets:
+   It will also give the following users network access on the specified subnets:
 
-      - The project's new default service account (see step 4)
-      - The Google API service account for the project
+   - The project's new default service account (see step 4)
+   - The Google API service account for the project
+   - The project controlling group specified in `group_name`
 
 1. Delete the default compute service account.
 1. Create a new default service account for the project.
@@ -62,14 +62,19 @@ The Project Factory module will take the following actions:
    (`target_usage_bucket`), if provided.
 1. If specified, create the GCS bucket `bucket_name` and give the
    following accounts Storage Admin on it:
-    1. The controlling group (`group_name`)
-    1. The new default compute service account created for the project.
-    1. The Google APIs service account for the project.
+   1. The controlling group (`group_name`).
+   1. The new default compute service account created for the project.
+   1. The Google APIs service account for the project.
 
 The roles granted are specifically:
 
 - New Default Service Account
   - `compute.networkUser` on host project or specified subnets
+  - `storage.admin` on `bucket_name` GCS bucket
+- `group_name` is the controlling group
+  - `compute.networkUser` on host project or specific subnets
+  - Specified `group_role` on project
+  - `iam.serviceAccountUser` on the default Service Account
   - `storage.admin` on `bucket_name` GCS bucket
 - Google APIs Service Account
   - `compute.networkUser` on host project or specified subnets
