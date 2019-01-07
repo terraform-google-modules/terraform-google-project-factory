@@ -15,8 +15,15 @@
  */
 
 locals {
-  domain = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
-  email  = "${format("%s@%s", var.name, local.domain)}"
+  args_missing = "${var.name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
+  domain       = "${var.domain != "" ? var.domain : var.org_id != "" ? join("", data.google_organization.org.*.domain) : ""}"
+  email        = "${format("%s@%s", var.name, local.domain)}"
+}
+
+resource "null_resource" "args_missinG" {
+  count = "${local.args_missing}"
+
+  "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = "true"
 }
 
 /*****************************************

@@ -31,7 +31,6 @@ locals {
   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
   temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
-  args_missing           = "${var.group_name != "" && var.org_id == "" && var.domain == "" ? 1 : 0}"
   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
   api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
@@ -51,12 +50,6 @@ locals {
     enabled  = "${list(var.app_engine)}"
     disabled = "${list()}"
   }
-}
-
-resource "null_resource" "args_missinG" {
-  count = "${local.args_missing}"
-
-  "ERROR: Variable `group_name` was passed. Please provide either `org_id` or `domain` variables" = "true"
 }
 
 /*****************************************
