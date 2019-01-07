@@ -56,7 +56,7 @@ output "sa_role" {
 }
 
 output "shared_vpc" {
-  value = "${var.shared_vpc}"
+  value = "${local.shared_vpc}"
 }
 
 output "usage_bucket_name" {

@@ -16,7 +16,7 @@
 
 provider "google" {
   credentials = "${file(var.credentials_path)}"
-  version = "~> 1.19"
+  version     = "~> 1.19"
 }
 
 provider "gsuite" {
@@ -31,17 +31,34 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
+locals {
+  shared_vpc = "${module.shared-vpc-host.project_id}"
+}
+
 resource "random_string" "suffix" {
-  length = 4
+  length  = 4
   special = false
-  upper = false
+  upper   = false
+}
+
+module "shared-vpc-host" {
+  source            = "../../../"
+  name              = "pf-test-vpc-host-${random_string.suffix.result}"
+  random_project_id = "true"
+  org_id            = "${var.org_id}"
+  folder_id         = "${var.folder_id}"
+  billing_account   = "${var.billing_account}"
+  group_name        = "${var.group_name}"
+  credentials_path  = "${var.credentials_path}"
+
+  activate_apis = ["compute.googleapis.com"]
 }
 
 module "vpc" {
   source          = "terraform-google-modules/network/google"
   version         = "~> 0.4.0"
   network_name    = "pf-test-int-full-${random_string.suffix.result}"
-  project_id      = "${var.shared_vpc}"
+  project_id      = "${module.shared-vpc-host.project_id}"
   shared_vpc_host = "true"
 
   subnets = [
@@ -65,7 +82,7 @@ module "vpc" {
 module "project-factory" {
   source              = "../../../"
   name                = "pf-test-int-full-${random_string.suffix.result}"
-  random_project_id   = true
+  random_project_id   = "true"
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
   usage_bucket_name   = "${var.usage_bucket_name}"
@@ -74,8 +91,8 @@ module "project-factory" {
   create_group        = "${var.create_group}"
   group_role          = "${var.group_role}"
   group_name          = "${var.group_name}"
-  shared_vpc          = "${var.shared_vpc}"
-  shared_vpc_subnets  = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
+  shared_vpc          = "${local.shared_vpc}"
+  shared_vpc_subnets  = ["projects/${local.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
   sa_role             = "${var.sa_role}"
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
@@ -111,8 +128,7 @@ resource "google_project_iam_member" "additive_sa_role" {
 }
 
 resource "google_project_iam_member" "additive_shared_vpc_role" {
-  count   = "${var.shared_vpc != "" ? 1 : 0}"
-  project = "${var.shared_vpc}"
+  project = "${local.shared_vpc}"
   role    = "roles/compute.networkUser"
   member  = "serviceAccount:${google_service_account.extra_service_account.email}"
 }

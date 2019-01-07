@@ -28,16 +28,6 @@ credentials_path = "credentials.json"
 # The G Suite admin account to impersonate when managing G Suite groups and group membership
 gsuite_admin_account = "admin@example.com"
 
-# The Shared VPC host project.
-#
-# Example:
-#
-# ```
-# org_id=$(gcloud organizations list --format='get(name)')
-# gcloud compute shared-vpc organizations list-host-projects $org_id
-# ```
-shared_vpc = "host-vpc-project-id"
-
 # The folder ID where the project will be created.
 # Example source: `gcloud alpha resource-manager folders list --organization $(gcloud organizations list --format='get(name)')`
 # folder_id = "000000000000"

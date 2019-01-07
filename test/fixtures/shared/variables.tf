@@ -47,10 +47,6 @@ variable "group_role" {
   default = "roles/viewer"
 }
 
-variable "shared_vpc" {
-  default = ""
-}
-
 variable "sa_role" {
   default = "roles/editor"
 }
