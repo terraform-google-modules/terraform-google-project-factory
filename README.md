@@ -93,14 +93,14 @@ The roles granted are specifically:
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
-| domain | The domain name (optional if `org_id` is passed) | string | `""` | no |
+| domain | The domain name (optional). | string | `""` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
 | labels | Map of labels for project | map | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
-| org\_id | The organization id (optional if `domain` is passed) | string | `""` | no |
+| org\_id | The organization ID. | string | n/a | yes |
 | random\_project\_id | Enables project random id generation | string | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |

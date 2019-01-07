@@ -20,12 +20,11 @@ variable "random_project_id" {
 }
 
 variable "org_id" {
-  description = "The organization id (optional if `domain` is passed)"
-  default     = ""
+  description = "The organization ID."
 }
 
 variable "domain" {
-  description = "The domain name (optional if `org_id` is passed)"
+  description = "The domain name (optional)."
   default     = ""
 }
 

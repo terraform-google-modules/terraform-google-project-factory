@@ -6,9 +6,9 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| domain | The domain name (optional if `org_id` is passed) | string | `""` | no |
+| domain | The domain name | string | `""` | no |
 | name | The name of the group. | string | n/a | yes |
-| org\_id | The organization id (optional if `domain` is passed) | string | `""` | no |
+| org\_id | The organization ID. | string | n/a | yes |
 
 ## Outputs
 
