@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-provider "google" {
-  credentials = "${file(var.credentials_path)}"
-  version     = "~> 1.19"
+variable "domain" {
+  description = "The domain name"
+  default     = ""
 }
 
-module "project-factory" {
-  source            = "../../../"
-  name              = "${var.name}"
-  random_project_id = true
-  domain            = "${var.domain}"
-  org_id            = "${var.org_id}"
-  folder_id         = "${var.folder_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${var.credentials_path}"
+variable "name" {
+  description = "The name of the group."
+}
 
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
+variable "org_id" {
+  description = "The organization ID."
 }

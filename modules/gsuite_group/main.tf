@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-provider "google" {
-  credentials = "${file(var.credentials_path)}"
-  version     = "~> 1.19"
+locals {
+  domain = "${var.domain != "" ? var.domain : data.google_organization.org.domain}"
+  email  = "${format("%s@%s", var.name, local.domain)}"
 }
 
-module "project-factory" {
-  source            = "../../../"
-  name              = "${var.name}"
-  random_project_id = true
-  domain            = "${var.domain}"
-  org_id            = "${var.org_id}"
-  folder_id         = "${var.folder_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${var.credentials_path}"
-
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
+/*****************************************
+  Organization info retrieval
+ *****************************************/
+data "google_organization" "org" {
+  organization = "${var.org_id}"
 }

@@ -14,6 +14,20 @@
  * limitations under the License.
  */
 
+variable "group_name" {
+  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+}
+
+variable "group_role" {
+  description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
+}
+
+variable "lien" {
+  description = "Add a lien on the project to prevent accidental deletion"
+  default     = "false"
+  type        = "string"
+}
+
 variable "random_project_id" {
   description = "Enables project random id generation"
   default     = "false"
@@ -44,16 +58,6 @@ variable "billing_account" {
 variable "folder_id" {
   description = "The ID of a folder to host this project"
   default     = ""
-}
-
-variable "group_name" {
-  description = "A group to control the project by being assigned group_role (defaults to project editor)"
-  default     = ""
-}
-
-variable "group_role" {
-  description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
-  default     = "roles/editor"
 }
 
 variable "sa_role" {
@@ -112,10 +116,4 @@ variable "app_engine" {
   description = "A map for app engine configuration"
   type        = "map"
   default     = {}
-}
-
-variable "lien" {
-  description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = "string"
 }

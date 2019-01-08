@@ -7,15 +7,17 @@ This module allows you to create opinionated Google Cloud Platform projects. It
 creates projects and configures aspects like Shared VPC connectivity, IAM
 access, Service Accounts, and API enablement to follow best practices.
 
+To include G Suite integration, use the
+[gsuite_enabled module][gsuite-enabled-module].
+
 ## Usage
 
-There are multiple examples included in the [examples](./examples/) folder but
-simple usage is as follows:
+There are multiple examples included in the [examples](./examples/) folder but simple usage is as follows:
 
 ```hcl
 module "project-factory" {
-  source              = "terraform-google-modules/project-factory/google"
-  version             = "v0.3.0"
+  source  = "terraform-google-modules/project-factory/google"
+  version = "v0.3.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -23,9 +25,7 @@ module "project-factory" {
   usage_bucket_name   = "pf-test-1-usage-report-bucket"
   usage_bucket_prefix = "pf/test/1/integration"
   billing_account     = "ABCDEF-ABCDEF-ABCDEF"
-  group_role          = "roles/editor"
   shared_vpc          = "shared_vpc_host_name"
-  sa_group            = "test_sa_group@yourdomain.com"
   credentials_path    = "${local.credentials_file_path}"
 
   shared_vpc_subnets = [
@@ -36,46 +36,42 @@ module "project-factory" {
 }
 ```
 
-### Features
+## Features
 
 The Project Factory module will take the following actions:
 
 1. Create a new GCP project using the `project_name`.
-1. If a shared VPC is specified, attach the new project to the `shared_vpc`.
+1. If a shared VPC is specified, attach the new project to the
+   `shared_vpc`.
 
-    It will also give the following users network access on the specified
-    subnets:
+   It will also give the following users network access on the specified subnets:
 
-      - The prroject's new default service account (see step 4)
-      - The Google API service account for the project
-      - The project controlling group specified in `group_name`
+   - The project's new default service account (see step 4)
+   - The Google API service account for the project
+   - The project controlling group specified in `group_name`
 
 1. Delete the default compute service account.
 1. Create a new default service account for the project.
-    1. Give it access to the shared VPC (to be able to launch instances).
-    1. Add it to the `sa_group` in Google Groups, if specified.
+    1. Give it access to the shared VPC
+       (to be able to launch instances).
 1. Attach the billing account (`billing_account`) to the project.
-1. Create a new Google Group for the project (`group_name`) if `create_group` is
-   `true`.
 1. Give the controlling group access to the project, with the `group_role`.
 1. Enable the required and specified APIs (`activate_apis`).
 1. Delete the default network.
 1. Enable usage report for GCE into central project bucket
    (`target_usage_bucket`), if provided.
-1. If specified, create the GCS bucket `bucket_name` and give the following
-   groups Storage Admin on it:
-    1. The controlling group (`group_name`)
-    1. The new default compute service account created for the project
-    1. The Google APIs service account for the project
-1. Add the Google APIs service account to the `api_sa_group` (if specified)
+1. If specified, create the GCS bucket `bucket_name` and give the
+   following accounts Storage Admin on it:
+   1. The controlling group (`group_name`).
+   1. The new default compute service account created for the project.
+   1. The Google APIs service account for the project.
 
 The roles granted are specifically:
 
 - New Default Service Account
   - `compute.networkUser` on host project or specified subnets
   - `storage.admin` on `bucket_name` GCS bucket
-  - MEMBER of the specified `sa_group`
-- `group_name` is the new controlling group
+- `group_name` is the controlling group
   - `compute.networkUser` on host project or specific subnets
   - Specified `group_role` on project
   - `iam.serviceAccountUser` on the default Service Account
@@ -83,7 +79,6 @@ The roles granted are specifically:
 - Google APIs Service Account
   - `compute.networkUser` on host project or specified subnets
   - `storage.admin` on `bucket_name` GCS bucket
-  - MEMBER of the specified `api_sa_group`
 
 [^]: (autogen_docs_start)
 
@@ -92,29 +87,26 @@ The roles granted are specifically:
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list | `<list>` | no |
-| api\_sa\_group | A GSuite group to place the Google APIs Service Account for the project in | string | `` | no |
 | app\_engine | A map for app engine configuration | map | `<map>` | no |
-| auto\_create\_network | Create the default network | string | `false` | no |
-| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
-| bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `` | no |
-| bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `` | no |
-| create\_group | Whether to create the group or not | string | `false` | no |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
-| domain | The domain name (optional if `org_id` is passed) | string | `` | no |
-| folder\_id | The ID of a folder to host this project | string | `` | no |
-| group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `` | no |
-| group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `roles/editor` | no |
+| auto\_create\_network | Create the default network | string | `"false"` | no |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
+| bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
+| domain | The domain name (optional). | string | `""` | no |
+| folder\_id | The ID of a folder to host this project | string | `""` | no |
+| group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
+| group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
 | labels | Map of labels for project | map | `<map>` | no |
-| lien | Add a lien on the project to prevent accidental deletion | string | `false` | no |
-| name | The name for the project | string | - | yes |
-| org\_id | The organization id (optional if `domain` is passed) | string | `` | no |
-| random\_project\_id | Enables project random id generation | string | `false` | no |
-| sa\_group | A GSuite group to place the default Service Account for the project in | string | `` | no |
-| sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `` | no |
-| shared\_vpc | The ID of the host project which hosts the shared VPC | string | `` | no |
+| lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
+| name | The name for the project | string | n/a | yes |
+| org\_id | The organization ID. | string | n/a | yes |
+| random\_project\_id | Enables project random id generation | string | `"false"` | no |
+| sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
+| shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
-| usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `` | no |
-| usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `` | no |
+| usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
+| usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 
 ## Outputs
 
@@ -125,8 +117,8 @@ The roles granted are specifically:
 | group\_email | The email of the created GSuite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id | - |
-| project\_number | - |
+| project\_id |  |
+| project\_number |  |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |
@@ -136,6 +128,7 @@ The roles granted are specifically:
 [^]: (autogen_docs_end)
 
 ## File structure
+
 The project has the following folders and files:
 
 - /: root folder
@@ -402,6 +395,7 @@ target to work.
 See the Terraform documentation for more info on [releasing new
 versions][release-new-version].
 
+[gsuite-enabled-module]: modules/gsuite_enabled/README.md
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
