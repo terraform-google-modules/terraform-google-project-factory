@@ -28,8 +28,8 @@ output "domain" {
 }
 
 output "group_email" {
-  value       = "${local.gsuite_group_id ? module.gsuite_group.email : ""}"
   description = "The email of the created GSuite group with group_name"
+  value       = "${module.gsuite_group.email}"
 }
 
 output "service_account_id" {
