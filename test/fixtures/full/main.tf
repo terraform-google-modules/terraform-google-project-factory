@@ -49,7 +49,7 @@ resource "google_compute_network" "network" {
 }
 
 resource "google_compute_subnetwork" "subnet-01" {
-  name          = "subnet-01"
+  name          = "subnet-01-${random_string.suffix.result}"
   ip_cidr_range = "10.10.10.0/24"
   region        = "us-east4"
   network       = "${google_compute_network.network.name}"
