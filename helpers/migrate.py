@@ -102,6 +102,11 @@ MIGRATIONS = [
         "name": "gke_host_agent",
         "module": ".module.project-factory"
     },
+    {
+        "resource_type": "google_project_iam_member",
+        "name": "gsuite_group_role",
+        "module": ".module.project-factory",
+    },
 ]
 
 
