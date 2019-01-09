@@ -81,7 +81,6 @@ module "project-factory" {
   lien                = "true"
 
   activate_apis = [
-    "compute.googleapis.com",
     "container.googleapis.com",
   ]
 
