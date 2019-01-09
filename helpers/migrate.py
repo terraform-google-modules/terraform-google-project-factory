@@ -107,6 +107,11 @@ MIGRATIONS = [
         "name": "gsuite_group_role",
         "module": ".module.project-factory",
     },
+    {
+        "resource_type": "google_service_account_iam_member",
+        "name": "service_account_grant_to_group",
+        "module": ".module.project-factory",
+    },
 ]
 
 
