@@ -56,4 +56,6 @@ module "project-factory" {
     "compute.googleapis.com",
     "container.googleapis.com",
   ]
+
+  disable_services_on_destroy = "false"
 }

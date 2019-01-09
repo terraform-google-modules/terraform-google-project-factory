@@ -85,6 +85,8 @@ module "project-factory" {
     "container.googleapis.com",
   ]
 
+  disable_services_on_destroy = "false"
+
   app_engine {
     location_id = "${var.region}"
     auth_domain = "${var.domain}"
