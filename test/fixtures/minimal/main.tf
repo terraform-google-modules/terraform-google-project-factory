@@ -48,6 +48,7 @@ module "project-factory" {
   credentials_path  = "${var.credentials_path}"
 
   activate_apis = [
+    "compute.googleapis.com",
     "container.googleapis.com",
   ]
 }
