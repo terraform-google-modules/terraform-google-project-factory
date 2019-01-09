@@ -143,8 +143,9 @@ resource "google_resource_manager_lien" "lien" {
 resource "google_project_service" "project_services" {
   count = "${length(var.activate_apis)}"
 
-  project = "${local.project_id}"
-  service = "${element(var.activate_apis, count.index)}"
+  project            = "${local.project_id}"
+  service            = "${element(var.activate_apis, count.index)}"
+  disable_on_destroy = "${var.disable_services_on_destroy}"
 
   depends_on = ["google_project.project"]
 }
