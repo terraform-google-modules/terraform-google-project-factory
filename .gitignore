@@ -41,4 +41,4 @@ crash.log
 terraform.tfstate.d/
 *.auto.tfvars
 credentials.json
-terraform.tfvars
+test/fixtures/shared/terraform.tfvars
