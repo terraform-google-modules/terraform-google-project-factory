@@ -49,7 +49,7 @@ resource "random_string" "suffix" {
 resource "google_compute_network" "network" {
   name                    = "pf-test-full-${random_string.suffix.result}"
   routing_mode            = "GLOBAL"
-  auto_create_subnetworks = "true"
+  auto_create_subnetworks = "false"
   project                 = "${var.shared_vpc}"
 }
 
