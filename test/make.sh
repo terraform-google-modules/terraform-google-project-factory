@@ -48,7 +48,7 @@ function docker() {
 function check_terraform() {
   echo "Running terraform validate"
   #shellcheck disable=SC2156
-  find . -name "*.tf" -not -path "./test/fixtures/shared/*" -exec bash -c 'terraform validate --check-variables=false $(dirname "{}")' \;
+  find . -name "*.tf" -not -path "./**/.terraform/*" -not -path "./test/fixtures/shared/*" -exec bash -c 'terraform validate --check-variables=false $(dirname "{}")' \;
 }
 
 # This function runs 'go fmt' and 'go vet' on eery file
