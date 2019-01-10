@@ -26,8 +26,8 @@ resource "random_id" "random_project_id_suffix" {
  *****************************************/
 locals {
   group_id               = "${var.group_name != "" ? format("group:%s", module.gsuite_group.email) : ""}"
-  project_id             = "${google_project.project.project_id}"
-  project_number         = "${google_project.project.number}"
+  project_id             = "${google_project.main.project_id}"
+  project_number         = "${google_project.main.number}"
   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
   temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
@@ -91,7 +91,7 @@ EOD
 /*******************************************
   Project creation
  *******************************************/
-resource "google_project" "project" {
+resource "google_project" "main" {
   name                = "${var.name}"
   project_id          = "${local.temp_project_id}"
   org_id              = "${local.project_org_id}"
@@ -111,7 +111,7 @@ resource "google_project" "project" {
  *****************************************/
 resource "google_resource_manager_lien" "lien" {
   count        = "${var.lien ? 1 : 0}"
-  parent       = "projects/${google_project.project.number}"
+  parent       = "projects/${google_project.main.number}"
   restrictions = ["resourcemanager.projects.delete"]
   origin       = "project-factory"
   reason       = "Project Factory lien"
@@ -126,7 +126,7 @@ resource "google_project_service" "project_services" {
   project = "${local.project_id}"
   service = "${element(var.activate_apis, count.index)}"
 
-  depends_on = ["google_project.project"]
+  depends_on = ["google_project.main"]
 }
 
 /******************************************
@@ -145,7 +145,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   Default compute service account retrieval
  *****************************************/
 data "google_compute_default_service_account" "default" {
-  project = "${google_project.project.id}"
+  project = "${google_project.main.id}"
 }
 
 /******************************************
