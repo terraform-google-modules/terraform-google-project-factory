@@ -30,6 +30,7 @@ MIGRATIONS = [
     {
         "resource_type": "google_project",
         "name": "project",
+        "rename": "main",
         "module": ".module.project-factory"
     },
     {
@@ -141,9 +142,13 @@ class GSuiteMigration:
         """
         resources = self.targets()
         moves = []
-        for (old, module) in resources:
+        for (old, migration) in resources:
             new = copy.deepcopy(old)
-            new.module += module
+            new.module += migration["module"]
+
+            # If the "rename" value is set, update the copied resource with the new name
+            if "rename" in migration:
+                new.name = migration["rename"]
 
             pair = (old.path(), new.path())
             moves.append(pair)
@@ -157,13 +162,13 @@ class GSuiteMigration:
         """
         to_move = []
 
-        for selector in MIGRATIONS:
-            resource_type = selector["resource_type"]
-            resource_name = selector["name"]
+        for migration in MIGRATIONS:
+            resource_type = migration["resource_type"]
+            resource_name = migration["name"]
             matching_resources = self.project_factory.get_resources(
                 resource_type,
                 resource_name)
-            to_move += [(r, selector["module"]) for r in matching_resources]
+            to_move += [(r, migration) for r in matching_resources]
 
         return to_move
 
@@ -344,6 +349,7 @@ def migrate(statefile, dryrun=False):
     factories = [
         module for module in modules
         if module.has_resource("random_id", "random_project_id_suffix")
+            and module.has_resource("google_project", "project")
     ]
 
     print("---- Migrating the following project-factory modules:")
