@@ -112,6 +112,16 @@ MIGRATIONS = [
         "name": "service_account_grant_to_group",
         "module": ".module.project-factory",
     },
+    {
+        "resource_type": "google_compute_subnetwork_iam_member",
+        "name": "group_role_to_vpc_subnets",
+        "module": ".module.project-factory",
+    },
+    {
+        "resource_type": "google_resource_manager_lien",
+        "name": "lien",
+        "module": ".module.project-factory",
+    },
 ]
 
 
