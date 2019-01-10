@@ -37,14 +37,14 @@ provider "gsuite" {
 }
 
 resource "random_string" "suffix" {
-  length = 4
+  length = 5
   special = false
   upper = false
 }
 
 module "project-factory" {
   source            = "../../../"
-  name              = "pf-int-test-minimal-${random_string.suffix.result}"
+  name              = "pf-ci-test-minimal-${random_string.suffix.result}"
   random_project_id = true
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"

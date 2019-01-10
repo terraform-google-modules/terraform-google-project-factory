@@ -41,13 +41,13 @@ locals {
 }
 
 resource "random_string" "suffix" {
-  length  = 4
+  length  = 8
   special = false
   upper   = false
 }
 
 resource "google_compute_network" "network" {
-  name                    = "pf-test-int-full-${random_string.suffix.result}"
+  name                    = "pf-test-full-${random_string.suffix.result}"
   routing_mode            = "GLOBAL"
   auto_create_subnetworks = "true"
   project                 = "${var.shared_vpc}"
@@ -63,7 +63,7 @@ resource "google_compute_subnetwork" "subnet-01" {
 
 module "project-factory" {
   source              = "../../../"
-  name                = "pf-test-int-full-${random_string.suffix.result}"
+  name                = "pf-ci-test-full-${random_string.suffix.result}"
   random_project_id   = "true"
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
