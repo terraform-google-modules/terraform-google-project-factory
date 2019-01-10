@@ -123,7 +123,7 @@ terraform init
 ### Migrate the Terraform state to match the new Project Factory module structure
 
 ```
-./migrate.py terraform.tfstate terraform.tfstate.new
+./helpers/migrate.py terraform.tfstate terraform.tfstate.new
 ```
 
 Expected output:
