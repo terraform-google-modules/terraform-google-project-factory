@@ -89,6 +89,13 @@ index d876954..ebb3b1e 100755
    org_id             = "${var.org_id}"
 ```
 
+### Download the state migration script
+
+ ```
+curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/1.0-rc1/helpers/migrate.py
+chmod +x migrate.py
+```
+
 ### Reinitialize Terraform
 
 ```
@@ -123,7 +130,7 @@ terraform init
 ### Migrate the Terraform state to match the new Project Factory module structure
 
 ```
-./helpers/migrate.py terraform.tfstate terraform.tfstate.new
+./migrate.py terraform.tfstate terraform.tfstate.new
 ```
 
 Expected output:
