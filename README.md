@@ -404,6 +404,7 @@ See the Terraform documentation for more info on [releasing new
 versions][release-new-version].
 
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
+[terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
