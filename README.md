@@ -156,6 +156,7 @@ The project has the following folders and files:
 
 -   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
 -   [terraform-provider-google] plugin 1.19.x
+-   [terraform-provider-google-beta] plugin 1.19.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -403,6 +404,7 @@ See the Terraform documentation for more info on [releasing new
 versions][release-new-version].
 
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
+[terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions

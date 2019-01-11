@@ -23,7 +23,12 @@ locals {
  *****************************************/
 provider "google" {
   credentials = "${file(local.credentials_file_path)}"
-  version = "~> 1.19"
+  version     = "~> 1.19"
+}
+
+provider "google-beta" {
+  credentials = "${file(local.credentials_file_path)}"
+  version     = "~> 1.19"
 }
 
 provider "gsuite" {
