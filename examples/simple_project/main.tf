@@ -26,6 +26,11 @@ provider "google" {
   version     = "~> 1.19"
 }
 
+provider "google-beta" {
+  credentials = "${file(local.credentials_file_path)}"
+  version     = "~> 1.19"
+}
+
 module "project-factory" {
   source            = "../../"
   random_project_id = "true"

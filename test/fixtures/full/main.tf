@@ -19,6 +19,11 @@ provider "google" {
   version     = "~> 1.19"
 }
 
+provider "google-beta" {
+  credentials = "${file(var.credentials_path)}"
+  version     = "~> 1.19"
+}
+
 provider "gsuite" {
   credentials             = "${file(var.credentials_path)}"
   impersonated_user_email = "${var.gsuite_admin_account}"
@@ -31,12 +36,24 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
+locals {
+  shared_vpc_subnets = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
+}
+
+resource "random_string" "suffix" {
+  length  = 8
+  special = false
+  upper   = false
+}
+
 module "vpc" {
-  source          = "terraform-google-modules/network/google"
-  version         = "~> 0.4.0"
-  network_name    = "${var.name}"
-  project_id      = "${var.shared_vpc}"
-  shared_vpc_host = "true"
+  source       = "terraform-google-modules/network/google"
+  version      = "~> 0.4.0"
+  network_name = "pf-test-int-full-${random_string.suffix.result}"
+  project_id   = "${var.shared_vpc}"
+
+  # The provided project must already be a Shared VPC host
+  shared_vpc_host = "false"
 
   subnets = [
     {
@@ -59,8 +76,9 @@ module "vpc" {
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  domain              = "${var.domain}"
-  name                = "${var.name}"
+  domain = "${var.domain}"
+  name   = "pf-ci-test-full-${random_string.suffix.result}"
+
   random_project_id   = true
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
@@ -71,7 +89,7 @@ module "project-factory" {
   group_role          = "${var.group_role}"
   group_name          = "${var.group_name}"
   shared_vpc          = "${var.shared_vpc}"
-  shared_vpc_subnets  = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
+  shared_vpc_subnets  = "${local.shared_vpc_subnets}"
   sa_role             = "${var.sa_role}"
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
@@ -81,6 +99,8 @@ module "project-factory" {
     "compute.googleapis.com",
     "container.googleapis.com",
   ]
+
+  disable_services_on_destroy = "false"
 
   app_engine {
     location_id = "${var.region}"

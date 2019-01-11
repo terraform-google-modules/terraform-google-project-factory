@@ -26,6 +26,11 @@ provider "google" {
   version     = "~> 1.19"
 }
 
+provider "google-beta" {
+  credentials = "${file(local.credentials_file_path)}"
+  version     = "~> 1.19"
+}
+
 provider "gsuite" {
   credentials             = "${file(local.credentials_file_path)}"
   impersonated_user_email = "${var.admin_email}"

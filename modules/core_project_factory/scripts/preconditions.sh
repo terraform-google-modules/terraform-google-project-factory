@@ -14,10 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if command -v python 1>/dev/null; then
+if command -v python3 1>/dev/null; then
     BASEDIR="$(dirname "$0")"
     SCRIPT="$BASEDIR/preconditions/preconditions.py"
     exec "$SCRIPT" "$@"
 else
-    echo "Unable to check project-factory preconditions: python executable not in PATH" 1>&2
+    echo "Unable to check project-factory preconditions: python3 executable not in PATH" 1>&2
 fi

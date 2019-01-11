@@ -149,6 +149,7 @@ The project has the following folders and files:
 
 -   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
 -   [terraform-provider-google] plugin 1.19.x
+-   [terraform-provider-google-beta] plugin 1.19.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -326,13 +327,12 @@ test steps non-interactively.
 #### Test configuration
 
 Each test-kitchen instance is configured with a `terraform.tfvars` file in the
-test fixture directory.
+test fixture directory. For convenience, these are symlinked to a single shared file:
 
 ```sh
-for instance in full minimal; do
-  cp "test/fixtures/$instance/terraform.tfvars.example" \
-    "test/fixtures/$instance/terraform.tfvars"
-  $EDITOR "test/fixtures/$instance/terraform.tfvars"
+cp "test/fixtures/shared/terraform.tfvars.example" \
+  "test/fixtures/shared/terraform.tfvars"
+$EDITOR "test/fixtures/shared/terraform.tfvars"
 done
 ```
 
@@ -397,6 +397,7 @@ versions][release-new-version].
 
 [gsuite-enabled-module]: modules/gsuite_enabled/README.md
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
+[terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
