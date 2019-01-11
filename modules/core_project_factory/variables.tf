@@ -117,3 +117,9 @@ variable "app_engine" {
   type        = "map"
   default     = {}
 }
+
+variable "disable_services_on_destroy" {
+  description = "Whether project services will be disabled when the resources are destroyed"
+  default     = "true"
+  type        = "string"
+}
