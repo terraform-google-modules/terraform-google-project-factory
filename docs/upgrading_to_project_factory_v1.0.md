@@ -89,6 +89,9 @@ index d876954..ebb3b1e 100755
    org_id             = "${var.org_id}"
 ```
 
+Additionally, `org_id` is now required so you will need to add
+it as an argument if you didn't already specify it on your projects.
+
 ### Download the state migration script
 
  ```
@@ -154,7 +157,8 @@ terraform plan -state terraform.tfstate.new
 
 The G Suite refactor adds an additional IAM membership and needs to re-create
 two resources, due to how resources were split up between the `gsuite_enabled`
-and `core_project_factory` modules.
+and `core_project_factory` modules. Depending on the version
+you are upgrading from, it might also add a `null_resource` for `preconditions` checks.
 
 ```txt
 
@@ -274,6 +278,20 @@ Error: module "project-pfactory-development": "create_group" is not a valid argu
 
 These are related to projects which depend on G Suite functionality.
 Make sure to update the source of such projects to point to the [G Suite module](../modules/gsuite_enabled)
+
+### Missing `org_id`
+
+If your existing configuration doesn't specify the `org_id`,
+you might see some errors on upgrade:
+
+```
+Initializing the backend...
+
+Error: module "project_factory": missing required argument "org_id"
+```
+
+The fix for this is to explicitly set the `org_id` argument
+on your projects.
 
 ### The migration script fails to run
 
