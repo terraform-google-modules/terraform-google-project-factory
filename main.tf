@@ -244,7 +244,8 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   compute.networkUser role granted to Project Service Account on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
+  provider = "google-beta"
+  count    = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"
@@ -257,7 +258,8 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
   compute.networkUser role granted to GSuite group on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && local.gsuite_group ? length(var.shared_vpc_subnets) : 0 }"
+  provider = "google-beta"
+  count    = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && local.gsuite_group ? length(var.shared_vpc_subnets) : 0 }"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"
@@ -270,7 +272,8 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   compute.networkUser role granted to APIs Service Account on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
+  provider = "google-beta"
+  count    = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"
@@ -343,7 +346,8 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
-  count = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0}"
+  provider = "google-beta"
+  count    = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0}"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
   role       = "roles/compute.networkUser"

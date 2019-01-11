@@ -156,6 +156,7 @@ The project has the following folders and files:
 
 -   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
 -   [terraform-provider-google] plugin 1.19.x
+-   [terraform-provider-google-beta] plugin 1.19.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
