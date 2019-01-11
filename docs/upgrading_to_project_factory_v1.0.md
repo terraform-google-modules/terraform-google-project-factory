@@ -264,6 +264,20 @@ After restoring remote state, you need to re-initialize Terraform and push your 
 terraform init -force-copy
 ```
 
+### Clean up
+
+Once you are done with the migration, you can safely remove `migrate.py`.
+
+```
+rm migrate.py
+```
+
+If you are using remote state, you can also remove the local state copies.
+
+```
+rm -rf terraform.tfstate*
+```
+
 ## Troubleshooting
 
 ### Errors about invalid arguments
