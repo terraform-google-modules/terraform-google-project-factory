@@ -36,7 +36,7 @@ variable "usage_bucket_prefix" {
 variable "billing_account" {}
 
 variable "group_name" {
-  default = ""
+  default = "project-factory"
 }
 
 variable "create_group" {
