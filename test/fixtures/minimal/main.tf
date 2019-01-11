@@ -36,15 +36,9 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
-resource "random_string" "suffix" {
-  length = 5
-  special = false
-  upper = false
-}
-
 module "project-factory" {
   source            = "../../../"
-  name              = "pf-ci-test-minimal-${random_string.suffix.result}"
+  name              = "${var.name}"
   random_project_id = true
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"
@@ -56,6 +50,4 @@ module "project-factory" {
     "compute.googleapis.com",
     "container.googleapis.com",
   ]
-
-  disable_services_on_destroy = "false"
 }

@@ -21,7 +21,6 @@ platforms:
 
 verifier:
   name: terraform
-  color: false
   systems:
     - name: system
       backend: local
