@@ -46,9 +46,9 @@ output "region" {
   value = "${var.region}"
 }
 
-// Pass through the `credentials_path` variable so that InSpec can reuse the credentials.
 output "credentials_path" {
-  value = "${var.credentials_path}"
+  description = "Pass through the `credentials_path` variable so that InSpec can reuse the credentials"
+  value       = "${var.credentials_path}"
 }
 
 output "sa_role" {
