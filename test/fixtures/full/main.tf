@@ -51,6 +51,7 @@ module "vpc" {
   version         = "~> 0.4.0"
   network_name    = "pf-test-int-full-${random_string.suffix.result}"
   project_id      = "${var.shared_vpc}"
+  # The provided project must already be a Shared VPC host
   shared_vpc_host = "false"
 
   subnets = [
