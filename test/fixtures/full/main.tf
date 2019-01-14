@@ -40,16 +40,10 @@ locals {
   shared_vpc_subnets = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
 }
 
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
-}
-
 module "vpc" {
   source       = "terraform-google-modules/network/google"
   version      = "~> 0.4.0"
-  network_name = "pf-test-int-full-${random_string.suffix.result}"
+  network_name = "pf-test-int-full"
   project_id   = "${var.shared_vpc}"
 
   # The provided project must already be a Shared VPC host
@@ -77,7 +71,7 @@ module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
   domain = "${var.domain}"
-  name   = "pf-ci-test-full-${random_string.suffix.result}"
+  name   = "pf-ci-test-full"
 
   random_project_id   = true
   org_id              = "${var.org_id}"
