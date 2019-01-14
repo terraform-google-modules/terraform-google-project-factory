@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if ! [ -z "$(git status --porcelain)" ]; then
+if [ -n "$(git status --porcelain)" ]; then
   echo -e "\nError, repository dirty, please commit or stash your changes.\n"
   exit 1
 fi
