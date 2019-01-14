@@ -164,7 +164,7 @@ gcloud services enable \
 if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
   echo "Enabling the billing account..."
   gcloud beta billing accounts get-iam-policy "$BILLING_ACCOUNT" > policy-tmp-$$.yml
-  unamestr=`uname`
+  unamestr=$(uname)
   if [ "$unamestr" = 'Darwin' ] || [ "$unamestr" = 'Linux' ]; then
     sed -i.bak -e "/^etag:.*/i \\
 - members:\\
