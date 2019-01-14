@@ -327,12 +327,13 @@ test steps non-interactively.
 #### Test configuration
 
 Each test-kitchen instance is configured with a `terraform.tfvars` file in the
-test fixture directory. For convenience, these are symlinked to a single shared file:
+test fixture directory.
 
 ```sh
-cp "test/fixtures/shared/terraform.tfvars.example" \
-  "test/fixtures/shared/terraform.tfvars"
-$EDITOR "test/fixtures/shared/terraform.tfvars"
+for instance in full minimal; do
+  cp "test/fixtures/$instance/terraform.tfvars.example" \
+    "test/fixtures/$instance/terraform.tfvars"
+  $EDITOR "test/fixtures/$instance/terraform.tfvars"
 done
 ```
 

@@ -36,18 +36,12 @@ provider "gsuite" {
   version = "~> 0.1.9"
 }
 
-locals {
-  shared_vpc_subnets = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
-}
-
 module "vpc" {
-  source       = "terraform-google-modules/network/google"
-  version      = "~> 0.4.0"
-  network_name = "pf-test-int-full"
-  project_id   = "${var.shared_vpc}"
-
-  # The provided project must already be a Shared VPC host
-  shared_vpc_host = "false"
+  source          = "terraform-google-modules/network/google"
+  version         = "~> 0.4.0"
+  network_name    = "${var.name}"
+  project_id      = "${var.shared_vpc}"
+  shared_vpc_host = "true"
 
   subnets = [
     {
@@ -70,9 +64,8 @@ module "vpc" {
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  domain = "${var.domain}"
-  name   = "pf-ci-test-full"
-
+  domain              = "${var.domain}"
+  name                = "${var.name}"
   random_project_id   = true
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
@@ -83,7 +76,7 @@ module "project-factory" {
   group_role          = "${var.group_role}"
   group_name          = "${var.group_name}"
   shared_vpc          = "${var.shared_vpc}"
-  shared_vpc_subnets  = "${local.shared_vpc_subnets}"
+  shared_vpc_subnets  = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
   sa_role             = "${var.sa_role}"
   sa_group            = "${var.sa_group}"
   credentials_path    = "${var.credentials_path}"
@@ -93,8 +86,6 @@ module "project-factory" {
     "compute.googleapis.com",
     "container.googleapis.com",
   ]
-
-  disable_services_on_destroy = "false"
 
   app_engine {
     location_id = "${var.region}"
