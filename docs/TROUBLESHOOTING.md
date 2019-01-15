@@ -103,7 +103,17 @@ enabled on the Seed Project and Target Project.
 
 #### Cannot manage G Suite group membership
 
-**Error message:**
+**Error messages:**
+
+```
+Error: Error applying plan:
+
+1 error(s) occurred:
+
+* module.project-factory.gsuite_group.group: 1 error(s) occurred:
+
+* gsuite_group.group: Error creating group: googleapi: Error 403: Not Authorized to access this resource/api, forbidden
+```
 
 ```
 Error: Error applying plan:
@@ -132,14 +142,21 @@ but the service account has to be granted domain wide delegation rights to
 impersonate users, and must be granted OAuth scopes for the functionality it
 needs to interact with.
 
-If domain wide delegation is not granted to the Seed Service Account, it will
-fail to obtain the access token needed to interact with the Directory API and
-fail.
+If you encounter a `403: Not Authorized/forbidden`, likely it means you
+provided a service account instead of a user account to the
+`impersonated_user_email` variable in the `gsuite` provider.
+
+If you encounter a `401: Unauthorized`, likely it is because domain wide
+delegation is not granted to the Seed Service Account, and it will fail to
+obtain the access token needed to interact with the Directory API and fail.
 
 See the [README G Suite documentation](../README.md#g-suite) for more
 information.
 
 **Solution:**
+
+Provide a user account (_not_ a service account) to the `gsuite` provider via
+`impersonated_user_email`.
 
 Enable [domain wide
 delegation](https://developers.google.com/admin-sdk/directory/v1/guides/delegation)
