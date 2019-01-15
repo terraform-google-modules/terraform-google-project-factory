@@ -48,7 +48,7 @@ function docker() {
 function check_terraform() {
   echo "Running terraform validate"
   #shellcheck disable=SC2156
-  find . -name "*.tf" -exec bash -c 'terraform validate --check-variables=false $(dirname "{}")' \;
+  find . -name "*.tf" -not -path "./**/.terraform/*" -not -path "./test/fixtures/shared/*" -exec bash -c 'terraform validate --check-variables=false $(dirname "{}")' \;
 }
 
 # This function runs 'go fmt' and 'go vet' on eery file
@@ -88,9 +88,9 @@ function check_trailing_whitespace() {
 function generate_docs() {
   echo "Generating markdown docs with terraform-docs"
   TMPFILE=$(mktemp)
-  for j in `for i in $(find . -type f | grep \.tf$) ; do dirname $i ; done | sort -u` ; do
-    terraform-docs markdown $j > $TMPFILE
-    python helpers/combine_docfiles.py $j/README.md $TMPFILE
+  for j in $(for i in $(find . -type f | grep \.tf$) ; do dirname "$i" ; done | sort -u) ; do
+    terraform-docs markdown "$j" > "$TMPFILE"
+    python helpers/combine_docfiles.py "$j"/README.md "$TMPFILE"
   done
-  rm -f $TMPFILE
+  rm -f "$TMPFILE"
 }

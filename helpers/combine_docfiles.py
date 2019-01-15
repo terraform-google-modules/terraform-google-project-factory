@@ -28,12 +28,12 @@
 import re
 import sys
 
-insert_separator_regex = '(.*?\[\^\]\:\ \(autogen_docs_start\))(.*?)(\n\[\^\]\:\ \(autogen_docs_end\).*?$)'
-exclude_separator_regex = '(.*?)Copyright 20\d\d Google LLC.*?limitations under the License.(.*?)$'
+insert_separator_regex = r'(.*?\[\^\]\:\ \(autogen_docs_start\))(.*?)(\n\[\^\]\:\ \(autogen_docs_end\).*?$)'
+exclude_separator_regex = r'(.*?)Copyright 20\d\d Google LLC.*?limitations under the License.(.*?)$'
 
 if len(sys.argv) != 3:
-  sys.exit(1)
-print(sys.argv[1])
+    sys.exit(1)
+
 input = open(sys.argv[1], "r").read()
 replace_content = open(sys.argv[2], "r").read()
 

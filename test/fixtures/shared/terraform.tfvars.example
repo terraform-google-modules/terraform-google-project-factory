@@ -47,13 +47,10 @@ shared_vpc = "host-vpc-project-id"
 # Example source: `domain=$(gcloud organizations list --format='get(displayName)')`
 domain = "example.com"
 
+# A G Suite group to create and give access to the test projects
+group_name = "my-developers"
 
 ##### Optional variables ####
-
-
-# A G Suite group to be given access to the project
-# group_name = "my-developers
-
 
 # Variables for setting GCE usage export
 # usage_bucket_name = "usage-export-bucket"

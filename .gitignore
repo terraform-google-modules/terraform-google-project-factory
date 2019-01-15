@@ -43,3 +43,4 @@ terraform.tfstate.d/
 credentials.json
 .vscode/
 env/
+test/fixtures/shared/terraform.tfvars
