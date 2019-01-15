@@ -23,7 +23,7 @@ org_id = "000000000000"
 billing_account = "000000-000000-000000"
 
 # The service account credentials to use when running Terraform.
-credentials_path = "credentials.json"
+credentials_path = "../../../credentials.json"
 
 # The G Suite admin account to impersonate when managing G Suite groups and group membership
 gsuite_admin_account = "admin@example.com"
@@ -45,15 +45,12 @@ shared_vpc = "host-vpc-project-id"
 
 # The GCP domain name
 # Example source: `domain=$(gcloud organizations list --format='get(displayName)')`
-# domain = "example.com"
+domain = "example.com"
 
+# A G Suite group to create and give access to the test projects
+group_name = "my-developers"
 
 ##### Optional variables ####
-
-
-# A G Suite group to be given access to the project
-# group_name = "my-developers
-
 
 # Variables for setting GCE usage export
 # usage_bucket_name = "usage-export-bucket"
