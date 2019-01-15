@@ -56,16 +56,16 @@ module "vpc" {
 
   subnets = [
     {
-      subnet_name   = "subnet-01"
+      subnet_name   = "pf-test-subnet-01"
       subnet_ip     = "10.10.10.0/24"
       subnet_region = "us-east4"
     },
   ]
 
   secondary_ranges = {
-    subnet-01 = [
+    pf-test-subnet-01 = [
       {
-        range_name    = "subnet-01-secondary"
+        range_name    = "pf-test-subnet-01-secondary"
         ip_cidr_range = "192.168.64.0/24"
       },
     ]
