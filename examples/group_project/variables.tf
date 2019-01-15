@@ -15,7 +15,7 @@
  */
 
 variable "admin_email" {
-  description = "Admin user email on Gsuite"
+  description = "Admin user email on Gsuite. This should be a user account, not a service account."
 }
 
 variable "credentials_file_path" {

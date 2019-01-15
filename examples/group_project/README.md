@@ -20,7 +20,7 @@ Expected variables:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin\_email | Admin user email on Gsuite | string | - | yes |
+| admin\_email | Admin user email on Gsuite. This should be a user account, not a service account. | string | - | yes |
 | api\_sa\_group | An existing GSuite group email to place the Google APIs Service Account for the project in | string | - | yes |
 | billing\_account | The ID of the billing account to associate this project with | string | - | yes |
 | credentials\_file\_path | Service account json auth path | string | - | yes |
