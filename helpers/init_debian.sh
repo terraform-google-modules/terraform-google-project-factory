@@ -114,14 +114,14 @@ EOF
 #         PLUGINS INSTALLATION            #
 # ####################################### #
 
-sudo mkdir -p $TERRAFORM_PLUGINS_PATH
+sudo mkdir -p "$TERRAFORM_PLUGINS_PATH"
 
 # ####################################### #
 #  Install the terraform-provider-gsuite  #
 # ####################################### #
 
 TERRAFORM_PROVIDER_GSUITE=https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v0.1.9/terraform-provider-gsuite_0.1.9_linux_amd64.tgz
-curl -L $TERRAFORM_PROVIDER_GSUITE | sudo tar -C $TERRAFORM_PLUGINS_PATH -xz
+curl -L $TERRAFORM_PROVIDER_GSUITE | sudo tar -C "$TERRAFORM_PLUGINS_PATH" -xz
 
 # ####################################### #
 #        Google SDK Installation          #
