@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if ! [ -z "$(git status --porcelain)" ]; then
+if [ -n "$(git status --porcelain)" ]; then
   echo -e "\nError, repository dirty, please commit or stash your changes.\n"
   exit 1
 fi
@@ -22,7 +22,7 @@ NEW_VERSION=$(grep '##' CHANGELOG.md | head -n 1 | cut -d' ' -f2)
 NEW_RELEASE_NAME=v$NEW_VERSION
 CURRENT_RELEASE_NAME=$(git describe --abbrev=0 --tags)
 
-if [ $NEW_RELEASE_NAME == $CURRENT_RELEASE_NAME ]; then
+if [ "$NEW_RELEASE_NAME" == "$CURRENT_RELEASE_NAME" ]; then
   echo -e "\nLatest version already released.\n"
   echo -e "If this is not so, make sure CHANGELOG.md is updated as necessary.\n"
   exit 1
@@ -38,6 +38,6 @@ git checkout master && \
 
 echo -e "Releasing $NEW_RELEASE_NAME...\n"
 
-git tag -a $NEW_RELEASE_NAME -m $NEW_RELEASE_NAME && \
+git tag -a "$NEW_RELEASE_NAME" -m "$NEW_RELEASE_NAME" && \
   git push origin master --verbose && \
-  git push origin $NEW_RELEASE_NAME --verbose
+  git push origin "$NEW_RELEASE_NAME" --verbose
