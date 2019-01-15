@@ -45,8 +45,8 @@ check_golang: ## Lint Go source files
 	@source test/make.sh && golang
 
 .PHONY: check_terraform
-check_terraform:
-	@source ## Lint Terraform source files
+check_terraform: ## Lint Terraform source files
+	@source test/make.sh && check_terraform
 
 .PHONY: check_docker
 check_docker: ## Lint Dockerfiles
