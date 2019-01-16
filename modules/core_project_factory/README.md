@@ -13,12 +13,13 @@
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
-| domain | The domain name (optional). | string | `""` | no |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
-| group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | n/a | yes |
-| group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | n/a | yes |
+| group\_email | The email address of a group to control the project by being assigned group_role. | string | n/a | yes |
+| group\_role | The role to give the controlling group (group_name) over the project. | string | `""` | no |
 | labels | Map of labels for project | map | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
+| manage\_group | A toggle to indicate if a G Suite group should be managed. | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
 | random\_project\_id | Enables project random id generation | string | `"false"` | no |
@@ -35,8 +36,6 @@
 | api\_s\_account | API service account email |
 | api\_s\_account\_fmt | API service account email formatted for terraform use |
 | app\_engine\_enabled | Whether app engine is enabled |
-| domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
 | project\_bucket\_name | The name of the projec's bucket |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |

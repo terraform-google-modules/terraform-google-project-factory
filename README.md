@@ -93,6 +93,7 @@ The roles granted are specifically:
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
@@ -114,7 +115,7 @@ The roles granted are specifically:
 |------|-------------|
 | app\_engine\_enabled | Whether app engine is enabled |
 | domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
+| group\_email | The email of the GSuite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id |  |
