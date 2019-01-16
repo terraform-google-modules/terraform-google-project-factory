@@ -20,12 +20,12 @@ Expected variables:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin\_email | Admin user email on Gsuite | string | n/a | yes |
-| api\_sa\_group | An existing GSuite group email to place the Google APIs Service Account for the project in | string | n/a | yes |
-| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
-| credentials\_file\_path | Service account json auth path | string | n/a | yes |
-| organization\_id | The organization id for the associated services | string | n/a | yes |
-| project\_group\_name | The name of a GSuite group to create for controlling the project | string | n/a | yes |
+| admin\_email | Admin user email on Gsuite. This should be a user account, not a service account. | string | - | yes |
+| api\_sa\_group | An existing GSuite group email to place the Google APIs Service Account for the project in | string | - | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
+| credentials\_file\_path | Service account json auth path | string | - | yes |
+| organization\_id | The organization id for the associated services | string | - | yes |
+| project\_group\_name | The name of a GSuite group to create for controlling the project | string | - | yes |
 
 ## Outputs
 
