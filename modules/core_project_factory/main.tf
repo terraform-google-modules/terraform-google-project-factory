@@ -25,7 +25,7 @@ resource "random_id" "random_project_id_suffix" {
   Locals configuration
  *****************************************/
 locals {
-  group_id               = "${var.group_name != "" ? format("group:%s", module.gsuite_group.email) : ""}"
+  group_id               = "${var.manage_group ? format("group:%s", var.group_email) : ""}"
   project_id             = "${google_project.main.project_id}"
   project_number         = "${google_project.main.number}"
   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
@@ -50,17 +50,6 @@ locals {
     enabled  = "${list(var.app_engine)}"
     disabled = "${list()}"
   }
-}
-
-/*****************************************
-  G Suite group information retrieval
- *****************************************/
-module "gsuite_group" {
-  source = "../gsuite_group"
-
-  domain = "${var.domain}"
-  name   = "${var.group_name}"
-  org_id = "${var.org_id}"
 }
 
 resource "null_resource" "preconditions" {
@@ -190,7 +179,7 @@ resource "google_project_iam_member" "default_service_account_membership" {
   Gsuite Group Role Configuration
  *****************************************/
 resource "google_project_iam_member" "gsuite_group_role" {
-  count = "${local.group_id != "" ? 1 : 0}"
+  count = "${var.manage_group ? 1 : 0}"
 
   member  = "${local.group_id}"
   project = "${local.project_id}"
@@ -201,7 +190,7 @@ resource "google_project_iam_member" "gsuite_group_role" {
   Granting serviceAccountUser to group
  *****************************************/
 resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  count = "${local.group_id != "" ? 1 : 0}"
+  count = "${var.manage_group ? 1 : 0}"
 
   member = "${local.group_id}"
   role   = "roles/iam.serviceAccountUser"
@@ -246,7 +235,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = "google-beta"
 
-  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && local.group_id != "" ? length(var.shared_vpc_subnets) : 0 }"
+  count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0 }"
 
   member     = "${local.group_id}"
   project    = "${var.shared_vpc}"
@@ -299,7 +288,7 @@ resource "google_storage_bucket" "project_bucket" {
   Project's bucket storage.admin granting to group
  ***********************************************/
 resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_bucket" {
-  count = "${local.create_bucket && local.group_id != "" ? 1 : 0}"
+  count = "${local.create_bucket && var.manage_group ? 1 : 0}"
 
   bucket = "${google_storage_bucket.project_bucket.name}"
   member = "${local.group_id}"

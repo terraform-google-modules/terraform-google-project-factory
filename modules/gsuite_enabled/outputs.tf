@@ -23,7 +23,7 @@ output "project_number" {
 }
 
 output "domain" {
-  value       = "${module.project-factory.domain}"
+  value       = "${module.gsuite_group.domain}"
   description = "The organization's domain"
 }
 

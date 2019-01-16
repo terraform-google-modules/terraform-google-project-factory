@@ -14,18 +14,24 @@
  * limitations under the License.
  */
 
-variable "group_name" {
-  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+variable "group_email" {
+  description = "The email address of a group to control the project by being assigned group_role."
 }
 
 variable "group_role" {
-  description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
+  description = "The role to give the controlling group (group_name) over the project."
+  default     = ""
 }
 
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
   default     = "false"
   type        = "string"
+}
+
+variable "manage_group" {
+  description = "A toggle to indicate if a G Suite group should be managed."
+  default     = "false"
 }
 
 variable "random_project_id" {
@@ -35,11 +41,6 @@ variable "random_project_id" {
 
 variable "org_id" {
   description = "The organization ID."
-}
-
-variable "domain" {
-  description = "The domain name (optional)."
-  default     = ""
 }
 
 variable "name" {

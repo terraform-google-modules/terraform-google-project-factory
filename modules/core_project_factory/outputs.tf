@@ -22,16 +22,6 @@ output "project_number" {
   value = "${local.project_number}"
 }
 
-output "domain" {
-  value       = "${module.gsuite_group.domain}"
-  description = "The organization's domain"
-}
-
-output "group_email" {
-  value       = "${module.gsuite_group.email}"
-  description = "The email of the GSuite group with group_name"
-}
-
 output "service_account_id" {
   value       = "${google_service_account.default_service_account.account_id}"
   description = "The id of the default service account"

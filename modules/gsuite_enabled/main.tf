@@ -67,12 +67,12 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
 module "project-factory" {
   source = "../core_project_factory/"
 
-  group_name                  = "${local.group_name}"
+  group_email                 = "${module.gsuite_group.email}"
   group_role                  = "${var.group_role}"
   lien                        = "${var.lien}"
+  manage_group                = "true"
   random_project_id           = "${var.random_project_id}"
   org_id                      = "${var.org_id}"
-  domain                      = "${var.domain}"
   name                        = "${var.name}"
   shared_vpc                  = "${var.shared_vpc}"
   billing_account             = "${var.billing_account}"
