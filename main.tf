@@ -18,7 +18,7 @@
   Organization info retrieval
  *****************************************/
 module "gsuite_group" {
-  source = "${path.module}/modules/gsuite_group"
+  source = "modules/gsuite_group"
 
   domain = "${var.domain}"
   name   = "${var.group_name}"
