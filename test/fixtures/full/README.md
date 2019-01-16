@@ -14,7 +14,6 @@
 | group\_name |  | string | `""` | no |
 | group\_role |  | string | `"roles/viewer"` | no |
 | gsuite\_admin\_account |  | string | n/a | yes |
-| name |  | string | `"pf-test-int-full"` | no |
 | org\_id |  | string | n/a | yes |
 | region |  | string | `"us-east4"` | no |
 | sa\_group |  | string | `""` | no |
@@ -27,7 +26,7 @@
 
 | Name | Description |
 |------|-------------|
-| credentials\_path | Pass through the `credentials_path` variable so that InSpec can reuse the credentials. |
+| credentials\_path | Pass through the `credentials_path` variable so that InSpec can reuse the credentials |
 | domain |  |
 | extra\_service\_account\_email |  |
 | group\_email |  |
