@@ -70,7 +70,7 @@ module "project-factory" {
   group_email                 = "${module.gsuite_group.email}"
   group_role                  = "${var.group_role}"
   lien                        = "${var.lien}"
-  manage_group                = "true"
+  manage_group                = "${var.group_name != "" || var.create_group ? "true" : "false"}"
   random_project_id           = "${var.random_project_id}"
   org_id                      = "${var.org_id}"
   name                        = "${var.name}"
