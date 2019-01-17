@@ -228,19 +228,6 @@ binary here:
 
 - https://releases.hashicorp.com/terraform/
 
-### Fast install (optional)
-
-For a fast install, please configure the variables on init_centos.sh or
-init_debian.sh script in the helpers directory and then launch it.
-
-The script will do:
-
--   Environment variables setting
--   Installation of base packages like wget, curl, unzip, gcloud, etc.
--   Installation of go 1.9.0
--   Installation of Terraform 0.10.x
--   Installation of terraform-provider-gsuite plugin 0.1.x
-
 ## Development
 ### Requirements
 
