@@ -15,27 +15,13 @@
  */
 
 locals {
-  credentials_file_path = "${var.credentials_path}"
+  domain = "${var.domain != "" ? var.domain : data.google_organization.org.domain}"
+  email  = "${format("%s@%s", var.name, local.domain)}"
 }
 
-/******************************************
-  Provider configuration
+/*****************************************
+  Organization info retrieval
  *****************************************/
-provider "google" {
-  credentials = "${file(local.credentials_file_path)}"
-  version     = "~> 1.19"
-}
-
-provider "google-beta" {
-  credentials = "${file(local.credentials_file_path)}"
-  version     = "~> 1.19"
-}
-
-module "project-factory" {
-  source            = "../../"
-  random_project_id = "true"
-  name              = "simple-sample-project"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
+data "google_organization" "org" {
+  organization = "${var.org_id}"
 }

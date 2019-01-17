@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+variable "lien" {
+  description = "Add a lien on the project to prevent accidental deletion"
+  default     = "false"
+  type        = "string"
+}
+
 variable "random_project_id" {
   description = "Enables project random id generation"
   default     = "false"
@@ -47,13 +53,23 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role (defaults to project editor)"
+  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
   default     = ""
+}
+
+variable "create_group" {
+  description = "Whether to create the group or not"
+  default     = "false"
 }
 
 variable "group_role" {
   description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
   default     = "roles/editor"
+}
+
+variable "sa_group" {
+  description = "A GSuite group to place the default Service Account for the project in"
+  default     = ""
 }
 
 variable "sa_role" {
@@ -103,6 +119,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "api_sa_group" {
+  description = "A GSuite group to place the Google APIs Service Account for the project in"
+  default     = ""
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   default     = "false"
@@ -112,12 +133,6 @@ variable "app_engine" {
   description = "A map for app engine configuration"
   type        = "map"
   default     = {}
-}
-
-variable "lien" {
-  description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = "string"
 }
 
 variable "disable_services_on_destroy" {

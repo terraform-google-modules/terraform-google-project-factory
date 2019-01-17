@@ -14,10 +14,9 @@ Expected variables:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin\_email | Admin user email on Gsuite | string | - | yes |
-| billing\_account | - | string | - | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
-| organization\_id | - | string | - | yes |
+| organization\_id | The organization id for the associated services | string | - | yes |
 
 ## Outputs
 

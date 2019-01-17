@@ -24,26 +24,14 @@ provider "google-beta" {
   version     = "~> 1.19"
 }
 
-provider "gsuite" {
-  credentials             = "${file(var.credentials_path)}"
-  impersonated_user_email = "${var.gsuite_admin_account}"
-
-  oauth_scopes = [
-    "https://www.googleapis.com/auth/admin.directory.group",
-    "https://www.googleapis.com/auth/admin.directory.group.member",
-  ]
-
-  version = "~> 0.1.9"
-}
-
 resource "random_string" "suffix" {
   length = 5
   special = false
   upper = false
 }
-
 module "project-factory" {
   source            = "../../../"
+
   name              = "pf-ci-test-minimal-${random_string.suffix.result}"
   random_project_id = true
   domain            = "${var.domain}"

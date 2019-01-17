@@ -47,10 +47,11 @@ resource "random_string" "suffix" {
 }
 
 module "vpc" {
-  source          = "terraform-google-modules/network/google"
-  version         = "~> 0.4.0"
-  network_name    = "pf-test-int-full-${random_string.suffix.result}"
-  project_id      = "${var.shared_vpc}"
+  source       = "terraform-google-modules/network/google"
+  version      = "~> 0.4.0"
+  network_name = "pf-test-int-full-${random_string.suffix.result}"
+  project_id   = "${var.shared_vpc}"
+
   # The provided project must already be a Shared VPC host
   shared_vpc_host = "false"
 
@@ -73,9 +74,12 @@ module "vpc" {
 }
 
 module "project-factory" {
-  source              = "../../../"
-  name                = "pf-ci-test-full-${random_string.suffix.result}"
-  random_project_id   = "true"
+  source = "../../../modules/gsuite_enabled"
+
+  name              = "pf-ci-test-full-${random_string.suffix.result}"
+  random_project_id = "true"
+
+  domain              = "${var.domain}"
   org_id              = "${var.org_id}"
   folder_id           = "${var.folder_id}"
   usage_bucket_name   = "${var.usage_bucket_name}"
@@ -130,8 +134,6 @@ resource "google_project_iam_member" "additive_shared_vpc_role" {
 }
 
 resource "google_service_account_iam_member" "additive_service_account_grant_to_group" {
-  count = "${module.project-factory.group_email != "" ? 1 : 0}"
-
   service_account_id = "projects/${module.project-factory.project_id}/serviceAccounts/${module.project-factory.service_account_email}"
 
   role   = "roles/iam.serviceAccountUser"

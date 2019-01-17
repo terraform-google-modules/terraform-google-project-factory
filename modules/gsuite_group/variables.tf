@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-variable "organization_id" {
-  description = "The organization id for the associated services"
+variable "domain" {
+  description = "The domain name"
+  default     = ""
 }
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
+variable "name" {
+  description = "The name of the group."
 }
 
-variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+variable "org_id" {
+  description = "The organization ID."
 }

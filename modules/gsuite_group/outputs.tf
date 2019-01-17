@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-variable "organization_id" {
-  description = "The organization id for the associated services"
+output "domain" {
+  value       = "${local.domain}"
+  description = "The domain of the group's organization."
 }
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
-}
-
-variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+output "email" {
+  description = "The email address of the group."
+  value       = "${local.email}"
 }
