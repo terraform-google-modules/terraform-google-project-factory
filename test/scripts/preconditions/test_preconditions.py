@@ -21,7 +21,7 @@ sys.path.append(
     os.path.abspath(
         os.path.join(
             os.path.dirname(__file__),
-            '../../../scripts/preconditions')))
+            '../../../modules/core_project_factory/scripts/preconditions')))
 
 import preconditions  # noqa: E402
 
