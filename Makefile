@@ -68,6 +68,20 @@ check_headers: ## Check that source files have appropriate boilerplate
 	@echo "Checking file headers"
 	@python test/verify_boilerplate.py
 
+.PHONY: test_migrate
+test_migrate:
+	@echo "Testing migrate script"
+	@python test/helpers/test_migrate.py
+
+.PHONY: test_preconditions
+test_preconditions:
+	@echo "Testing preconditions script"
+	@python test/scripts/preconditions/test_preconditions.py
+
+# Unit tests
+.PHONY: test_unit
+test_unit: test_migrate test_preconditions
+
 # Integration tests
 .PHONY: test_integration
 test_integration: ## Run integration tests
