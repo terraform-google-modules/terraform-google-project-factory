@@ -17,6 +17,7 @@
 import argparse
 import json
 import logging
+import re
 import sys
 import os
 
@@ -301,6 +302,13 @@ class BillingAccount:
 
         return req.asdict()
 
+    @classmethod
+    def argument_type(cls, string, pat=re.compile(r"[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}")):
+        if not pat.match(string):
+            msg = "%r is not a valid billing account ID format" % string
+            raise argparse.ArgumentTypeError(msg)
+        return string
+
 
 def setup():
     logging.basicConfig()
@@ -347,7 +355,8 @@ def argparser():
     )
     parser.add_argument(
         '--billing_account', required=True,
-        help='The billing account to be associated with a new project'
+        help='The billing account to be associated with a new project',
+        type=BillingAccount.argument_type
     )
     parser.add_argument(
         '--org_id', required=True, action=EmptyStrAction,
