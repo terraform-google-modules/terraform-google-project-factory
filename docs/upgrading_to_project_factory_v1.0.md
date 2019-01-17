@@ -95,7 +95,7 @@ it as an argument if you didn't already specify it on your projects.
 ### Download the state migration script
 
  ```
-curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/1.0-rc1/helpers/migrate.py
+curl -O https://raw.githubusercontent.com/terraform-google-modules/terraform-google-project-factory/v1.0.0/helpers/migrate.py
 chmod +x migrate.py
 ```
 
