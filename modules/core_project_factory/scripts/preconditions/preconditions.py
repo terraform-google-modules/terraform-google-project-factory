@@ -411,8 +411,7 @@ def main(argv):
                 retcode = 1
 
         if retcode == 1 or opts.verbose:
-            s = json.dumps(results, sys.stdout, indent=4)
-            print(s)
+            json.dump(results, sys.stdout, indent=4)
     except FileNotFoundError as error:
         print(error)
         retcode = 1
