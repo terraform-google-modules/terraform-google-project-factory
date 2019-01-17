@@ -78,6 +78,10 @@ test_preconditions:
 	@echo "Testing preconditions script"
 	@python test/scripts/preconditions/test_preconditions.py
 
+# Unit tests
+.PHONY: test_unit
+test_unit: test_migrate test_preconditions
+
 # Integration tests
 .PHONY: test_integration
 test_integration: ## Run integration tests
