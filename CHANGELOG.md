@@ -4,7 +4,7 @@
 ### ADDED
 - Support for disable_services_on_destroy flag to leave service active on delete. #91
 
-### Changed
+### CHANGED
 - Refactored project factory to eliminate the dependenency on the G Suite provider for all projects. #94
 
 ## 0.3.0
