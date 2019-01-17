@@ -7,7 +7,7 @@ This module allows you to create opinionated Google Cloud Platform projects. It
 creates projects and configures aspects like Shared VPC connectivity, IAM
 access, Service Accounts, and API enablement to follow best practices.
 
-To include G Suite integration, use the
+To include G Suite integration for creating groups and adding Service Accounts into groups, use the
 [gsuite_enabled module][gsuite-enabled-module].
 
 ## Usage
@@ -128,22 +128,6 @@ The roles granted are specifically:
 
 [^]: (autogen_docs_end)
 
-## File structure
-
-The project has the following folders and files:
-
-- /: root folder
-- /examples: examples for using this module
-- /scripts: Scripts for specific tasks on module (see Infrastructure section on
-  this file)
-- /test: Folders with files for testing the module (see Testing section on this
-  file)
-- /helpers: Optional helper scripts for ease of use
-- /main.tf: main file for this module, contains all the resources to create
-- /variables.tf: all the variables for the module
-- /output.tf: the outputs of the module
-- /readme.md: this file
-
 ## Requirements
 
 ### Terraform plugins
@@ -158,22 +142,19 @@ The project has the following folders and files:
 In order to execute this module you must have a Service Account with the
 following roles:
 
-- roles/resourcemanager.folderViewer on the folder that you want to create the
+- `roles/resourcemanager.folderViewer` on the folder that you want to create the
   project in
-- roles/resourcemanager.organizationViewer on the organization
-- roles/resourcemanager.projectCreator on the organization
-- roles/billing.user on the organization
-- roles/iam.serviceAccountAdmin on the organization
-- roles/storage.admin on bucket_project
+- `roles/resourcemanager.organizationViewer` on the organization
+- `roles/resourcemanager.projectCreator` on the organization
+- `roles/billing.user` on the organization
+- `roles/iam.serviceAccountAdmin` on the organization
+- `roles/storage.admin` on bucket_project
 - If you are using shared VPC:
-  - roles/billing.user on the organization
-  - roles/compute.xpnAdmin on the organization
-  - roles/compute.networkAdmin on the organization
-  - roles/browser on the Shared VPC host project
-  - roles/resourcemanager.projectIamAdmin on the Shared VPC host project
-
-Additionally, if you want to use the group management functionality included,
-you must [enable domain delegation](#g-suite).
+  - `roles/billing.user` on the organization
+  - `roles/compute.xpnAdmin` on the organization
+  - `roles/compute.networkAdmin` on the organization
+  - `roles/browser` on the Shared VPC host project
+  - `roles/resourcemanager.projectIamAdmin` on the Shared VPC host project
 
 #### Script Helper
 
@@ -237,49 +218,15 @@ folders to start. Moving projects between different folders *is* supported.
 
 ## G Suite
 
-The Project Factory module *optionally* includes functionality to manage G Suite
-groups as part of the project set up process. This functionality can be used to
-create groups to hold the project owners and place all Service Accounts into
-groups automatically for easier IAM management. **This functionality is optional
-and can easily be disabled by deleting the `gsuite_override.tf` file**.
-
-If you do want to use the G Suite functionality, you will need to be an
-administator in the [Google Admin
-console](https://support.google.com/a/answer/182076?hl=en). As an admin, you
-must [enable domain-wide delegation] for the Project Factory Service Account and
-grant it the following scopes:
-
-- https://www.googleapis.com/auth/admin.directory.group
-- https://www.googleapis.com/auth/admin.directory.group.member
+The core Project Factory solely deals with GCP APIs and does not integrate G Suite functionality. If you would like certain group-management functionality which was previously included in the Project Factory, see the [G Suite module][gsuite-enabled-module].
 
 ## Install
 ### Terraform
 
-Be sure you have the correct Terraform version (0.10.x), you can choose the
+Be sure you have the correct Terraform version (0.11.x), you can choose the
 binary here:
 
 - https://releases.hashicorp.com/terraform/
-
-### Terraform plugins
-
-Be sure you have the following plugins in $HOME/.terraform.d/plugins:
-
--   [terraform-provider-gsuite] 0.1.x
-
-See each plugin page for more information about how to compile and use them
-
-### Fast install (optional)
-
-For a fast install, please configure the variables on init_centos.sh or
-init_debian.sh script in the helpers directory and then launch it.
-
-The script will do:
-
--   Environment variables setting
--   Installation of base packages like wget, curl, unzip, gcloud, etc.
--   Installation of go 1.9.0
--   Installation of Terraform 0.10.x
--   Installation of terraform-provider-gsuite plugin 0.1.x
 
 ## Development
 ### Requirements
@@ -287,6 +234,22 @@ The script will do:
 - [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
 - Ruby 2.3 or greater
 - Bundler 1.10 or greater
+
+### File structure
+
+The project has the following folders and files:
+
+- /: root folder
+- /examples: examples for using this module
+- /scripts: Scripts for specific tasks on module (see Infrastructure section on
+  this file)
+- /test: Folders with files for testing the module (see Testing section on this
+  file)
+- /helpers: Optional helper scripts for ease of use
+- /main.tf: main file for this module, contains all the resources to create
+- /variables.tf: all the variables for the module
+- /output.tf: the outputs of the module
+- /readme.md: this file
 
 ### Integration testing
 
