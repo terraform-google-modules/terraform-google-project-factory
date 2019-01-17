@@ -1,4 +1,4 @@
-## [1.0.0]
+## 1.0.0
 1.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v1.0.md) for details.
 
 ### ADDED
