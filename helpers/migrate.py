@@ -146,7 +146,7 @@ class GSuiteMigration:
             new = copy.deepcopy(old)
             new.module += migration["module"]
 
-            # If the "rename" value is set, update the copied resource with the new name
+            # Update the copied resource with the "rename" value if it is set
             if "rename" in migration:
                 new.name = migration["rename"]
 
@@ -245,7 +245,8 @@ class TerraformResource:
         Terraform resource path.
         """
         if re.match(r'\A[\w.\[\]-]+\Z', path) is None:
-            raise ValueError("Invalid Terraform resource path {!r}".format(path))
+            raise ValueError(
+                "Invalid Terraform resource path {!r}".format(path))
 
         parts = path.split(".")
         name = parts.pop()
