@@ -30,31 +30,31 @@ TERRAFORM_STATE_LIST = [
     "google_compute_instance.test",
     "google_project_iam_member.user-editor",
     "module.project-factory.google_compute_default_service_account.default",
-    "module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment",
-    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0]",
-    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1]",
-    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2]",
-    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[0]",
-    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[1]",
-    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[2]",
-    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0]",
-    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1]",
-    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2]",
+    "module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[0]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[1]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[2]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1]",  # noqa: E501
+    "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2]",  # noqa: E501
     "module.project-factory.google_organization.org",
     "module.project-factory.google_project.project",
-    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]",
-    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]",
-    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]",
+    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]",  # noqa: E501
+    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]",  # noqa: E501
+    "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]",  # noqa: E501
     "module.project-factory.google_project_iam_member.gsuite_group_role",
     "module.project-factory.google_project_service.project_services",
     "module.project-factory.google_service_account.default_service_account",
-    "module.project-factory.google_service_account_iam_member.service_account_grant_to_group",
+    "module.project-factory.google_service_account_iam_member.service_account_grant_to_group",  # noqa: E501
     "module.project-factory.gsuite_group.group",
-    "module.project-factory.gsuite_group_member.api_s_account_api_sa_group_member",
+    "module.project-factory.gsuite_group_member.api_s_account_api_sa_group_member",  # noqa: E501
     "module.project-factory.null_data_source.data_final_group_email",
     "module.project-factory.null_data_source.data_given_group_email",
     "module.project-factory.null_data_source.data_group_email_format",
-    "module.project-factory.null_resource.delete_default_compute_service_account",
+    "module.project-factory.null_resource.delete_default_compute_service_account",  # noqa: E501
     "module.project-factory.random_id.random_project_id_suffix",
 ]
 
@@ -92,7 +92,8 @@ class TestGSuiteMigration(unittest.TestCase):
 
         old_resources = [move[0] for move in computed_moves]
         self.assertFalse("google_compute_instance.test" in old_resources)
-        self.assertFalse("google_project_iam_member.user-editor" in old_resources)
+        self.assertFalse(
+            "google_project_iam_member.user-editor" in old_resources)
 
 
 class TestTerraformModule(unittest.TestCase):
@@ -113,7 +114,8 @@ class TestTerraformModule(unittest.TestCase):
         self.assertTrue(self.module.has_resource(None, None))
 
     def test_has_resource_empty(self):
-        self.assertFalse(self.module.has_resource('google_cloudiot_registry', None))
+        self.assertFalse(
+            self.module.has_resource('google_cloudiot_registry', None))
 
     def test_get_resources(self):
         expected = [resource for resource in self.resources
@@ -127,15 +129,16 @@ class TestTerraformModule(unittest.TestCase):
 
 
 class TestTerraformResource(unittest.TestCase):
-
     def test_root_resource_from_path(self):
-        resource = migrate.TerraformResource.from_path("google_project.project")
+        resource = migrate.TerraformResource.from_path(
+            "google_project.project")
         self.assertEqual(resource.module, '')
         self.assertEqual(resource.resource_type, 'google_project')
         self.assertEqual(resource.name, 'project')
 
     def test_module_resource_from_path(self):
-        resource = migrate.TerraformResource.from_path("module.project-factory.google_project.project")
+        resource = migrate.TerraformResource.from_path(
+            "module.project-factory.google_project.project")
         self.assertEqual(resource.module, 'module.project-factory')
         self.assertEqual(resource.resource_type, 'google_project')
         self.assertEqual(resource.name, 'project')
@@ -143,7 +146,8 @@ class TestTerraformResource(unittest.TestCase):
     def test_invalid_resource_from_path(self):
         self.assertRaises(
             Exception,
-            lambda: migrate.TerraformResource.from_path("not a resource path!"))
+            lambda: migrate.TerraformResource.from_path("not a resource path!")
+        )
 
     def test_resource_init(self):
         resource = migrate.TerraformResource('', 'google_project', 'project')
@@ -156,7 +160,8 @@ class TestTerraformResource(unittest.TestCase):
         self.assertEqual(resource.path(), 'google_project.project')
 
     def test_resource_path_with_module(self):
-        resource = migrate.TerraformResource('module.project-factory', 'google_project', 'project')
+        resource = migrate.TerraformResource('module.project-factory',
+                                             'google_project', 'project')
         expected = 'module.project-factory.google_project.project'
         actual = resource.path()
         self.assertEqual(expected, actual)
