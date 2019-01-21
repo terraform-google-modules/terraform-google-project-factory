@@ -350,7 +350,7 @@ def migrate(statefile, dryrun=False):
     factories = [
         module for module in modules
         if module.has_resource("random_id", "random_project_id_suffix")
-            and module.has_resource("google_project", "project")
+        and module.has_resource("google_project", "project")
     ]
 
     print("---- Migrating the following project-factory modules:")
