@@ -63,7 +63,7 @@ function golang() {
 # ending in '.py'
 function check_python() {
   echo "Running flake8"
-  find . -name "*.py" -exec flake8 {} \;
+  find . -name "*.py" -exec python3 -m flake8 {} \;
 }
 
 # This function runs the shellcheck linter on every
