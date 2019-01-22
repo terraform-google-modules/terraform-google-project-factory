@@ -201,7 +201,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
 }
 
 /******************************************************************************************************************
-  compute.networkUser role granted to G Suite group, APIs Service account, Project Service Account, and GKE Service 
+  compute.networkUser role granted to G Suite group, APIs Service account, Project Service Account, and GKE Service
   Account on shared VPC
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
