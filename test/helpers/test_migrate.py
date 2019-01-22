@@ -58,6 +58,126 @@ TERRAFORM_STATE_LIST = [
     "module.project-factory.random_id.random_project_id_suffix",
 ]
 
+TERRAFORM_MOVES = [
+    (
+        "module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_shared_vpc_service_project.shared_vpc_attachment",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[0]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[1]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.apis_service_account_role_to_vpc_subnets[2]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[0]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[0]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[1]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[1]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[2]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.group_role_to_vpc_subnets[2]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[0]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[1]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_compute_subnetwork_iam_member.service_account_role_to_vpc_subnets[2]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_project.project",
+        "module.project-factory.module.project-factory.google_project.main",
+    ),
+    (
+        "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[0]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[1]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]",  # noqa: E501
+        "module.project-factory.module.project-factory.google_project_iam_member.controlling_group_vpc_membership[2]",  # noqa: E501
+    ),
+    (
+        "module.project-factory.google_project_iam_member.gsuite_group_role",
+        "module.project-factory.module.project-factory.google_project_iam_member.gsuite_group_role",
+    ),
+    (
+        "module.project-factory.google_project_service.project_services",
+        "module.project-factory.module.project-factory.google_project_service.project_services",
+    ),
+    (
+        "module.project-factory.google_service_account.default_service_account",
+        "module.project-factory.module.project-factory.google_service_account.default_service_account",
+    ),
+    (
+        "module.project-factory.google_service_account_iam_member.service_account_grant_to_group",  # noqa: E501
+        "module.project-factory.module.project-factory.google_service_account_iam_member.service_account_grant_to_group",  # noqa: E501
+    ),
+    (
+        "module.project-factory.null_resource.delete_default_compute_service_account",  # noqa: E501
+        "module.project-factory.module.project-factory.null_resource.delete_default_compute_service_account",  # noqa: E501
+    ),
+    (
+        "module.project-factory.random_id.random_project_id_suffix",
+        "module.project-factory.module.project-factory.random_id.random_project_id_suffix",
+    ),
+]
+
+
+# The following entities are data sources that are not part of the 1.0
+# migration process and should not be present in the list of resource
+# moves.
+TERRAFORM_DROPPED_DATA_SOURCES = [
+    (
+        "module.project-factory.google_organization.org",
+        "module.project-factory.module.project-factory.google_organization.org",
+    ),
+    (
+        "module.project-factory.null_data_source.data_final_group_email",
+        "module.project-factory.module.project-factory.null_data_source.data_final_group_email",
+    ),
+    (
+        "module.project-factory.null_data_source.data_given_group_email",
+        "module.project-factory.module.project-factory.null_data_source.data_given_group_email",
+    ),
+    (
+        "module.project-factory.null_data_source.data_group_email_format",
+        "module.project-factory.module.project-factory.null_data_source.data_group_email_format",
+    ),
+]
+
+
+# The following entities are resources that were not part of the migration
+# and should not be present in the list of resource moves.
+TERRAFORM_UNMIGRATED_MOVES = [
+    (
+        "module.project-factory.gsuite_group.group",
+        "module.project-factory.module.project-factory.gsuite_group.group",
+    ),
+    (
+        "module.project-factory.gsuite_group_member.api_s_account_api_sa_group_member",  # noqa: E501
+        "module.project-factory.module.project-factory.gsuite_group_member.api_s_account_api_sa_group_member",  # noqa: E501
+    ),
+]
+
 
 class TestGSuiteMigration(unittest.TestCase):
     def setUp(self):
@@ -72,20 +192,20 @@ class TestGSuiteMigration(unittest.TestCase):
         self.migration = migrate.GSuiteMigration(self.module)
 
     def test_moves(self):
-        resources_to_move = []
+        computed_moves = self.migration.moves()
+        self.assertEqual(set(computed_moves), set(TERRAFORM_MOVES))
 
-        for selector in migrate.MIGRATIONS:
-            resources_to_move += self.module.get_resources(
-                resource_type=selector["resource_type"],
-                resource_name=selector["name"])
-
+    def test_no_moves_of_data_sources(self):
         computed_moves = self.migration.moves()
 
-        for old in resources_to_move:
-            new = copy.deepcopy(old)
-            new.module += ".module.project-factory"
-            expected_move = (old.path(), new.path())
-            self.assertIn(expected_move, computed_moves)
+        for absent_move in TERRAFORM_DROPPED_DATA_SOURCES:
+            self.assertNotIn(absent_move, computed_moves)
+
+    def test_no_moves_of_unmigrated_resources(self):
+        computed_moves = self.migration.moves()
+
+        for absent_move in TERRAFORM_UNMIGRATED_MOVES:
+            self.assertNotIn(absent_move, computed_moves)
 
     def test_no_moves_outside_of_module(self):
         computed_moves = self.migration.moves()
