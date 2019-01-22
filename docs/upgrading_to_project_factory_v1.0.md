@@ -69,7 +69,7 @@ index d876954..ebb3b1e 100755
 --- i/main.tf
 +++ w/main.tf
 @@ -14,7 +14,7 @@ provider "gsuite" {
- 
+
  module "project-factory" {
    source            = "terraform-google-modules/project-factory/google"
 -  version           = "v0.3.0"
@@ -78,7 +78,7 @@ index d876954..ebb3b1e 100755
    name              = "pf-gsuite-migrate-simple"
    org_id            = "${var.org_id}"
 @@ -24,8 +24,8 @@ module "project-factory" {
- 
+
  module "project-factory-gsuite" {
 -  source             = "terraform-google-modules/project-factory/google"
 -  version            = "v0.3.0"
