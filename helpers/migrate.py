@@ -146,7 +146,7 @@ class GSuiteMigration:
             new = copy.deepcopy(old)
             new.module += migration["module"]
 
-            # If the "rename" value is set, update the copied resource with the new name
+            # Update the copied resource with the "rename" value if it is set
             if "rename" in migration:
                 new.name = migration["rename"]
 
@@ -245,7 +245,8 @@ class TerraformResource:
         Terraform resource path.
         """
         if re.match(r'\A[\w.\[\]-]+\Z', path) is None:
-            raise ValueError("Invalid Terraform resource path {!r}".format(path))
+            raise ValueError(
+                "Invalid Terraform resource path {!r}".format(path))
 
         parts = path.split(".")
         name = parts.pop()
@@ -349,7 +350,7 @@ def migrate(statefile, dryrun=False):
     factories = [
         module for module in modules
         if module.has_resource("random_id", "random_project_id_suffix")
-            and module.has_resource("google_project", "project")
+        and module.has_resource("google_project", "project")
     ]
 
     print("---- Migrating the following project-factory modules:")

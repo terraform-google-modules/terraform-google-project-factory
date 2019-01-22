@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 ''' Combine file from:
   * script argument 1
   with content of file from:
@@ -28,8 +27,8 @@
 import re
 import sys
 
-insert_separator_regex = r'(.*?\[\^\]\:\ \(autogen_docs_start\))(.*?)(\n\[\^\]\:\ \(autogen_docs_end\).*?$)'
-exclude_separator_regex = r'(.*?)Copyright 20\d\d Google LLC.*?limitations under the License.(.*?)$'
+insert_separator_regex = r'(.*?\[\^\]\:\ \(autogen_docs_start\))(.*?)(\n\[\^\]\:\ \(autogen_docs_end\).*?$)'  # noqa: E501
+exclude_separator_regex = r'(.*?)Copyright 20\d\d Google LLC.*?limitations under the License.(.*?)$'  # noqa: E501
 
 if len(sys.argv) != 3:
     sys.exit(1)
@@ -38,7 +37,8 @@ input = open(sys.argv[1], "r").read()
 replace_content = open(sys.argv[2], "r").read()
 
 # Exclude the specified content from the replacement content
-groups = re.match(exclude_separator_regex, replace_content, re.DOTALL).groups(0)
+groups = re.match(exclude_separator_regex, replace_content,
+                  re.DOTALL).groups(0)
 replace_content = groups[0] + groups[1]
 
 # Find where to put the replacement content, overwrite the input file
