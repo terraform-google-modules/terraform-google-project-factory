@@ -413,7 +413,7 @@ def main(argv):
         if retcode == 1 or opts.verbose:
             s = json.dumps(results, sys.stdout, indent=4)
             print(s)
-    except FileNotFoundError as error:
+    except FileNotFoundError as error:  # noqa: F821
         print(error)
         retcode = 1
 
