@@ -198,14 +198,14 @@ class TestGSuiteMigration(unittest.TestCase):
     def test_no_moves_of_data_sources(self):
         computed_moves = self.migration.moves()
 
-        for absent_move in TERRAFORM_DROPPED_DATA_SOURCES:
-            self.assertNotIn(absent_move, computed_moves)
+        self.assertTrue(
+            set(TERRAFORM_DROPPED_DATA_SOURCES).isdisjoint(computed_moves))
 
     def test_no_moves_of_unmigrated_resources(self):
         computed_moves = self.migration.moves()
 
-        for absent_move in TERRAFORM_UNMIGRATED_MOVES:
-            self.assertNotIn(absent_move, computed_moves)
+        self.assertTrue(
+            set(TERRAFORM_UNMIGRATED_MOVES).isdisjoint(computed_moves))
 
     def test_no_moves_outside_of_module(self):
         computed_moves = self.migration.moves()
