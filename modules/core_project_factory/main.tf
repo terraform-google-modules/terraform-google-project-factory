@@ -323,6 +323,8 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
+  provider = "google-beta"
+
   count = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0}"
 
   subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
