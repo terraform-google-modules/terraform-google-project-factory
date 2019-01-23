@@ -1,3 +1,9 @@
+## 1.0.2
+
+### FIXED
+
+- Fixed deprecation notice for `google-beta` provider in `core_project_factory` module.
+
 ## 1.0.1
 
 ### FIXED
