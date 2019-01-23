@@ -1,3 +1,7 @@
+## [Unreleased]
+### ADDED
+- Preconditions script checks billing account format.
+
 ## 1.0.2
 
 ### FIXED
