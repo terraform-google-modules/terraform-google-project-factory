@@ -79,7 +79,7 @@ test_preconditions:
 	@python test/scripts/preconditions/test_preconditions.py
 
 # Unit tests
-.PHONY: test_unit
+.PHONY: test_unit ## Run unit tests
 test_unit: test_migrate test_preconditions
 
 # Integration tests
