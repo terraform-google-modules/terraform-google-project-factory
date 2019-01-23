@@ -1,29 +1,30 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
 ## [Unreleased]
 ### ADDED
 - Preconditions script checks billing account format.
 
-## 1.0.2
-
+## [1.0.2] - 2019-01-23
 ### FIXED
-
 - Fixed deprecation notice for `google-beta` provider in `core_project_factory` module.
 
-## 1.0.1
-
+## [1.0.1] - 2019-01-22
 ### FIXED
-
 - Replaced missing forward of `var.disable_services_on_destroy` from `root` module to `core_project_factory` module.
 
-## 1.0.0
+## [1.0.0] - 2019-01-18
 1.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v1.0.md) for details.
-
 ### ADDED
 - Support for disable_services_on_destroy flag to leave service active on delete. #91
 
 ### CHANGED
 - Refactored project factory to eliminate the dependenency on the G Suite provider for all projects. #94
 
-## 0.3.0
+## [0.3.0] - 2018-12-27
 ### ADDED
 - Implement billing account role.
 - Remove `CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE`.
@@ -32,14 +33,22 @@
 ### FIXED
 - Fix/refactor `helpers/init_debian.sh`.
 
-## 0.2.1
+## [0.2.1] - 2018-10-10
 ### ADDED
 - Explicit dependency on `google_project_service`.
 
-## 0.2.0
+## [0.2.0] - 2018-09-06
 ### ADDED
 - Make IAM bindings non-authoritative.
 
 ## 0.1.0
 ### ADDED
 - This is the initial release of the Project Factory Module.
+
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.3.0...v1.0.0
+[0.3.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.1...v0.3.0
+[0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
