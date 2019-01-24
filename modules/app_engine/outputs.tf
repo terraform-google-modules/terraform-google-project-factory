@@ -14,5 +14,32 @@
  * limitations under the License.
  */
 
+output "name" {
+  description = "Unique name of the app, usually apps/{PROJECT_ID}."
+  value = "${google_app_engine_application.app.0.name}"
+}
 
-# TODO
+output "url_dispatch_rule" {
+  description = "A list of dispatch rule blocks. Each block has a domain, path, and service field."
+  value = "${google_app_engine_application.app.0.url_dispatch_rule}"
+}
+
+output "code_bucket" {
+  description = "The GCS bucket code is being stored in for this app."
+  value = "${google_app_engine_application.app.0.code_bucket}"
+}
+
+output "default_hostname" {
+  description = "The default hostname for this app."
+  value = "${google_app_engine_application.app.0.default_hostname}"
+}
+
+output "default_bucket" {
+  description = "The GCS bucket content is being stored in for this app."
+  value = "${google_app_engine_application.app.0.default_bucket}"
+}
+
+output "gcr_domain" {
+  description = "The GCR domain used for storing managed Docker images for this app."
+  value = "${google_app_engine_application.app.0.gcr_domain}"
+}
