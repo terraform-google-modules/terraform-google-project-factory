@@ -1,19 +1,12 @@
 # project_services
 
-This optional module is used to enable project APIs in your project. By default,
-this module will enable the following APIs:
-- `compute.googleapis.com`
-- `iam.googleapis.com`
-
-The list of APIs to be enabled can be customized with the `activate_apis`
-variable.
-
-Google Project Factory already does this [here](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/modules/core_project_factory/main.tf#L112), but this module allows you to enable APIs on projects that were not created with Project Factory.
+This optional module is used to enable project APIs in your project. The list of
+APIs to be enabled is specified using the `activate_apis` variable.
 
 ## Prerequisites
 
 1. Service account used to run Terraform has permissions to manage project APIs: 
-[`roles/serviceusage.serviceUsageAdmin`](https://cloud.google.com/iam/docs/understanding-roles#service-usage-roles) or `Owner`
+[`roles/serviceusage.serviceUsageAdmin`](https://cloud.google.com/iam/docs/understanding-roles#service-usage-roles) or [`roles/owner`](https://cloud.google.com/iam/docs/understanding-roles#primitive_role_definitions)
 
 ## Usage
 

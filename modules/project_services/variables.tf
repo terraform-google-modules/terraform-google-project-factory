@@ -26,11 +26,6 @@ variable "enable_apis" {
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = "list"
-
-  default = [
-    "compute.googleapis.com",
-    "iam.googleapis.com",
-  ]
 }
 
 variable "disable_services_on_destroy" {

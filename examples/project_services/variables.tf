@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-output "project_id" {
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
+}
+
+variable "project_id" {
   description = "The GCP project you want to enable APIs on"
-  value       = "${element(concat(google_project_service.project_services.*.project, list("")),0)}"
 }
