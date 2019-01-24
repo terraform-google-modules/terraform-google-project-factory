@@ -67,7 +67,32 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
-output "app_engine_enabled" {
-  value       = "${module.project-factory.app_engine_enabled}"
-  description = "Whether app engine is enabled"
+output "app_engine_name" {
+  description = "Unique name of the app, usually apps/{PROJECT_ID}."
+  value = "${module.project-factory.app_engine_name}"
+}
+
+output "app_engine_url_dispatch_rule" {
+  description = "A list of dispatch rule blocks. Each block has a domain, path, and service field."
+  value = "${module.project-factory.app_engine_url_dispatch_rule}"
+}
+
+output "app_engine_code_bucket" {
+  description = "The GCS bucket code is being stored in for this app."
+  value = "${module.project-factory.app_engine_code_bucket}"
+}
+
+output "app_engine_default_hostname" {
+  description = "The default hostname for this app."
+  value = "${module.project-factory.app_engine_default_hostname}"
+}
+
+output "app_engine_default_bucket" {
+  description = "The GCS bucket content is being stored in for this app."
+  value = "${module.project-factory.app_engine_default_bucket}"
+}
+
+output "app_engine_gcr_domain" {
+  description = "The GCR domain used for storing managed Docker images for this app."
+  value = "${module.project-factory.app_engine_gcr_domain}"
 }
