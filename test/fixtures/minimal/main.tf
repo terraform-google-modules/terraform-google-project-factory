@@ -23,12 +23,13 @@ provider "google-beta" {
 }
 
 resource "random_string" "suffix" {
-  length = 5
+  length  = 5
   special = false
-  upper = false
+  upper   = false
 }
+
 module "project-factory" {
-  source            = "../../../"
+  source = "../../../"
 
   name              = "pf-ci-test-minimal-${random_string.suffix.result}"
   random_project_id = true

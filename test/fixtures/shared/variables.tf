@@ -20,8 +20,7 @@ variable "folder_id" {
   default = ""
 }
 
-variable "domain" {
-}
+variable "domain" {}
 
 variable "usage_bucket_name" {
   default = ""
