@@ -90,6 +90,8 @@ resource "google_project" "main" {
 module "app-engine" {
   source = "../app_engine"
 
+  enabled = "${var.app_engine_enabled}"
+
   project_id       = "${google_project.main.project_id}"
   location_id      = "${var.app_engine_location_id}"
   auth_domain      = "${var.app_engine_auth_domain}"
