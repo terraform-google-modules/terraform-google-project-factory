@@ -108,12 +108,6 @@ variable "auto_create_network" {
   default     = "false"
 }
 
-variable "app_engine" {
-  description = "A map for app engine configuration"
-  type        = "map"
-  default     = {}
-}
-
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
   default     = "false"
@@ -124,4 +118,24 @@ variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = "true"
   type        = "string"
+}
+
+variable "app_engine_enabled" {
+  description = "Enable App Engine on the project."
+}
+
+variable "app_engine_location_id" {
+  description = "The location to serve the app from."
+}
+
+variable "app_engine_auth_domain" {
+  description = "The domain to authenticate users with when using App Engine's User API."
+}
+
+variable "app_engine_serving_status" {
+  description = "The serving status of the App Engine application."
+}
+
+variable "app_engine_feature_settings" {
+  description = "A block of optional settings to configure specific App Engine features."
 }
