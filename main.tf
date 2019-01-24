@@ -48,6 +48,10 @@ module "project-factory" {
   bucket_project              = "${var.bucket_project}"
   bucket_name                 = "${var.bucket_name}"
   auto_create_network         = "${var.auto_create_network}"
-  app_engine                  = "${var.app_engine}"
   disable_services_on_destroy = "${var.disable_services_on_destroy}"
+  app_engine_enabled          = "${var.app_engine_enabled}"
+  app_engine_location_id      = "${var.app_engine_location_id}"
+  app_engine_auth_domain      = "${var.app_engine_auth_domain}"
+  app_engine_serving_status   = "${var.app_engine_serving_status}"
+  app_engine_feature_settings = "${var.app_engine_feature_settings}"
 }
