@@ -8,12 +8,9 @@ APIs to be enabled is specified using the `activate_apis` variable.
 1. Service account used to run Terraform has permissions to manage project APIs: 
 [`roles/serviceusage.serviceUsageAdmin`](https://cloud.google.com/iam/docs/understanding-roles#service-usage-roles) or [`roles/owner`](https://cloud.google.com/iam/docs/understanding-roles#primitive_role_definitions)
 
-## Usage
+## Example
 
-```
-terraform plan -var='project_id=<YOUR PROJECT ID>' -out=tfplan
-terraform apply tfplan
-```
+See [examples/project_services](../../examples/project_services) for an example.
 
 [^]: (autogen_docs_start)
 
