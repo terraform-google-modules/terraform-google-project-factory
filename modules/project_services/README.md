@@ -1,7 +1,16 @@
-# project_services
+# Project API Activation
 
 This optional module is used to enable project APIs in your project. The list of
 APIs to be enabled is specified using the `activate_apis` variable.
+
+This module uses the [`google_project_service`](https://www.terraform.io/docs/providers/google/r/google_project_service.html)
+resource, which is  _non-authoritative_, as oppose to the [`google_project_services`](https://www.terraform.io/docs/providers/google/r/google_project_services.html)
+resource, which is _authoritative_. Authoritative in this case means that services
+that are not defined in the config will be removed, or disabled, in the project.
+In practice, this is dangerous because it is fairly easy to inadventently disable
+APIs without knowing it. Therefore, it is recommended to avoid using
+[`google_project_services`], and to use [`google_project_service`] instead.
+
 
 ## Prerequisites
 

@@ -32,14 +32,13 @@ provider "google-beta" {
 }
 
 module "project-services" {
-  source      = "../../modules/project_services"
-  project_id  = "${var.project_id}"
-  enable_apis = "true"
+  source                      = "../../modules/project_services"
+  project_id                  = "${var.project_id}"
+  enable_apis                 = "true"
+  disable_services_on_destroy = "true"
 
   activate_apis = [
     "compute.googleapis.com",
     "iam.googleapis.com",
   ]
-
-  disable_services_on_destroy = "true"
 }
