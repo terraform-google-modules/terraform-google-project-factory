@@ -1,3 +1,14 @@
+## 2.0.0
+2.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v2.0.md) for details.
+
+### ADDED
+
+- Added granular App Engine configuration arguments: `app_engine_enabled`, `app_engine_location_id`, `app_engine_auth_domain`, `app_engine_serving_status`, `app_engine_feature_settings`.
+
+### REMOVED
+
+- Removed `app_engine` argument (config block).
+
 ## 1.0.2
 
 ### FIXED
