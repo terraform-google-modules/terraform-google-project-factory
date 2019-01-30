@@ -14,7 +14,7 @@ APIs without knowing it. Therefore, it is recommended to avoid using
 
 ## Prerequisites
 
-1. Service account used to run Terraform has permissions to manage project APIs: 
+1. Service account used to run Terraform has permissions to manage project APIs:
 [`roles/serviceusage.serviceUsageAdmin`](https://cloud.google.com/iam/docs/understanding-roles#service-usage-roles) or [`roles/owner`](https://cloud.google.com/iam/docs/understanding-roles#primitive_role_definitions)
 
 ## Example
