@@ -84,6 +84,7 @@ variable "usage_bucket_prefix" {
 
 variable "credentials_path" {
   description = "Path to a Service Account credentials file with permissions documented in the readme"
+  default     = ""
 }
 
 variable "shared_vpc_subnets" {

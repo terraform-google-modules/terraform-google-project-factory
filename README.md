@@ -92,7 +92,7 @@ The roles granted are specifically:
 | billing\_account | The ID of the billing account to associate this project with | string | - | yes |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `` | no |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
+| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | `` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `true` | no |
 | domain | The domain name (optional). | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
