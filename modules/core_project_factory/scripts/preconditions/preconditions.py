@@ -22,6 +22,7 @@ import sys
 import os
 
 try:
+    import google.auth
     from google.oauth2 import service_account
     from googleapiclient import discovery, errors
 except ImportError as e:
@@ -320,8 +321,29 @@ def setup():
 
 
 def get_credentials(credentials_path):
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_path)
+    """Fetch credentials for verifying Project Factory preconditions.
+
+    Credentials will be loaded from a service account file if present, or
+    from Application Default Credentials otherwise.
+
+    Args:
+        credentials_path: an optional path to service account credentials.
+
+    Returns:
+        (credentials, project_id): A tuple containing the credentials and
+        associated project ID.
+    """
+    if credentials_path is not None:
+        # Prefer an explicit credentials file
+        svc_credentials = service_account.Credentials\
+            .from_service_account_file(credentials_path)
+        credentials = (svc_credentials, svc_credentials.project_id)
+    else:
+        # Fall back to application default credentials
+        try:
+            credentials = google.auth.default()
+        except google.auth.exceptions.RefreshError:
+            raise google.auth.exceptions.DefaultCredentialsError()
 
     return credentials
 
@@ -347,7 +369,7 @@ def argparser():
         help='Enable verbose logging'
     )
     parser.add_argument(
-        '--credentials_path', required=True,
+        '--credentials_path', required=True, action=EmptyStrAction,
         help='The service account credentials to check'
     )
     parser.add_argument(
@@ -404,8 +426,8 @@ def validators_for(opts, seed_project):
 def main(argv):
     try:
         opts = argparser().parse_args(argv[1:])
-        credentials = get_credentials(opts.credentials_path)
-        validators = validators_for(opts, credentials.project_id)
+        (credentials, project_id) = get_credentials(opts.credentials_path)
+        validators = validators_for(opts, project_id)
 
         results = []
         for validator in validators:
