@@ -6,6 +6,8 @@
 
 # Python
 *.pyc
+# Python virtualenv
+venv
 
 # Emacs save files
 *~
