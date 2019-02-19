@@ -85,12 +85,7 @@ test_unit: test_migrate test_preconditions
 # Integration tests
 .PHONY: test_integration
 test_integration: ## Run integration tests
-	bundle install
-	bundle exec kitchen create
-	bundle exec kitchen converge
-	bundle exec kitchen converge
-	bundle exec kitchen verify
-	bundle exec kitchen destroy
+	test/ci_integration.sh
 
 .PHONY: generate_docs
 generate_docs: ## Update README documentation for Terraform variables and outputs
@@ -104,17 +99,29 @@ release-new-version:
 .PHONY: docker_run
 docker_run: ## Launch a shell within the Docker test environment
 	docker run --rm -it \
-		-e CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${CREDENTIALS_PATH} \
-		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && exec /bin/bash'
 
 .PHONY: docker_create
 docker_create: ## Run `kitchen create` within the Docker test environment
 	docker run --rm -it \
-		-e CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${CREDENTIALS_PATH} \
-		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
 		/bin/bash -c "bundle exec kitchen create"
@@ -122,8 +129,14 @@ docker_create: ## Run `kitchen create` within the Docker test environment
 .PHONY: docker_converge
 docker_converge: ## Run `kitchen converge` within the Docker test environment
 	docker run --rm -it \
-		-e CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${CREDENTIALS_PATH} \
-		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
 		/bin/bash -c "bundle exec kitchen converge && bundle exec kitchen converge"
@@ -131,8 +144,14 @@ docker_converge: ## Run `kitchen converge` within the Docker test environment
 .PHONY: docker_verify
 docker_verify: ## Run `kitchen verify` within the Docker test environment
 	docker run --rm -it \
-		-e CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${CREDENTIALS_PATH} \
-		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
 		/bin/bash -c "bundle exec kitchen verify"
@@ -140,15 +159,32 @@ docker_verify: ## Run `kitchen verify` within the Docker test environment
 .PHONY: docker_destroy
 docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 	docker run --rm -it \
-		-e CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE=${CREDENTIALS_PATH} \
-		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
 		/bin/bash -c "bundle exec kitchen destroy"
 
 .PHONY: test_integration_docker
-test_integration_docker: docker_create docker_converge docker_verify docker_destroy ## Run a full integration test cycle
-	@echo "Running test-kitchen tests in docker"
+test_integration_docker:
+	docker run --rm -it \
+		-e BILLING_ACCOUNT_ID  \
+		-e SERVICE_ACCOUNT_JSON \
+		-e DOMAIN \
+		-e FOLDER_ID \
+		-e GROUP_NAME \
+		-e ADMIN_ACCOUNT_EMAIL \
+		-e ORG_ID \
+		-e PROJECT_ID \
+		-v $(CURDIR):/cft/workdir \
+		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
+		test/ci_integration.sh
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
