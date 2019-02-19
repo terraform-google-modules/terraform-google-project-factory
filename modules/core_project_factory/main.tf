@@ -128,7 +128,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   Default compute service account retrieval
  *****************************************/
 data "google_compute_default_service_account" "default" {
-  project = "${google_project.main.id}"
+  project = "${google_project.main.project_id}"
 
   depends_on = ["google_project_service.project_services"]
 }

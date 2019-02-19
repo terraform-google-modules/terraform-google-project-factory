@@ -18,6 +18,7 @@ group_role                  = attribute('group_role')
 project_id                  = attribute('project_id')
 service_account_email       = attribute('service_account_email')
 credentials_path            = attribute('credentials_path')
+gsuite_admin_account        = attribute('gsuite_admin_account')
 
 ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
   credentials_path,
@@ -73,5 +74,10 @@ control 'project-factory-gsuite' do
         role: "roles/iam.serviceAccountUser",
       )
     end
+  end
+
+  describe command("./test/scripts/gsuite/gsuite_groups.py --sa-json-credentials=#{credentials_path} --group-email #{group_email} --impersonate-user #{gsuite_admin_account}") do
+    its('exit_status') { should eq 0 }
+    its('stderr') { should eq '' }
   end
 end
