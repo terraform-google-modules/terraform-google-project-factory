@@ -50,7 +50,8 @@ module "vpc" {
   source       = "terraform-google-modules/network/google"
   version      = "~> 0.4.0"
   network_name = "pf-test-int-full-${random_string.suffix.result}"
-  project_id   = "${var.shared_vpc}"
+
+  project_id = "${var.shared_vpc}"
 
   # The provided project must already be a Shared VPC host
   shared_vpc_host = "false"
@@ -89,11 +90,12 @@ module "project-factory" {
   group_role          = "${var.group_role}"
   group_name          = "${var.group_name}"
   shared_vpc          = "${var.shared_vpc}"
-  shared_vpc_subnets  = "${local.shared_vpc_subnets}"
-  sa_role             = "${var.sa_role}"
-  sa_group            = "${var.sa_group}"
-  credentials_path    = "${var.credentials_path}"
-  lien                = "true"
+
+  shared_vpc_subnets = "${local.shared_vpc_subnets}"
+  sa_role            = "${var.sa_role}"
+  sa_group           = "${var.sa_group}"
+  credentials_path   = "${var.credentials_path}"
+  lien               = "true"
 
   activate_apis = [
     "compute.googleapis.com",
