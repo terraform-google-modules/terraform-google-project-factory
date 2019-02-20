@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-credentials_path            = attribute('credentials_path')
 extra_service_account_email = attribute('extra_service_account_email')
 project_id                  = attribute('project_id')
 sa_role                     = attribute('sa_role')
@@ -23,10 +22,6 @@ usage_bucket_prefix         = attribute('usage_bucket_prefix')
 # Set a reasonable default value for `usage_bucket_prefix` if the Terraform
 # provided value is empty.
 usage_bucket_prefix = "usage-#{project_id}" if usage_bucket_prefix.empty?
-
-ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
-  credentials_path,
-  File.join(__dir__, "../../../fixtures/full"))
 
 control 'project-factory' do
   title 'Project Factory'
