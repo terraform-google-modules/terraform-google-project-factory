@@ -160,7 +160,10 @@ class FolderPermissions:
         )
 
         body = {"permissions": self.permissions}
-        resource = "folders/" + self.folder_id
+        if self.folder_id.startswith("folders/"):
+            resource = self.folder_id
+        else:
+            resource = "folders/" + self.folder_id
 
         request = service.folders().testIamPermissions(
             resource=resource,
