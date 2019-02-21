@@ -73,9 +73,6 @@ class OrgPermissions:
     ALL_PERMISSIONS = [
         # Typically granted with `roles/resourcemanager.organizationViewer`
         "resourcemanager.organizations.get",
-
-        # Typically granted with `roles/iam.serviceAccountAdmin`
-        "iam.serviceAccounts.setIamPolicy",
     ]
 
     # Permissions required when the service account is attaching a new project
@@ -146,9 +143,6 @@ class FolderPermissions:
     PARENT_PERMISSIONS = [
         # Typically granted with `roles/resourcemanager.projectCreator`
         "resourcemanager.projects.create",
-
-        # Typically granted with `roles/resourcemanager.folderViewer`
-        "resourcemanager.folders.get",
     ]
 
     def __init__(self, folder_id, parent=False):
