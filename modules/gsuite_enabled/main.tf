@@ -27,8 +27,6 @@ resource "gsuite_group_member" "service_account_sa_group_member" {
   group = "${var.sa_group}"
   email = "${module.project-factory.service_account_email}"
   role  = "MEMBER"
-
-  depends_on = ["module.project-factory"]
 }
 
 /*****************************************
@@ -40,17 +38,7 @@ module "gsuite_group" {
   domain = "${var.domain}"
   name   = "${local.group_name}"
   org_id = "${var.org_id}"
-}
-
-/******************************************
-  Gsuite Group Configuration
- *****************************************/
-resource "gsuite_group" "group" {
-  count = "${var.create_group ? 1 : 0}"
-
-  description = "${var.name} project group"
-  email       = "${module.gsuite_group.email}"
-  name        = "${local.group_name}"
+  create_group = "${var.create_group}"
 }
 
 /***********************************************
