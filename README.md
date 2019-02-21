@@ -147,7 +147,6 @@ following roles:
 - `roles/resourcemanager.organizationViewer` on the organization
 - `roles/resourcemanager.projectCreator` on the organization
 - `roles/billing.user` on the organization
-- `roles/iam.serviceAccountAdmin` on the organization
 - `roles/storage.admin` on bucket_project
 - If you are using shared VPC:
   - `roles/billing.user` on the organization
