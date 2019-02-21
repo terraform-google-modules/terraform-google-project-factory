@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import copy
 import os
 import sys
 import unittest
@@ -117,15 +116,15 @@ TERRAFORM_MOVES = [
     ),
     (
         "module.project-factory.google_project_iam_member.gsuite_group_role",
-        "module.project-factory.module.project-factory.google_project_iam_member.gsuite_group_role",
+        "module.project-factory.module.project-factory.google_project_iam_member.gsuite_group_role",  # noqa: E501
     ),
     (
         "module.project-factory.google_project_service.project_services",
-        "module.project-factory.module.project-factory.google_project_service.project_services",
+        "module.project-factory.module.project-factory.google_project_service.project_services",  # noqa: E501
     ),
     (
-        "module.project-factory.google_service_account.default_service_account",
-        "module.project-factory.module.project-factory.google_service_account.default_service_account",
+        "module.project-factory.google_service_account.default_service_account",  # noqa: E501
+        "module.project-factory.module.project-factory.google_service_account.default_service_account",  # noqa: E501
     ),
     (
         "module.project-factory.google_service_account_iam_member.service_account_grant_to_group",  # noqa: E501
@@ -137,7 +136,7 @@ TERRAFORM_MOVES = [
     ),
     (
         "module.project-factory.random_id.random_project_id_suffix",
-        "module.project-factory.module.project-factory.random_id.random_project_id_suffix",
+        "module.project-factory.module.project-factory.random_id.random_project_id_suffix",  # noqa: E501
     ),
 ]
 
@@ -148,19 +147,19 @@ TERRAFORM_MOVES = [
 TERRAFORM_DROPPED_DATA_SOURCES = [
     (
         "module.project-factory.google_organization.org",
-        "module.project-factory.module.project-factory.google_organization.org",
+        "module.project-factory.module.project-factory.google_organization.org",  # noqa: E501
     ),
     (
         "module.project-factory.null_data_source.data_final_group_email",
-        "module.project-factory.module.project-factory.null_data_source.data_final_group_email",
+        "module.project-factory.module.project-factory.null_data_source.data_final_group_email",  # noqa: E501
     ),
     (
         "module.project-factory.null_data_source.data_given_group_email",
-        "module.project-factory.module.project-factory.null_data_source.data_given_group_email",
+        "module.project-factory.module.project-factory.null_data_source.data_given_group_email",  # noqa: E501
     ),
     (
         "module.project-factory.null_data_source.data_group_email_format",
-        "module.project-factory.module.project-factory.null_data_source.data_group_email_format",
+        "module.project-factory.module.project-factory.null_data_source.data_group_email_format",  # noqa: E501
     ),
 ]
 
