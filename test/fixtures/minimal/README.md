@@ -2,41 +2,40 @@
 
 [^]: (autogen_docs_start)
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| billing_account |  | string | - | yes |
-| create_group |  | string | `false` | no |
-| domain |  | string | - | yes |
-| folder_id |  | string | `` | no |
-| group_name |  | string | `` | no |
-| group_role |  | string | `roles/viewer` | no |
-| gsuite_admin_account |  | string | - | yes |
-| org_id |  | string | - | yes |
-| region |  | string | `us-east4` | no |
-| sa_group |  | string | `` | no |
-| sa_role |  | string | `roles/editor` | no |
-| shared_vpc |  | string | `` | no |
-| usage_bucket_name |  | string | `` | no |
-| usage_bucket_prefix |  | string | `` | no |
+| billing\_account |  | string | n/a | yes |
+| create\_group |  | string | `"false"` | no |
+| domain |  | string | n/a | yes |
+| folder\_id |  | string | `""` | no |
+| group\_name |  | string | `""` | no |
+| group\_role |  | string | `"roles/viewer"` | no |
+| gsuite\_admin\_account |  | string | n/a | yes |
+| org\_id |  | string | n/a | yes |
+| region |  | string | `"us-east4"` | no |
+| sa\_group |  | string | `""` | no |
+| sa\_role |  | string | `"roles/editor"` | no |
+| shared\_vpc |  | string | `""` | no |
+| usage\_bucket\_name |  | string | `""` | no |
+| usage\_bucket\_prefix |  | string | `""` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | domain |  |
-| group_email |  |
-| group_role |  |
-| gsuite_admin_account |  |
-| project_id |  |
-| project_number |  |
+| group\_email |  |
+| group\_role |  |
+| gsuite\_admin\_account |  |
+| project\_id |  |
+| project\_number |  |
 | region |  |
-| sa_role |  |
-| service_account_email |  |
-| shared_vpc |  |
-| usage_bucket_name |  |
-| usage_bucket_prefix |  |
+| sa\_role |  |
+| service\_account\_email |  |
+| shared\_vpc |  |
+| usage\_bucket\_name |  |
+| usage\_bucket\_prefix |  |
 
 [^]: (autogen_docs_end)

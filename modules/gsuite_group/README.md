@@ -2,14 +2,13 @@
 
 [^]: (autogen_docs_start)
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| domain | The domain name | string | `` | no |
-| name | The name of the group. | string | - | yes |
-| org_id | The organization ID. | string | - | yes |
+| domain | The domain name | string | `""` | no |
+| name | The name of the group. | string | n/a | yes |
+| org\_id | The organization ID. | string | n/a | yes |
 
 ## Outputs
 

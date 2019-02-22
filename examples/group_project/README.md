@@ -16,24 +16,23 @@ Expected variables:
 
 [^]: (autogen_docs_start)
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin_email | Admin user email on Gsuite. This should be a user account, not a service account. | string | - | yes |
-| api_sa_group | An existing GSuite group email to place the Google APIs Service Account for the project in | string | - | yes |
-| billing_account | The ID of the billing account to associate this project with | string | - | yes |
-| credentials_file_path | Service account json auth path | string | - | yes |
-| organization_id | The organization id for the associated services | string | - | yes |
-| project_group_name | The name of a GSuite group to create for controlling the project | string | - | yes |
+| admin\_email | Admin user email on Gsuite. This should be a user account, not a service account. | string | n/a | yes |
+| api\_sa\_group | An existing GSuite group email to place the Google APIs Service Account for the project in | string | n/a | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| credentials\_file\_path | Service account json auth path | string | n/a | yes |
+| organization\_id | The organization id for the associated services | string | n/a | yes |
+| project\_group\_name | The name of a GSuite group to create for controlling the project | string | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| domain_example | The organization's domain |
-| group_email_example | The email of the created GSuite group |
-| project_info_example | The ID of the created project |
+| domain\_example | The organization's domain |
+| group\_email\_example | The email of the created GSuite group |
+| project\_info\_example | The ID of the created project |
 
 [^]: (autogen_docs_end)

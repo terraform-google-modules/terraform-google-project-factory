@@ -36,6 +36,9 @@ The new version of project factory uses a new module named `app_engine`. It acce
 /// @file main.tf
 
 module "app-engine" {
+  source  = "terraform-google-modules/project-factory/google//modules/app_engine"
+  version = "~> 2.0"
+
   project     = "${var.project_id}
   location_id = "${var.region}"
   auth_domain = "${var.domain}"

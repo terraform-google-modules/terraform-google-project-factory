@@ -10,20 +10,19 @@ Expected variables:
 
 [^]: (autogen_docs_start)
 
-
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| billing_account | The ID of the billing account to associate this project with | string | - | yes |
-| credentials_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `` | no |
-| organization_id | The organization id for the associated services | string | - | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
+| organization\_id | The organization id for the associated services | string | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| domain_example | The organization's domain |
-| project_info_example | The ID of the created project |
+| domain\_example | The organization's domain |
+| project\_info\_example | The ID of the created project |
 
 [^]: (autogen_docs_end)
