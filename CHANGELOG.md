@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
-## [Unreleased]
+## [1.1.0] - 2019-02-22
 ### ADDED
 - Preconditions script checks billing account format. [#117]
+- Add project_services submodule. [#133]
+
+### FIXED
+- Fix race conditions when creating a new G Suite Group. [#141]
 
 ## [1.0.2] - 2019-01-23
 ### FIXED
@@ -47,7 +51,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.3.0...v1.0.0
@@ -55,6 +60,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
+[#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133
 [#117]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/117
 [#104]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/104
 [#125]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/125
