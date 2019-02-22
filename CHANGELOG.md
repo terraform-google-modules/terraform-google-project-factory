@@ -6,7 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
-## [Unreleased]
+## [2.0.0] - 2019-03-05
+2.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v2.0.md) for details.
+
+### ADDED
+
+- Added separate App Engine module. [#144]
+
+### REMOVED
+
+- Removed `app_engine` argument (config block).
 
 ## [1.2.0] - 2019-03-05
 
@@ -69,7 +78,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...v1.1.1
@@ -83,6 +93,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 [#153]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/153
 [#147]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/147
+[#144]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/144
 [#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
 [#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
 [#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133

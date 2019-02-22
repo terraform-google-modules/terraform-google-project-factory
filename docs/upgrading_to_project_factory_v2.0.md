@@ -57,5 +57,5 @@ The new implementation uses the `google_app_engine_application` resource which n
 terraform import module.project-factory.module.project-factory.module.app-engine.google_app_engine_application.app $YOUR_PROJECT_ID
 ```
 
-After importing, you should be good to `terraform` `plan` and `apply`.
+After importing, run `terraform` `plan` and `apply`.
 
