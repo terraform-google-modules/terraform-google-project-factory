@@ -8,6 +8,17 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.0.0] - 2019-02-22
+2.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v2.0.md) for details.
+
+### ADDED
+
+- Added separate App Engine module. [#144]
+
+### REMOVED
+
+- Removed `app_engine` argument (config block).
+
 ## [1.1.1] - 2019-02-25
 ### FIXED
 - Drop dependency on `gsuite` provider from core module. [#147]
@@ -59,7 +70,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...v2.0.0
 [1.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.1...v1.0.2
@@ -70,6 +82,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
 [#147]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/147
+[#144]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/144
 [#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
 [#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
 [#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133
