@@ -8,17 +8,18 @@ Expected variables:
 
 [^]: (autogen_docs_start)
 
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
-| project\_id | The GCP project you want to enable APIs on | string | n/a | yes |
+| credentials_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `` | no |
+| project_id | The GCP project you want to enable APIs on | string | - | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| project\_id | The GCP project you want to enable APIs on |
+| project_id | The GCP project you want to enable APIs on |
 
 [^]: (autogen_docs_end)
