@@ -27,15 +27,15 @@ See [examples/project_services](./examples/project_services) for an example.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| activate\_apis | The list of apis to activate within the project | list | n/a | yes |
-| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | string | `"true"` | no |
-| enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | string | `"true"` | no |
-| project\_id | The GCP project you want to enable APIs on | string | n/a | yes |
+| activate_apis | The list of apis to activate within the project | list | - | yes |
+| disable_services_on_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | string | `true` | no |
+| enable_apis | Whether to actually enable the APIs. If false, this module is a no-op. | string | `true` | no |
+| project_id | The GCP project you want to enable APIs on | string | - | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| project\_id | The GCP project you want to enable APIs on |
+| project_id | The GCP project you want to enable APIs on |
 
 [^]: (autogen_docs_end)
