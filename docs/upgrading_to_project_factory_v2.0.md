@@ -30,18 +30,17 @@ module "project-factory" {
 }
 ```
 
-The new version of project factory uses granular fields prefixed by `app_engine_`. There is also an additional `app_engine_enabled` argument that needs to be set to true.
+The new version of project factory uses a new module named `app_engine`. It accepts
 
 ```hcl
 /// @file main.tf
 
-module "project-factory" {
-  ...
-  app_engine_enabled     = true
-  app_engine_location_id = "${var.region}"
-  app_engine_auth_domain = "${var.domain}"
+module "app-engine" {
+  project     = "${var.project_id}
+  location_id = "${var.region}"
+  auth_domain = "${var.domain}"
 
-  app_engine_feature_settings = [
+  feature_settings = [
     {
       split_health_checks = true
     },
@@ -54,7 +53,7 @@ module "project-factory" {
 The new implementation uses the `google_app_engine_application` resource which needs to be imported into the current state (make sure to replace `$YOUR_PROJECT_ID`):
 
 ```sh
-terraform import module.project-factory.module.project-factory.module.app-engine.google_app_engine_application.app $YOUR_PROJECT_ID
+terraform import module.app-engine.google_app_engine_application.app $YOUR_PROJECT_ID
 ```
 
 After importing, run `terraform` `plan` and `apply`.

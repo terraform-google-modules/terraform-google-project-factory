@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-variable "enabled" {
-  description = "Enable App Engine."
-  default     = true
-}
-
 variable "project_id" {
   description = "The project to enable app engine on."
 }

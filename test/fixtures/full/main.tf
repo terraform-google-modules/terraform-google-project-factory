@@ -101,12 +101,14 @@ module "project-factory" {
   ]
 
   disable_services_on_destroy = "false"
+}
 
-  app_engine_enabled     = true
-  app_engine_location_id = "${var.region}"
-  app_engine_auth_domain = "${var.domain}"
+module "app-engine" {
+  project     = "${module.project-factory.project_id}"
+  location_id = "${var.region}"
+  auth_domain = "${var.domain}"
 
-  app_engine_feature_settings = [
+  feature_settings = [
     {
       split_health_checks = true
     },
