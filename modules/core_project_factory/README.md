@@ -2,16 +2,12 @@
 
 [^]: (autogen_docs_start)
 
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | activate_apis | The list of apis to activate within the project | list | `<list>` | no |
-| app_engine_auth_domain | The domain to authenticate users with when using App Engine's User API. | string | `` | no |
-| app_engine_enabled | Enable App Engine on the project. | string | `false` | no |
-| app_engine_feature_settings | A block of optional settings to configure specific App Engine features. | string | `<list>` | no |
-| app_engine_location_id | The location to serve the app from. | string | `` | no |
-| app_engine_serving_status | The serving status of the App Engine application. | string | `SERVING` | no |
 | auto_create_network | Create the default network | string | `false` | no |
 | billing_account | The ID of the billing account to associate this project with | string | - | yes |
 | bucket_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `` | no |
@@ -39,12 +35,6 @@
 |------|-------------|
 | api_s_account | API service account email |
 | api_s_account_fmt | API service account email formatted for terraform use |
-| app_engine_code_bucket | The GCS bucket code is being stored in for this app. |
-| app_engine_default_bucket | The GCS bucket content is being stored in for this app. |
-| app_engine_default_hostname | The default hostname for this app. |
-| app_engine_gcr_domain | The GCR domain used for storing managed Docker images for this app. |
-| app_engine_name | Unique name of the app, usually apps/{PROJECT_ID}. |
-| app_engine_url_dispatch_rule | A list of dispatch rule blocks. Each block has a domain, path, and service field. |
 | project_bucket_name | The name of the projec's bucket |
 | project_bucket_self_link | Project's bucket selfLink |
 | project_bucket_url | Project's bucket url |

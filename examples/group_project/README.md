@@ -16,6 +16,7 @@ Expected variables:
 
 [^]: (autogen_docs_start)
 
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
