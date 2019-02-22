@@ -87,18 +87,6 @@ resource "google_project" "main" {
   depends_on = ["null_resource.preconditions"]
 }
 
-module "app-engine" {
-  source = "../app_engine"
-
-  enabled = "${var.app_engine_enabled}"
-
-  project_id       = "${google_project.main.project_id}"
-  location_id      = "${var.app_engine_location_id}"
-  auth_domain      = "${var.app_engine_auth_domain}"
-  serving_status   = "${var.app_engine_serving_status}"
-  feature_settings = "${var.app_engine_feature_settings}"
-}
-
 /******************************************
   Project lien
  *****************************************/
