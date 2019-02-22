@@ -113,7 +113,6 @@ class TestOrgPermissions(unittest.TestCase):
             org_perms.permissions,
             [
                 "resourcemanager.organizations.get",
-                "iam.serviceAccounts.setIamPolicy",
             ]
         )
 
@@ -123,7 +122,6 @@ class TestOrgPermissions(unittest.TestCase):
             org_perms.permissions,
             [
                 "resourcemanager.organizations.get",
-                "iam.serviceAccounts.setIamPolicy",
                 "compute.subnetworks.setIamPolicy",
                 "compute.organizations.enableXpnResource",
             ]
@@ -135,7 +133,6 @@ class TestOrgPermissions(unittest.TestCase):
             org_perms.permissions,
             [
                 "resourcemanager.organizations.get",
-                "iam.serviceAccounts.setIamPolicy",
                 "resourcemanager.projects.create"
             ]
         )
@@ -155,7 +152,6 @@ class TestFolderPermissions(unittest.TestCase):
             folder_perms.permissions,
             [
                 "resourcemanager.projects.create",
-                "resourcemanager.folders.get",
             ]
         )
 
