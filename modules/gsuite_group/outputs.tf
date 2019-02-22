@@ -21,5 +21,5 @@ output "domain" {
 
 output "email" {
   description = "The email address of the group."
-  value       = "${element(compact(concat(gsuite_group.group.*.email, list(local.email))), 0)}"
+  value       = "${local.email}"
 }

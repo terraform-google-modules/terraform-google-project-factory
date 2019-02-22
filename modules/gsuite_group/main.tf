@@ -25,14 +25,3 @@ locals {
 data "google_organization" "org" {
   organization = "${var.org_id}"
 }
-
-/******************************************
-  Gsuite Group Configuration
- *****************************************/
-resource "gsuite_group" "group" {
-  count = "${var.create_group ? 1 : 0}"
-
-  description = "${var.name} project group"
-  email       = "${local.email}"
-  name        = "${var.name}"
-}

@@ -26,8 +26,3 @@ variable "name" {
 variable "org_id" {
   description = "The organization ID."
 }
-
-variable "create_group" {
-  description = "Whether to create the group or not"
-  default     = "false"
-}

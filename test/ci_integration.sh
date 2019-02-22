@@ -29,7 +29,7 @@ finish() {
 setup_environment() {
   local tmpfile
   tmpfile="$(mktemp)"
-  echo "${SERVICE_ACCOUNT_JSON}" > "${tmpfile}"
+  echo "${SERVICE_ACCOUNT_JSON}" >"${tmpfile}"
 
   # gcloud variables
   export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="${tmpfile}"
