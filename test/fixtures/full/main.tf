@@ -104,7 +104,9 @@ module "project-factory" {
 }
 
 module "app-engine" {
-  project     = "${module.project-factory.project_id}"
+  source = "../../../modules/app_engine"
+
+  project_id  = "${module.project-factory.project_id}"
   location_id = "${var.region}"
   auth_domain = "${var.domain}"
 
