@@ -13,6 +13,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### FIXED
 - Fix race conditions when creating a new G Suite Group. [#141]
+- Drop unnecessary permissions checks in preconditions script. [#143]
+- Support numeric folder_id and `folders/folder_id` in preconditions script. [#143]
 
 ## [1.0.2] - 2019-01-23
 ### FIXED
@@ -60,6 +62,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
 [#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
 [#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133
 [#117]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/117
