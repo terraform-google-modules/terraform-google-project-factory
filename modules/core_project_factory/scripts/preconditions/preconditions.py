@@ -300,7 +300,9 @@ class BillingAccount:
         return req.asdict()
 
     @classmethod
-    def argument_type(cls, string, pat=re.compile(r"[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}")):
+    def argument_type(cls,
+                      string,
+                      pat=re.compile(r"[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}")):
         if not pat.match(string):
             msg = "%r is not a valid billing account ID format" % string
             raise argparse.ArgumentTypeError(msg)
@@ -330,6 +332,7 @@ class EmptyStrAction(argparse.Action):
     """
     Convert empty string values parsed by argparse into None.
     """
+
     def __call__(self, parser, namespace, values, option_string=None):
         values = None if values == '' else values
         setattr(namespace, self.dest, values)

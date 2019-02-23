@@ -18,7 +18,7 @@ SHELL := /usr/bin/env bash
 # Docker build config variables
 CREDENTIALS_PATH ?= /cft/workdir/credentials.json
 DOCKER_ORG := gcr.io/cloud-foundation-cicd
-DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.10_216.0.0_1.19.1_0.1.10
+DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.11_235.0.0_1.19.1_0.1.10
 DOCKER_REPO_BASE_KITCHEN_TERRAFORM := ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
 
 all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace generate_docs ## Run all linters and update documentation
