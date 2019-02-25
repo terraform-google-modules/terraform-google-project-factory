@@ -7,7 +7,6 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| create_group | Whether to create the group or not | string | `false` | no |
 | domain | The domain name | string | `` | no |
 | name | The name of the group. | string | - | yes |
 | org_id | The organization ID. | string | - | yes |
