@@ -38,7 +38,17 @@ module "gsuite_group" {
   domain = "${var.domain}"
   name   = "${local.group_name}"
   org_id = "${var.org_id}"
-  create_group = "${var.create_group}"
+}
+
+/******************************************
+  Gsuite Group Configuration
+ *****************************************/
+resource "gsuite_group" "group" {
+  count = "${var.create_group ? 1 : 0}"
+
+  description = "${var.name} project group"
+  email       = "${module.gsuite_group.email}"
+  name        = "${local.group_name}"
 }
 
 /***********************************************
@@ -55,7 +65,7 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
 module "project-factory" {
   source = "../core_project_factory/"
 
-  group_email                 = "${module.gsuite_group.email}"
+  group_email                 = "${element(compact(concat(gsuite_group.group.*.email, list(module.gsuite_group.email))), 0)}"
   group_role                  = "${var.group_role}"
   lien                        = "${var.lien}"
   manage_group                = "${var.group_name != "" || var.create_group}"
