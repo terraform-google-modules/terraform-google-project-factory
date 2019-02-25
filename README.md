@@ -155,14 +155,27 @@ following roles:
   - `roles/browser` on the Shared VPC host project
   - `roles/resourcemanager.projectIamAdmin` on the Shared VPC host project
 
-#### Script Helper
+#### Script Helpers
 
-A [helper script](./helpers/setup-sa.sh) is included to create the Seed Service
-Account in the Seed Project, grant the necessary roles to the Seed Service
-Account, and enable the necessary API's in the Seed Project.  Run it as follows:
+Two helper scripts are included to create the Seed Service Account in the Seed
+Project, grant the necessary roles to the Seed Service Account, and enable the
+necessary API's in the Seed Project.
+
+[setup-sa-org.sh](./helpers/setup-sa-org.sh) binds IAM at the Org level. Use this
+in situations where the project factory should have access to create projects
+anywhere in the Org.
 
 ```sh
-./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME>
+./helpers/setup-sa-org.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [<BILLING_ACCOUNT_ID>]
+```
+
+[setup-sa-folder.sh](./helpers/setup-sa-folder.sh) binds most IAM at the Folder
+level - `roles/resourcemanager.organizationViewer` is still required in order for
+the module to function properly. Use this in situations where the project factory
+should only have access to a single Folder.
+
+```sh
+./helpers/setup-sa-folder.sh <ORGANIZATION_ID> <FOLDER_ID> <SEED_PROJECT_NAME> [<BILLING_ACCOUNT_ID>]
 ```
 
 ### APIs
