@@ -15,6 +15,16 @@ To include G Suite integration for creating groups and adding Service Accounts i
 There are multiple examples included in the [examples](./examples/) folder but simple usage is as follows:
 
 ```hcl
+provider "google" {
+  credentials = "${file(local.credentials_file_path)}"
+  version     = "~> 1.19.0"
+}
+
+provider "google-beta" {
+  credentials = "${file(local.credentials_file_path)}"
+  version     = "~> 1.19.0"
+}
+
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 1.0"
