@@ -38,8 +38,3 @@ output "default_bucket" {
   description = "The GCS bucket content is being stored in for this app."
   value       = "${google_app_engine_application.app.default_bucket}"
 }
-
-output "gcr_domain" {
-  description = "The GCR domain used for storing managed Docker images for this app."
-  value       = "${google_app_engine_application.app.gcr_domain}"
-}
