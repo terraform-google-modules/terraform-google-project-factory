@@ -4,19 +4,14 @@ The v2.0 release of Project Factory is a backwards incompatible release. It only
 
 ## Migration Instructions
 
-### App Engine
+### App Engine Argument Changes
 
-These steps are only required if you are currently using the `app_engine` argument.
-
-#### App Engine Argument Changes
-
-The old version of project factory used a single field for configuring App Engine (`app_engine`):
+Version 1.X of Project Factory used the `app_engine` map variable to configure App Engine:
 
 ```hcl
 /// @file main.tf
-
 module "project-factory" {
-  ...
+  # ...
   app_engine {
     location_id = "${var.region}"
     auth_domain = "${var.domain}"
@@ -30,10 +25,13 @@ module "project-factory" {
 }
 ```
 
-The new version of project factory uses a new module named `app_engine`. It accepts
+Version 2.X of Project Factory uses a new module named `app_engine`:
 
 ```hcl
 /// @file main.tf
+module "project-factory" {
+  # ...
+}
 
 module "app-engine" {
   source  = "terraform-google-modules/project-factory/google//modules/app_engine"
@@ -51,12 +49,12 @@ module "app-engine" {
 }
 ```
 
-#### App Engine State Import
+### App Engine State Import
 
 The new implementation uses the `google_app_engine_application` resource which needs to be imported into the current state (make sure to replace `$YOUR_PROJECT_ID`):
 
 ```sh
-terraform import module.app-engine.google_app_engine_application.app $YOUR_PROJECT_ID
+terraform import module.app-engine.google_app_engine_application.main $YOUR_PROJECT_ID
 ```
 
 After importing, run `terraform` `plan` and `apply`.

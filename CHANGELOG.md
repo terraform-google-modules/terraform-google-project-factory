@@ -33,7 +33,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [1.1.0] - 2019-02-22
 ### ADDED
-- Added separate App Engine module. [#134]
 - Preconditions script checks billing account format. [#117]
 - Add project_services submodule. [#133]
 

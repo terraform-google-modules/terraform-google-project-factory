@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-resource "google_app_engine_application" "app" {
+resource "google_app_engine_application" "main" {
   project          = "${var.project_id}"
   location_id      = "${var.location_id}"
   auth_domain      = "${var.auth_domain}"

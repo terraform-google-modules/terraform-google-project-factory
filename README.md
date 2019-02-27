@@ -10,9 +10,9 @@ access, Service Accounts, and API enablement to follow best practices.
 To include G Suite integration for creating groups and adding Service Accounts into groups, use the
 [gsuite_enabled module][gsuite-enabled-module].
 
-## Version
+## Upgrading
 
-Current version is 2.0. Upgrade guides:
+The current version is 2.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
