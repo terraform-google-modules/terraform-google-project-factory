@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
+output "project_name" {
+  value = "${google_project.main.name}"
+}
+
 output "project_id" {
-  value = "${local.project_id}"
+  value = "${google_project.main.project_id}"
 }
 
 output "project_number" {
-  value = "${local.project_number}"
+  value = "${google_project.main.number}"
 }
 
 output "service_account_id" {

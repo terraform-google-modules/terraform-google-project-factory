@@ -35,6 +35,7 @@ module "project-factory" {
   random_project_id           = "${var.random_project_id}"
   org_id                      = "${var.org_id}"
   name                        = "${var.name}"
+  project_id                  = "${var.project_id}"
   shared_vpc                  = "${var.shared_vpc}"
   billing_account             = "${var.billing_account}"
   folder_id                   = "${var.folder_id}"
