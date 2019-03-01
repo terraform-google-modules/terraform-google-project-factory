@@ -1,5 +1,9 @@
 name: full
 attributes:
+  - name: project_name
+    required: true
+    type: string
+
   - name: project_id
     required: true
     type: string
