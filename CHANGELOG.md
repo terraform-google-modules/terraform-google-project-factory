@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [1.1.2] - 2019-03-01
+### FIXED
+- Stabilized `terraform plan` to prevent the default service account resource from being recreated each time. [#153]
+
 ## [1.1.1] - 2019-02-25
 ### FIXED
 - Drop dependency on `gsuite` provider from core module. [#147]
@@ -59,7 +63,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.1...v1.0.2
@@ -69,6 +74,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#153]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/153
 [#147]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/147
 [#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
 [#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
