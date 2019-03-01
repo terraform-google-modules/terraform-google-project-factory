@@ -14,4 +14,7 @@
  * limitations under the License.
  */
 
-variable "credentials_path" {}
+variable "credentials_path" {
+  description = "Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture."
+  default     = ""
+}
