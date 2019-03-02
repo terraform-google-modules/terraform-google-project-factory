@@ -18,14 +18,12 @@
 # shebang has a '- e' flag, which causes it
 # to exit on error
 function check_bash() {
-find . -name "*.sh" | while IFS= read -d '' -r file;
-do
-  if [[ "$file" != *"bash -e"* ]];
-  then
-    echo "$file is missing shebang with -e";
-    exit 1;
-  fi;
-done;
+  find . -name "*.sh" | while IFS= read -d '' -r file; do
+    if [[ "$file" != *"bash -e"* ]]; then
+      echo "$file is missing shebang with -e"
+      exit 1
+    fi
+  done
 }
 
 # This function makes sure that the required files for
@@ -88,9 +86,17 @@ function check_trailing_whitespace() {
 function generate_docs() {
   echo "Generating markdown docs with terraform-docs"
   TMPFILE=$(mktemp)
-  for j in $(for i in $(find . -type f | grep \.tf$) ; do dirname "$i" ; done | sort -u) ; do
-    terraform-docs markdown "$j" > "$TMPFILE"
+  for j in $(for i in $(find . -type f | grep \.tf$); do dirname "$i"; done | sort -u); do
+    terraform-docs markdown "$j" >"$TMPFILE"
     python helpers/combine_docfiles.py "$j"/README.md "$TMPFILE"
   done
   rm -f "$TMPFILE"
+}
+
+function generate_changelog() {
+  echo "Generating changelog with auto-changelog"
+  local remote
+  remote=$(git remote -v | grep -e terraform-google-modules | grep -e fetch | awk '{print $1}')
+
+  auto-changelog -r "${remote}" -t test/changelog.tmpl
 }

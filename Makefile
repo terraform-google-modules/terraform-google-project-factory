@@ -20,6 +20,8 @@ CREDENTIALS_PATH ?= /cft/workdir/credentials.json
 DOCKER_ORG := gcr.io/cloud-foundation-cicd
 DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.10_216.0.0_1.19.1_0.1.10
 DOCKER_REPO_BASE_KITCHEN_TERRAFORM := ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
+DOCKER_TAG_BASE_AUTO_CHANGELOG ?= v1.11.0
+DOCKER_REPO_BASE_AUTO_CHANGELOG := ${DOCKER_ORG}/cft/auto-changelog:${DOCKER_TAG_BASE_AUTO_CHANGELOG}
 
 all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace generate_docs ## Run all linters and update documentation
 
@@ -90,6 +92,10 @@ test_integration: ## Run integration tests
 .PHONY: generate_docs
 generate_docs: ## Update README documentation for Terraform variables and outputs
 	@source test/make.sh && generate_docs
+
+.PHONY: generate_changelog
+generate_changelog: ## Update README documentation for Terraform variables and outputs
+	@source test/make.sh && generate_changelog
 
 .PHONY: release-new-version
 release-new-version:
@@ -185,6 +191,12 @@ test_integration_docker:
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
 		test/ci_integration.sh
+
+.PHONY: docker_generate_changelog
+docker_generate_changelog:
+	docker run --rm -it \
+		-v $(CURDIR):/cft/workdir \
+		${DOCKER_REPO_BASE_AUTO_CHANGELOG}
 
 help: ## Prints help for targets with comments
 	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
