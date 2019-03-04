@@ -15,12 +15,10 @@
  */
 
 provider "google" {
-  credentials = "${file(var.credentials_path)}"
   version     = "~> 1.19"
 }
 
 provider "google-beta" {
-  credentials = "${file(var.credentials_path)}"
   version     = "~> 1.19"
 }
 
@@ -38,7 +36,6 @@ module "project-factory" {
   org_id            = "${var.org_id}"
   folder_id         = "${var.folder_id}"
   billing_account   = "${var.billing_account}"
-  credentials_path  = "${var.credentials_path}"
 
   activate_apis = [
     "compute.googleapis.com",

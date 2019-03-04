@@ -14,51 +14,7 @@
  * limitations under the License.
  */
 
-variable "org_id" {}
-
-variable "folder_id" {
-  default = ""
+variable "credentials_path" {
+  description = "Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture."
+  default     = ""
 }
-
-variable "domain" {
-}
-
-variable "usage_bucket_name" {
-  default = ""
-}
-
-variable "usage_bucket_prefix" {
-  default = ""
-}
-
-variable "billing_account" {}
-
-variable "group_name" {
-  default = ""
-}
-
-variable "create_group" {
-  default = "false"
-}
-
-variable "group_role" {
-  default = "roles/viewer"
-}
-
-variable "shared_vpc" {
-  default = ""
-}
-
-variable "sa_role" {
-  default = "roles/editor"
-}
-
-variable "sa_group" {
-  default = ""
-}
-
-variable "region" {
-  default = "us-east4"
-}
-
-variable "gsuite_admin_account" {}

@@ -26,7 +26,6 @@ module "project-factory" {
   usage_bucket_prefix = "pf/test/1/integration"
   billing_account     = "ABCDEF-ABCDEF-ABCDEF"
   shared_vpc          = "shared_vpc_host_name"
-  credentials_path    = "${local.credentials_file_path}"
 
   shared_vpc_subnets = [
     "projects/base-project-196723/regions/us-east1/subnetworks/default",
@@ -92,7 +91,7 @@ The roles granted are specifically:
 | billing\_account | The ID of the billing account to associate this project with | string | - | yes |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `` | no |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
+| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | `` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `true` | no |
 | domain | The domain name (optional). | string | `` | no |
 | folder\_id | The ID of a folder to host this project | string | `` | no |
@@ -164,6 +163,47 @@ Account, and enable the necessary API's in the Seed Project.  Run it as follows:
 ```sh
 ./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME>
 ```
+
+#### Specifying credentials
+
+The Project Factory uses external scripts to perform a few tasks that are not implemented
+by Terraform providers. Because of this the Project Factory needs a copy of service account
+credentials to pass to these scripts. Credentials can be provided via two mechanisms:
+
+1. Explicitly passed to the Project Factory with the `credentials_path` variable. This approach
+   typically uses the same credentials for the `google` provider and the Project Factory:
+    ```terraform
+    provider "google" {
+      credentials = "${file(var.credentials_path)}"
+      version = "~> 1.20"
+    }
+
+    module "project-factory" {
+      source = "terraform-google-modules/project-factory/google"
+
+      name             = "explicit-credentials"
+      credentials_path = "${var.credentials_path}"
+      # other variables follow ...
+    }
+    ```
+2. Implicitly provided by the [Application Default Credentials][application-default-credentials]
+   flow, which typically uses the `APPLICATION_DEFAULT_CREDENTIALS` environment variable:
+   ```terraform
+   # `GOOGLE_APPLICATION_CREDENTIALS` must be set in the environment before Terraform is run.
+   provider "google" {
+     # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
+     # value is needed here.
+      version = "~> 1.20"
+   }
+
+   module "project-factory" {
+      source = "terraform-google-modules/project-factory/google"
+
+      name = "adc-credentials"
+      # Project Factory will also check the `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
+      # other variables follow ...
+   }
+   ```
 
 ### APIs
 
@@ -365,3 +405,4 @@ versions][release-new-version].
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
+[application-default-credentials]: https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application

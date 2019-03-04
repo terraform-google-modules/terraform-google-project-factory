@@ -14,11 +14,6 @@
 
 project_id            = attribute('project_id')
 service_account_email = attribute('service_account_email')
-credentials_path      = attribute('credentials_path')
-
-ENV['CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE'] = File.absolute_path(
-  credentials_path,
-  File.join(__dir__, "../../../fixtures/minimal"))
 
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'

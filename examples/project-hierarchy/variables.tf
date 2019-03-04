@@ -27,5 +27,6 @@ variable "billing_account" {
 }
 
 variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
 }
