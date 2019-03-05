@@ -14,50 +14,10 @@
  * limitations under the License.
  */
 
-variable "org_id" {}
-
-variable "folder_id" {
-  default = ""
+resource "google_app_engine_application" "main" {
+  project          = "${var.project_id}"
+  location_id      = "${var.location_id}"
+  auth_domain      = "${var.auth_domain}"
+  serving_status   = "${var.serving_status}"
+  feature_settings = "${var.feature_settings}"
 }
-
-variable "domain" {}
-
-variable "usage_bucket_name" {
-  default = ""
-}
-
-variable "usage_bucket_prefix" {
-  default = ""
-}
-
-variable "billing_account" {}
-
-variable "group_name" {
-  default = ""
-}
-
-variable "create_group" {
-  default = "false"
-}
-
-variable "group_role" {
-  default = "roles/viewer"
-}
-
-variable "shared_vpc" {
-  default = ""
-}
-
-variable "sa_role" {
-  default = "roles/editor"
-}
-
-variable "sa_group" {
-  default = ""
-}
-
-variable "region" {
-  default = "us-east4"
-}
-
-variable "gsuite_admin_account" {}

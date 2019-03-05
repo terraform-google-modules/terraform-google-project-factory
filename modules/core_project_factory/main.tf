@@ -39,17 +39,11 @@ locals {
   gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
   project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
-  app_engine_enabled     = "${length(keys(var.app_engine)) > 0 ? true : false}"
 
   shared_vpc_users = "${compact(list(local.group_id, local.s_account_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
   shared_vpc_users_length = "${local.gke_shared_vpc_enabled ? 4 : 3}"
-
-  app_engine_config = {
-    enabled  = "${list(var.app_engine)}"
-    disabled = "${list()}"
-  }
 }
 
 resource "null_resource" "preconditions" {
@@ -89,8 +83,6 @@ resource "google_project" "main" {
   auto_create_network = "${var.auto_create_network}"
 
   labels = "${var.labels}"
-
-  app_engine = "${local.app_engine_config["${local.app_engine_enabled ? "enabled" : "disabled"}"]}"
 
   depends_on = ["null_resource.preconditions"]
 }

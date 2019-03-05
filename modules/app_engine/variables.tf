@@ -14,50 +14,26 @@
  * limitations under the License.
  */
 
-variable "org_id" {}
-
-variable "folder_id" {
-  default = ""
+variable "project_id" {
+  description = "The project to enable app engine on."
 }
 
-variable "domain" {}
-
-variable "usage_bucket_name" {
-  default = ""
+variable "location_id" {
+  description = "The location to serve the app from."
+  default     = ""
 }
 
-variable "usage_bucket_prefix" {
-  default = ""
+variable "auth_domain" {
+  description = "The domain to authenticate users with when using App Engine's User API."
+  default     = ""
 }
 
-variable "billing_account" {}
-
-variable "group_name" {
-  default = ""
+variable "serving_status" {
+  description = "The serving status of the app."
+  default     = "SERVING"
 }
 
-variable "create_group" {
-  default = "false"
+variable "feature_settings" {
+  description = "A list of maps of optional settings to configure specific App Engine features."
+  default     = []
 }
-
-variable "group_role" {
-  default = "roles/viewer"
-}
-
-variable "shared_vpc" {
-  default = ""
-}
-
-variable "sa_role" {
-  default = "roles/editor"
-}
-
-variable "sa_group" {
-  default = ""
-}
-
-variable "region" {
-  default = "us-east4"
-}
-
-variable "gsuite_admin_account" {}

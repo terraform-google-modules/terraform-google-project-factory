@@ -129,12 +129,6 @@ variable "auto_create_network" {
   default     = "false"
 }
 
-variable "app_engine" {
-  description = "A map for app engine configuration"
-  type        = "map"
-  default     = {}
-}
-
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = "true"
