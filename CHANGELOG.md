@@ -8,6 +8,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [1.2.0] - 2019-03-05
+
+### CHANGED
+
+- The `credentials_path` variable is now optional; Application Default Credentials may be used instead. [#58]
+
 ## [1.1.2] - 2019-03-01
 ### FIXED
 - Stabilized `terraform plan` to prevent the default service account resource from being recreated each time. [#153]
@@ -63,7 +69,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...v1.1.0
@@ -84,6 +91,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [#125]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/125
 [#91]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/91
 [#94]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/94
+[#58]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/58
 [#53]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/53
 [#34]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/34
 [#64]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/64
