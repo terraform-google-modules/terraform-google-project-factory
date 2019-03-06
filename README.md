@@ -192,7 +192,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
     }
     ```
 2. Implicitly provided by the [Application Default Credentials][application-default-credentials]
-   flow, which typically uses the `APPLICATION_DEFAULT_CREDENTIALS` environment variable:
+   flow, which typically uses the `GOOGLE_APPLICATION_CREDENTIALS` environment variable:
    ```terraform
    # `GOOGLE_APPLICATION_CREDENTIALS` must be set in the environment before Terraform is run.
    provider "google" {
