@@ -13,6 +13,7 @@
 # limitations under the License.
 
 extra_service_account_email = attribute('extra_service_account_email')
+project_name                = attribute('project_name')
 project_id                  = attribute('project_id')
 sa_role                     = attribute('sa_role')
 service_account_email       = attribute('service_account_email')
@@ -26,9 +27,20 @@ usage_bucket_prefix = "usage-#{project_id}" if usage_bucket_prefix.empty?
 control 'project-factory' do
   title 'Project Factory'
 
-  describe command("gcloud projects describe #{project_id}") do
+  describe command("gcloud projects describe #{project_id} --format=json") do
     its('exit_status') { should be 0 }
     its('stderr') { should eq '' }
+
+    let(:metadata) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)
+      else
+        {}
+      end
+    end
+
+    it { expect(metadata).to include(name: project_name) }
+    it { expect(metadata).to include(projectId: project_id) }
   end
 
   describe command("gcloud services list --project #{project_id}") do

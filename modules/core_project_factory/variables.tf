@@ -34,8 +34,13 @@ variable "manage_group" {
   default     = "false"
 }
 
+variable "project_id" {
+  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
+  default     = ""
+}
+
 variable "random_project_id" {
-  description = "Enables project random id generation"
+  description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
   default     = "false"
 }
 

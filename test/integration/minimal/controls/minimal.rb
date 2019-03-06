@@ -18,9 +18,20 @@ service_account_email = attribute('service_account_email')
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'
 
-  describe command("gcloud projects describe #{project_id}") do
+  describe command("gcloud projects describe #{project_id} --format=json") do
     its('exit_status') { should be 0 }
     its('stderr') { should eq '' }
+
+    let(:metadata) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)
+      else
+        {}
+      end
+    end
+
+    it { expect(metadata).to include(name: project_id[0...-5]) }
+    it { expect(metadata).to include(projectId: project_id) }
   end
 
   describe command("gcloud services list --project #{project_id}") do

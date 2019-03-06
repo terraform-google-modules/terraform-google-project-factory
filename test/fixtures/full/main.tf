@@ -76,8 +76,9 @@ module "vpc" {
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  name              = "pf-ci-test-full-${random_string.suffix.result}"
-  random_project_id = "true"
+  name              = "pf-ci-test-full-name-${random_string.suffix.result}"
+  random_project_id = "false"
+  project_id        = "pf-ci-test-full-id-${random_string.suffix.result}"
 
   domain              = "${var.domain}"
   org_id              = "${var.org_id}"

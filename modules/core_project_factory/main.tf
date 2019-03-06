@@ -26,18 +26,17 @@ resource "random_id" "random_project_id_suffix" {
  *****************************************/
 locals {
   group_id               = "${var.manage_group ? format("group:%s", var.group_email) : ""}"
-  project_id             = "${google_project.main.project_id}"
-  project_number         = "${google_project.main.number}"
+  base_project_id        = "${var.project_id == "" ? var.name : var.project_id}"
   project_org_id         = "${var.folder_id != "" ? "" : var.org_id}"
   project_folder_id      = "${var.folder_id != "" ? var.folder_id : ""}"
-  temp_project_id        = "${var.random_project_id ? format("%s-%s",var.name,random_id.random_project_id_suffix.hex) : var.name}"
+  temp_project_id        = "${var.random_project_id ? format("%s-%s",local.base_project_id,random_id.random_project_id_suffix.hex) : local.base_project_id}"
   s_account_fmt          = "${format("serviceAccount:%s", google_service_account.default_service_account.email)}"
-  api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", local.project_number)}"
+  api_s_account          = "${format("%s@cloudservices.gserviceaccount.com", google_project.main.number)}"
   api_s_account_fmt      = "${format("serviceAccount:%s", local.api_s_account)}"
   gke_shared_vpc_enabled = "${var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"}"
-  gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.project_number)}"
+  gke_s_account          = "${format("service-%s@container-engine-robot.iam.gserviceaccount.com", google_project.main.number)}"
   gke_s_account_fmt      = "${local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""}"
-  project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", var.name)}"
+  project_bucket_name    = "${var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)}"
   create_bucket          = "${var.bucket_project != "" ? "true" : "false"}"
 
   shared_vpc_users = "${compact(list(local.group_id, local.s_account_fmt, local.api_s_account_fmt, local.gke_s_account_fmt))}"
@@ -104,7 +103,7 @@ resource "google_resource_manager_lien" "lien" {
 resource "google_project_service" "project_services" {
   count = "${length(var.activate_apis)}"
 
-  project = "${local.project_id}"
+  project = "${google_project.main.project_id}"
   service = "${element(var.activate_apis, count.index)}"
 
   disable_on_destroy = "${var.disable_services_on_destroy}"
@@ -119,7 +118,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   count = "${var.shared_vpc != "" ? 1 : 0}"
 
   host_project    = "${var.shared_vpc}"
-  service_project = "${local.project_id}"
+  service_project = "${google_project.main.project_id}"
 
   depends_on = ["google_project_service.project_services"]
 }
@@ -138,7 +137,7 @@ data "null_data_source" "default_service_account" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-service-account.sh ${local.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
+    command = "${path.module}/scripts/delete-service-account.sh ${google_project.main.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
   }
 
   triggers {
@@ -155,7 +154,7 @@ resource "null_resource" "delete_default_compute_service_account" {
 resource "google_service_account" "default_service_account" {
   account_id   = "project-service-account"
   display_name = "${var.name} Project Service Account"
-  project      = "${local.project_id}"
+  project      = "${google_project.main.project_id}"
 }
 
 /**************************************************
@@ -163,7 +162,7 @@ resource "google_service_account" "default_service_account" {
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
   count   = "${var.sa_role != "" ? 1 : 0}"
-  project = "${local.project_id}"
+  project = "${google_project.main.project_id}"
   role    = "${var.sa_role}"
 
   member = "${local.s_account_fmt}"
@@ -176,7 +175,7 @@ resource "google_project_iam_member" "gsuite_group_role" {
   count = "${var.manage_group ? 1 : 0}"
 
   member  = "${local.group_id}"
-  project = "${local.project_id}"
+  project = "${google_project.main.project_id}"
   role    = "${var.group_role}"
 }
 
@@ -189,7 +188,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   member = "${local.group_id}"
   role   = "roles/iam.serviceAccountUser"
 
-  service_account_id = "projects/${local.project_id}/serviceAccounts/${
+  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${
     google_service_account.default_service_account.email
   }"
 }
@@ -261,9 +260,9 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
 resource "google_project_usage_export_bucket" "usage_report_export" {
   count = "${var.usage_bucket_name != "" ? 1 : 0}"
 
-  project     = "${local.project_id}"
+  project     = "${google_project.main.project_id}"
   bucket_name = "${var.usage_bucket_name}"
-  prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${local.project_id}"}"
+  prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"}"
 
   depends_on = ["google_project_service.project_services"]
 }
