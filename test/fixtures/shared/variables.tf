@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-variable "credentials_path" {}
-
 variable "org_id" {}
 
 variable "folder_id" {
   default = ""
 }
 
-variable "domain" {
-}
+variable "domain" {}
 
 variable "usage_bucket_name" {
   default = ""

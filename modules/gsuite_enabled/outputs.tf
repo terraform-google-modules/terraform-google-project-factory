@@ -66,8 +66,3 @@ output "project_bucket_url" {
   value       = "${module.project-factory.project_bucket_url}"
   description = "Project's bucket url"
 }
-
-output "app_engine_enabled" {
-  value       = "${module.project-factory.app_engine_enabled}"
-  description = "Whether app engine is enabled"
-}

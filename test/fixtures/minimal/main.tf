@@ -15,22 +15,21 @@
  */
 
 provider "google" {
-  credentials = "${file(var.credentials_path)}"
   version     = "~> 1.19"
 }
 
 provider "google-beta" {
-  credentials = "${file(var.credentials_path)}"
   version     = "~> 1.19"
 }
 
 resource "random_string" "suffix" {
-  length = 5
+  length  = 5
   special = false
-  upper = false
+  upper   = false
 }
+
 module "project-factory" {
-  source            = "../../../"
+  source = "../../../"
 
   name              = "pf-ci-test-minimal-${random_string.suffix.result}"
   random_project_id = true
@@ -38,7 +37,6 @@ module "project-factory" {
   org_id            = "${var.org_id}"
   folder_id         = "${var.folder_id}"
   billing_account   = "${var.billing_account}"
-  credentials_path  = "${var.credentials_path}"
 
   activate_apis = [
     "compute.googleapis.com",

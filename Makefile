@@ -18,7 +18,7 @@ SHELL := /usr/bin/env bash
 # Docker build config variables
 CREDENTIALS_PATH ?= /cft/workdir/credentials.json
 DOCKER_ORG := gcr.io/cloud-foundation-cicd
-DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.10_216.0.0_1.19.1_0.1.10
+DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.11_235.0.0_1.19.1_0.1.10
 DOCKER_REPO_BASE_KITCHEN_TERRAFORM := ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
 
 all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace generate_docs ## Run all linters and update documentation
@@ -124,7 +124,7 @@ docker_create: ## Run `kitchen create` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen create"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen create'
 
 .PHONY: docker_converge
 docker_converge: ## Run `kitchen converge` within the Docker test environment
@@ -139,7 +139,7 @@ docker_converge: ## Run `kitchen converge` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen converge && bundle exec kitchen converge"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen converge'
 
 .PHONY: docker_verify
 docker_verify: ## Run `kitchen verify` within the Docker test environment
@@ -154,7 +154,7 @@ docker_verify: ## Run `kitchen verify` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen verify"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen verify'
 
 .PHONY: docker_destroy
 docker_destroy: ## Run `kitchen destroy` within the Docker test environment
@@ -169,7 +169,7 @@ docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen destroy"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen destroy'
 
 .PHONY: test_integration_docker
 test_integration_docker:

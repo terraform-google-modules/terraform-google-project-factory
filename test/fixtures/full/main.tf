@@ -101,17 +101,20 @@ module "project-factory" {
   ]
 
   disable_services_on_destroy = "false"
+}
 
-  app_engine {
-    location_id = "${var.region}"
-    auth_domain = "${var.domain}"
+module "app-engine" {
+  source = "../../../modules/app_engine"
 
-    feature_settings = [
-      {
-        split_health_checks = false
-      },
-    ]
-  }
+  project_id  = "${module.project-factory.project_id}"
+  location_id = "${var.region}"
+  auth_domain = "${var.domain}"
+
+  feature_settings = [
+    {
+      split_health_checks = true
+    },
+  ]
 }
 
 resource "google_service_account" "extra_service_account" {

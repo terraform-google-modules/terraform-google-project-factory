@@ -4,10 +4,6 @@ attributes:
     required: true
     type: string
 
-  - name: credentials_path
-    required: true
-    type: string
-
   - name: project_number
     required: true
     type: string

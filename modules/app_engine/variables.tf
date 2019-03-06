@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-variable "admin_email" {
-  description = "Admin user email on Gsuite"
+variable "project_id" {
+  description = "The project to enable app engine on."
 }
 
-variable "organization_id" {
-  description = "The organization id for the associated services"
-}
-
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
-}
-
-variable "credentials_path" {
-  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+variable "location_id" {
+  description = "The location to serve the app from."
   default     = ""
+}
+
+variable "auth_domain" {
+  description = "The domain to authenticate users with when using App Engine's User API."
+  default     = ""
+}
+
+variable "serving_status" {
+  description = "The serving status of the app."
+  default     = "SERVING"
+}
+
+variable "feature_settings" {
+  description = "A list of maps of optional settings to configure specific App Engine features."
+  default     = []
 }

@@ -22,6 +22,7 @@ import sys
 import os
 
 try:
+    import google.auth
     from google.oauth2 import service_account
     from googleapiclient import discovery, errors
 except ImportError as e:
@@ -73,9 +74,6 @@ class OrgPermissions:
     ALL_PERMISSIONS = [
         # Typically granted with `roles/resourcemanager.organizationViewer`
         "resourcemanager.organizations.get",
-
-        # Typically granted with `roles/iam.serviceAccountAdmin`
-        "iam.serviceAccounts.setIamPolicy",
     ]
 
     # Permissions required when the service account is attaching a new project
@@ -146,9 +144,6 @@ class FolderPermissions:
     PARENT_PERMISSIONS = [
         # Typically granted with `roles/resourcemanager.projectCreator`
         "resourcemanager.projects.create",
-
-        # Typically granted with `roles/resourcemanager.folderViewer`
-        "resourcemanager.folders.get",
     ]
 
     def __init__(self, folder_id, parent=False):
@@ -166,7 +161,10 @@ class FolderPermissions:
         )
 
         body = {"permissions": self.permissions}
-        resource = "folders/" + self.folder_id
+        if self.folder_id.startswith("folders/"):
+            resource = self.folder_id
+        else:
+            resource = "folders/" + self.folder_id
 
         request = service.folders().testIamPermissions(
             resource=resource,
@@ -303,7 +301,9 @@ class BillingAccount:
         return req.asdict()
 
     @classmethod
-    def argument_type(cls, string, pat=re.compile(r"[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}")):
+    def argument_type(cls,
+                      string,
+                      pat=re.compile(r"[A-Z0-9]{6}-[A-Z0-9]{6}-[A-Z0-9]{6}")):
         if not pat.match(string):
             msg = "%r is not a valid billing account ID format" % string
             raise argparse.ArgumentTypeError(msg)
@@ -323,8 +323,29 @@ def setup():
 
 
 def get_credentials(credentials_path):
-    credentials = service_account.Credentials.from_service_account_file(
-        credentials_path)
+    """Fetch credentials for verifying Project Factory preconditions.
+
+    Credentials will be loaded from a service account file if present, or
+    from Application Default Credentials otherwise.
+
+    Args:
+        credentials_path: an optional path to service account credentials.
+
+    Returns:
+        (credentials, project_id): A tuple containing the credentials and
+        associated project ID.
+    """
+    if credentials_path is not None:
+        # Prefer an explicit credentials file
+        svc_credentials = service_account.Credentials\
+            .from_service_account_file(credentials_path)
+        credentials = (svc_credentials, svc_credentials.project_id)
+    else:
+        # Fall back to application default credentials
+        try:
+            credentials = google.auth.default()
+        except google.auth.exceptions.RefreshError:
+            raise google.auth.exceptions.DefaultCredentialsError()
 
     return credentials
 
@@ -333,6 +354,7 @@ class EmptyStrAction(argparse.Action):
     """
     Convert empty string values parsed by argparse into None.
     """
+
     def __call__(self, parser, namespace, values, option_string=None):
         values = None if values == '' else values
         setattr(namespace, self.dest, values)
@@ -350,7 +372,7 @@ def argparser():
         help='Enable verbose logging'
     )
     parser.add_argument(
-        '--credentials_path', required=True,
+        '--credentials_path', required=True, action=EmptyStrAction,
         help='The service account credentials to check'
     )
     parser.add_argument(
@@ -407,8 +429,8 @@ def validators_for(opts, seed_project):
 def main(argv):
     try:
         opts = argparser().parse_args(argv[1:])
-        credentials = get_credentials(opts.credentials_path)
-        validators = validators_for(opts, credentials.project_id)
+        (credentials, project_id) = get_credentials(opts.credentials_path)
+        validators = validators_for(opts, project_id)
 
         results = []
         for validator in validators:

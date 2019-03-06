@@ -6,9 +6,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
-## [Unreleased]
+## [2.0.0] - 2019-03-05
+2.0.0 is a major backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v2.0.md) for details.
+
+### ADDED
+
+- Added separate App Engine module. [#144]
+
+### REMOVED
+
+- Removed `app_engine` argument (config block).
+
+## [1.2.0] - 2019-03-05
+
+### CHANGED
+
+- The `credentials_path` variable is now optional; Application Default Credentials may be used instead. [#58]
+
+## [1.1.2] - 2019-03-01
+### FIXED
+- Stabilized `terraform plan` to prevent the default service account resource from being recreated each time. [#153]
+
+## [1.1.1] - 2019-02-25
+### FIXED
+- Drop dependency on `gsuite` provider from core module. [#147]
+
+## [1.1.0] - 2019-02-22
 ### ADDED
 - Preconditions script checks billing account format. [#117]
+- Add project_services submodule. [#133]
+
+### FIXED
+- Fix race conditions when creating a new G Suite Group. [#141]
+- Drop unnecessary permissions checks in preconditions script. [#143]
+- Support numeric folder_id and `folders/folder_id` in preconditions script. [#143]
 
 ## [1.0.2] - 2019-01-23
 ### FIXED
@@ -47,7 +78,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.2.0...v2.0.0
+[1.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...v1.2.0
+[1.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.3.0...v1.0.0
@@ -55,11 +91,18 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#153]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/153
+[#147]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/147
+[#144]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/144
+[#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
+[#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
+[#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133
 [#117]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/117
 [#104]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/104
 [#125]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/125
 [#91]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/91
 [#94]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/94
+[#58]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/58
 [#53]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/53
 [#34]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/34
 [#64]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/64
