@@ -124,7 +124,7 @@ docker_create: ## Run `kitchen create` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen create"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen create'
 
 .PHONY: docker_converge
 docker_converge: ## Run `kitchen converge` within the Docker test environment
@@ -139,7 +139,7 @@ docker_converge: ## Run `kitchen converge` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen converge && bundle exec kitchen converge"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen converge'
 
 .PHONY: docker_verify
 docker_verify: ## Run `kitchen verify` within the Docker test environment
@@ -154,7 +154,7 @@ docker_verify: ## Run `kitchen verify` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen verify"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen verify'
 
 .PHONY: docker_destroy
 docker_destroy: ## Run `kitchen destroy` within the Docker test environment
@@ -169,7 +169,7 @@ docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 		-e PROJECT_ID \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c "bundle exec kitchen destroy"
+		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen destroy'
 
 .PHONY: test_integration_docker
 test_integration_docker:
