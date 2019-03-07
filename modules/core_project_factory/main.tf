@@ -198,7 +198,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   Account on shared VPC
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) > 0)) ? local.shared_vpc_users_length : 0}"
+  count = "${(var.shared_vpc != "" && (length(compact(var.shared_vpc_subnets)) == 0)) ? local.shared_vpc_users_length : 0}"
 
   project = "${var.shared_vpc}"
   role    = "roles/compute.networkUser"

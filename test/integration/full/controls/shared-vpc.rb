@@ -43,26 +43,26 @@ control 'project-factory-shared-vpc' do
     end
 
     describe "roles/compute.networkUser" do
-      it "includes the project service account in the roles/compute.networkUser IAM binding" do
-        expect(bindings).to include(
+      it "does not include the project service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).not_to include(
           members: including("serviceAccount:#{service_account_email}"),
           role: "roles/compute.networkUser",
         )
       end
 
-      it "includes the group email in the roles/compute.networkUser IAM binding" do
+      it "does not include the group email in the roles/compute.networkUser IAM binding" do
         if group_email.nil? || group_email.empty?
           pending "group_email not defined - skipping test"
         end
 
-        expect(bindings).to include(
+        expect(bindings).not_to include(
           members: including("group:#{group_email}"),
           role: "roles/compute.networkUser",
         )
       end
 
-      it "includes the GKE service account in the roles/compute.networkUser IAM binding" do
-        expect(bindings).to include(
+      it "does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).not_to include(
           members: including(
             "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
           ),
