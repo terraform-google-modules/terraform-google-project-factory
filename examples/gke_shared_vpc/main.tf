@@ -20,12 +20,12 @@ locals {
 
 provider "google" {
   credentials = "${file(local.credentials_file_path)}"
-  version     = "~> 1.19"
+  version     = "~> 2.1"
 }
 
 provider "google-beta" {
   credentials = "${file(local.credentials_file_path)}"
-  version     = "~> 1.19"
+  version     = "~> 2.1"
 }
 
 module "project-factory" {
