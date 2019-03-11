@@ -12,7 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### ADDED
 
-- The optional `project_id` variable enables a disconnect between the project name and the project ID. [#154]  
+- The optional `project_id` variable enables a disconnect between the project name and the project ID. [#154]
 
 ### FIXED
 
