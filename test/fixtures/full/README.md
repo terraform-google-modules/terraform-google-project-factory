@@ -32,6 +32,7 @@
 | group\_role |  |
 | gsuite\_admin\_account |  |
 | project\_id |  |
+| project\_name |  |
 | project\_number |  |
 | region |  |
 | sa\_role |  |
