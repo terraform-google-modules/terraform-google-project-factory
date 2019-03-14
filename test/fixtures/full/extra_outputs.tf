@@ -17,3 +17,11 @@
 output "extra_service_account_email" {
   value = "${google_service_account.extra_service_account.email}"
 }
+
+output "shared_vpc_subnet_name" {
+  value = "${local.shared_vpc_subnet_name}"
+}
+
+output "shared_vpc_subnet_region" {
+  value = "${local.shared_vpc_subnet_region}"
+}
