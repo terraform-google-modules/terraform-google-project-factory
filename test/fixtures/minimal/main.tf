@@ -22,16 +22,10 @@ provider "google-beta" {
   version = "~> 2.1"
 }
 
-resource "random_string" "suffix" {
-  length  = 5
-  special = false
-  upper   = false
-}
-
 module "project-factory" {
   source = "../../../"
 
-  name              = "pf-ci-test-minimal-${random_string.suffix.result}"
+  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
   random_project_id = true
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"

@@ -61,3 +61,7 @@ variable "region" {
 }
 
 variable "gsuite_admin_account" {}
+
+variable "random_string_for_testing" {
+  description = "A random string of characters to be appended to resource names to ensure uniqueness"
+}
