@@ -9,6 +9,7 @@
 | activate\_apis | The list of apis to activate within the project | list | `<list>` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
