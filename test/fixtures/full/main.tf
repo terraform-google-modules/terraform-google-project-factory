@@ -37,19 +37,16 @@ provider "gsuite" {
 }
 
 locals {
-  shared_vpc_subnets = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
-}
-
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
-  upper   = false
+  subnet_name              = "pf-test-subnet-${var.random_string_for_testing}"
+  shared_vpc_subnet_name   = "${module.vpc.subnets_names[0]}"
+  shared_vpc_subnet_region = "${module.vpc.subnets_regions[0]}"
+  shared_vpc_subnets       = ["projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region}/subnetworks/${local.shared_vpc_subnet_name}"]
 }
 
 module "vpc" {
   source       = "terraform-google-modules/network/google"
   version      = "~> 0.4.0"
-  network_name = "pf-test-int-full-${random_string.suffix.result}"
+  network_name = "pf-test-int-full-${var.random_string_for_testing}"
   project_id   = "${var.shared_vpc}"
 
   # The provided project must already be a Shared VPC host
@@ -57,16 +54,16 @@ module "vpc" {
 
   subnets = [
     {
-      subnet_name   = "pf-test-subnet-01"
+      subnet_name   = "${local.subnet_name}"
       subnet_ip     = "10.10.10.0/24"
       subnet_region = "us-east4"
     },
   ]
 
   secondary_ranges = {
-    pf-test-subnet-01 = [
+    "${local.subnet_name}" = [
       {
-        range_name    = "pf-test-subnet-01-secondary"
+        range_name    = "${local.subnet_name}-secondary"
         ip_cidr_range = "192.168.64.0/24"
       },
     ]
@@ -76,9 +73,9 @@ module "vpc" {
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  name              = "pf-ci-test-full-name-${random_string.suffix.result}"
+  name              = "pf-ci-test-full-name-${var.random_string_for_testing}"
   random_project_id = "false"
-  project_id        = "pf-ci-test-full-id-${random_string.suffix.result}"
+  project_id        = "pf-ci-test-full-id-${var.random_string_for_testing}"
 
   domain              = "${var.domain}"
   org_id              = "${var.org_id}"

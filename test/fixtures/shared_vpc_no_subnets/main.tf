@@ -22,15 +22,33 @@ provider "google-beta" {
   version = "~> 2.1"
 }
 
-module "project-factory" {
-  source = "../../../"
+provider "gsuite" {
+  credentials             = "${file(var.credentials_path)}"
+  impersonated_user_email = "${var.gsuite_admin_account}"
 
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
-  random_project_id = true
+  oauth_scopes = [
+    "https://www.googleapis.com/auth/admin.directory.group",
+    "https://www.googleapis.com/auth/admin.directory.group.member",
+  ]
+
+  version = "~> 0.1.9"
+}
+
+module "project-factory" {
+  source = "../../../modules/gsuite_enabled"
+
+  name              = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  project_id        = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  random_project_id = "false"
   domain            = "${var.domain}"
   org_id            = "${var.org_id}"
   folder_id         = "${var.folder_id}"
   billing_account   = "${var.billing_account}"
+  create_group      = "true"
+  group_role        = "${var.group_role}"
+  group_name        = "pf-secondgroup-${var.random_string_for_testing}"
+  shared_vpc        = "${var.shared_vpc}"
+  credentials_path  = "${var.credentials_path}"
 
   activate_apis = [
     "compute.googleapis.com",

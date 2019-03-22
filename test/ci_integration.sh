@@ -45,6 +45,8 @@ setup_environment() {
   export TF_VAR_gsuite_admin_account="${ADMIN_ACCOUNT_EMAIL}"
   export TF_VAR_org_id="${ORG_ID}"
   export TF_VAR_shared_vpc="${PROJECT_ID}"
+  TF_VAR_random_string_for_testing="${RANDOM_STRING_FOR_TESTING:-$(LC_ALL=C tr -dc 'a-z0-9' < /dev/urandom | fold -w 5 | head -n 1)}"
+  export TF_VAR_random_string_for_testing
 }
 
 main() {

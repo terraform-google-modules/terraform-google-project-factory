@@ -52,3 +52,11 @@ attributes:
   - name: domain
     type: string
     required: true
+
+  - name: shared_vpc_subnet_name
+    type: string
+    required: true
+
+  - name: shared_vpc_subnet_region
+    type: string
+    required: true
