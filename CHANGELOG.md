@@ -8,6 +8,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.1.1] - 2019-03-25
+
+### Fixed
+
+- Removed requirement of `roles/resourcemanager.organizationViewer` when `var.domain` is provided. [#172]
+
 ## [2.1.0] - 2019-03-11
 
 ### ADDED
@@ -91,7 +97,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v1.1.2...v1.2.0
@@ -105,6 +112,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#172]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/172
 [#164]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/164
 [#154]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/154
 [#153]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/153
