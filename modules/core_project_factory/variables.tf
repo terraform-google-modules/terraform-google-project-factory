@@ -124,3 +124,8 @@ variable "disable_services_on_destroy" {
   default     = "true"
   type        = "string"
 }
+
+variable "skip_delete" {
+  description = "(Optional) If true, the Terraform resource can be deleted without deleting the Project via the Google API."
+  default     = false 
+}
