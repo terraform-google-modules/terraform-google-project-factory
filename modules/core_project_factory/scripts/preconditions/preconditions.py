@@ -286,16 +286,13 @@ class BillingAccount:
         request = service.billingAccounts().testIamPermissions(
             resource=resource,
             body=body)
-        try:
-            response = request.execute()
-        except errors.HttpError:
-            response = {"permissions": []}
+        response = request.execute()
 
         req = Requirements(
             "Service account permissions on billing account",
             resource,
             self.REQUIRED_PERMISSIONS,
-            response["permissions"],
+            response.get("permissions", []),
         )
 
         return req.asdict()
