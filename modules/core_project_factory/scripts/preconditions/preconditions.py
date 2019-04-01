@@ -112,13 +112,22 @@ class OrgPermissions:
             self.permissions += self.PARENT_PERMISSIONS
 
     def validate(self, credentials):
+        body = {"permissions": self.permissions}
+        resource = "organizations/" + self.org_id
+
+        # no permissions to validate
+        if len(self.permissions) == 0:
+            return {
+                "type": "Service account permissions on organization",
+                "name": resource,
+                "satisfied": [],
+                "unsatisfied": []
+            }
+        
         service = discovery.build(
             'cloudresourcemanager', 'v1',
             credentials=credentials
         )
-
-        body = {"permissions": self.permissions}
-        resource = "organizations/" + self.org_id
 
         request = service.organizations().testIamPermissions(
             resource=resource,
