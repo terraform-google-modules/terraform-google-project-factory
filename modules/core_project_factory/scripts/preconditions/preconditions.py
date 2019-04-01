@@ -71,10 +71,7 @@ class Requirements:
 
 class OrgPermissions:
     # Permissions that the service account must have for any organization
-    ALL_PERMISSIONS = [
-        # Typically granted with `roles/resourcemanager.organizationViewer`
-        "resourcemanager.organizations.get",
-    ]
+    ALL_PERMISSIONS = []
 
     # Permissions required when the service account is attaching a new project
     # to a shared VPC
