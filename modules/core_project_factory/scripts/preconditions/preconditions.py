@@ -123,7 +123,7 @@ class OrgPermissions:
                 "satisfied": [],
                 "unsatisfied": []
             }
-        
+
         service = discovery.build(
             'cloudresourcemanager', 'v1',
             credentials=credentials
