@@ -107,6 +107,10 @@ class TestRequirements(unittest.TestCase):
 
 
 class TestOrgPermissions(unittest.TestCase):
+    def test_base_permissions(self):
+        org_perms = preconditions.OrgPermissions("1234567890")
+        self.assertEqual(org_perms.permissions, [])
+
     def test_shared_vpc_permissions(self):
         org_perms = preconditions.OrgPermissions("1234567890", shared_vpc=True)
         self.assertEqual(
