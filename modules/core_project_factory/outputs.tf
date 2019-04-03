@@ -19,7 +19,7 @@ output "project_name" {
 }
 
 output "project_id" {
-  value = "${google_project.main.project_id}"
+  value = "${element(concat(google_project_service.project_services.*.project, list(google_project.main.project_id)), 0)}"
 }
 
 output "project_number" {
