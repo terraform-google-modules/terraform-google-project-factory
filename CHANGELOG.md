@@ -8,6 +8,15 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.1.3] - 2019-04-03
+
+### Fixed
+
+- Unconditional check for optional
+  `resourcemanager.organization.get` permission in preconditions script.
+  [#178]
+- The `project_id` output depends on project service activation. [#180]
+
 ## [2.1.2] - 2019-04-01
 
 ### Fixed
@@ -103,7 +112,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.2...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.3...HEAD
+[2.1.3]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.1...v2.1.2
 [2.1.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.0.0...v2.1.0
@@ -119,6 +129,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#180]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/180
+[#178]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/178
 [#175]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/175
 [#172]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/172
 [#164]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/164
