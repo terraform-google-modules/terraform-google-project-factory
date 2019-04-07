@@ -1,3 +1,7 @@
+variable "region" {
+  description = "The region to be set on the providers."
+}
+
 data "google_compute_zones" "available" {
     region = "${var.region}"
 }
