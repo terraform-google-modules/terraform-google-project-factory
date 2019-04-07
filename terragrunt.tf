@@ -20,8 +20,8 @@ variable "backend_bucket_prefix" {}
 
 terraform {
   backend "gcs" {
-    bucket  = "${var.backend_bucket}"
-    prefix  = "${var.backend_bucket_prefix}"
+    bucket  = "integrations-tfstate"
+    prefix  = "staging/gcp-project/terraform.tfstate"
   }
 }
 
