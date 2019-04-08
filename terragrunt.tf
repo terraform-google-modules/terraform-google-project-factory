@@ -14,19 +14,12 @@ provider "google-beta" {
 
 ################ End of Providers Section #################
 
-################ Backend ##################################
-variable "backend_bucket" {}
-variable "backend_bucket_prefix" {}
-
+################ Backend Section ##########################
 terraform {
-  backend "gcs" {
-    bucket  = "integrations-tfstate"
-    prefix  = "staging/gcp-project/terraform.tfstate"
-  }
+  backend "gcs" {}
 }
 
-
-################ End of Providers Section #################
+################ End of Backend Section ###################
 
 
 
