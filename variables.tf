@@ -16,11 +16,12 @@
 
 variable "random_project_id" {
   description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
-  default     = "false"
+  default     = "true"
 }
 
 variable "org_id" {
   description = "The organization ID."
+  default     = "1037889784460" 
 }
 
 variable "domain" {
@@ -44,6 +45,7 @@ variable "shared_vpc" {
 
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
+  default     = "00822D-64D988-0818D4"
 }
 
 variable "folder_id" {
@@ -69,7 +71,16 @@ variable "sa_role" {
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = "list"
-  default     = ["compute.googleapis.com"]
+  default     = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    "redis.googleapis.com",
+    "iam.googleapis.com",
+    "sql-component.googleapis.com",
+    "sqladmin.googleapis.com",
+    "dns.googleapis.com",
+    "servicenetworking.googleapis.com",
+]
 }
 
 variable "usage_bucket_name" {

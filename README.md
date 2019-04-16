@@ -108,7 +108,7 @@ determining that location is as follows:
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list | `<list>` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
-| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | "00822D-64D988-0818D4" | yes |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
@@ -120,9 +120,9 @@ determining that location is as follows:
 | labels | Map of labels for project | map | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
-| org\_id | The organization ID. | string | n/a | yes |
+| org\_id | The organization ID. | string | "1037889784460" | yes |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
-| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
+| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"true"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
@@ -348,7 +348,7 @@ Two test-kitchen instances are defined:
 Alternatively, you can simply run `make test_integration_docker` to run all the
 test steps non-interactively.
 
-#### Test configuration
+#### Test configuration (ATTENTION! The test folder was removed in this fork.)
 
 Each test-kitchen instance is configured with a `terraform.tfvars` file in the
 test fixture directory. For convenience, these are symlinked to a single shared file:
@@ -364,7 +364,7 @@ Integration tests can be run within a pre-configured docker container. Tests can
 be run without user interaction for quick validation, or with user interaction
 during development.
 
-### Autogeneration of documentation from .tf files
+### Autogeneration of documentation from .tf files (ATTENTION! The test folder was removed in this fork.)
 
 Run
 ```
