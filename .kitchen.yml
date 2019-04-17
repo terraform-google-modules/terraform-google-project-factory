@@ -38,3 +38,20 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/minimal
+
+  - name: "shared_vpc_no_subnets"
+    driver:
+      name: "terraform"
+      command_timeout: 1800
+      root_module_directory: test/fixtures/shared_vpc_no_subnets/
+    verifier:
+      name: terraform
+      systems:
+        - name: inspec-gcp
+          backend: gcp
+          controls:
+            - gcp
+        - name: local
+          backend: local
+          controls:
+            - gcloud

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-output "extra_service_account_email" {
-  value = "${google_service_account.extra_service_account.email}"
+output "host_project_id" {
+  value       = "${module.host-project.project_id}"
+  description = "The ID of the created project"
 }
 
-output "shared_vpc_subnet_name" {
-  value = "${local.shared_vpc_subnet_name}"
+output "network_name" {
+  value       = "${module.vpc.network_name}"
+  description = "The name of the VPC being created"
 }
 
-output "shared_vpc_subnet_region" {
-  value = "${local.shared_vpc_subnet_region}"
+output "network_self_link" {
+  value       = "${module.vpc.network_self_link}"
+  description = "The URI of the VPC being created"
 }
