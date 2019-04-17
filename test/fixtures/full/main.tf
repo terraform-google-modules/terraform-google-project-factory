@@ -37,8 +37,10 @@ provider "gsuite" {
 }
 
 locals {
-  shared_vpc_subnets = ["projects/${var.shared_vpc}/regions/${module.vpc.subnets_regions[0]}/subnetworks/${module.vpc.subnets_names[0]}"]
-  subnet_name        = "pf-test-subnet-${var.random_string_for_testing}"
+  subnet_name              = "pf-test-subnet-${var.random_string_for_testing}"
+  shared_vpc_subnet_name   = "${module.vpc.subnets_names[0]}"
+  shared_vpc_subnet_region = "${module.vpc.subnets_regions[0]}"
+  shared_vpc_subnets       = ["projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region}/subnetworks/${local.shared_vpc_subnet_name}"]
 }
 
 module "vpc" {

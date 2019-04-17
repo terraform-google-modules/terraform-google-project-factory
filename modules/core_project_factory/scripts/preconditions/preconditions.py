@@ -71,10 +71,7 @@ class Requirements:
 
 class OrgPermissions:
     # Permissions that the service account must have for any organization
-    ALL_PERMISSIONS = [
-        # Typically granted with `roles/resourcemanager.organizationViewer`
-        "resourcemanager.organizations.get",
-    ]
+    ALL_PERMISSIONS = []
 
     # Permissions required when the service account is attaching a new project
     # to a shared VPC
@@ -115,13 +112,22 @@ class OrgPermissions:
             self.permissions += self.PARENT_PERMISSIONS
 
     def validate(self, credentials):
+        body = {"permissions": self.permissions}
+        resource = "organizations/" + self.org_id
+
+        # no permissions to validate
+        if len(self.permissions) == 0:
+            return {
+                "type": "Service account permissions on organization",
+                "name": resource,
+                "satisfied": [],
+                "unsatisfied": []
+            }
+
         service = discovery.build(
             'cloudresourcemanager', 'v1',
             credentials=credentials
         )
-
-        body = {"permissions": self.permissions}
-        resource = "organizations/" + self.org_id
 
         request = service.organizations().testIamPermissions(
             resource=resource,
@@ -286,16 +292,13 @@ class BillingAccount:
         request = service.billingAccounts().testIamPermissions(
             resource=resource,
             body=body)
-        try:
-            response = request.execute()
-        except errors.HttpError:
-            response = {"permissions": []}
+        response = request.execute()
 
         req = Requirements(
             "Service account permissions on billing account",
             resource,
             self.REQUIRED_PERMISSIONS,
-            response["permissions"],
+            response.get("permissions", []),
         )
 
         return req.asdict()

@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-output "extra_service_account_email" {
-  value = "${google_service_account.extra_service_account.email}"
+variable "organization_id" {
+  description = "The organization id for the associated services"
 }
 
-output "shared_vpc_subnet_name" {
-  value = "${local.shared_vpc_subnet_name}"
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
 }
 
-output "shared_vpc_subnet_region" {
-  value = "${local.shared_vpc_subnet_region}"
+variable "credentials_path" {
+  description = "Path to a Service Account credentials file with permissions documented in the readme"
+}
+
+variable "host_project_name" {
+  description = "Name for Shared VPC host project"
+  default     = "shared-vpc-host"
+}
+
+variable "network_name" {
+  description = "Name for Shared VPC network"
+  default     = "shared-network"
 }

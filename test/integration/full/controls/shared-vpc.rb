@@ -18,6 +18,8 @@ project_id                  = attribute('project_id')
 project_number              = attribute('project_number')
 service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
+shared_vpc_subnet_name      = attribute('shared_vpc_subnet_name')
+shared_vpc_subnet_region    = attribute('shared_vpc_subnet_region')
 
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
@@ -83,6 +85,32 @@ control 'project-factory-shared-vpc' do
         members: including("serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"),
         role: "roles/container.hostServiceAgentUser",
       )
+    end
+  end
+
+  describe command("gcloud beta compute networks subnets get-iam-policy #{shared_vpc_subnet_name} --region #{shared_vpc_subnet_region} --project #{shared_vpc} --format=json") do
+    its('exit_status') { should eq 0 }
+    its('stderr') { should eq '' }
+
+    let(:bindings) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
+      else
+        []
+      end
+    end
+
+    describe "roles/compute.networkUser" do
+      it "includes the group email in the roles/compute.networkUser IAM binding" do
+        if group_email.nil? || group_email.empty?
+          pending "group_email not defined - skipping test"
+        end
+
+        expect(bindings).to include(
+          members: including("group:#{group_email}"),
+          role: "roles/compute.networkUser",
+        )
+      end
     end
   end
 end

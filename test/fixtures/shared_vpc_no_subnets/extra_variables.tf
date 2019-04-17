@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-output "extra_service_account_email" {
-  value = "${google_service_account.extra_service_account.email}"
-}
-
-output "shared_vpc_subnet_name" {
-  value = "${local.shared_vpc_subnet_name}"
-}
-
-output "shared_vpc_subnet_region" {
-  value = "${local.shared_vpc_subnet_region}"
+variable "credentials_path" {
+  description = "Path to a service account credentials file with rights to run the Project Factory."
+  default     = ""
 }
