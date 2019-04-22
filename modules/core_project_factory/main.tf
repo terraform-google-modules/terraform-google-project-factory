@@ -273,8 +273,9 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 resource "google_storage_bucket" "project_bucket" {
   count = "${local.create_bucket ? 1 : 0}"
 
-  name    = "${local.project_bucket_name}"
-  project = "${var.bucket_project}"
+  name     = "${local.project_bucket_name}"
+  project  = "${var.bucket_project}"
+  location = "${var.bucket_location}"
 }
 
 /***********************************************

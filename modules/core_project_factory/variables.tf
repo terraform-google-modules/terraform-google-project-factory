@@ -114,6 +114,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "bucket_location" {
+  description = "The location for a GCS bucket to create (optional)"
+  default     = "US"
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   default     = "false"
