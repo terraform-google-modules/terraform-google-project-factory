@@ -84,6 +84,7 @@ The roles granted are specifically:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
+| default\_service\_account | Project default service account setting: (delete \| depriviledge \| keep) | string | `"delete"` | no |
 
 ## Outputs
 
