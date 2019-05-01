@@ -18,7 +18,7 @@
 DELETE_AT_EXIT="$(mktemp -d)"
 finish() {
   echo 'BEGIN: finish() trap handler' >&2
-  kitchen destroy
+  kitchen destroy "$SUITE"
   [[ -d "${DELETE_AT_EXIT}" ]] && rm -rf "${DELETE_AT_EXIT}"
   echo 'END: finish() trap handler' >&2
 }
@@ -29,7 +29,7 @@ finish() {
 setup_environment() {
   local tmpfile
   tmpfile="$(mktemp)"
-  echo "${SERVICE_ACCOUNT_JSON}" >"${tmpfile}"
+  echo "${SERVICE_ACCOUNT_JSON}" > "${tmpfile}"
 
   # gcloud variables
   export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="${tmpfile}"
@@ -47,9 +47,12 @@ setup_environment() {
   export TF_VAR_shared_vpc="${PROJECT_ID}"
   TF_VAR_random_string_for_testing="${RANDOM_STRING_FOR_TESTING:-$(LC_ALL=C tr -dc 'a-z0-9' < /dev/urandom | fold -w 5 | head -n 1)}"
   export TF_VAR_random_string_for_testing
+  export TF_VAR_project_id="$PROJECT_ID"
 }
 
 main() {
+  export SUITE="${SUITE:-}"
+
   set -eu
   # Setup trap handler to auto-cleanup
   export TMPDIR="${DELETE_AT_EXIT}"
@@ -60,10 +63,10 @@ main() {
   set -x
 
   # Execute the test lifecycle
-  kitchen create
-  kitchen converge
-  kitchen converge
-  kitchen verify
+  kitchen create "$SUITE"
+  kitchen converge "$SUITE"
+  kitchen converge "$SUITE"
+  kitchen verify "$SUITE"
 }
 
 # if script is being executed and not sourced.
