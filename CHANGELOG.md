@@ -9,8 +9,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ## [Unreleased]
 
 ### Added
-
 - The ability to change bucket location. [#170]
+- The argument disable_dependent_services and corresponding variable [#188]
 
 ## [2.1.3] - 2019-04-03
 
@@ -133,6 +133,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#188]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/188
 [#170]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/170
 [#180]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/180
 [#178]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/178
