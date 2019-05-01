@@ -14,6 +14,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Please note that this file was generated from
+# [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template).
+# Please make sure to contribute relevant changes upstream!
+
 ''' A simple test for the verify_boilerplate python script.
 This will create a set of test files, both valid and invalid,
 and confirm that the has_valid_header call returns the correct
