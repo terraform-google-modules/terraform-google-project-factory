@@ -36,23 +36,23 @@ check: check_shell check_python check_golang check_terraform check_docker check_
 # the presence of a file named 'check_shell' won't cause this target to stop
 # working
 .PHONY: check_shell
-check_shell:
+check_shell: ## Lint shell scripts
 	@source test/make.sh && check_shell
 
 .PHONY: check_python
-check_python:
+check_python: ## Lint Python source files
 	@source test/make.sh && check_python
 
 .PHONY: check_golang
-check_golang:
+check_golang: ## Lint Go source files
 	@source test/make.sh && golang
 
 .PHONY: check_terraform
-check_terraform:
+check_terraform: ## Lint Terraform source files
 	@source test/make.sh && check_terraform
 
 .PHONY: check_docker
-check_docker:
+check_docker: ## Lint Dockerfiles
 	@source test/make.sh && docker
 
 .PHONY: check_base_files
@@ -69,7 +69,7 @@ test_check_headers:
 	@python test/test_verify_boilerplate.py
 
 .PHONY: check_headers
-check_headers:
+check_headers: ## Check that source files have appropriate boilerplate
 	@source test/make.sh && check_headers
 
 .PHONY: test_migrate
@@ -88,11 +88,11 @@ test_unit: test_migrate test_preconditions
 
 # Integration tests
 .PHONY: test_integration
-test_integration:
+test_integration: ## Run integration tests
 	test/ci_integration.sh
 
 .PHONY: generate_docs
-generate_docs:
+generate_docs: ## Update README documentation for Terraform variables and outputs
 	@source test/make.sh && generate_docs
 
 .PHONY: release-new-version
@@ -101,7 +101,7 @@ release-new-version:
 
 # Run docker
 .PHONY: docker_run
-docker_run:
+docker_run: ## Launch a shell within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
 		-e DOMAIN \
@@ -117,7 +117,7 @@ docker_run:
 		/bin/bash -c "source test/ci_integration.sh && setup_environment && exec /bin/bash"
 
 .PHONY: docker_create
-docker_create:
+docker_create: ## Run `kitchen create` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
 		-e DOMAIN \
@@ -133,7 +133,7 @@ docker_create:
 		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen create"
 
 .PHONY: docker_converge
-docker_converge:
+docker_converge: ## Run `kitchen converge` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
 		-e DOMAIN \
@@ -149,7 +149,7 @@ docker_converge:
 		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen converge"
 
 .PHONY: docker_verify
-docker_verify:
+docker_verify: ## Run `kitchen verify` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
 		-e DOMAIN \
@@ -165,7 +165,7 @@ docker_verify:
 		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen verify"
 
 .PHONY: docker_destroy
-docker_destroy:
+docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
 		-e DOMAIN \
