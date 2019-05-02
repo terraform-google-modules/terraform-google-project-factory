@@ -10,11 +10,11 @@ It includes creating the host project and using the [network module](https://git
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| billing\_account | The ID of the billing account to associate this project with | string | - | yes |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | - | yes |
-| host\_project\_name | Name for Shared VPC host project | string | `shared-vpc-host` | no |
-| network\_name | Name for Shared VPC network | string | `shared-network` | no |
-| organization\_id | The organization id for the associated services | string | - | yes |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
+| host\_project\_name | Name for Shared VPC host project | string | `"shared-vpc-host"` | no |
+| network\_name | Name for Shared VPC network | string | `"shared-network"` | no |
+| organization\_id | The organization id for the associated services | string | n/a | yes |
 
 ## Outputs
 

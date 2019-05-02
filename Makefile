@@ -12,16 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Please note that this file was generated from [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template).
+# Please make sure to contribute relevant changes upstream!
+
 # Make will use bash instead of sh
 SHELL := /usr/bin/env bash
 
 # Docker build config variables
-CREDENTIALS_PATH ?= /cft/workdir/credentials.json
-DOCKER_ORG := gcr.io/cloud-foundation-cicd
-DOCKER_TAG_BASE_KITCHEN_TERRAFORM ?= 0.11.11_235.0.0_1.19.1_0.1.10
-DOCKER_REPO_BASE_KITCHEN_TERRAFORM := ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
+CREDENTIALS_PATH 			?= /cft/workdir/credentials.json
+DOCKER_ORG 				:= gcr.io/cloud-foundation-cicd
+DOCKER_TAG_BASE_KITCHEN_TERRAFORM 	?= 1.0.1
+DOCKER_REPO_BASE_KITCHEN_TERRAFORM 	:= ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
 
-all: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace ## Run all linters
+# All is the first target in the file so it will get picked up when you just run 'make' on its own
+.PHONY: all
+all: check generate_docs
+
+# Run all available linters
+.PHONY: check
+check: check_shell check_python check_golang check_terraform check_docker check_base_files test_check_headers check_headers check_trailing_whitespace
 
 # The .PHONY directive tells make that this isn't a real target and so
 # the presence of a file named 'check_shell' won't cause this target to stop
@@ -50,10 +59,6 @@ check_docker: ## Lint Dockerfiles
 check_base_files:
 	@source test/make.sh && basefiles
 
-.PHONY: check_shebangs
-check_shebangs: ## Check that scripts have correct shebangs
-	@source test/make.sh && check_bash
-
 .PHONY: check_trailing_whitespace
 check_trailing_whitespace:
 	@source test/make.sh && check_trailing_whitespace
@@ -65,8 +70,7 @@ test_check_headers:
 
 .PHONY: check_headers
 check_headers: ## Check that source files have appropriate boilerplate
-	@echo "Checking file headers"
-	@python test/verify_boilerplate.py
+	@source test/make.sh && check_headers
 
 .PHONY: test_migrate
 test_migrate:
@@ -100,91 +104,94 @@ release-new-version:
 docker_run: ## Launch a shell within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c 'source test/ci_integration.sh && setup_environment && exec /bin/bash'
+		/bin/bash -c "source test/ci_integration.sh && setup_environment && exec /bin/bash"
 
 .PHONY: docker_create
 docker_create: ## Run `kitchen create` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen create'
+		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen create"
 
 .PHONY: docker_converge
 docker_converge: ## Run `kitchen converge` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen converge'
+		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen converge"
 
 .PHONY: docker_verify
 docker_verify: ## Run `kitchen verify` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen verify'
+		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen verify"
 
 .PHONY: docker_destroy
 docker_destroy: ## Run `kitchen destroy` within the Docker test environment
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		/bin/bash -c 'source test/ci_integration.sh && setup_environment && bundle exec kitchen destroy'
+		/bin/bash -c "source test/ci_integration.sh && setup_environment && kitchen destroy"
 
 .PHONY: test_integration_docker
 test_integration_docker:
 	docker run --rm -it \
 		-e BILLING_ACCOUNT_ID  \
-		-e SERVICE_ACCOUNT_JSON \
 		-e DOMAIN \
 		-e FOLDER_ID \
 		-e GROUP_NAME \
 		-e ADMIN_ACCOUNT_EMAIL \
 		-e ORG_ID \
 		-e PROJECT_ID \
+		-e SERVICE_ACCOUNT_JSON \
+		-e GOOGLE_APPLICATION_CREDENTIALS=${CREDENTIALS_PATH} \
 		-v $(CURDIR):/cft/workdir \
 		${DOCKER_REPO_BASE_KITCHEN_TERRAFORM} \
-		test/ci_integration.sh
-
-help: ## Prints help for targets with comments
-	@grep -E '^[a-zA-Z._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+		make test_integration

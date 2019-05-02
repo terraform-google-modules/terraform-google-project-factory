@@ -14,6 +14,7 @@
 | group\_role |  | string | `"roles/viewer"` | no |
 | gsuite\_admin\_account |  | string | n/a | yes |
 | org\_id |  | string | n/a | yes |
+| random\_string\_for\_testing | A random string of characters to be appended to resource names to ensure uniqueness | string | n/a | yes |
 | region |  | string | `"us-east4"` | no |
 | sa\_group |  | string | `""` | no |
 | sa\_role |  | string | `"roles/editor"` | no |

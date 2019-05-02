@@ -18,6 +18,10 @@
 # This is based on existing work
 # https://github.com/kubernetes/test-infra/blob/master/hack
 # /verify_boilerplate.py
+
+# Please note that this file was generated from
+# [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template).
+# Please make sure to contribute relevant changes upstream!
 from __future__ import print_function
 import argparse
 import glob
