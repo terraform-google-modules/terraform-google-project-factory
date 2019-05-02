@@ -131,4 +131,3 @@ variable "disable_dependent_services" {
   default     = "true"
   type        = "string"
 }
-
