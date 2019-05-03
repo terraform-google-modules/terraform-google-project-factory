@@ -67,6 +67,7 @@ The roles granted are specifically:
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | create\_group | Whether to create the group or not | string | `"false"` | no |
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
+| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
