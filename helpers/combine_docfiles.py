@@ -13,6 +13,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# Please note that this file was generated from
+# [terraform-google-module-template](https://github.com/terraform-google-modules/terraform-google-module-template).
+# Please make sure to contribute relevant changes upstream!
+
 ''' Combine file from:
   * script argument 1
   with content of file from:
@@ -24,6 +29,7 @@
   regex specified here
 '''
 
+import os
 import re
 import sys
 
@@ -33,15 +39,29 @@ exclude_separator_regex = r'(.*?)Copyright 20\d\d Google LLC.*?limitations under
 if len(sys.argv) != 3:
     sys.exit(1)
 
+if not os.path.isfile(sys.argv[1]):
+    sys.exit(0)
+
 input = open(sys.argv[1], "r").read()
 replace_content = open(sys.argv[2], "r").read()
 
 # Exclude the specified content from the replacement content
-groups = re.match(exclude_separator_regex, replace_content,
-                  re.DOTALL).groups(0)
+groups = re.match(
+    exclude_separator_regex,
+    replace_content,
+    re.DOTALL
+).groups(0)
 replace_content = groups[0] + groups[1]
 
 # Find where to put the replacement content, overwrite the input file
-groups = re.match(insert_separator_regex, input, re.DOTALL).groups(0)
-output = groups[0] + replace_content + groups[2]
+match = re.match(insert_separator_regex, input, re.DOTALL)
+if match is None:
+    print("ERROR: Could not find autogen docs anchors in", sys.argv[1])
+    print("To fix this, insert the following anchors in your README where "
+          "module inputs and outputs should be documented.")
+    print("[^]: (autogen_docs_start)")
+    print("[^]: (autogen_docs_end)")
+    sys.exit(1)
+groups = match.groups(0)
+output = groups[0] + replace_content + groups[2] + "\n"
 open(sys.argv[1], "w").write(output)

@@ -145,3 +145,9 @@ variable "default_service_account" {
   default = "delete"
   type = "string"
 }
+
+variable "disable_dependent_services" {
+  description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
+  default     = "true"
+  type        = "string"
+}

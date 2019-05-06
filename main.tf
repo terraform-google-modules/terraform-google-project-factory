@@ -51,4 +51,5 @@ module "project-factory" {
   auto_create_network         = "${var.auto_create_network}"
   disable_services_on_destroy = "${var.disable_services_on_destroy}"
   default_service_account     = "${var.default_service_account}"
+  disable_dependent_services  = "${var.disable_dependent_services}"
 }
