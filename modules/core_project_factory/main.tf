@@ -138,6 +138,7 @@ data "null_data_source" "default_service_account" {
  *****************************************/
 resource "null_resource" "delete_default_compute_service_account" {
   count = "${var.default_service_account == "delete" ? 1 : 0}"
+
   provisioner "local-exec" {
     command = "${path.module}/scripts/delete-service-account.sh ${google_project.main.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
   }
@@ -154,9 +155,11 @@ resource "null_resource" "delete_default_compute_service_account" {
   Default compute service account depriviledge
  ********************************************/
 resource "null_resource" "depriviledge_default_compute_service_account" {
-  count   = "${var.default_service_account == "depriviledge" ? 1 : 0}"
+  count = "${var.default_service_account == "depriviledge" ? 1 : 0}"
+
   provisioner "local-exec" {
     command = "gcloud projects remove-iam-policy-binding ${google_project.main.project_id} --member='serviceAccount:${data.null_data_source.default_service_account.outputs["email"]}' --role='roles/editor'"
+
     environment = {
       CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE = "${var.credentials_path}"
     }
