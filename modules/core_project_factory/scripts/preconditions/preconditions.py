@@ -24,7 +24,7 @@ import os
 try:
     import google.auth
     from google.oauth2 import service_account
-    from googleapiclient import discovery, errors
+    from googleapiclient import discovery
 except ImportError as e:
     if os.environ.get('GRACEFUL_IMPORTERROR', '') != '':
         sys.stderr.write("Unable to import Google API dependencies, skipping "
