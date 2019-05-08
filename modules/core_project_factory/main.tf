@@ -71,6 +71,28 @@ EOD
 }
 
 /*******************************************
+  Shared VPC Subnets names validation
+*******************************************/
+
+resource "null_resource" "shared_vpc_subnet_invalid_name" {
+  count = "${length(var.shared_vpc_subnets)}"
+
+  triggers = {
+    name = "${replace(var.shared_vpc_subnets[count.index],
+    "/(https://www.googleapis.com/compute/v1/)?projects/[a-z0-9-]+/regions/[a-z0-9-]+/subnetworks/[a-z0-9-]+/", "") }"
+  }
+}
+
+resource "null_resource" "check_if_shared_vpc_subnets_contais_items_with_invalid_name" {
+  count = "${length(compact(null_resource.shared_vpc_subnet_invalid_name.*.triggers.name)) == 0 ? 0 : 1}"
+
+  provisioner "local-exec" {
+    command     = "false"
+    interpreter = ["bash", "-c"]
+  }
+}
+
+/*******************************************
   Project creation
  *******************************************/
 resource "google_project" "main" {
@@ -216,9 +238,9 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 
   count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
 
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
+  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"subnetworks"))+1)}"
   role       = "roles/compute.networkUser"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
+  region     = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"regions"))+1)}"
   project    = "${var.shared_vpc}"
   member     = "${local.s_account_fmt}"
 }
@@ -231,11 +253,11 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
 
   count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0 }"
 
+  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"subnetworks"))+1)}"
+  role       = "roles/compute.networkUser"
+  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), (index(split("/", var.shared_vpc_subnets[count.index]),"regions"))+1)}"
   member     = "${local.group_id}"
   project    = "${var.shared_vpc}"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
-  role       = "roles/compute.networkUser"
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
 }
 
 /*************************************************************************************
@@ -246,9 +268,9 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
 
   count = "${var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0 }"
 
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
+  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"subnetworks"))+1)}"
   role       = "roles/compute.networkUser"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
+  region     = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"regions"))+1)}"
   project    = "${var.shared_vpc}"
   member     = "${local.api_s_account_fmt}"
 
@@ -322,9 +344,9 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
 
   count = "${local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0}"
 
-  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]), 5)}"
+  subnetwork = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"subnetworks"))+1)}"
   role       = "roles/compute.networkUser"
-  region     = "${element(split("/", var.shared_vpc_subnets[count.index]), 3)}"
+  region     = "${element(split("/", var.shared_vpc_subnets[count.index]),(index(split("/", var.shared_vpc_subnets[count.index]),"regions"))+1)}"
   project    = "${var.shared_vpc}"
   member     = "${local.gke_s_account_fmt}"
 
