@@ -69,7 +69,7 @@ module "vpc" {
     {
       subnet_name   = "${local.subnet_name_02}"
       subnet_ip     = "10.10.20.0/24"
-      subnet_region = "us-east2"
+      subnet_region = "us-east1"
     },
   ]
 
