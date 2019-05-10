@@ -20,6 +20,8 @@ service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
 shared_vpc_subnet_name_01   = attribute('shared_vpc_subnet_name_01')
 shared_vpc_subnet_region_01 = attribute('shared_vpc_subnet_region_01')
+shared_vpc_subnet_name_02   = attribute('shared_vpc_subnet_name_02')
+shared_vpc_subnet_region_02 = attribute('shared_vpc_subnet_region_02')
 
 control 'project-factory-shared-vpc' do
   title "Project Factory shared VPC"
