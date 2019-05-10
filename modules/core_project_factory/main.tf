@@ -83,7 +83,7 @@ resource "null_resource" "shared_vpc_subnet_invalid_name" {
   }
 }
 
-resource "null_resource" "check_if_shared_vpc_subnets_contais_items_with_invalid_name" {
+resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invalid_name" {
   count = "${length(compact(null_resource.shared_vpc_subnet_invalid_name.*.triggers.name)) == 0 ? 0 : 1}"
 
   provisioner "local-exec" {
