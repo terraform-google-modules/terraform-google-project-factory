@@ -41,6 +41,10 @@ control 'project-factory-gsuite' do
         role: group_role,
       )
     end
+
+    it "has valid group_email" do
+      expect(group_email).to eq 'pf-ci-test-fixture@phoogle.net'
+    end
   end
 
   describe command("gcloud iam service-accounts get-iam-policy #{service_account_email} --format=json") do
