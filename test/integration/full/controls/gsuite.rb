@@ -42,7 +42,7 @@ control 'project-factory-gsuite' do
       )
     end
 
-    it "has valid group_email" do
+    it "has a valid group_email" do
       expect(group_email).to eq 'pf-ci-test-fixture@phoogle.net'
     end
   end
