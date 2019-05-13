@@ -17,9 +17,22 @@ APIs without knowing it. Therefore, it is recommended to avoid using
 1. Service account used to run Terraform has permissions to manage project APIs:
 [`roles/serviceusage.serviceUsageAdmin`](https://cloud.google.com/iam/docs/understanding-roles#service-usage-roles) or [`roles/owner`](https://cloud.google.com/iam/docs/understanding-roles#primitive_role_definitions)
 
-## Example
+## Example Usage
+```
+module "project-services" {
+  source  = "terraform-google-modules/project-factory/google//modules/project_services"
+  version = "2.1.3"
 
-See [examples/project_services](./examples/project_services) for an example.
+  project_id                  = "my-project-id"
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "iam.googleapis.com",
+  ]
+}
+```
+
+See [examples/project_services](./examples/project_services) for a full example example.
 
 [^]: (autogen_docs_start)
 
