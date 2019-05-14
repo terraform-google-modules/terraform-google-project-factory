@@ -79,20 +79,10 @@ end
 control 'group_email' do
   title 'Group e-mail validation'
 
-    only_if ("e-mail is empty") { !(group_email.nil? || group_email == '') }
-
-    describe "group e-mail should" do
-
-       it "have a non-empty local-part" do
-         expect(group_email.split('@').first).not_to be_empty
-       end
-
-      it "have a non-empty domain part" do
-        expect(group_email.split('@').last).not_to be_empty
+    describe "group e-mail: " do
+      it "should be empty" do
+         expect(group_email).to be_empty
       end
-    end
 
-    describe "#{group_email}" do
-      it { should match (/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)}
-    end
+  end
 end

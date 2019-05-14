@@ -31,7 +31,6 @@ module "project-factory" {
   org_id            = "${var.org_id}"
   folder_id         = "${var.folder_id}"
   billing_account   = "${var.billing_account}"
-  group_name        = "${var.group_name}"
 
   activate_apis = [
     "compute.googleapis.com",
