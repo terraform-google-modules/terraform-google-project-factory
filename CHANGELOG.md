@@ -8,6 +8,11 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Fixed
+
+ - Versions of providers has been fixed for examples/shared_vpc [#198]
+
+
 ## [2.2.0] - 2019-05-03
 
 ### Added
