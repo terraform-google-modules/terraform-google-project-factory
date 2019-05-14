@@ -15,6 +15,7 @@
 project_id            = attribute('project_id')
 service_account_email = attribute('service_account_email')
 group_email           = attribute('group_email')
+group_name            = attribute('group_name')
 
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'
@@ -79,10 +80,16 @@ end
 control 'group_email' do
   title 'Group e-mail validation'
 
-    describe "group e-mail: " do
-      it "should be empty" do
-         expect(group_email).to be_empty
-      end
-
+  describe "group name: " do
+    it "should be empty" do
+      expect(group_name).to be_empty
+    end
   end
+
+  describe "group e-mail: " do
+    it "should be empty" do
+      expect(group_email).to be_empty
+    end
+  end
+  
 end

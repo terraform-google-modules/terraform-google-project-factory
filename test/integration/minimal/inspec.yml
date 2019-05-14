@@ -11,3 +11,6 @@ attributes:
 
   - name: group_email
     required: true
+
+  - name: group_name
+    required: true
