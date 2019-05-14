@@ -77,9 +77,11 @@ control 'project-factory-minimal' do
   end
 
   describe "group_email" do
-    it "should be empty if user_group is empty" do
-      expect(group_email).to be_empty
+    it "should be empty when group_name is empty" do
       expect(group_name).to be_empty
+    end
+    it "should be empty when group_name is empty" do
+      expect(group_email).to be_empty
     end
   end
 end
