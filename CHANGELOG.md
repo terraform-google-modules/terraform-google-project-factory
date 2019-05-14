@@ -10,8 +10,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
- - Versions of providers has been fixed for examples/shared_vpc [#198]
-
+ - Versions of providers has been fixed for examples/shared_vpc. [#198]
 
 ## [2.2.0] - 2019-05-03
 
@@ -144,6 +143,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#198]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/198
 [#194]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/194
 [#188]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/188
 [#170]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/170
