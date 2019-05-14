@@ -53,10 +53,18 @@ attributes:
     type: string
     required: true
 
-  - name: shared_vpc_subnet_name
+  - name: shared_vpc_subnet_name_01
     type: string
     required: true
 
-  - name: shared_vpc_subnet_region
+  - name: shared_vpc_subnet_region_01
+    type: string
+    required: true
+
+  - name: shared_vpc_subnet_name_02
+    type: string
+    required: true
+
+  - name: shared_vpc_subnet_region_02
     type: string
     required: true

@@ -37,10 +37,18 @@ provider "gsuite" {
 }
 
 locals {
-  subnet_name              = "pf-test-subnet-${var.random_string_for_testing}"
-  shared_vpc_subnet_name   = "${module.vpc.subnets_names[0]}"
-  shared_vpc_subnet_region = "${module.vpc.subnets_regions[0]}"
-  shared_vpc_subnets       = ["projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region}/subnetworks/${local.shared_vpc_subnet_name}"]
+  subnet_name_01              = "pf-test-subnet-10-${var.random_string_for_testing}"
+  shared_vpc_subnet_name_01   = "${module.vpc.subnets_names[0]}"
+  shared_vpc_subnet_region_01 = "${module.vpc.subnets_regions[0]}"
+
+  subnet_name_02              = "pf-test-subnet-20-${var.random_string_for_testing}-20"
+  shared_vpc_subnet_name_02   = "${module.vpc.subnets_names[1]}"
+  shared_vpc_subnet_region_02 = "${module.vpc.subnets_regions[1]}"
+
+  shared_vpc_subnets = [
+    "projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_01}/subnetworks/${local.shared_vpc_subnet_name_01}",
+    "https://www.googleapis.com/compute/v1/projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_02}/subnetworks/${local.shared_vpc_subnet_name_02}",
+  ]
 }
 
 module "vpc" {
@@ -54,17 +62,29 @@ module "vpc" {
 
   subnets = [
     {
-      subnet_name   = "${local.subnet_name}"
+      subnet_name   = "${local.subnet_name_01}"
       subnet_ip     = "10.10.10.0/24"
       subnet_region = "us-east4"
+    },
+    {
+      subnet_name   = "${local.subnet_name_02}"
+      subnet_ip     = "10.10.20.0/24"
+      subnet_region = "us-east1"
     },
   ]
 
   secondary_ranges = {
-    "${local.subnet_name}" = [
+    "${local.subnet_name_01}" = [
       {
-        range_name    = "${local.subnet_name}-secondary"
+        range_name    = "${local.subnet_name_01}-secondary"
         ip_cidr_range = "192.168.64.0/24"
+      },
+    ]
+
+    "${local.subnet_name_02}" = [
+      {
+        range_name    = "${local.subnet_name_02}-secondary"
+        ip_cidr_range = "192.168.74.0/24"
       },
     ]
   }
