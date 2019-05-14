@@ -14,6 +14,7 @@
 
 project_id            = attribute('project_id')
 service_account_email = attribute('service_account_email')
+group_email           = attribute('group_email')
 
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'
@@ -73,4 +74,25 @@ control 'project-factory-minimal' do
       expect(liens).to be_empty
     end
   end
+end
+
+control 'group_email' do
+  title 'Group e-mail validation'
+
+    only_if ("e-mail is empty") { !(group_email.nil? || group_email == '') }
+
+    describe "group e-mail should" do
+
+       it "have a non-empty local-part" do
+         expect(group_email.split('@').first).not_to be_empty
+       end
+
+      it "have a non-empty domain part" do
+        expect(group_email.split('@').last).not_to be_empty
+      end
+    end
+
+    describe "#{group_email}" do
+      it { should match (/\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i)}
+    end
 end
