@@ -18,8 +18,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Added
 
 - The ability to change bucket location. [#170]
-- The argument disable_dependent_services and corresponding
-  variable. [#188]
+- The argument disable_dependent_services and corresponding variable. [#188]
 
 ## [2.1.3] - 2019-04-03
 
