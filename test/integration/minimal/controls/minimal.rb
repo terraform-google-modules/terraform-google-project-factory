@@ -75,17 +75,11 @@ control 'project-factory-minimal' do
       expect(liens).to be_empty
     end
   end
-end
-
-control 'group_email' do
-  title 'Group e-mail validation'
 
   describe "group_email" do
-
     it "should be empty if user_group is empty" do
       expect(group_email).to be_empty
       expect(group_name).to be_empty
     end
-
   end
 end
