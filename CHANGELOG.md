@@ -10,7 +10,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
- - Versions of providers has been fixed for examples/shared_vpc. [#198]
+- Versions of providers has been fixed for examples/shared_vpc. [#198]
+- GCP subnet share conditions not working correctly. [#194]
 
 ## [2.2.0] - 2019-05-03
 
@@ -24,7 +25,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
-- GCP subnet share conditions not working correctly [#194]
 - Unconditional check for optional
   `resourcemanager.organization.get` permission in preconditions script.
   [#178]
