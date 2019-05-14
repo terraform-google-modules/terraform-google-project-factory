@@ -47,7 +47,7 @@ locals {
 
   shared_vpc_subnets = [
     "projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_01}/subnetworks/${local.shared_vpc_subnet_name_01}",
-    "http://www.googleapis.com/compute/v1/projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_02}/subnetworks/${local.shared_vpc_subnet_name_02}",
+    "https://www.googleapis.com/compute/v1/projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_02}/subnetworks/${local.shared_vpc_subnet_name_02}",
   ]
 }
 
