@@ -20,7 +20,7 @@ module "project_myproject" {
   source                    = "terraform-google-modules/project-factory/google//modules/fabric-project"
   parent_id                 = "1234567890"
   parent_type               = "folder"
-  billing_account_id        = "ABCD-1234-ABCD-1234"
+  billing_account           = "ABCD-1234-ABCD-1234"
   prefix                    = "staging"
   name                      = "myproject"
   oslogin                   = true
@@ -39,21 +39,21 @@ module "project_myproject" {
 | name | Project name and id suffix. | string | n/a | yes |
 | parent\_id | Id of the resource under which the folder will be placed. | string | n/a | yes |
 | prefix | Prefix used to generate project id and name | string | n/a | yes |
+| activate\_apis | Service APIs to enable. | list | `<list>` | no |
 | auto\_create\_network | Whether to create the default network for the project | string | `"false"` | no |
-| billing\_account\_id | Billing account id. | string | `""` | no |
+| billing\_account | Billing account id. | string | `""` | no |
 | custom\_roles | Map of role name => comma-delimited list of permissions to create in this project. | map | `<map>` | no |
 | editors | Optional list of IAM-format members to set as project editor. | list | `<list>` | no |
 | extra\_bindings\_members | List of comma-delimited IAM-format members for additional IAM bindings, one item per role. | list | `<list>` | no |
 | extra\_bindings\_roles | List of roles for additional IAM bindings, pair with members list below. | list | `<list>` | no |
-| gce\_service\_account\_roles | List of project id:role to assign to the default GCE service account. | list | `<list>` | no |
+| gce\_service\_account\_roles | List of project id=>role to assign to the default GCE service account. | list | `<list>` | no |
 | labels | Resource labels. | map | `<map>` | no |
 | lien\_reason | If non-empty, creates a project lien with this description. | string | `""` | no |
 | oslogin | Enable oslogin. | string | `"false"` | no |
 | oslogin\_admins | List of IAM-format members that will get OS Login admin role. | list | `<list>` | no |
 | oslogin\_users | List of IAM-format members that will get OS Login user role. | list | `<list>` | no |
 | owners | Optional list of IAM-format members to set as project owners. | list | `<list>` | no |
-| parent\_type | Type of the parent reosurce, defaults to organization. | string | `"organization"` | no |
-| services | Service APIs to enable. | list | `<list>` | no |
+| parent\_type | Type of the parent resource, defaults to organization. | string | `"organization"` | no |
 | viewers | Optional list of IAM-format members to set as project viewers. | list | `<list>` | no |
 
 ## Outputs
@@ -61,7 +61,8 @@ module "project_myproject" {
 | Name | Description |
 |------|-------------|
 | custom\_roles | Ids of the created custom roles. |
-| gce\_service\_account | Defalt GCE service account (depends on services). |
+| gce\_service\_account | Default GCE service account (depends on services). |
+| gke\_service\_account | Default GKE service account (depends on services). |
 | number | Project number (depends on services). |
 | project\_id | Project id (depends on services). |
 

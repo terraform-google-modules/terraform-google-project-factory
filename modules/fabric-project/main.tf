@@ -29,20 +29,20 @@ resource "google_project" "project" {
   folder_id           = "${var.parent_type == "folder" ? var.parent_id : ""}"
   project_id          = "${var.prefix}-${var.name}"
   name                = "${var.prefix}-${var.name}"
-  billing_account     = "${var.billing_account_id}"
+  billing_account     = "${var.billing_account}"
   auto_create_network = "${var.auto_create_network}"
   labels              = "${var.labels}"
 }
 
 resource "google_project_services" "services" {
-  count   = "${length(var.services) > 0 ? 1 : 0}"
+  count   = "${length(var.activate_apis) > 0 ? 1 : 0}"
   project = "${google_project.project.project_id}"
 
   services = [
     # "compute.googleapis.com",
     # "iam.googleapis.com",
     # "oslogin.googleapis.com",
-    "${var.services}",
+    "${var.activate_apis}",
   ]
 }
 

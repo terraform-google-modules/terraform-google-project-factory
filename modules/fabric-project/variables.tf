@@ -19,7 +19,7 @@ variable "parent_id" {
 }
 
 variable "parent_type" {
-  description = "Type of the parent reosurce, defaults to organization."
+  description = "Type of the parent resource, defaults to organization."
   default     = "organization"
 }
 
@@ -31,12 +31,12 @@ variable "name" {
   description = "Project name and id suffix."
 }
 
-variable "billing_account_id" {
+variable "billing_account" {
   description = "Billing account id."
   default     = ""
 }
 
-variable "services" {
+variable "activate_apis" {
   description = "Service APIs to enable."
   default     = []
 }
