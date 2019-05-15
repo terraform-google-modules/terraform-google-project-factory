@@ -12,6 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
+- Add Fabric [submodule](https://github.com/terraform-google-modules/terraform-google-project-factory/tree/master/modules/fabric-project) for simple project creation. [#201]
 - Fix module and tests in minimal test suite (group_email). [#200]
 - Versions of providers has been fixed for examples/shared_vpc. [#198]
 - GCP subnet share conditions not working correctly. [#194]
@@ -146,6 +147,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#201]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/201
 [#200]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/200
 [#198]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/198
 [#194]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/194
