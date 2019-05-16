@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- Added option to depriviledge or keep default compute service account. [#186]
+
 ## [2.2.1] - 2019-05-15
 
 ### Fixed
@@ -147,6 +151,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#186]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/186
 [#201]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/201
 [#200]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/200
 [#198]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/198
