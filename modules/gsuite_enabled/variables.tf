@@ -140,6 +140,12 @@ variable "disable_services_on_destroy" {
   type        = "string"
 }
 
+variable "default_service_account" {
+  description = "Project default service account setting: (delete | depriviledge | keep)"
+  default     = "delete"
+  type        = "string"
+}
+
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
   default     = "true"
