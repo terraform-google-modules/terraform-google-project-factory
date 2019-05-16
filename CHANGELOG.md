@@ -8,13 +8,21 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.2.1] - 2019-05-15
+
+### Fixed
+
+- Add Fabric [submodule](https://github.com/terraform-google-modules/terraform-google-project-factory/tree/master/modules/fabric-project) for simple project creation. [#201]
+- Fix module and tests in minimal test suite (group_email). [#200]
+- Versions of providers has been fixed for examples/shared_vpc. [#198]
+- GCP subnet share conditions not working correctly. [#194]
+
 ## [2.2.0] - 2019-05-03
 
 ### Added
 
 - The ability to change bucket location. [#170]
-- The argument disable_dependent_services and corresponding
-  variable. [#188]
+- The argument disable_dependent_services and corresponding variable. [#188]
 
 ## [2.1.3] - 2019-04-03
 
@@ -120,7 +128,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.1...HEAD
+[2.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.3...v2.2.0
 [2.1.3]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.2...v2.1.3
 [2.1.2]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.1...v2.1.2
@@ -138,6 +147,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#201]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/201
+[#200]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/200
+[#198]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/198
+[#194]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/194
 [#188]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/188
 [#170]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/170
 [#180]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/180
