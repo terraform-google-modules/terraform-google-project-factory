@@ -17,6 +17,17 @@
 /*****************************************
   Organization info retrieval
  *****************************************/
+
+resource "null_resource" "org_id_is_empty" {
+  count = "${var.org_id == "" ? 1 : 0}"
+
+  provisioner "local-exec" {
+    command     = "false"
+    interpreter = ["bash", "-c"]
+  }
+}
+
+
 module "gsuite_group" {
   source = "modules/gsuite_group"
 
