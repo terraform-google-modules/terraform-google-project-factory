@@ -10,6 +10,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Added
 
+- Option that provides ability to choose the region of the bucket [#207]
 - Added option to depriviledge or keep default compute service account. [#186]
 - Fix `credentials_path` to no longer be required for `gsuite_enabled` module. [#205]
 
@@ -152,6 +153,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#207]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/207
 [#186]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/186
 [#201]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/201
 [#200]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/200

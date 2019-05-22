@@ -125,6 +125,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "bucket_location" {
+  description = "The location for a GCS bucket to create (optional)"
+  default     = ""
+}
+
 variable "api_sa_group" {
   description = "A GSuite group to place the Google APIs Service Account for the project in"
   default     = ""
