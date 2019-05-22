@@ -12,6 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - Option that provides ability to choose the region of the bucket [#207]
 - Added option to depriviledge or keep default compute service account. [#186]
+- Fix `credentials_path` to no longer be required for `gsuite_enabled` module. [#205]
 
 ## [2.2.1] - 2019-05-15
 
