@@ -99,7 +99,8 @@ variable "usage_bucket_prefix" {
 }
 
 variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
 }
 
 variable "shared_vpc_subnets" {
@@ -124,6 +125,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "bucket_location" {
+  description = "The location for a GCS bucket to create (optional)"
+  default     = ""
+}
+
 variable "api_sa_group" {
   description = "A GSuite group to place the Google APIs Service Account for the project in"
   default     = ""
@@ -137,6 +143,12 @@ variable "auto_create_network" {
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = "true"
+  type        = "string"
+}
+
+variable "default_service_account" {
+  description = "Project default service account setting: (delete | depriviledge | keep)"
+  default     = "delete"
   type        = "string"
 }
 

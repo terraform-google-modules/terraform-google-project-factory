@@ -39,8 +39,10 @@
 | sa\_role |  |
 | service\_account\_email |  |
 | shared\_vpc |  |
-| shared\_vpc\_subnet\_name |  |
-| shared\_vpc\_subnet\_region |  |
+| shared\_vpc\_subnet\_name\_01 |  |
+| shared\_vpc\_subnet\_name\_02 |  |
+| shared\_vpc\_subnet\_region\_01 |  |
+| shared\_vpc\_subnet\_region\_02 |  |
 | usage\_bucket\_name |  |
 | usage\_bucket\_prefix |  |
 

@@ -44,6 +44,7 @@ terraform.tfstate.d/
 *.auto.tfvars
 credentials.json
 .vscode/
+.idea
 env/
 test/fixtures/shared/terraform.tfvars
 .idea/

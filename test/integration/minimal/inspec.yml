@@ -8,3 +8,9 @@ attributes:
 
   - name: service_account_email
     required: true
+
+  - name: group_email
+    required: true
+
+  - name: group_name
+    required: true

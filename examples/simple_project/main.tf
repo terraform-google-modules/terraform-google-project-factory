@@ -32,10 +32,11 @@ provider "google-beta" {
 }
 
 module "project-factory" {
-  source            = "../../"
-  random_project_id = "true"
-  name              = "simple-sample-project"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
+  source                  = "../../"
+  random_project_id       = "true"
+  name                    = "simple-sample-project"
+  org_id                  = "${var.organization_id}"
+  billing_account         = "${var.billing_account}"
+  credentials_path        = "${local.credentials_file_path}"
+  default_service_account = "${var.default_service_account}"
 }

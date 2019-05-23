@@ -109,6 +109,11 @@ variable "bucket_name" {
   default     = ""
 }
 
+variable "bucket_location" {
+  description = "The location for a GCS bucket to create (optional)"
+  default     = "US"
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   default     = "false"
@@ -123,6 +128,12 @@ variable "lien" {
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = "true"
+  type        = "string"
+}
+
+variable "default_service_account" {
+  description = "Project default service account setting: (delete | depriviledge | keep)"
+  default     = "delete"
   type        = "string"
 }
 
