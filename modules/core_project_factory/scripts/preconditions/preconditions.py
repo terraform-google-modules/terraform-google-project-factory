@@ -405,9 +405,12 @@ def validators_for(opts, seed_project):
     to check and generate corresponding validators.
     """
     validators = [
-        SeedProjectServices(seed_project),
         BillingAccount(opts.billing_account),
     ]
+
+    if seed_project is not None:
+        seed_project_validator = SeedProjectServices(seed_project)
+        validators.append(seed_project_validator)
 
     if opts.shared_vpc is not None:
         host_vpc_validator = SharedVpcProjectPermissions(opts.shared_vpc)
