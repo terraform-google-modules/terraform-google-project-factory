@@ -404,13 +404,13 @@ def validators_for(opts, seed_project):
     Given a set of CLI options, determine which preconditions we need
     to check and generate corresponding validators.
     """
-    validators = [
-        BillingAccount(opts.billing_account),
-    ]
+    validators = [ ]
 
     if seed_project is not None:
         seed_project_validator = SeedProjectServices(seed_project)
         validators.append(seed_project_validator)
+
+    validators.append(BillingAccount(opts.billing_account))
 
     if opts.shared_vpc is not None:
         host_vpc_validator = SharedVpcProjectPermissions(opts.shared_vpc)
