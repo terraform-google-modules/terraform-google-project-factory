@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+ - Check for not empty org_id variable in precondition script. [#210]
+
 ### Fixed
 
  - Versions of providers has been fixed for examples/shared_vpc [#198]
