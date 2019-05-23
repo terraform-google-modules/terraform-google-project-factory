@@ -430,33 +430,25 @@ def validators_for(opts, seed_project):
 
 
 def main(argv):
-    try:
-        results = []
-        opts = argparser().parse_args(argv[1:])
-        if opts.org_id != None:
-            (credentials, project_id) = get_credentials(opts.credentials_path)
-            validators = validators_for(opts, project_id)
+    opts = argparser().parse_args(argv[1:])
+    if not opts.org_id:
+        print("Organisation id must be set")
+        return 1
 
+    results = []
+    (credentials, project_id) = get_credentials(opts.credentials_path)
+    validators = validators_for(opts, project_id)
 
-            for validator in validators:
-                results.append(validator.validate(credentials))
+    for validator in validators:
+        results.append(validator.validate(credentials))
 
-            retcode = 0
-            for result in results:
-                if len(result["unsatisfied"]) > 0:
-                    retcode = 1
-        else:
-            print("Variable org_id could not be without value")
-            retcode = 1
+    unsatisfied = [row for item in results for row in item["unsatisfied"] if len(item["unsatisfied"]) > 0]
 
-        if retcode == 1 or opts.verbose:
-            json.dump(results, sys.stdout, indent=4)
-    except FileNotFoundError as error:  # noqa: F821
-        print(error)
-        retcode = 1
+    if len(unsatisfied) > 0:
+        json.dump(unsatisfied, sys.stdout, indent=4)
+        return 1
 
-    return retcode
-
+    return 0
 
 if __name__ == "__main__":
     setup()
