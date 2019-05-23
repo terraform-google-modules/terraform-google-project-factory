@@ -63,6 +63,7 @@ The roles granted are specifically:
 | api\_sa\_group | A GSuite group to place the Google APIs Service Account for the project in | string | `""` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| bucket\_location | The location for a GCS bucket to create (optional) | string | `""` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | create\_group | Whether to create the group or not | string | `"false"` | no |
