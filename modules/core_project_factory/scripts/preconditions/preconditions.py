@@ -431,18 +431,23 @@ def validators_for(opts, seed_project):
 
 def main(argv):
     try:
-        opts = argparser().parse_args(argv[1:])
-        (credentials, project_id) = get_credentials(opts.credentials_path)
-        validators = validators_for(opts, project_id)
-
         results = []
-        for validator in validators:
-            results.append(validator.validate(credentials))
+        opts = argparser().parse_args(argv[1:])
+        if opts.org_id != None:
+            (credentials, project_id) = get_credentials(opts.credentials_path)
+            validators = validators_for(opts, project_id)
 
-        retcode = 0
-        for result in results:
-            if len(result["unsatisfied"]) > 0:
-                retcode = 1
+
+            for validator in validators:
+                results.append(validator.validate(credentials))
+
+            retcode = 0
+            for result in results:
+                if len(result["unsatisfied"]) > 0:
+                    retcode = 1
+        else:
+            print("Variable org_id could not be without value")
+            retcode = 1
 
         if retcode == 1 or opts.verbose:
             json.dump(results, sys.stdout, indent=4)
