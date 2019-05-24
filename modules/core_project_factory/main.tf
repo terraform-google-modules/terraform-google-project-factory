@@ -137,7 +137,7 @@ resource "google_project_service" "project_services" {
 resource "google_project_services" "project_services_authority" {
   count = "${ var.apis_authority == "true" ? 1 : 0 }"
 
-  project = "${google_project.main.project_id}"
+  project  = "${google_project.main.project_id}"
   services = "${ var.activate_apis }"
 
   depends_on = ["google_project.main"]
