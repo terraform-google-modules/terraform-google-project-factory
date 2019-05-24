@@ -123,13 +123,22 @@ resource "google_resource_manager_lien" "lien" {
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
-  count = "${length(var.activate_apis)}"
+  count = "${ var.apis_authority == "true" ? 0 : length(var.activate_apis)}"
 
   project = "${google_project.main.project_id}"
   service = "${element(var.activate_apis, count.index)}"
 
   disable_on_destroy         = "${var.disable_services_on_destroy}"
   disable_dependent_services = "${var.disable_dependent_services}"
+
+  depends_on = ["google_project.main"]
+}
+
+resource "google_project_services" "project_services_authority" {
+  count = "${ var.apis_authority == "true" ? 1 : 0 }"
+
+  project = "${google_project.main.project_id}"
+  services = "${ var.activate_apis }"
 
   depends_on = ["google_project.main"]
 }
@@ -143,7 +152,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   host_project    = "${var.shared_vpc}"
   service_project = "${google_project.main.project_id}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /******************************************
@@ -191,7 +200,7 @@ resource "null_resource" "depriviledge_default_compute_service_account" {
     default_service_account = "${data.null_data_source.default_service_account.outputs["email"]}"
   }
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /******************************************
@@ -250,7 +259,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   role    = "roles/compute.networkUser"
   member  = "${element(local.shared_vpc_users, count.index)}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /*************************************************************************************
@@ -297,7 +306,7 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
   project    = "${var.shared_vpc}"
   member     = "${local.api_s_account_fmt}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /***********************************************
@@ -310,7 +319,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
   bucket_name = "${var.usage_bucket_name}"
   prefix      = "${var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /***********************************************
@@ -356,7 +365,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   role   = "roles/storage.admin"
   member = "${local.api_s_account_fmt}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /******************************************
@@ -373,7 +382,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   project    = "${var.shared_vpc}"
   member     = "${local.gke_s_account_fmt}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }
 
 /******************************************
@@ -386,5 +395,5 @@ resource "google_project_iam_member" "gke_host_agent" {
   role    = "roles/container.hostServiceAgentUser"
   member  = "${local.gke_s_account_fmt}"
 
-  depends_on = ["google_project_service.project_services"]
+  depends_on = ["google_project_service.project_services", "google_project_services.project_services_authority"]
 }

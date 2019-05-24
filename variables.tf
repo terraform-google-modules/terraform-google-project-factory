@@ -66,6 +66,11 @@ variable "sa_role" {
   default     = ""
 }
 
+variable "apis_authority" {
+  description = "Defines which type of project_service to use: project_services/project_services_authority"
+  default     = "false"
+}
+
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = "list"
