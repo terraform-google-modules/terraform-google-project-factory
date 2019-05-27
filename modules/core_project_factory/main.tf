@@ -135,7 +135,7 @@ resource "google_project_service" "project_services" {
 }
 
 resource "google_project_services" "project_services_authority" {
-  count = "${ var.apis_authority == "true" ? 1 : 0 }"
+  count = "${ var.apis_authority ? 1 : 0 }"
 
   project  = "${google_project.main.project_id}"
   services = "${ var.activate_apis }"
