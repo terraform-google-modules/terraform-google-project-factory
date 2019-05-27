@@ -153,9 +153,11 @@ determining that location is as follows:
 
 ## Requirements
 
-### Terraform plugins
+### Software
 
--   [Terraform](https://www.terraform.io/downloads.html) 0.10.x
+-   [gcloud sdk](https://cloud.google.com/sdk/install] >= 206.0.0
+-   [jq](https://stedolan.github.io/jq/) >= 1.6
+-   [Terraform](https://www.terraform.io/downloads.html) 0.11.x
 -   [terraform-provider-google] plugin 2.1.x
 -   [terraform-provider-google-beta] plugin 2.1.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
