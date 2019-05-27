@@ -99,7 +99,8 @@ variable "usage_bucket_prefix" {
 }
 
 variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
 }
 
 variable "shared_vpc_subnets" {
@@ -121,6 +122,11 @@ variable "bucket_project" {
 
 variable "bucket_name" {
   description = "A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional)"
+  default     = ""
+}
+
+variable "bucket_location" {
+  description = "The location for a GCS bucket to create (optional)"
   default     = ""
 }
 

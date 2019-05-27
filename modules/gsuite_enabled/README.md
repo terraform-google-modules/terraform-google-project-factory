@@ -63,10 +63,12 @@ The roles granted are specifically:
 | api\_sa\_group | A GSuite group to place the Google APIs Service Account for the project in | string | `""` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| bucket\_location | The location for a GCS bucket to create (optional) | string | `""` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | create\_group | Whether to create the group or not | string | `"false"` | no |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
+| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
+| default\_service\_account | Project default service account setting: (delete | depriviledge | keep) | string | `"delete"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
@@ -85,7 +87,6 @@ The roles granted are specifically:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
-| default\_service\_account | Project default service account setting: (delete \| depriviledge \| keep) | string | `"delete"` | no |
 
 ## Outputs
 
