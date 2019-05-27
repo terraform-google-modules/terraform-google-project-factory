@@ -123,7 +123,7 @@ resource "google_resource_manager_lien" "lien" {
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
-  count = "${ var.apis_authority == "true" ? 0 : length(var.activate_apis)}"
+  count = "${ var.apis_authority ? 0 : length(var.activate_apis)}"
 
   project = "${google_project.main.project_id}"
   service = "${element(var.activate_apis, count.index)}"
