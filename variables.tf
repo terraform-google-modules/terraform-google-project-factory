@@ -67,7 +67,7 @@ variable "sa_role" {
 }
 
 variable "apis_authority" {
-  description = "Defines which type of project_service to use: project_services/project_services_authority"
+  description = "Toggles authoritative management of project services."
   default     = "false"
 }
 
