@@ -71,6 +71,11 @@ variable "sa_role" {
   default     = ""
 }
 
+variable "apis_authority" {
+  description = "Toggles authoritative management of project services."
+  default     = "false"
+}
+
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = "list"
