@@ -334,6 +334,12 @@ Two test-kitchen instances are defined:
 3. Add appropriate variables to your environment
 
    ```
+   export BILLING_ACCOUNT_ID="YOUR_BILLUNG_ACCOUNT"
+   export DOMAIN="YOUR_DOMAIN"
+   export FOLDER_ID="YOUR_FOLDER_ID"
+   export GROUP_NAME="YOUR_GROUP_NAME"
+   export ADMIN_ACCOUNT_EMAIL="YOUR_ADMIN_ACCOUNT_EMAIL"
+   export ORG_ID="YOUR_ORG_ID"
    export PROJECT_ID="YOUR_PROJECT_ID"
    CREDENTIALS_FILE="credentials.json"
    export SERVICE_ACCOUNT_JSON=`cat ${CREDENTIALS_FILE}`
