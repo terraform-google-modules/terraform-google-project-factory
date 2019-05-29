@@ -156,7 +156,7 @@ determining that location is as follows:
 
 ### Software
 
--   [gcloud sdk](https://cloud.google.com/sdk/install] >= 206.0.0
+-   [gcloud sdk](https://cloud.google.com/sdk/install) >= 206.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) 0.11.x
 -   [terraform-provider-google] plugin 2.1.x
