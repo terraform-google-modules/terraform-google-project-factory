@@ -334,22 +334,32 @@ Two test-kitchen instances are defined:
 1. Configure the [test fixtures](#test-configuration).
 2. Download a Service Account key with the necessary [permissions](#permissions)
    and put it in the module's root directory with the name `credentials.json`.
-3. Build the Docker containers for testing.
-    ```
-    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_terraform
-    CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="credentials.json" make docker_build_kitchen_terraform
-    ```
+3. Add appropriate variables to your environment
+
+   ```
+   export BILLING_ACCOUNT_ID="YOUR_BILLUNG_ACCOUNT"
+   export DOMAIN="YOUR_DOMAIN"
+   export FOLDER_ID="YOUR_FOLDER_ID"
+   export GROUP_NAME="YOUR_GROUP_NAME"
+   export ADMIN_ACCOUNT_EMAIL="YOUR_ADMIN_ACCOUNT_EMAIL"
+   export ORG_ID="YOUR_ORG_ID"
+   export PROJECT_ID="YOUR_PROJECT_ID"
+   CREDENTIALS_FILE="credentials.json"
+   export SERVICE_ACCOUNT_JSON=`cat ${CREDENTIALS_FILE}`
+   ```
+
 4. Run the testing container in interactive mode.
     ```
     make docker_run
     ```
 
-    The module root directory will be loaded into the Docker container at `/cftk/workdir/`.
+    The module root directory will be loaded into the Docker container at `/cft/workdir/`.
 5. Run kitchen-terraform to test the infrastructure.
 
     1. `kitchen create` creates Terraform state.
     2. `kitchen converge` creates the underlying resources. You can run `kitchen converge minimal` to only create the minimal fixture.
     3. `kitchen verify` tests the created infrastructure. Run `kitchen verify minimal` to run the smaller test suite.
+    4. `kitchen destroy` removes the created infrastructure. Run `kitchen destroy minimal` to remove the smaller test suite.
 
 Alternatively, you can simply run `make test_integration_docker` to run all the
 test steps non-interactively.
