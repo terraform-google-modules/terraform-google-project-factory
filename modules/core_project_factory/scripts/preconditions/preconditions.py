@@ -245,7 +245,7 @@ class SeedProjectServices:
         )
         parent = "projects/" + self.project_id
         enabled = []
-        for REQUIRED_API in self.REQUIRED_APIS:
+        for required_api in self.REQUIRED_APIS:
             request = service.services().get(
                 name=parent + "/services/" + REQUIRED_API
             )
