@@ -8,6 +8,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.3.1] - 2019-05-31
+
+### Fixed
+
+- Precoditions script handles projects with a large number of enabled APIs. [#220]
+
 ## [2.3.0] - 2019-05-28
 
 ### Added
@@ -142,7 +148,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.1...HEAD
+[2.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.1.3...v2.2.0
@@ -162,6 +169,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#220]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/220
 [#213]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/213
 [#212]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/212
 [#207]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/207
