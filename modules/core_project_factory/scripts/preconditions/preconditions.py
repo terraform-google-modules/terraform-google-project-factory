@@ -253,7 +253,7 @@ class SeedProjectServices:
             response = request.execute()
 
             if response['state'] == "ENABLED":
-                enabled.append(REQUIRED_API)
+                enabled.append(required_api)
 
         req = Requirements(
             "Required APIs on service account project",
