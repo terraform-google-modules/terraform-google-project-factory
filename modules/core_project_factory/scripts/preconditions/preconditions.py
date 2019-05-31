@@ -243,19 +243,17 @@ class SeedProjectServices:
             'serviceusage', 'v1',
             credentials=credentials
         )
-
         parent = "projects/" + self.project_id
-        request = service.services().list(
-            parent=parent,
-            filter='state:ENABLED'
-        )
+        enabled = []
+        for required_api in self.REQUIRED_APIS:
+            request = service.services().get(
+                name=parent + "/services/" + required_api
+            )
 
-        response = request.execute()
+            response = request.execute()
 
-        enabled = [
-            enabled_svc['config']['name']
-            for enabled_svc in response['services']
-        ]
+            if response['state'] == "ENABLED":
+                enabled.append(required_api)
 
         req = Requirements(
             "Required APIs on service account project",
