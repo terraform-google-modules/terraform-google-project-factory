@@ -247,7 +247,7 @@ class SeedProjectServices:
         enabled = []
         for required_api in self.REQUIRED_APIS:
             request = service.services().get(
-                name=parent + "/services/" + REQUIRED_API
+                name=parent + "/services/" + required_api
             )
 
             response = request.execute()
