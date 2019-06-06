@@ -18,7 +18,7 @@
   Organization info retrieval
  *****************************************/
 module "gsuite_group" {
-  source = "modules/gsuite_group"
+  source = "./modules/gsuite_group"
 
   domain = "${var.domain}"
   name   = "${var.group_name}"
@@ -26,7 +26,7 @@ module "gsuite_group" {
 }
 
 module "project-factory" {
-  source = "modules/core_project_factory"
+  source = "./modules/core_project_factory"
 
   group_email                 = "${module.gsuite_group.email}"
   group_role                  = "${var.group_role}"
