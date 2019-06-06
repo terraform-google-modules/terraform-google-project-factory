@@ -17,7 +17,7 @@
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
   default     = "false"
-  type        = "string"
+  type        = string
 }
 
 variable "random_project_id" {
@@ -58,7 +58,7 @@ variable "folder_id" {
 }
 
 variable "group_name" {
-  description = "A group to control the project by being assigned group_role - defaults to ${project_name}-editors"
+  description = "A group to control the project by being assigned group_role - defaults to $${project_name}-editors"
   default     = ""
 }
 
@@ -84,7 +84,7 @@ variable "sa_role" {
 
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
-  type        = "list"
+  type        = list(string)
   default     = ["compute.googleapis.com"]
 }
 
@@ -105,13 +105,13 @@ variable "credentials_path" {
 
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
-  type        = "list"
+  type        = list(string)
   default     = [""]
 }
 
 variable "labels" {
   description = "Map of labels for project"
-  type        = "map"
+  type        = map(string)
   default     = {}
 }
 
@@ -143,17 +143,18 @@ variable "auto_create_network" {
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = "true"
-  type        = "string"
+  type        = string
 }
 
 variable "default_service_account" {
   description = "Project default service account setting: (delete | depriviledge | keep)"
   default     = "delete"
-  type        = "string"
+  type        = string
 }
 
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
   default     = "true"
-  type        = "string"
+  type        = string
 }
+
