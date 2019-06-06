@@ -22,11 +22,6 @@ resource "google_app_engine_application" "main" {
   dynamic "feature_settings" {
     for_each = var.feature_settings
     content {
-      # TF-UPGRADE-TODO: The automatic upgrade tool can't predict
-      # which keys might be set in maps assigned here, so it has
-      # produced a comprehensive set here. Consider simplifying
-      # this after confirming which keys can be set in practice.
-
       split_health_checks = lookup(feature_settings.value, "split_health_checks", true)
     }
   }
