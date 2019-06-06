@@ -24,7 +24,11 @@ locals {
   Provider configuration
  *****************************************/
 provider "google" {
+<<<<<<< HEAD
   credentials = file(local.credentials_file_path)
+=======
+  credentials = "${file(local.credentials_file_path)}"
+>>>>>>> Provider versions changed for compatibility
   version     = "~> 2.7.0"
 }
 
