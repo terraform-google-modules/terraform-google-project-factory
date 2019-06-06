@@ -46,7 +46,7 @@ locals {
 }
 
 resource "null_resource" "preconditions" {
-  triggers {
+  triggers = {
     credentials_path = "${var.credentials_path}"
     billing_account  = "${var.billing_account}"
     org_id           = "${var.org_id}"
@@ -64,7 +64,7 @@ ${path.module}/scripts/preconditions.sh \
     --shared_vpc '${var.shared_vpc}'
 EOD
 
-    environment {
+    environment = {
       GRACEFUL_IMPORTERROR = "true"
     }
   }
@@ -174,7 +174,7 @@ resource "null_resource" "delete_default_compute_service_account" {
     command = "${path.module}/scripts/delete-service-account.sh ${google_project.main.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
   }
 
-  triggers {
+  triggers = {
     default_service_account = "${data.null_data_source.default_service_account.outputs["email"]}"
     activated_apis          = "${join(",", var.activate_apis)}"
   }
@@ -196,7 +196,7 @@ resource "null_resource" "depriviledge_default_compute_service_account" {
     }
   }
 
-  triggers {
+  triggers = {
     default_service_account = "${data.null_data_source.default_service_account.outputs["email"]}"
   }
 
@@ -339,7 +339,7 @@ resource "google_storage_bucket" "project_bucket" {
 resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_bucket" {
   count = "${local.create_bucket && var.manage_group ? 1 : 0}"
 
-  bucket = "${google_storage_bucket.project_bucket.name}"
+  bucket = "${google_storage_bucket.project_bucket.0.name}"
   member = "${local.group_id}"
   role   = "roles/storage.admin"
 }
@@ -350,7 +350,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
 resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_bucket" {
   count = "${local.create_bucket ? 1 : 0}"
 
-  bucket = "${google_storage_bucket.project_bucket.name}"
+  bucket = "${google_storage_bucket.project_bucket.0.name}"
   role   = "roles/storage.admin"
   member = "${local.s_account_fmt}"
 }
@@ -361,7 +361,7 @@ resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_
 resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_project_bucket" {
   count = "${local.create_bucket ? 1 : 0}"
 
-  bucket = "${google_storage_bucket.project_bucket.name}"
+  bucket = "${google_storage_bucket.project_bucket.0.name}"
   role   = "roles/storage.admin"
   member = "${local.api_s_account_fmt}"
 
