@@ -18,10 +18,11 @@
 # https://github.com/hashicorp/terraform/issues/3116
 
 locals {
-  all_oslogin_users   = "${concat(var.oslogin_users, var.oslogin_admins)}"
-  num_oslogin_users   = "${length(var.oslogin_users) + length(var.oslogin_admins)}"
-  gce_service_account = "${google_project.project.number}-compute@developer.gserviceaccount.com"
-  gke_service_account = "service-${google_project.project.number}@container-engine-robot.iam.gserviceaccount.com"
+  all_oslogin_users        = "${concat(var.oslogin_users, var.oslogin_admins)}"
+  num_oslogin_users        = "${length(var.oslogin_users) + length(var.oslogin_admins)}"
+  cloudsvc_service_account = "${google_project.project.number}@cloudservices.gserviceaccount.com"
+  gce_service_account      = "${google_project.project.number}-compute@developer.gserviceaccount.com"
+  gke_service_account      = "service-${google_project.project.number}@container-engine-robot.iam.gserviceaccount.com"
 }
 
 resource "google_project" "project" {
