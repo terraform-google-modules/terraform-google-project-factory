@@ -27,7 +27,7 @@ resource "google_app_engine_application" "main" {
       # produced a comprehensive set here. Consider simplifying
       # this after confirming which keys can be set in practice.
 
-      split_health_checks = lookup(feature_settings.value, "split_health_checks", null)
+      split_health_checks = lookup(feature_settings.value, "split_health_checks", true)
     }
   }
 }
