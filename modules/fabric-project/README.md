@@ -60,6 +60,7 @@ module "project_myproject" {
 
 | Name | Description |
 |------|-------------|
+| cloudsvc\_service\_account | Cloud services service account (depends on services). |
 | custom\_roles | Ids of the created custom roles. |
 | gce\_service\_account | Default GCE service account (depends on services). |
 | gke\_service\_account | Default GKE service account (depends on services). |
