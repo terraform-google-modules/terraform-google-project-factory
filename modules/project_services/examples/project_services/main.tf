@@ -15,25 +15,25 @@
  */
 
 locals {
-  credentials_file_path = "${var.credentials_path}"
+  credentials_file_path = var.credentials_path
 }
 
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = "${file(local.credentials_file_path)}"
+  credentials = file(local.credentials_file_path)
   version     = "~> 2.1"
 }
 
 provider "google-beta" {
-  credentials = "${file(local.credentials_file_path)}"
+  credentials = file(local.credentials_file_path)
   version     = "~> 2.1"
 }
 
 module "project-services" {
-  source                      = "../../modules/project_services"
-  project_id                  = "${var.project_id}"
+  source                      = "../../../../modules/project_services"
+  project_id                  = var.project_id
   enable_apis                 = "true"
   disable_services_on_destroy = "true"
 
@@ -42,3 +42,4 @@ module "project-services" {
     "iam.googleapis.com",
   ]
 }
+
