@@ -74,6 +74,23 @@ module "vpc" {
   ]
 
   secondary_ranges = {
+    "${local.subnet_01}" = [
+      {
+        range_name    = "${local.subnet_01}-01"
+        ip_cidr_range = "192.168.64.0/24"
+      },
+      {
+        range_name    = "${local.subnet_01}-02"
+        ip_cidr_range = "192.168.65.0/24"
+      },
+    ]
+
+    "${local.subnet_02}" = [
+      {
+        range_name    = "${local.subnet_02}-01"
+        ip_cidr_range = "192.168.66.0/24"
+      },
+    ]
   }
 }
 
