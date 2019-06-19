@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-variable "org_id" {}
+variable "org_id" {
+}
 
 variable "folder_id" {
   default = ""
 }
 
-variable "domain" {}
+variable "domain" {
+}
 
 variable "usage_bucket_name" {
   default = ""
@@ -30,7 +32,8 @@ variable "usage_bucket_prefix" {
   default = ""
 }
 
-variable "billing_account" {}
+variable "billing_account" {
+}
 
 variable "group_name" {
   default = ""
@@ -60,8 +63,10 @@ variable "region" {
   default = "us-east4"
 }
 
-variable "gsuite_admin_account" {}
+variable "gsuite_admin_account" {
+}
 
 variable "random_string_for_testing" {
   description = "A random string of characters to be appended to resource names to ensure uniqueness"
 }
+

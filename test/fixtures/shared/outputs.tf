@@ -15,53 +15,54 @@
  */
 
 output "project_name" {
-  value = "${module.project-factory.project_name}"
+  value = module.project-factory.project_name
 }
 
 output "project_id" {
-  value = "${module.project-factory.project_id}"
+  value = module.project-factory.project_id
 }
 
 output "project_number" {
-  value = "${module.project-factory.project_number}"
+  value = module.project-factory.project_number
 }
 
 output "domain" {
-  value = "${module.project-factory.domain}"
+  value = module.project-factory.domain
 }
 
 output "group_email" {
-  value = "${module.project-factory.group_email}"
+  value = module.project-factory.group_email
 }
 
 output "group_role" {
-  value = "${var.group_role}"
+  value = var.group_role
 }
 
 output "service_account_email" {
-  value = "${module.project-factory.service_account_email}"
+  value = module.project-factory.service_account_email
 }
 
 output "gsuite_admin_account" {
-  value = "${var.gsuite_admin_account}"
+  value = var.gsuite_admin_account
 }
 
 output "region" {
-  value = "${var.region}"
+  value = var.region
 }
 
 output "sa_role" {
-  value = "${var.sa_role}"
+  value = var.sa_role
 }
 
 output "shared_vpc" {
-  value = "${var.shared_vpc}"
+  value = var.shared_vpc
 }
 
 output "usage_bucket_name" {
-  value = "${var.usage_bucket_name}"
+  value = var.usage_bucket_name
 }
 
 output "usage_bucket_prefix" {
-  value = "${var.usage_bucket_prefix}"
+  value = var.usage_bucket_prefix
 }
+
