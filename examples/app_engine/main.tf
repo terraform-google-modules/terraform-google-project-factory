@@ -22,26 +22,15 @@ locals {
   Provider configuration
  *****************************************/
 provider "gsuite" {
-  credentials             = "${file(local.credentials_file_path)}"
-  impersonated_user_email = "${var.admin_email}"
+  credentials             = file(local.credentials_file_path)
   version                 = "~> 0.1.9"
 }
 
-module "project-factory" {
-  source            = "../../modules/gsuite_enabled"
-  random_project_id = "true"
-  name              = "appeng-sample"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
-
-  app_engine {
-    location_id = "us-central"
-
-    feature_settings = [
-      {
-        split_health_checks = true
-      },
-    ]
-  }
+module "app-engine" {
+  source            = "../../modules/app_engine"
+  location_id    = var.location_id
+  auth_domain    = var.auth_domain
+  serving_status = var.serving_status
+  feature_settings = [{ enabled = true }]
+  project_id = "example-project"
 }
