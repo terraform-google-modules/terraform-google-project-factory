@@ -8,6 +8,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [2.4.1] - 2019-06-21
+
+### Fixed
+
+- Propagation of `apis_authority` variable. [#233]
+
 ## [2.4.0] - 2019-06-12
 
 ### Added
@@ -154,7 +160,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...HEAD
+[2.4.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.2.1...v2.3.0
@@ -176,6 +183,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#233]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/233
 [#223]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/223
 [#220]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/220
 [#213]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/213
