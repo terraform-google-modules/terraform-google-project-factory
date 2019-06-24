@@ -16,7 +16,6 @@
 
 variable "project_id" {
   description = "The project to enable app engine on."
-  default     = "example-project"
 }
 
 variable "location_id" {
