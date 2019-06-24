@@ -26,7 +26,6 @@ variable "location_id" {
 
 variable "auth_domain" {
   description = "The domain to authenticate users with when using App Engine's User API."
-  default     = "phoogle.net"
 }
 
 variable "serving_status" {
