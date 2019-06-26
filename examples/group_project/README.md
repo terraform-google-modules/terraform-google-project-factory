@@ -14,8 +14,7 @@ Expected variables:
 - `billing_account`
 - `api_sa_group`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -35,4 +34,4 @@ Expected variables:
 | group\_email\_example | The email of the created GSuite group |
 | project\_info\_example | The ID of the created project |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

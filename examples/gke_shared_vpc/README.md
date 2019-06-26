@@ -23,8 +23,7 @@ If no subnets are specified, all networks and subnets from the host project are 
 
 More information about GKE with Shared VPC can be found here: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -33,6 +32,6 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
 | org\_id | organization id | string | n/a | yes |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | n/a | yes |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID) | list | `<list>` | no |
+| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID) | list(string) | `<list>` | no |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

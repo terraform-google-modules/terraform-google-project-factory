@@ -8,8 +8,7 @@ Expected variables:
 - `billing_account`
 - `credentials_path`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -26,4 +25,4 @@ Expected variables:
 | domain\_example | The organization's domain |
 | project\_info\_example | The ID of the created project |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
