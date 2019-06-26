@@ -4,8 +4,7 @@ This example illustrates how to create a [Shared VPC](https://cloud.google.com/v
 
 It includes creating the host project and using the [network module](https://github.com/terraform-google-modules/terraform-google-network) to create network.
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -24,4 +23,4 @@ It includes creating the host project and using the [network module](https://git
 | network\_name | The name of the VPC being created |
 | network\_self\_link | The URI of the VPC being created |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

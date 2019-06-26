@@ -20,8 +20,7 @@ Expected variables:
 - `billing_account`
 - `credentials_path`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -39,4 +38,4 @@ Expected variables:
 | project\_info\_example | The ID of the created prod_gke project |
 | project\_info\_factory\_example | The ID of the created factory project |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
