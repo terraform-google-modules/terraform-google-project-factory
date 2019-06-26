@@ -6,8 +6,7 @@ Expected variables:
 - `credentials_path`
 - `project_id`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -21,4 +20,4 @@ Expected variables:
 |------|-------------|
 | project\_id | The GCP project you want to enable APIs on |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -30,8 +30,7 @@ module "project_myproject" {
 }
 ```
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -67,4 +66,4 @@ module "project_myproject" {
 | number | Project number (depends on services). |
 | project\_id | Project id (depends on services). |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
