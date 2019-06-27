@@ -87,7 +87,7 @@ variable "activate_apis" {
   type        = "list"
   default     = ["compute.googleapis.com"]
 }
-   
+
 variable "apis_authority" {
   description = "Toggles authoritative management of project services."
   default     = "false"
