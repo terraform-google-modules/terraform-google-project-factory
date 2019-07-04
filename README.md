@@ -192,7 +192,7 @@ Account, and enable the necessary API's in the Seed Project.  Run it as follows:
 ```
 
 In order to execute this script, you must have an account with the following list of
-bare-minimum permissions:
+permissions:
 
 - `resourcemanager.organizations.list`
 - `resourcemanager.organizations.setIamPolicy`
