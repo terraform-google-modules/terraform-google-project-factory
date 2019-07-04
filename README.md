@@ -195,12 +195,15 @@ In order to execute this script, you must have an account with the following lis
 permissions:
 
 - `resourcemanager.organizations.list`
-- `resourcemanager.organizations.setIamPolicy`
+- `resourcemanager.projects.list`
+- `billing.accounts.list`
 - `iam.serviceAccounts.create`
 - `iam.serviceAccountKeys.create`
+- `resourcemanager.organizations.setIamPolicy`
 - `resourcemanager.projects.setIamPolicy`
 - `serviceusage.services.enable` on the project
 - `servicemanagement.services.bind` on following services:
+  - cloudresourcemanager.googleapis.com
   - cloudbilling.googleapis.com
   - iam.googleapis.com
   - admin.googleapis.com
