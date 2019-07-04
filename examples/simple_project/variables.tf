@@ -28,5 +28,5 @@ variable "credentials_path" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: (delete | depriviledge | keep)"
+  description = "Project default service account setting: delete; depriviledge; keep."
 }
