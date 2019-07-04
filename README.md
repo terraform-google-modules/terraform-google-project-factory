@@ -191,7 +191,7 @@ Account, and enable the necessary API's in the Seed Project.  Run it as follows:
 ./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [BILLING_ACCOUNT]
 ```
 
-In order to execute this script you must have an account with following list of
+In order to execute this script, you must have an account with the following list of
 bare-minimum permissions:
 
 - `resourcemanager.organizations.list`
