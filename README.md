@@ -188,8 +188,28 @@ Account in the Seed Project, grant the necessary roles to the Seed Service
 Account, and enable the necessary API's in the Seed Project.  Run it as follows:
 
 ```sh
-./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME>
+./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [BILLING_ACCOUNT]
 ```
+
+In order to execute this script, you must have an account with the following list of
+permissions:
+
+- `resourcemanager.organizations.list`
+- `resourcemanager.projects.list`
+- `billing.accounts.list`
+- `iam.serviceAccounts.create`
+- `iam.serviceAccountKeys.create`
+- `resourcemanager.organizations.setIamPolicy`
+- `resourcemanager.projects.setIamPolicy`
+- `serviceusage.services.enable` on the project
+- `servicemanagement.services.bind` on following services:
+  - cloudresourcemanager.googleapis.com
+  - cloudbilling.googleapis.com
+  - iam.googleapis.com
+  - admin.googleapis.com
+  - appengine.googleapis.com
+- `billing.accounts.getIamPolicy` on a billing account.
+- `billing.accounts.setIamPolicy` on a billing account.
 
 #### Specifying credentials
 

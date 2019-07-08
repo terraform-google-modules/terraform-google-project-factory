@@ -72,7 +72,7 @@ SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
 KEY_FILE="${STAGING_DIR}/credentials.json"
 
- echo "Creating Seed Service Account..."
+echo "Creating Seed Service Account..."
 gcloud iam service-accounts \
     --project "${SEED_PROJECT}" create ${SA_NAME} \
     --display-name ${SA_NAME}
