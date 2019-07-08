@@ -88,6 +88,11 @@ variable "activate_apis" {
   default     = ["compute.googleapis.com"]
 }
 
+variable "apis_authority" {
+  description = "Toggles authoritative management of project services."
+  default     = "false"
+}
+
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
   default     = ""

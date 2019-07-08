@@ -16,6 +16,13 @@
 
 if command -v python3 1>/dev/null; then
     BASEDIR="$(dirname "$0")"
+
+    if command -v pip3 1>/dev/null; then
+        exec "pip3" "install" "-r" "$BASEDIR/preconditions/requirements.txt"
+    else
+        echo "Unable to install project-factory requirements: pip3 executable not in PATH" 1>&2
+    fi
+
     SCRIPT="$BASEDIR/preconditions/preconditions.py"
     exec "$SCRIPT" "$@"
 else
