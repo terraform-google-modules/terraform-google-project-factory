@@ -49,8 +49,14 @@ module "host-project" {
   Network Creation
  *****************************************/
 module "vpc" {
-  source  = "terraform-google-modules/network/google"
-  version = "0.6.0"
+  # TODO: Switch to released version once
+  # https://github.com/terraform-google-modules/terraform-google-network/pull/47
+  # is merged and released.  This is here to fix the `Error: Unsupported block
+  # type` on the `triggers` block in network's main.tf file.
+  #
+  # source  = "terraform-google-modules/network/google"
+  # version = "0.8.0"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-network.git?ref=aaron-lane-0.12"
 
   project_id   = module.host-project.project_id
   network_name = var.network_name
