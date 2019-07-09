@@ -35,7 +35,11 @@ maketemp() {
 find_files() {
   local pth="$1"
   shift
-  find "${pth}" '(' -path '*/.git' -o -path '*/.terraform' ')' \
+  find "${pth}" '(' \
+    -path '*/.git' \
+    -o -path '*/.terraform' \
+    -o -path '*/.kitchen' \
+    ')' \
     -prune -o -type f "$@"
 }
 
