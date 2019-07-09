@@ -126,15 +126,18 @@ function check_trailing_whitespace() {
 
 function generate_docs() {
   echo "Generating markdown docs with terraform-docs"
-  local path
-  while read -r path; do
-    if [[ -e "${path}/README.md" ]]; then
-      # script seem to be designed to work into current directory
-      cd $path && echo "Working in ${path} ..."
-      terraform_docs.sh . && echo Success! || echo "Warning! Exit code: ${?}"
-      cd - >/dev/null
+  local pth helper_dir rval
+  helper_dir="$(pwd)/helpers"
+  while read -r pth; do
+    if [[ -e "${pth}/README.md" ]]; then
+      (cd "${pth}" || return 3; "${helper_dir}"/terraform_docs .;)
+      rval="$?"
+      if [[ "${rval}" -gt 0 ]]; then
+        echo "Error: terraform_docs in ${pth} exit code: ${rval}" >&2
+        return "${rval}"
+      fi
     else
-      echo "Skipping ${path} because README.md does not exist."
+      echo "Skipping ${pth} because README.md does not exist."
     fi
   done < <(find_files . -name '*.tf' -print0 \
     | compat_xargs -0 -n1 dirname \
