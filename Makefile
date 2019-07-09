@@ -21,7 +21,7 @@ SHELL := /usr/bin/env bash
 # Docker build config variables
 CREDENTIALS_PATH 			?= /cft/workdir/credentials.json
 DOCKER_ORG 				:= gcr.io/cloud-foundation-cicd
-DOCKER_TAG_BASE_KITCHEN_TERRAFORM 	?= 1.0.1
+DOCKER_TAG_BASE_KITCHEN_TERRAFORM 	:= 2.2.0
 DOCKER_REPO_BASE_KITCHEN_TERRAFORM 	:= ${DOCKER_ORG}/cft/kitchen-terraform:${DOCKER_TAG_BASE_KITCHEN_TERRAFORM}
 
 # All is the first target in the file so it will get picked up when you just run 'make' on its own
