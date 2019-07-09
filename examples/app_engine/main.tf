@@ -22,15 +22,15 @@ locals {
   Provider configuration
  *****************************************/
 provider "gsuite" {
-  credentials             = file(local.credentials_file_path)
-  version                 = "~> 0.1.9"
+  credentials = file(local.credentials_file_path)
+  version     = "~> 0.1.9"
 }
 
 module "app-engine" {
-  source            = "../../modules/app_engine"
-  location_id    = var.location_id
-  auth_domain    = var.auth_domain
-  serving_status = var.serving_status
+  source           = "../../modules/app_engine"
+  location_id      = var.location_id
+  auth_domain      = var.auth_domain
+  serving_status   = var.serving_status
   feature_settings = [{ enabled = true }]
-  project_id = "example-project"
+  project_id       = "example-project"
 }
