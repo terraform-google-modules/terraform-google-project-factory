@@ -402,7 +402,7 @@ def validators_for(opts, seed_project):
     Given a set of CLI options, determine which preconditions we need
     to check and generate corresponding validators.
     """
-    validators = [ ]
+    validators = []
 
     if seed_project is not None:
         seed_project_validator = SeedProjectServices(seed_project)
