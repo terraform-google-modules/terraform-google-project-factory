@@ -60,6 +60,7 @@ The roles granted are specifically:
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | api\_sa\_group | A GSuite group to place the Google APIs Service Account for the project in | string | `""` | no |
+| apis\_authority | Toggles authoritative management of project services. | string | `"false"` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `""` | no |
