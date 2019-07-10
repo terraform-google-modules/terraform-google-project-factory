@@ -82,25 +82,17 @@ function docker() {
 # This function runs 'terraform validate' and 'terraform fmt'
 # against all directory paths which contain *.tf files.
 function check_terraform() {
-  local rval=125
-  # fmt is before validate for faster feedback, validate requires terraform
-  # init which takes time.
-  echo "Running terraform fmt"
-  find_files . -name "*.tf" -print0 \
-    | compat_xargs -0 -n1 dirname \
-    | sort -u \
-    | compat_xargs -t -n1 terraform fmt -diff -check=true -write=false
-  rval="$?"
-  if [[ "${rval}" -gt 0 ]]; then
-    echo "Error: terraform fmt failed with exit code ${rval}" >&2
-    echo "Check the output for diffs and correct using terraform fmt <dir>" >&2
-    return "${rval}"
-  fi
   echo "Running terraform validate"
-  find_files . -not -path "./test/fixtures/shared/*" -name "*.tf" -print0 \
-    | compat_xargs -0 -n1 dirname \
-    | sort -u \
-    | compat_xargs -t -n1 helpers/terraform_validate
+  find . -name "*.tf" \
+    -not -path "./.terraform/*" \
+    -not -path "./test/fixtures/*/.terraform/*" \
+    -not -path "./test/fixtures/all_examples/*" \
+    -not -path "./test/fixtures/shared/*" \
+    -print0 \
+    | xargs -0 dirname | sort | uniq \
+    | xargs -L 1 -i{} bash -c 'terraform init "{}" > /dev/null && terraform validate "{}"'
+  echo "Running terraform fmt"
+  terraform fmt -check=true -write=false
 }
 
 # This function runs 'go fmt' and 'go vet' on every file
