@@ -33,7 +33,7 @@ provider "google-beta" {
 
 module "project-factory" {
   source                  = "../../"
-  random_project_id       = "true"
+  random_project_id       = true
   name                    = "simple-sample-project"
   org_id                  = var.organization_id
   billing_account         = var.billing_account

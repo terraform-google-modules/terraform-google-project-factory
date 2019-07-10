@@ -19,6 +19,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - Fixed bug in fabic submodule related to number conversion. [#253]
 
+### Fixed
+
+- Fails with shared VPC being specified using a reference [#257]
+
 ## [3.0.0] - 2019-07-12
 
 ### Added
@@ -213,6 +217,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 [#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253
 [#246]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/246
+[#257]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/257
 [#239]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/239
 [#237]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/237
 [#234]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/234

@@ -106,6 +106,7 @@ module "project-factory" {
   group_role          = var.group_role
   group_name          = var.group_name
   shared_vpc          = var.shared_vpc
+  shared_vpc_enabled  = true
   shared_vpc_subnets  = local.shared_vpc_subnets
   sa_role             = var.sa_role
   sa_group            = var.sa_group

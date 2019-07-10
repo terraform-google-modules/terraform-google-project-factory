@@ -71,14 +71,6 @@ function basefiles() {
   done
 }
 
-# This function runs the hadolint linter on
-# every file named 'Dockerfile'
-function docker() {
-  echo "Running hadolint on Dockerfiles"
-  find_files . -name "Dockerfile" -print0 \
-    | compat_xargs -0 hadolint
-}
-
 # This function runs 'terraform validate' and 'terraform fmt'
 # against all directory paths which contain *.tf files.
 function check_terraform() {
@@ -86,10 +78,7 @@ function check_terraform() {
   # fmt is before validate for faster feedback, validate requires terraform
   # init which takes time.
   echo "Running terraform fmt"
-  find_files . -name "*.tf" -print0 \
-    | compat_xargs -0 -n1 dirname \
-    | sort -u \
-    | compat_xargs -t -n1 terraform fmt -diff -check=true -write=false
+  find_files . -name "*.tf" -exec terraform fmt  -check=true -write=false {} \;
   rval="$?"
   if [[ "${rval}" -gt 0 ]]; then
     echo "Error: terraform fmt failed with exit code ${rval}" >&2
@@ -143,16 +132,15 @@ function check_trailing_whitespace() {
 
 function generate_docs() {
   echo "Generating markdown docs with terraform-docs"
-  local pth helper_dir rval
-  helper_dir="$(pwd)/helpers"
-  while read -r pth; do
-    if [[ -e "${pth}/README.md" ]]; then
-      (cd "${pth}" || return 3; "${helper_dir}"/terraform_docs .;)
-      rval="$?"
-      if [[ "${rval}" -gt 0 ]]; then
-        echo "Error: terraform_docs in ${pth} exit code: ${rval}" >&2
-        return "${rval}"
-      fi
+  # shellcheck disable=SC2034
+  local path tmpfile
+  while read -r path; do
+    if [[ -e "${path}/README.md" ]]; then
+      # script seem to be designed to work into current directory
+      cd "${path}" && echo "Working in ${path} ..."
+      terraform_docs.sh . && echo Success! || echo "Warning! Exit code: ${?}"
+      # shellcheck disable=SC2164
+      cd - >/dev/null
     else
       echo "Skipping ${pth} because README.md does not exist."
     fi

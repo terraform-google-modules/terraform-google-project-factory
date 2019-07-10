@@ -23,7 +23,7 @@ locals {
  *****************************************/
 provider "gsuite" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 0.1.9"
+  version     = "~> 0.1.12"
 }
 
 module "app-engine" {
