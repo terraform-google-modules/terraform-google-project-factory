@@ -127,7 +127,6 @@ variable "auto_create_network" {
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
   default     = "false"
-  type        = string
 }
 
 variable "disable_services_on_destroy" {
@@ -144,7 +143,12 @@ variable "default_service_account" {
 
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
-  default     = "true"
-  type        = string
+  default     = true
+  type        = bool
 }
 
+variable "shared_vpc_enabled" {
+  description = "If shared VPC should be used"
+  type        = bool
+  default     = false
+}

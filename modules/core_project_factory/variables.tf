@@ -25,13 +25,14 @@ variable "group_role" {
 
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = string
+  default     = false
+  type        = bool
 }
 
 variable "manage_group" {
   description = "A toggle to indicate if a G Suite group should be managed."
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "project_id" {
@@ -41,7 +42,8 @@ variable "project_id" {
 
 variable "random_project_id" {
   description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "org_id" {
@@ -73,7 +75,8 @@ variable "sa_role" {
 
 variable "apis_authority" {
   description = "Toggles authoritative management of project services."
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "activate_apis" {
@@ -126,13 +129,14 @@ variable "bucket_location" {
 
 variable "auto_create_network" {
   description = "Create the default network"
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
-  default     = "true"
-  type        = string
+  default     = true
+  type        = bool
 }
 
 variable "default_service_account" {
@@ -143,7 +147,13 @@ variable "default_service_account" {
 
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
-  default     = "true"
-  type        = string
+  default     = true
+  type        = bool
+}
+
+variable "shared_vpc_enabled" {
+  description = "If shared VPC should be used"
+  type        = bool
+  default     = false
 }
 

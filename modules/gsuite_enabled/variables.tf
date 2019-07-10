@@ -63,8 +63,9 @@ variable "group_name" {
 }
 
 variable "create_group" {
+  type        = bool
   description = "Whether to create the group or not"
-  default     = "false"
+  default     = false
 }
 
 variable "group_role" {
@@ -163,3 +164,8 @@ variable "disable_dependent_services" {
   type        = string
 }
 
+variable "shared_vpc_enabled" {
+  description = "If shared VPC should be used"
+  type        = bool
+  default     = false
+}
