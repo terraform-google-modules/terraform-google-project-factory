@@ -11,6 +11,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Fixed
 
 - Documentation for setup-sa.sh. [#230]
+- `project_id`output depends on `project_services_authority`. [#234]
 
 ## [2.4.1] - 2019-06-21
 
@@ -187,6 +188,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#234]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/234
 [#233]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/233
 [#230]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/230
 [#223]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/223
