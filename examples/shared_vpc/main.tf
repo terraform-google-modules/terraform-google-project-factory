@@ -56,7 +56,7 @@ module "vpc" {
   #
   # source  = "terraform-google-modules/network/google"
   # version = "0.8.0"
-  source = "git::https://github.com/terraform-google-modules/terraform-google-network.git?ref=aaron-lane-0.12"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-network.git?ref=master"
 
   project_id   = module.host-project.project_id
   network_name = var.network_name
@@ -99,4 +99,3 @@ module "vpc" {
     ]
   }
 }
-
