@@ -10,9 +10,16 @@ access, Service Accounts, and API enablement to follow best practices.
 To include G Suite integration for creating groups and adding Service Accounts into groups, use the
 [gsuite_enabled module][gsuite-enabled-module].
 
+## Compatibility
+
+This module is meant for use with Terraform 0.12. If you haven't
+[upgraded][terraform-0.12-upgrade] and need a Terraform
+0.11.x-compatible version of this module, the last released version
+intended for Terraform 0.11.x is [2.4.1].
+
 ## Upgrading
 
-The current version is 2.X. The following guides are available to assist with upgrades:
+The current version is 3.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
@@ -462,3 +469,6 @@ versions][release-new-version].
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
 [application-default-credentials]: https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application
+
+[2.4.1]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google/2.4.1
+[terraform-0.12-upgrade]: https://www.terraform.io/upgrade-guides/0-12.html
