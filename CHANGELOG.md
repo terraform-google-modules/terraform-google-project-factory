@@ -12,6 +12,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - Automatic installation of `preconditions.py` requirements. [#239]
 
+### Changed
+
+- The supported version of Terraform is 0.12. [#237]
+
 ### Fixed
 
 - Documentation for setup-sa.sh. [#230]
@@ -193,6 +197,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
 [#239]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/239
+[#237]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/237
 [#234]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/234
 [#233]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/233
 [#230]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/230
