@@ -8,6 +8,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [3.0.0] - 2019-07-12
+
 ### Added
 
 - Automatic installation of `preconditions.py` requirements. [#239]
@@ -173,7 +175,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...v3.0.0
 [2.4.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.1...v2.4.0
 [2.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.0...v2.3.1
