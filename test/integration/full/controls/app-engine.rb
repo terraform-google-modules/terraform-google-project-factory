@@ -32,7 +32,7 @@ control 'project-factory-app-engine' do
     end
 
     it { expect(metadata).to include(authDomain: domain) }
-    it { expect(metadata).to include(featureSettings: {:splitHealthChecks=>true}) }
+    it { expect(metadata[:featureSettings]).to include({splitHealthChecks: true}) }
     it { expect(metadata).to include(id: project_id) }
     it { expect(metadata).to include(name: "apps/#{project_id}") }
     it { expect(metadata).to include(locationId: region) }

@@ -15,25 +15,25 @@
  */
 
 locals {
-  credentials_file_path = "${var.credentials_file_path}"
+  credentials_file_path = var.credentials_file_path
 }
 
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = "${file(local.credentials_file_path)}"
+  credentials = file(local.credentials_file_path)
   version     = "~> 2.1"
 }
 
 provider "google-beta" {
-  credentials = "${file(local.credentials_file_path)}"
+  credentials = file(local.credentials_file_path)
   version     = "~> 2.1"
 }
 
 provider "gsuite" {
-  credentials             = "${file(local.credentials_file_path)}"
-  impersonated_user_email = "${var.admin_email}"
+  credentials             = file(local.credentials_file_path)
+  impersonated_user_email = var.admin_email
 
   oauth_scopes = [
     "https://www.googleapis.com/auth/admin.directory.group",
@@ -45,10 +45,11 @@ module "project-factory" {
   source            = "../../modules/gsuite_enabled"
   random_project_id = "true"
   name              = "group-sample-project"
-  org_id            = "${var.organization_id}"
-  billing_account   = "${var.billing_account}"
-  credentials_path  = "${local.credentials_file_path}"
+  org_id            = var.organization_id
+  billing_account   = var.billing_account
+  credentials_path  = local.credentials_file_path
   create_group      = "true"
-  group_name        = "${var.project_group_name}"
-  api_sa_group      = "${var.api_sa_group}"
+  group_name        = var.project_group_name
+  api_sa_group      = var.api_sa_group
 }
+

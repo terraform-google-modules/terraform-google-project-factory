@@ -12,22 +12,22 @@ Expected variables:
 - `organization_id`
 - `billing_account`
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| admin\_email | Admin user email on Gsuite | string | n/a | yes |
-| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
-| organization\_id | The organization id for the associated services | string | n/a | yes |
+| auth\_domain | The domain to authenticate users with when using App Engine's User API. | string | n/a | yes |
+| feature\_settings | A list of maps of optional settings to configure specific App Engine features. | list | `<list>` | no |
+| location\_id | The location to serve the app from. | string | `"us-central"` | no |
+| project\_id | The project to enable app engine on. | string | n/a | yes |
+| serving\_status | The serving status of the app. | string | `"SERVING"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| app\_engine\_enabled\_example | Whether app engine is enabled |
-| domain\_example | The organization's domain |
-| project\_info\_example | The ID of the created project |
+| code\_bucket | The GCS bucket code is being stored in for this app. |
+| name | Unique name of the app, usually apps/{PROJECT_ID}. |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -34,13 +34,12 @@ module "project-services" {
 
 See [examples/project_services](./examples/project_services) for a full example example.
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| activate\_apis | The list of apis to activate within the project | list | n/a | yes |
+| activate\_apis | The list of apis to activate within the project | list(string) | n/a | yes |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | string | `"true"` | no |
 | enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | string | `"true"` | no |
@@ -52,4 +51,4 @@ See [examples/project_services](./examples/project_services) for a full example 
 |------|-------------|
 | project\_id | The GCP project you want to enable APIs on |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

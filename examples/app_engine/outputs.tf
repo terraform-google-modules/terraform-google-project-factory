@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-output "project_info_example" {
-  value       = "${module.project-factory.project_id}"
-  description = "The ID of the created project"
+output "name" {
+  description = "Unique name of the app, usually apps/{PROJECT_ID}."
+  value       = module.app-engine.name
 }
 
-output "domain_example" {
-  value       = "${module.project-factory.domain}"
-  description = "The organization's domain"
+output "code_bucket" {
+  description = "The GCS bucket code is being stored in for this app."
+  value       = module.app-engine.code_bucket
 }
 
-output "app_engine_enabled_example" {
-  value       = "${module.project-factory.app_engine_enabled}"
-  description = "Whether app engine is enabled"
-}

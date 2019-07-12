@@ -10,9 +10,16 @@ access, Service Accounts, and API enablement to follow best practices.
 To include G Suite integration for creating groups and adding Service Accounts into groups, use the
 [gsuite_enabled module][gsuite-enabled-module].
 
+## Compatibility
+
+This module is meant for use with Terraform 0.12. If you haven't
+[upgraded][terraform-0.12-upgrade] and need a Terraform
+0.11.x-compatible version of this module, the last released version
+intended for Terraform 0.11.x is [2.4.1].
+
 ## Upgrading
 
-The current version is 2.X. The following guides are available to assist with upgrades:
+The current version is 3.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
@@ -100,13 +107,12 @@ determining that location is as follows:
 1. If `var.shared_vpc` is set but no subnetworks are provided via `var.shared_vpc_subnets` then the `compute.networkUser` role is assigned at the host project and the service project will have access to all shared VPC subnetworks
 1. If `var.shared_vpc` is set and `var.shared_vpc_subnets` contains an array of subnetworks then the `compute.networkUser` role is assigned to each subnetwork in the array
 
-[^]: (autogen_docs_start)
-
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| activate\_apis | The list of apis to activate within the project | list | `<list>` | no |
+| activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | apis\_authority | Toggles authoritative management of project services. | string | `"false"` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
@@ -121,7 +127,7 @@ determining that location is as follows:
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
-| labels | Map of labels for project | map | `<map>` | no |
+| labels | Map of labels for project | map(string) | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
@@ -129,7 +135,7 @@ determining that location is as follows:
 | random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list | `<list>` | no |
+| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 
@@ -150,7 +156,7 @@ determining that location is as follows:
 | service\_account\_name | The fully-qualified name of the default service account |
 | service\_account\_unique\_id | The unique id of the default service account |
 
-[^]: (autogen_docs_end)
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Requirements
 
@@ -463,3 +469,6 @@ versions][release-new-version].
 [glossary]: /docs/GLOSSARY.md
 [release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
 [application-default-credentials]: https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application
+
+[2.4.1]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google/2.4.1
+[terraform-0.12-upgrade]: https://www.terraform.io/upgrade-guides/0-12.html

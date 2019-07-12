@@ -15,21 +15,22 @@
  */
 
 output "extra_service_account_email" {
-  value = "${google_service_account.extra_service_account.email}"
+  value = google_service_account.extra_service_account.email
 }
 
 output "shared_vpc_subnet_name_01" {
-  value = "${local.shared_vpc_subnet_name_01}"
+  value = local.shared_vpc_subnet_name_01
 }
 
 output "shared_vpc_subnet_region_01" {
-  value = "${local.shared_vpc_subnet_region_01}"
+  value = local.shared_vpc_subnet_region_01
 }
 
 output "shared_vpc_subnet_name_02" {
-  value = "${local.shared_vpc_subnet_name_02}"
+  value = local.shared_vpc_subnet_name_02
 }
 
 output "shared_vpc_subnet_region_02" {
-  value = "${local.shared_vpc_subnet_region_02}"
+  value = local.shared_vpc_subnet_region_02
 }
+

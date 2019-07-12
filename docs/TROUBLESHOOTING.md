@@ -166,6 +166,36 @@ on the Seed Service Account with the following scopes:
 * https://www.googleapis.com/auth/admin.directory.group.member
 
 - - -
+#### Failed to instantiate provider "gsuite" Incompatible API version
+
+**Error messages:**
+
+When running terraform validate
+
+```
+Error: Failed to instantiate provider "gsuite" to obtain schema: Incompatible
+API version with plugin. Plugin version: 4, Client versions: [5]
+```
+
+**Cause:**
+
+This is likely caused by an older version of the gsuite provider, for example
+the 0.1.10 version which is compatible with Terraform 0.11.  Terraform 0.12
+produces this error message because of the new plugin API version.
+
+
+**Solution:**
+
+Replace the old plugin with a version compatible with 0.12 from the [gsuite
+provider releases][gsuite-releases].  For example:
+
+```bash
+cd ~/.terraform.d/plugins/darwin_amd64
+curl -LO https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v0.1.22/terraform-provider-gsuite_0.1.22_darwin_amd64.zip
+unzip terraform-provider-gsuite_0.1.22_darwin_amd64.zip
+```
+
+- - -
 ### Seed project missing APIs
 
 The Project Factory requires the following services to be enabled on the Seed
@@ -717,3 +747,4 @@ Seed Service Account has the `roles/billing.user` role on the billing account.
   subsequent Terraform runs because the GCE API is not enabled.
 
 [glossary]: /docs/GLOSSARY.md
+[gsuite-releases]: https://github.com/DeviaVir/terraform-provider-gsuite/releases
