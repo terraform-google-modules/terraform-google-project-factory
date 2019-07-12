@@ -74,13 +74,13 @@ module "vpc" {
   ]
 
   secondary_ranges = {
-    local.subnet_name_01 = [
+    "${local.subnet_name_01}" = [
       {
         range_name    = "${local.subnet_name_01}-secondary"
         ip_cidr_range = "192.168.64.0/24"
       },
     ]
-    local.subnet_name_02 = [
+    "${local.subnet_name_02}" = [
       {
         range_name    = "${local.subnet_name_02}-secondary"
         ip_cidr_range = "192.168.74.0/24"
@@ -159,4 +159,3 @@ resource "google_service_account_iam_member" "additive_service_account_grant_to_
   role   = "roles/iam.serviceAccountUser"
   member = "serviceAccount:${google_service_account.extra_service_account.email}"
 }
-
