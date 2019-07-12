@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Fixed
+
+- Documentation for setup-sa.sh. [#230]
+
 ## [2.4.1] - 2019-06-21
 
 ### Fixed
@@ -184,6 +188,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
 [#233]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/233
+[#230]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/230
 [#223]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/223
 [#220]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/220
 [#213]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/213
