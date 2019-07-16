@@ -194,10 +194,9 @@ data "null_data_source" "default_service_account" {
   }
 }
 
-/******************************************
-  Default compute service account action 
-  options are keep, depriviledge, delete
- *****************************************/
+/************************************************************************************
+  Default compute service account action. Options are keep, depriviledge, delete.
+ ***********************************************************************************/
 resource "null_resource" "modify_default_compute_service_account" {
 
   provisioner "local-exec" {
