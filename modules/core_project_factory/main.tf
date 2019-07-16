@@ -78,6 +78,7 @@ resource "null_resource" "preconditions" {
     command = <<EOD
 ${path.module}/scripts/preconditions.sh \
     --credentials_path '${var.credentials_path}' \
+    --impersonate_service_account '${var.impersonate_service_account}' \
     --billing_account '${var.billing_account}' \
     --org_id '${var.org_id}' \
     --folder_id '${var.folder_id}' \
@@ -194,44 +195,30 @@ data "null_data_source" "default_service_account" {
 }
 
 /******************************************
-  Default compute service account deletion
+  Default compute service account action 
+  options are keep, depriviledge, delete
  *****************************************/
-resource "null_resource" "delete_default_compute_service_account" {
-  count = var.default_service_account == "delete" ? 1 : 0
+resource "null_resource" "modify_default_compute_service_account" {
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-service-account.sh ${google_project.main.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
+    command = <<EOD
+${path.module}/scripts/modify-service-account.sh \
+  --project_id='${google_project.main.project_id}' \
+  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+  --credentials_path='${var.credentials_path}' \
+  --impersonate-service-account='${var.impersonate_service_account}' \
+  --action='${var.default_service_account}'
+EOD
   }
 
   triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis = join(",", var.activate_apis)
-  }
-
-  depends_on = [google_project_service.project_services]
-}
-
-/*********************************************
-  Default compute service account depriviledge
- ********************************************/
-resource "null_resource" "depriviledge_default_compute_service_account" {
-  count = var.default_service_account == "depriviledge" ? 1 : 0
-
-  provisioner "local-exec" {
-    command = "gcloud projects remove-iam-policy-binding ${google_project.main.project_id} --member='serviceAccount:${data.null_data_source.default_service_account.outputs["email"]}' --role='roles/editor'"
-
-    environment = {
-      CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE = var.credentials_path
-    }
-  }
-
-  triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
+    activated_apis          = join(",", var.activate_apis)
   }
 
   depends_on = [
     google_project_service.project_services,
-    google_project_services.project_services_authority,
+    google_project_services.project_services_authority
   ]
 }
 
@@ -239,18 +226,18 @@ resource "null_resource" "depriviledge_default_compute_service_account" {
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
-  account_id = "project-service-account"
+  account_id   = "project-service-account"
   display_name = "${var.name} Project Service Account"
-  project = google_project.main.project_id
+  project      = google_project.main.project_id
 }
 
 /**************************************************
   Policy to operate instances in shared subnetwork
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
-  count = var.sa_role != "" ? 1 : 0
+  count   = var.sa_role != "" ? 1 : 0
   project = google_project.main.project_id
-  role = var.sa_role
+  role    = var.sa_role
 
   member = local.s_account_fmt
 }
@@ -261,9 +248,9 @@ resource "google_project_iam_member" "default_service_account_membership" {
 resource "google_project_iam_member" "gsuite_group_role" {
   count = var.manage_group ? 1 : 0
 
-  member = local.group_id
+  member  = local.group_id
   project = google_project.main.project_id
-  role = var.group_role
+  role    = var.group_role
 }
 
 /******************************************
@@ -273,7 +260,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   count = var.manage_group ? 1 : 0
 
   member = local.group_id
-  role = "roles/iam.serviceAccountUser"
+  role   = "roles/iam.serviceAccountUser"
 
   service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
 }
@@ -286,8 +273,8 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   count = var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) == 0 ? local.shared_vpc_users_length : 0
 
   project = var.shared_vpc
-  role = "roles/compute.networkUser"
-  member = element(local.shared_vpc_users, count.index)
+  role    = "roles/compute.networkUser"
+  member  = element(local.shared_vpc_users, count.index)
 
   depends_on = [
     google_project_service.project_services,
@@ -316,7 +303,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.s_account_fmt
+  member  = local.s_account_fmt
 }
 
 /*************************************************************************************
@@ -339,7 +326,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
     split("/", var.shared_vpc_subnets[count.index]),
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
-  member = local.group_id
+  member  = local.group_id
   project = var.shared_vpc
 }
 
@@ -364,7 +351,7 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.api_s_account_fmt
+  member  = local.api_s_account_fmt
 
   depends_on = [
     google_project_service.project_services,
@@ -378,9 +365,9 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
 resource "google_project_usage_export_bucket" "usage_report_export" {
   count = var.usage_bucket_name != "" ? 1 : 0
 
-  project = google_project.main.project_id
+  project     = google_project.main.project_id
   bucket_name = var.usage_bucket_name
-  prefix = var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"
+  prefix      = var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"
 
   depends_on = [
     google_project_service.project_services,
@@ -394,8 +381,8 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 resource "google_storage_bucket" "project_bucket" {
   count = local.create_bucket ? 1 : 0
 
-  name = local.project_bucket_name
-  project = var.bucket_project
+  name     = local.project_bucket_name
+  project  = var.bucket_project
   location = var.bucket_location
 }
 
@@ -407,7 +394,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
 
   bucket = google_storage_bucket.project_bucket[0].name
   member = local.group_id
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
 }
 
 /***********************************************
@@ -417,7 +404,7 @@ resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_
   count = local.create_bucket ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
   member = local.s_account_fmt
 }
 
@@ -428,7 +415,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   count = local.create_bucket ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
   member = local.api_s_account_fmt
 
   depends_on = [
@@ -458,7 +445,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.gke_s_account_fmt
+  member  = local.gke_s_account_fmt
 
   depends_on = [
     google_project_service.project_services,
@@ -473,8 +460,8 @@ resource "google_project_iam_member" "gke_host_agent" {
   count = local.gke_shared_vpc_enabled ? 1 : 0
 
   project = var.shared_vpc
-  role = "roles/container.hostServiceAgentUser"
-  member = local.gke_s_account_fmt
+  role    = "roles/container.hostServiceAgentUser"
+  member  = local.gke_s_account_fmt
 
   depends_on = [
     google_project_service.project_services,
