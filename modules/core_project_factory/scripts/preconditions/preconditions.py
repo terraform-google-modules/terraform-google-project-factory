@@ -351,7 +351,10 @@ def get_credentials(credentials_path, impersonate_service_account):
             credentials = impersonated_credentials.Credentials(
                 source_credentials=source_credentials,
                 target_principal=impersonate_service_account,
-                target_scopes = ['https://www.googleapis.com/auth/cloud-platform','https://www.googleapis.com/auth/userinfo.email'],
+                target_scopes=[
+                    'https://www.googleapis.com/auth/cloud-platform',
+                    'https://www.googleapis.com/auth/userinfo.email'
+                ],
                 lifetime=120)
         except google.auth.exceptions.RefreshError:
             raise google.auth.exceptions.DefaultCredentialsError()
@@ -392,7 +395,8 @@ def argparser():
     )
     parser.add_argument(
         '--impersonate_service_account', required=False, action=EmptyStrAction,
-        help='A service account to impersonate using default application credentials.'
+        help="""A service account to impersonate using
+        default application credentials."""
     )
     parser.add_argument(
         '--billing_account', required=True,
@@ -451,7 +455,9 @@ def validators_for(opts, seed_project):
 def main(argv):
     try:
         opts = argparser().parse_args(argv[1:])
-        (credentials, project_id) = get_credentials(opts.credentials_path, opts.impersonate_service_account)
+        (credentials, project_id) = get_credentials(opts.credentials_path,
+                                        opts.impersonate_service_account)
+
         validators = validators_for(opts, project_id)
 
         results = []

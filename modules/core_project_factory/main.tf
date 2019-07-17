@@ -170,6 +170,18 @@ resource "google_project_services" "project_services_authority" {
   depends_on = [google_project.main]
 }
 
+resource "google_project_service" "iam_credentials_api" {
+  count = var.impersonate_service_account != "" ? 1 : 0
+
+  project = google_project.main.project_id
+  service = "iamcredentials.googleapis.com"
+
+  disable_on_destroy = var.disable_services_on_destroy
+  disable_dependent_services = var.disable_dependent_services
+
+  depends_on = [google_project.main]
+}
+
 /******************************************
   Shared VPC configuration
  *****************************************/
@@ -217,7 +229,8 @@ EOD
 
   depends_on = [
     google_project_service.project_services,
-    google_project_services.project_services_authority
+    google_project_services.project_services_authority,
+    google_project_service.iam_credentials_api
   ]
 }
 
