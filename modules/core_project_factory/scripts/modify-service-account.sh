@@ -63,7 +63,9 @@ delete_sa() {
 
   if [[ $SA_LIST = *"$SA_ID"* ]]; then
       echo "Deleting service account $SA_ID in project $PROJECT_ID"
-      SA_DELETE_COMMAND="gcloud iam service-accounts delete --quiet $APPEND_IMPERSONATE --project=$PROJECT_ID $SA_ID"
+      SA_DELETE_COMMAND="gcloud iam service-accounts delete \
+      --quiet $APPEND_IMPERSONATE \
+      --project=$PROJECT_ID $SA_ID"
       ${SA_DELETE_COMMAND}
   else
       echo "Service account not listed. It appears to have already been deleted."
@@ -72,9 +74,22 @@ delete_sa() {
 
 # Function to depriviledge the default service account.
 depriviledge_sa() {
-  echo "Depriviledge service account $SA_ID in project $PROJECT_ID"
-  SA_DEPRIV_COMMAND="gcloud projects remove-iam-policy-binding $PROJECT_ID --member=serviceAccount:$SA_ID --role=roles/editor --project=$PROJECT_ID $APPEND_IMPERSONATE"
-  ${SA_DEPRIV_COMMAND}
+  EDITORS_LIST_COMMAND="gcloud projects get-iam-policy $PROJECT_ID \
+  --flatten=bindings[].members \
+  --format=table(bindings.role,bindings.members) \
+  --filter=bindings.role:editor $APPEND_IMPERSONATE"
+  EDITORS_LIST=$(${EDITORS_LIST_COMMAND} || exit 1)
+
+  if [[ $EDITORS_LIST = *"$SA_ID"* ]]; then
+      echo "Depriviledge service account $SA_ID in project $PROJECT_ID"
+      SA_DEPRIV_COMMAND="gcloud projects remove-iam-policy-binding $PROJECT_ID \
+      --member=serviceAccount:$SA_ID \
+      --role=roles/editor \
+      --project=$PROJECT_ID $APPEND_IMPERSONATE"
+      ${SA_DEPRIV_COMMAND}
+  else
+      echo "Service account not listed. It appears to have already been depriviledged."
+  fi
 }
 
 # Perform specified action of default service account.
