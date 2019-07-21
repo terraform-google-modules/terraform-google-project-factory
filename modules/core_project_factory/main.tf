@@ -44,7 +44,7 @@ locals {
   )
   activate_apis          = var.impersonate_service_account != "" ? concat(var.activate_apis, ["iamcredentials.googleapis.com"]) : var.activate_apis
   api_s_account_fmt      = format("serviceAccount:%s", local.api_s_account)
-  gke_shared_vpc_enabled = var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"
+  gke_shared_vpc_enabled = var.shared_vpc != "" && contains(local.activate_apis, "container.googleapis.com") ? "true" : "false"
   gke_s_account = format(
     "service-%s@container-engine-robot.iam.gserviceaccount.com",
     google_project.main.number,
