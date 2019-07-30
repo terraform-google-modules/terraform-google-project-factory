@@ -42,8 +42,9 @@ locals {
     "%s@cloudservices.gserviceaccount.com",
     google_project.main.number,
   )
+  activate_apis          = var.impersonate_service_account != "" ? concat(var.activate_apis, ["iamcredentials.googleapis.com"]) : var.activate_apis
   api_s_account_fmt      = format("serviceAccount:%s", local.api_s_account)
-  gke_shared_vpc_enabled = var.shared_vpc != "" && contains(var.activate_apis, "container.googleapis.com") ? "true" : "false"
+  gke_shared_vpc_enabled = var.shared_vpc != "" && contains(local.activate_apis, "container.googleapis.com") ? "true" : "false"
   gke_s_account = format(
     "service-%s@container-engine-robot.iam.gserviceaccount.com",
     google_project.main.number,
@@ -78,6 +79,7 @@ resource "null_resource" "preconditions" {
     command = <<EOD
 ${path.module}/scripts/preconditions.sh \
     --credentials_path '${var.credentials_path}' \
+    --impersonate_service_account '${var.impersonate_service_account}' \
     --billing_account '${var.billing_account}' \
     --org_id '${var.org_id}' \
     --folder_id '${var.folder_id}' \
@@ -149,10 +151,10 @@ resource "google_resource_manager_lien" "lien" {
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
-  count = var.apis_authority ? 0 : length(var.activate_apis)
+  count = var.apis_authority ? 0 : length(local.activate_apis)
 
   project = google_project.main.project_id
-  service = element(var.activate_apis, count.index)
+  service = element(local.activate_apis, count.index)
 
   disable_on_destroy = var.disable_services_on_destroy
   disable_dependent_services = var.disable_dependent_services
@@ -164,7 +166,7 @@ resource "google_project_services" "project_services_authority" {
   count = var.apis_authority ? 1 : 0
 
   project = google_project.main.project_id
-  services = var.activate_apis
+  services = local.activate_apis
 
   depends_on = [google_project.main]
 }
@@ -200,15 +202,25 @@ resource "null_resource" "delete_default_compute_service_account" {
   count = var.default_service_account == "delete" ? 1 : 0
 
   provisioner "local-exec" {
-    command = "${path.module}/scripts/delete-service-account.sh ${google_project.main.project_id} ${data.null_data_source.default_service_account.outputs["email"]} ${var.credentials_path}"
+    command = <<EOD
+${path.module}/scripts/modify-service-account.sh \
+  --project_id='${google_project.main.project_id}' \
+  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+  --credentials_path='${var.credentials_path}' \
+  --impersonate-service-account='${var.impersonate_service_account}' \
+  --action='delete'
+EOD
   }
 
   triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis = join(",", var.activate_apis)
+    activated_apis          = join(",", local.activate_apis)
   }
 
-  depends_on = [google_project_service.project_services]
+  depends_on = [
+    google_project_service.project_services,
+    google_project_services.project_services_authority
+  ]
 }
 
 /*********************************************
@@ -218,20 +230,24 @@ resource "null_resource" "depriviledge_default_compute_service_account" {
   count = var.default_service_account == "depriviledge" ? 1 : 0
 
   provisioner "local-exec" {
-    command = "gcloud projects remove-iam-policy-binding ${google_project.main.project_id} --member='serviceAccount:${data.null_data_source.default_service_account.outputs["email"]}' --role='roles/editor'"
-
-    environment = {
-      CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE = var.credentials_path
-    }
+    command = <<EOD
+${path.module}/scripts/modify-service-account.sh \
+  --project_id='${google_project.main.project_id}' \
+  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+  --credentials_path='${var.credentials_path}' \
+  --impersonate-service-account='${var.impersonate_service_account}' \
+  --action='depriviledge'
+EOD
   }
 
   triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
+    activated_apis = join(",", local.activate_apis)
   }
 
   depends_on = [
     google_project_service.project_services,
-    google_project_services.project_services_authority,
+    google_project_services.project_services_authority
   ]
 }
 

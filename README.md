@@ -127,6 +127,7 @@ determining that location is as follows:
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
+| impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials. | string | `""` | no |
 | labels | Map of labels for project | map(string) | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |

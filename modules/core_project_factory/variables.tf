@@ -16,6 +16,7 @@
 
 variable "group_email" {
   description = "The email address of a group to control the project by being assigned group_role."
+  default     = ""
 }
 
 variable "group_role" {
@@ -94,6 +95,11 @@ variable "usage_bucket_prefix" {
 
 variable "credentials_path" {
   description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
+}
+
+variable "impersonate_service_account" {
+  description = "An optional service account to impersonate. If this service account is not specified, Terraform will fall back to credential file or Application Default Credentials."
   default     = ""
 }
 
