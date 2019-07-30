@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- Adding support for service account impersonation and short lived tokens [#246]
+
 ## [3.0.0] - 2019-07-12
 
 ### Added
@@ -199,6 +203,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#246]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/246
 [#239]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/239
 [#237]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/237
 [#234]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/234
