@@ -66,7 +66,7 @@ resource "google_project_iam_member" "viewers" {
 }
 
 resource "google_compute_project_metadata_item" "oslogin_meta" {
-  count   = var.oslogin
+  count   = var.oslogin ? 1 : 0
   project = google_project.project.project_id
   key     = "enable-oslogin"
   value   = "TRUE"
