@@ -110,7 +110,6 @@ module "project-factory" {
   sa_role             = var.sa_role
   sa_group            = var.sa_group
   credentials_path    = var.credentials_path
-  lien                = "true"
 
   activate_apis = [
     "compute.googleapis.com",
