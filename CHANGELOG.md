@@ -8,9 +8,16 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+
+## [3.1.0] - 2019-08-12
+
 ### Added
 
-- Adding support for service account impersonation and short lived tokens [#246]
+- Adding support for service account impersonation and short lived tokens. [#246]
+
+### Fixed
+
+- Fixed bug in fabic submodule related to number conversion. [#253]
 
 ## [3.0.0] - 2019-07-12
 
@@ -180,6 +187,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 - This is the initial release of the Project Factory Module.
 
 [Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...HEAD
+[3.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...v3.0.0
 [2.4.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.0...v2.4.1
 [2.4.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.3.1...v2.4.0
@@ -203,6 +211,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253
 [#246]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/246
 [#239]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/239
 [#237]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/237
