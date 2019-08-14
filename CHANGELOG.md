@@ -10,17 +10,19 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### [3.2.0] - 2019-08-14
 
+### Added
+
 - Added a [shared_vpc](https://github.com/terraform-google-modules/terraform-google-project-factory/tree/master/modules/shared_vpc) submodule which enables the Shared VPC project ID to be a computed value. [#257]
+
+### Changed
+
+- Replace 'parent_type' and 'parent_id' input variables with single parent variable for fabric submodule. [#259]
 
 ## [3.1.0] - 2019-08-12
 
 ### Added
 
 - Adding support for service account impersonation and short lived tokens. [#246]
-
-### Fixed
-
-- Fixed bug in fabic submodule related to number conversion. [#253]
 
 ## [3.0.0] - 2019-07-12
 
@@ -215,6 +217,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#259]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/259
 [#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253
 [#246]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/246
 [#257]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/257
