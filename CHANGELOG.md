@@ -8,6 +8,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### [3.2.0] - 2019-08-14
+
+- Added a [shared_vpc](https://github.com/terraform-google-modules/terraform-google-project-factory/tree/master/modules/shared_vpc) submodule which enables the Shared VPC project ID to be a computed value. [#257]
 
 ## [3.1.0] - 2019-08-12
 
@@ -18,10 +21,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Fixed
 
 - Fixed bug in fabic submodule related to number conversion. [#253]
-
-### Fixed
-
-- Fails with shared VPC being specified using a reference [#257]
 
 ## [3.0.0] - 2019-07-12
 
@@ -190,7 +189,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.2.0...HEAD
+[3.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...v3.0.0
 [2.4.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.0...v2.4.1
