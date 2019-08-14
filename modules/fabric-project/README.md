@@ -18,8 +18,7 @@ Basic usage of this module is as follows:
 ```hcl
 module "project_myproject" {
   source                    = "terraform-google-modules/project-factory/google//modules/fabric-project"
-  parent_id                 = "1234567890"
-  parent_type               = "folder"
+  parent                    = "folders/1234567890"
   billing_account           = "ABCD-1234-ABCD-1234"
   prefix                    = "staging"
   name                      = "myproject"
@@ -50,8 +49,7 @@ module "project_myproject" {
 | oslogin\_admins | List of IAM-format members that will get OS Login admin role. | list | `<list>` | no |
 | oslogin\_users | List of IAM-format members that will get OS Login user role. | list | `<list>` | no |
 | owners | Optional list of IAM-format members to set as project owners. | list | `<list>` | no |
-| parent\_id | Id of the resource under which the folder will be placed. | string | n/a | yes |
-| parent\_type | Type of the parent resource, defaults to organization. | string | `"organization"` | no |
+| parent | The resource name of the parent Folder or Organization. Must be of the form folders/folder_id or organizations/org_id | string | n/a | yes |
 | prefix | Prefix used to generate project id and name | string | n/a | yes |
 | viewers | Optional list of IAM-format members to set as project viewers. | list | `<list>` | no |
 

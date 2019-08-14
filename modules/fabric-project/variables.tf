@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-variable "parent_id" {
-  description = "Id of the resource under which the folder will be placed."
-}
-
-variable "parent_type" {
-  description = "Type of the parent resource, defaults to organization."
-  default     = "organization"
+variable "parent" {
+  description = "The resource name of the parent Folder or Organization. Must be of the form folders/folder_id or organizations/org_id"
 }
 
 variable "prefix" {

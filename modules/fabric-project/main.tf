@@ -23,11 +23,13 @@ locals {
   num_oslogin_users        = length(var.oslogin_users) + length(var.oslogin_admins)
   gce_service_account      = "${google_project.project.number}-compute@developer.gserviceaccount.com"
   gke_service_account      = "service-${google_project.project.number}@container-engine-robot.iam.gserviceaccount.com"
+  parent_type              = split("/", var.parent)[0]
+  parent_id                = split("/", var.parent)[1]
 }
 
 resource "google_project" "project" {
-  org_id              = var.parent_type == "organization" ? var.parent_id : ""
-  folder_id           = var.parent_type == "folder" ? var.parent_id : ""
+  org_id              = local.parent_type == "organizations" ? local.parent_id : ""
+  folder_id           = local.parent_type == "folders" ? local.parent_id : ""
   project_id          = "${var.prefix}-${var.name}"
   name                = "${var.prefix}-${var.name}"
   billing_account     = var.billing_account
