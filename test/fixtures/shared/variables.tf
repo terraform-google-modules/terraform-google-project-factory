@@ -40,7 +40,8 @@ variable "group_name" {
 }
 
 variable "create_group" {
-  default = "false"
+  type    = bool
+  default = false
 }
 
 variable "group_role" {
@@ -70,3 +71,8 @@ variable "random_string_for_testing" {
   description = "A random string of characters to be appended to resource names to ensure uniqueness"
 }
 
+variable "shared_vpc_enabled" {
+  description = "If shared VPC should be used"
+  type        = bool
+  default     = false
+}

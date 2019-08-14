@@ -38,7 +38,7 @@ provider "google-beta" {
  *****************************************/
 module "host-project" {
   source            = "../../"
-  random_project_id = "true"
+  random_project_id = true
   name              = var.host_project_name
   org_id            = var.organization_id
   billing_account   = var.billing_account
@@ -61,8 +61,8 @@ module "vpc" {
   project_id   = module.host-project.project_id
   network_name = var.network_name
 
-  delete_default_internet_gateway_routes = "true"
-  shared_vpc_host                        = "true"
+  delete_default_internet_gateway_routes = true
+  shared_vpc_host                        = true
 
   subnets = [
     {
@@ -74,8 +74,8 @@ module "vpc" {
       subnet_name           = local.subnet_02
       subnet_ip             = "10.10.20.0/24"
       subnet_region         = "us-west1"
-      subnet_private_access = "true"
-      subnet_flow_logs      = "true"
+      subnet_private_access = true
+      subnet_flow_logs      = true
     },
   ]
 

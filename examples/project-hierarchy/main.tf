@@ -50,7 +50,7 @@ resource "google_folder" "prod" {
 
 module "project-prod-gke" {
   source            = "../../modules/gsuite_enabled"
-  random_project_id = "true"
+  random_project_id = true
   name              = "hierarchy-sample-prod-gke"
   org_id            = var.organization_id
   billing_account   = var.billing_account
@@ -60,7 +60,7 @@ module "project-prod-gke" {
 
 module "project-factory" {
   source            = "../../modules/gsuite_enabled"
-  random_project_id = "true"
+  random_project_id = true
   name              = "hierarchy-sample-factory"
   org_id            = var.organization_id
   billing_account   = var.billing_account

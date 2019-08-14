@@ -30,7 +30,7 @@ provider "google-beta" {
 
 module "project-factory" {
   source             = "../../"
-  random_project_id  = "true"
+  random_project_id  = true
   name               = "sample-gke-shared-project"
   org_id             = var.org_id
   billing_account    = var.billing_account
