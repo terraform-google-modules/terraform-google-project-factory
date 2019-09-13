@@ -44,7 +44,7 @@ fi
 
  # Seed Project
 echo "Verifying project..."
-SEED_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
+SEED_PROJECT="$(gcloud projects describe --format="value(projectId)" $2)"
 
 if [[ $SEED_PROJECT == "" ]];
 then
