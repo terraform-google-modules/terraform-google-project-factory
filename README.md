@@ -277,7 +277,6 @@ the base project where the Service Account was created:
 
 - Google App Engine Admin API - `appengine.googleapis.com`
   [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
-  - This is required if you're using the app_engine input
 
 ### Verifying setup
 
