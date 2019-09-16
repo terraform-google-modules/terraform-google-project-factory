@@ -20,6 +20,7 @@ See [GLOSSARY.md][glossary].
   account](#unable-to-query-status-of-default-gce-service-account)
 * [Cannot manage G Suite group
   membership](#cannot-manage-g-suite-group-membership)
+* [Cannot deploy App Engine Flex application](#cannot-deploy-app-engine-flex-application)
 
 #### Unable to query status of default GCE service account
 
@@ -194,6 +195,63 @@ cd ~/.terraform.d/plugins/darwin_amd64
 curl -LO https://github.com/DeviaVir/terraform-provider-gsuite/releases/download/v0.1.22/terraform-provider-gsuite_0.1.22_darwin_amd64.zip
 unzip terraform-provider-gsuite_0.1.22_darwin_amd64.zip
 ```
+
+#### Cannot deploy App Engine Flex application
+
+When the Project Factory removes the default compute engine service account, deployments to App Engine Flex will fail.
+
+**Error message:**
+
+```
+$ gcloud app deploy --verbosity debug
+DEBUG: Running [gcloud.app.deploy] with arguments: [--verbosity: "debug"]
+DEBUG: API endpoint: [https://appengine.googleapis.com/], API version: [v1]
+Services to deploy:<Paste>
+
+...
+
+Updating service [default] (this may take several minutes)...failed.
+DEBUG: (gcloud.app.deploy) Error Response: [13] An internal error occurred while creating a Google Cloud Storage bucket.
+Traceback (most recent call last):
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 983, in Execute
+		resources = calliope_command.Run(cli=self, args=args)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 784, in Run
+		resources = command_instance.Run(args)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/surface/app/deploy.py", line 90, in Run
+		parallel_build=False)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/command_lib/app/deploy_util.py", line 641, in RunDeploy
+		ignore_file=args.ignore_file)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/command_lib/app/deploy_util.py", line 431, in Deploy
+		extra_config_settings)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/app/appengine_api_client.py", line 208, in DeployService
+		poller=done_poller)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/app/operations_util.py", line 314, in WaitForOperation
+		sleep_ms=retry_interval)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/waiter.py", line 264, in WaitFor
+		sleep_ms, _StatusUpdate)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/waiter.py", line 326, in PollUntilDone
+		sleep_ms=sleep_ms)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/core/util/retry.py", line 229, in RetryOnResult
+		if not should_retry(result, state):
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/util/waiter.py", line 320, in _IsNotDone
+		return not poller.IsDone(operation)
+	File "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/lib/googlecloudsdk/api_lib/app/operations_util.py", line 183, in IsDone
+		encoding.MessageToPyValue(operation.error)))
+OperationError: Error Response: [13] An internal error occurred while creating a Google Cloud Storage bucket.
+ERROR: (gcloud.app.deploy) Error Response: [13] An internal error occurred while creating a Google Cloud Storage bucket.
+```
+
+**Cause:**
+
+The `google.appengine.v1.Versions.CreateVersion` API call, made by `gcloud` when running `gcloud app deploy` on a GAE Flex application,
+requires that the default compute service account be in place in the project.
+
+**Solution:**
+
+In order to deploy an App Engine Flex application into a project created by Project Factory,
+the default service account must not be deleted (as is the default behavior). To prevent the
+default service account from being deleted, ensure that the `default_service_account` input
+is set to either `depriviledge` or `keep`.
 
 - - -
 ### Seed project missing APIs
