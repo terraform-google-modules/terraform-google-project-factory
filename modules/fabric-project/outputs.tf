@@ -46,6 +46,6 @@ output "gke_service_account" {
 
 output "custom_roles" {
   description = "Ids of the created custom roles."
-  value       = [google_project_iam_custom_role.roles.*.role_id]
+  value       = google_project_iam_custom_role.roles[*].role_id
 }
 
