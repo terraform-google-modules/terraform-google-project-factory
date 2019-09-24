@@ -106,6 +106,14 @@ gcloud organizations add-iam-policy-binding \
   --role="roles/billing.user" \
   --user-output-enabled false
 
+# Grant roles/resourcemanager.folderCreator to the service account on the organization
+echo "Adding role roles/resourcemanager.folderCreator..."
+gcloud organizations add-iam-policy-binding \
+  "${ORG_ID}" \
+  --member="serviceAccount:${SA_ID}" \
+  --role="roles/resourcemanager.folderCreator" \
+  --user-output-enabled false
+
 # Grant roles/compute.xpnAdmin to the service account on the organization
 echo "Adding role roles/compute.xpnAdmin..."
 gcloud organizations add-iam-policy-binding \
