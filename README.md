@@ -290,7 +290,7 @@ A [preconditions checker script][preconditions-checker-script] is
 included to verify that all preconditions are met before the Project Factory
 runs. The script will run automatically if the script dependencies (Python,
 "google-auth", and "google-api-python-client") are available at runtime. To 
-install dependenvies run 
+install dependenсies run:
 
 ```sh
 pip3 install -r ./modules/core_project_factory/scripts/preconditions/requirements.txt
