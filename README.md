@@ -169,6 +169,10 @@ determining that location is as follows:
 -   [terraform-provider-google] plugin 2.1.x
 -   [terraform-provider-google-beta] plugin 2.1.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+-   Python3 libraries:
+    - [google-api-python-client] >=1.7
+    - [google-auth] >=1.6
+
 
 ### Permissions
 
@@ -474,3 +478,5 @@ versions][release-new-version].
 
 [2.4.1]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google/2.4.1
 [terraform-0.12-upgrade]: https://www.terraform.io/upgrade-guides/0-12.html
+[google-api-python-client]: https://pypi.org/project/google-api-python-client
+[google-auth]: https://pypi.org/project/google-auth/

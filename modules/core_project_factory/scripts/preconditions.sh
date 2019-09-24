@@ -1,5 +1,5 @@
 #!/bin/sh
-
+set +xe
 # Copyright 2018 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,13 +18,23 @@ if command -v python3 1>/dev/null; then
     BASEDIR="$(dirname "$0")"
 
     if command -v pip3 1>/dev/null; then
-        exec "pip3" "install" "-r" "$BASEDIR/preconditions/requirements.txt"
+        # exec "pip3" "install" "-r" "$BASEDIR/preconditions/requirements.txt"
+        DUMP=$(pip3 freeze)
+
+        while read LINE; do
+            PACKAGE=$(echo $LINE | cut -d"~" -f1)
+            if ! $(echo $DUMP | grep -q $PACKAGE); then 
+                echo "Missing project-factory requirements. Please install pip3 package $LINE" 1>&2
+                PREREQUISITE=false
+            fi
+        done <"$BASEDIR/preconditions/requirements.txt"
     else
         echo "Unable to install project-factory requirements: pip3 executable not in PATH" 1>&2
     fi
-
-    SCRIPT="$BASEDIR/preconditions/preconditions.py"
-    exec "$SCRIPT" "$@"
+    if $PREREQUISITE; then
+        SCRIPT="$BASEDIR/preconditions/preconditions.py"
+        exec "$SCRIPT" "$@"
+    fi
 else
     echo "Unable to check project-factory preconditions: python3 executable not in PATH" 1>&2
 fi
