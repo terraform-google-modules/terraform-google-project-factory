@@ -8,6 +8,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### [3.3.1] - 2019-10-08
+
+### Fixed
+
+- Make the `custom_roles` output in `modules/fabric-project` v0.12 compliant. [#268]
+
 ### [3.3.0] - 2019-09-18
 
 ### Fixed
