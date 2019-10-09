@@ -8,7 +8,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
-### [3.3.1] - 2019-10-08
+### [3.4.0] - 2019-10-08
 
 ### Fixed
 
