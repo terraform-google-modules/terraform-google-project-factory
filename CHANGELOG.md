@@ -231,6 +231,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#268]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/268
 [#261]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/261
 [#259]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/259
 [#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253
