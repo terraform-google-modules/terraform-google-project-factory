@@ -203,7 +203,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.4.0...HEAD
+[3.4.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.1.0...v3.3.0
 [3.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...v3.1.0
