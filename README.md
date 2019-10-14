@@ -31,7 +31,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -113,15 +113,15 @@ determining that location is as follows:
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
-| apis\_authority | Toggles authoritative management of project services. | string | `"false"` | no |
-| auto\_create\_network | Create the default network | string | `"false"` | no |
+| apis\_authority | Toggles authoritative management of project services. | bool | `"false"` | no |
+| auto\_create\_network | Create the default network | bool | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, or `keep`. | string | `"delete"` | no |
-| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
+| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
@@ -129,11 +129,11 @@ determining that location is as follows:
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
 | impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials. | string | `""` | no |
 | labels | Map of labels for project | map(string) | `<map>` | no |
-| lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
+| lien | Add a lien on the project to prevent accidental deletion | bool | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
-| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
+| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | bool | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
@@ -333,154 +333,12 @@ binary here:
 
 - https://releases.hashicorp.com/terraform/
 
-## Development
-### Requirements
-
-- [terraform-docs](https://github.com/segmentio/terraform-docs/releases) 0.3.0
-- Ruby 2.3 or greater
-- Bundler 1.10 or greater
-
-### File structure
-
-The project has the following folders and files:
-
-- /: root folder
-- /examples: examples for using this module
-- /scripts: Scripts for specific tasks on module (see Infrastructure section on
-  this file)
-- /test: Folders with files for testing the module (see Testing section on this
-  file)
-- /helpers: Optional helper scripts for ease of use
-- /main.tf: main file for this module, contains all the resources to create
-- /variables.tf: all the variables for the module
-- /output.tf: the outputs of the module
-- /readme.md: this file
-
-### Integration testing
-
-Integration tests are run though
-[test-kitchen](https://github.com/test-kitchen/test-kitchen),
-[kitchen-terraform](https://github.com/newcontext-oss/kitchen-terraform), and
-[InSpec](https://github.com/inspec/inspec).
-
-Two test-kitchen instances are defined:
-
-- `full-local` - Test coverage for all project-factory features.
-- `full-minimal` - Test coverage for a minimal set of project-factory features.
-
-#### Setup
-
-1. Configure the [test fixtures](#test-configuration).
-2. Download a Service Account key with the necessary [permissions](#permissions)
-   and put it in the module's root directory with the name `credentials.json`.
-3. Add appropriate variables to your environment
-
-   ```
-   export BILLING_ACCOUNT_ID="YOUR_BILLUNG_ACCOUNT"
-   export DOMAIN="YOUR_DOMAIN"
-   export FOLDER_ID="YOUR_FOLDER_ID"
-   export GROUP_NAME="YOUR_GROUP_NAME"
-   export ADMIN_ACCOUNT_EMAIL="YOUR_ADMIN_ACCOUNT_EMAIL"
-   export ORG_ID="YOUR_ORG_ID"
-   export PROJECT_ID="YOUR_PROJECT_ID"
-   CREDENTIALS_FILE="credentials.json"
-   export SERVICE_ACCOUNT_JSON=`cat ${CREDENTIALS_FILE}`
-   ```
-
-4. Run the testing container in interactive mode.
-    ```
-    make docker_run
-    ```
-
-    The module root directory will be loaded into the Docker container at `/cft/workdir/`.
-5. Run kitchen-terraform to test the infrastructure.
-
-    1. `kitchen create` creates Terraform state.
-    2. `kitchen converge` creates the underlying resources. You can run `kitchen converge minimal` to only create the minimal fixture.
-    3. `kitchen verify` tests the created infrastructure. Run `kitchen verify minimal` to run the smaller test suite.
-    4. `kitchen destroy` removes the created infrastructure. Run `kitchen destroy minimal` to remove the smaller test suite.
-
-Alternatively, you can simply run `make test_integration_docker` to run all the
-test steps non-interactively.
-
-#### Test configuration
-
-Each test-kitchen instance is configured with a `terraform.tfvars` file in the
-test fixture directory. For convenience, these are symlinked to a single shared file:
-
-```sh
-cp "test/fixtures/shared/terraform.tfvars.example" \
-  "test/fixtures/shared/terraform.tfvars"
-$EDITOR "test/fixtures/shared/terraform.tfvars"
-done
-```
-
-Integration tests can be run within a pre-configured docker container. Tests can
-be run without user interaction for quick validation, or with user interaction
-during development.
-
-### Autogeneration of documentation from .tf files
-
-Run
-```
-make generate_docs
-```
-
-### Linting
-
-The makefile in this project will lint or sometimes just format any shell,
-Python, golang, Terraform, or Dockerfiles. The linters will only be run if the
-makefile finds files with the appropriate file extension.
-
-All of the linter checks are in the default make target, so you just have to run
-
-```
-make -s
-```
-
-The -s is for 'silent'. Successful output looks like this
-
-```
-Running shellcheck
-Running flake8
-Running gofmt
-Running terraform validate
-Running hadolint on Dockerfiles
-Test passed - Verified all file Apache 2 headers
-```
-
-The linters
-are as follows:
-* Shell - shellcheck. Can be found in homebrew
-* Python - flake8. Can be installed with 'pip install flake8'
-* Golang - gofmt. gofmt comes with the standard golang installation. golang
-is a compiled language so there is no standard linter.
-* Terraform - terraform has a built-in linter in the 'terraform validate'
-command.
-* Dockerfiles - hadolint. Can be found in homebrew
-
-## Releasing New Versions
-
-New versions can be released by pushing tags to this repository's origin on
-GitHub. There is a Make target to facilitate the process:
-
-```
-make release-new-version
-```
-
-The new version must be documented in [CHANGELOG.md](CHANGELOG.md) for the
-target to work.
-
-See the Terraform documentation for more info on [releasing new
-versions][release-new-version].
-
 [gsuite-enabled-module]: modules/gsuite_enabled/README.md
 [preconditions-checker-script]: modules/core_project_factory/scripts/preconditions/preconditions.py
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
 [glossary]: /docs/GLOSSARY.md
-[release-new-version]: https://www.terraform.io/docs/registry/modules/publish.html#releasing-new-versions
 [application-default-credentials]: https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application
 
 [2.4.1]: https://registry.terraform.io/modules/terraform-google-modules/project-factory/google/2.4.1
