@@ -31,24 +31,25 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
 
-  version = "~> 0.1.9"
+  version = "~> 0.1.12"
 }
 
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  name              = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
-  project_id        = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
-  random_project_id = "false"
-  domain            = var.domain
-  org_id            = var.org_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
-  create_group      = "true"
-  group_role        = var.group_role
-  group_name        = "pf-secondgroup-${var.random_string_for_testing}"
-  shared_vpc        = var.shared_vpc
-  credentials_path  = var.credentials_path
+  name               = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  project_id         = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  random_project_id  = "false"
+  domain             = var.domain
+  org_id             = var.org_id
+  folder_id          = var.folder_id
+  billing_account    = var.billing_account
+  create_group       = true
+  group_role         = var.group_role
+  group_name         = "pf-secondgroup-${var.random_string_for_testing}"
+  shared_vpc         = var.shared_vpc
+  shared_vpc_enabled = true
+  credentials_path   = var.credentials_path
 
   activate_apis = [
     "compute.googleapis.com",

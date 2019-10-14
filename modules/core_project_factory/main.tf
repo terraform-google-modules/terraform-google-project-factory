@@ -44,7 +44,7 @@ locals {
   )
   activate_apis          = var.impersonate_service_account != "" ? concat(var.activate_apis, ["iamcredentials.googleapis.com"]) : var.activate_apis
   api_s_account_fmt      = format("serviceAccount:%s", local.api_s_account)
-  gke_shared_vpc_enabled = var.shared_vpc != "" && contains(local.activate_apis, "container.googleapis.com") ? "true" : "false"
+  gke_shared_vpc_enabled = var.shared_vpc_enabled && contains(var.activate_apis, "container.googleapis.com")
   gke_s_account = format(
     "service-%s@container-engine-robot.iam.gserviceaccount.com",
     google_project.main.number,
@@ -115,7 +115,7 @@ resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invali
   ) == 0 ? 0 : 1
 
   provisioner "local-exec" {
-    command = "false"
+    command     = "false"
     interpreter = ["bash", "-c"]
   }
 }
@@ -124,11 +124,11 @@ resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invali
   Project creation
  *******************************************/
 resource "google_project" "main" {
-  name = var.name
-  project_id = local.temp_project_id
-  org_id = local.project_org_id
-  folder_id = local.project_folder_id
-  billing_account = var.billing_account
+  name                = var.name
+  project_id          = local.temp_project_id
+  org_id              = local.project_org_id
+  folder_id           = local.project_folder_id
+  billing_account     = var.billing_account
   auto_create_network = var.auto_create_network
 
   labels = var.labels
@@ -140,11 +140,11 @@ resource "google_project" "main" {
   Project lien
  *****************************************/
 resource "google_resource_manager_lien" "lien" {
-  count = var.lien ? 1 : 0
-  parent = "projects/${google_project.main.number}"
+  count        = var.lien ? 1 : 0
+  parent       = "projects/${google_project.main.number}"
   restrictions = ["resourcemanager.projects.delete"]
-  origin = "project-factory"
-  reason = "Project Factory lien"
+  origin       = "project-factory"
+  reason       = "Project Factory lien"
 }
 
 /******************************************
@@ -156,7 +156,7 @@ resource "google_project_service" "project_services" {
   project = google_project.main.project_id
   service = element(local.activate_apis, count.index)
 
-  disable_on_destroy = var.disable_services_on_destroy
+  disable_on_destroy         = var.disable_services_on_destroy
   disable_dependent_services = var.disable_dependent_services
 
   depends_on = [google_project.main]
@@ -165,9 +165,8 @@ resource "google_project_service" "project_services" {
 resource "google_project_services" "project_services_authority" {
   count = var.apis_authority ? 1 : 0
 
-  project = google_project.main.project_id
-  services = local.activate_apis
-
+  project    = google_project.main.project_id
+  services   = local.activate_apis
   depends_on = [google_project.main]
 }
 
@@ -175,9 +174,9 @@ resource "google_project_services" "project_services_authority" {
   Shared VPC configuration
  *****************************************/
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
-  count = var.shared_vpc != "" ? 1 : 0
+  count = var.shared_vpc_enabled ? 1 : 0
 
-  host_project = var.shared_vpc
+  host_project    = var.shared_vpc
   service_project = google_project.main.project_id
 
   depends_on = [
@@ -242,7 +241,7 @@ EOD
 
   triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis = join(",", local.activate_apis)
+    activated_apis          = join(",", local.activate_apis)
   }
 
   depends_on = [
@@ -255,18 +254,18 @@ EOD
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
-  account_id = "project-service-account"
+  account_id   = "project-service-account"
   display_name = "${var.name} Project Service Account"
-  project = google_project.main.project_id
+  project      = google_project.main.project_id
 }
 
 /**************************************************
   Policy to operate instances in shared subnetwork
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
-  count = var.sa_role != "" ? 1 : 0
+  count   = var.sa_role != "" ? 1 : 0
   project = google_project.main.project_id
-  role = var.sa_role
+  role    = var.sa_role
 
   member = local.s_account_fmt
 }
@@ -277,9 +276,9 @@ resource "google_project_iam_member" "default_service_account_membership" {
 resource "google_project_iam_member" "gsuite_group_role" {
   count = var.manage_group ? 1 : 0
 
-  member = local.group_id
+  member  = local.group_id
   project = google_project.main.project_id
-  role = var.group_role
+  role    = var.group_role
 }
 
 /******************************************
@@ -289,7 +288,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   count = var.manage_group ? 1 : 0
 
   member = local.group_id
-  role = "roles/iam.serviceAccountUser"
+  role   = "roles/iam.serviceAccountUser"
 
   service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
 }
@@ -299,11 +298,11 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   Account on shared VPC
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) == 0 ? local.shared_vpc_users_length : 0
+  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) == 0 ? local.shared_vpc_users_length : 0
 
   project = var.shared_vpc
-  role = "roles/compute.networkUser"
-  member = element(local.shared_vpc_users, count.index)
+  role    = "roles/compute.networkUser"
+  member  = element(local.shared_vpc_users, count.index)
 
   depends_on = [
     google_project_service.project_services,
@@ -316,8 +315,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-
-  count = var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
 
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
@@ -332,7 +330,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.s_account_fmt
+  member  = local.s_account_fmt
 }
 
 /*************************************************************************************
@@ -341,8 +339,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
-
+  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -355,7 +352,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
     split("/", var.shared_vpc_subnets[count.index]),
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
-  member = local.group_id
+  member  = local.group_id
   project = var.shared_vpc
 }
 
@@ -365,8 +362,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc != "" && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
-
+  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -380,7 +376,7 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.api_s_account_fmt
+  member  = local.api_s_account_fmt
 
   depends_on = [
     google_project_service.project_services,
@@ -394,9 +390,9 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
 resource "google_project_usage_export_bucket" "usage_report_export" {
   count = var.usage_bucket_name != "" ? 1 : 0
 
-  project = google_project.main.project_id
+  project     = google_project.main.project_id
   bucket_name = var.usage_bucket_name
-  prefix = var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"
+  prefix      = var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"
 
   depends_on = [
     google_project_service.project_services,
@@ -410,8 +406,8 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 resource "google_storage_bucket" "project_bucket" {
   count = local.create_bucket ? 1 : 0
 
-  name = local.project_bucket_name
-  project = var.bucket_project
+  name     = local.project_bucket_name
+  project  = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
   location = var.bucket_location
 }
 
@@ -423,7 +419,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
 
   bucket = google_storage_bucket.project_bucket[0].name
   member = local.group_id
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
 }
 
 /***********************************************
@@ -433,7 +429,7 @@ resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_
   count = local.create_bucket ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
   member = local.s_account_fmt
 }
 
@@ -444,7 +440,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   count = local.create_bucket ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
-  role = "roles/storage.admin"
+  role   = "roles/storage.admin"
   member = local.api_s_account_fmt
 
   depends_on = [
@@ -458,9 +454,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   provider = google-beta
-
-  count = local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0
-
+  count    = local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -474,7 +468,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
-  member = local.gke_s_account_fmt
+  member  = local.gke_s_account_fmt
 
   depends_on = [
     google_project_service.project_services,
@@ -486,12 +480,10 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
-  count = local.gke_shared_vpc_enabled ? 1 : 0
-
+  count   = local.gke_shared_vpc_enabled ? 1 : 0
   project = var.shared_vpc
-  role = "roles/container.hostServiceAgentUser"
-  member = local.gke_s_account_fmt
-
+  role    = "roles/container.hostServiceAgentUser"
+  member  = local.gke_s_account_fmt
   depends_on = [
     google_project_service.project_services,
     google_project_services.project_services_authority,

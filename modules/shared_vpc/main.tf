@@ -18,7 +18,7 @@
   Organization info retrieval
  *****************************************/
 module "gsuite_group" {
-  source = "./modules/gsuite_group"
+  source = "../gsuite_group"
 
   domain = var.domain
   name   = var.group_name
@@ -26,7 +26,7 @@ module "gsuite_group" {
 }
 
 module "project-factory" {
-  source = "./modules/core_project_factory"
+  source = "../core_project_factory"
 
   group_email                 = module.gsuite_group.email
   group_role                  = var.group_role
@@ -37,7 +37,7 @@ module "project-factory" {
   name                        = var.name
   project_id                  = var.project_id
   shared_vpc                  = var.shared_vpc
-  shared_vpc_enabled          = var.shared_vpc != ""
+  shared_vpc_enabled          = true
   billing_account             = var.billing_account
   folder_id                   = var.folder_id
   sa_role                     = var.sa_role
@@ -46,7 +46,6 @@ module "project-factory" {
   usage_bucket_name           = var.usage_bucket_name
   usage_bucket_prefix         = var.usage_bucket_prefix
   credentials_path            = var.credentials_path
-  impersonate_service_account = var.impersonate_service_account
   shared_vpc_subnets          = var.shared_vpc_subnets
   labels                      = var.labels
   bucket_project              = var.bucket_project

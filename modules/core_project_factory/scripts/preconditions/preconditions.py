@@ -455,8 +455,9 @@ def validators_for(opts, seed_project):
 def main(argv):
     try:
         opts = argparser().parse_args(argv[1:])
-        (credentials, project_id) = get_credentials(opts.credentials_path,
-                                        opts.impersonate_service_account)
+        (credentials, project_id) = get_credentials(
+            opts.credentials_path,
+            opts.impersonate_service_account)
 
         validators = validators_for(opts, project_id)
 

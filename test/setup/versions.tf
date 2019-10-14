@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = "${path.module}/sa-key.json"
+terraform {
+  required_version = ">= 0.12"
 }
 
-/******************************************
-  Provider configuration
- *****************************************/
-provider "gsuite" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 0.1.12"
+provider "google" {
+  version = "~> 2.13.0"
 }
 
-module "app-engine" {
-  source           = "../../modules/app_engine"
-  location_id      = var.location_id
-  auth_domain      = var.auth_domain
-  serving_status   = var.serving_status
-  feature_settings = [{ enabled = true }]
-  project_id       = "example-project"
+provider "google-beta" {
+  version = "~> 2.13.0"
 }

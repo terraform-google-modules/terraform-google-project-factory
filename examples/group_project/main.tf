@@ -39,16 +39,18 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group",
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
+
+  version = "~> 0.1.12"
 }
 
 module "project-factory" {
   source            = "../../modules/gsuite_enabled"
-  random_project_id = "true"
+  random_project_id = true
   name              = "group-sample-project"
   org_id            = var.organization_id
   billing_account   = var.billing_account
   credentials_path  = local.credentials_file_path
-  create_group      = "true"
+  create_group      = true
   group_name        = var.project_group_name
   api_sa_group      = var.api_sa_group
 }
