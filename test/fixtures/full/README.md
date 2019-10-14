@@ -6,7 +6,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | billing\_account |  | string | n/a | yes |
-| create\_group |  | string | `"false"` | no |
+| create\_group |  | bool | `"false"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture. | string | `""` | no |
 | domain |  | string | n/a | yes |
 | folder\_id |  | string | `""` | no |
@@ -19,6 +19,7 @@
 | sa\_group |  | string | `""` | no |
 | sa\_role |  | string | `"roles/editor"` | no |
 | shared\_vpc |  | string | `""` | no |
+| shared\_vpc\_enabled | If shared VPC should be used | bool | `"false"` | no |
 | usage\_bucket\_name |  | string | `""` | no |
 | usage\_bucket\_prefix |  | string | `""` | no |
 

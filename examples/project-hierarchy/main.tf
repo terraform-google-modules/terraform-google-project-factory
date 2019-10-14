@@ -40,7 +40,7 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
 
-  version = "~> 0.1.9"
+  version = "~> 0.1.12"
 }
 
 resource "google_folder" "prod" {
