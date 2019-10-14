@@ -8,6 +8,14 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### [3.3.1] - 2019-10-08
+
+### Fixed
+
+- Make the `custom_roles` output in `modules/fabric-project` v0.12 compliant. [#268]
+
+### [3.3.0] - 2019-09-18
+
 ### Fixed
 
 - Allow creation of project_bucket within the project we are creating. [#261]
@@ -195,7 +203,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.2.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.1...HEAD
+[3.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.0...v3.3.1
+[3.3.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.1.0...v3.3.0
 [3.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.1.0...v3.2.0
 [3.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v2.4.1...v3.0.0
@@ -221,6 +231,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#268]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/268
 [#261]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/261
 [#259]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/259
 [#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253

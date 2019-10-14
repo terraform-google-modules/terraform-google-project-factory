@@ -33,7 +33,7 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
 
-  version = "~> 0.1.9"
+  version = "~> 0.1.12"
 }
 
 locals {
@@ -52,7 +52,8 @@ locals {
 }
 
 module "vpc" {
-  source = "git::https://github.com/terraform-google-modules/terraform-google-network.git?ref=master"
+  source  = "terraform-google-modules/network/google"
+  version = "~> 1.1"
 
   network_name = "pf-test-int-full-${var.random_string_for_testing}"
   project_id   = var.shared_vpc
@@ -102,7 +103,7 @@ module "project-factory" {
   usage_bucket_name   = var.usage_bucket_name
   usage_bucket_prefix = var.usage_bucket_prefix
   billing_account     = var.billing_account
-  create_group        = var.create_group
+  create_group        = true
   group_role          = var.group_role
   group_name          = var.group_name
   shared_vpc          = var.shared_vpc
