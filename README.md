@@ -113,7 +113,6 @@ determining that location is as follows:
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
-| apis\_authority | Toggles authoritative management of project services. | bool | `"false"` | no |
 | auto\_create\_network | Create the default network | bool | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
