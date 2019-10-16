@@ -16,6 +16,9 @@
 
 output "project_id" {
   description = "The GCP project you want to enable APIs on"
-  value       = var.enable_apis && length(var.activate_apis) > 0 ? var.project_id : ""
+  value = element(
+    [for v in google_project_service.project_services : v.project],
+    0,
+  )
 }
 

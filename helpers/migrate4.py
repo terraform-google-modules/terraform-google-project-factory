@@ -227,7 +227,7 @@ def read_state(statefile):
     """
     Read the terraform state at the given path.
     """
-    argv = ["terraform", "state", "list", "-state", statefile]
+    argv = ["terraform", "state", "list", *statefile]
     result = subprocess.run(argv,
                             capture_output=True,
                             check=True,
@@ -242,7 +242,7 @@ def read_resource_value(resource, field, statefile):
     Read a specific value from a resource from the terraform state at the
     given path.
     """
-    argv = ["terraform", "state", "show", "-no-color", "-state", statefile, resource]
+    argv = ["terraform", "state", "show", "-no-color", *statefile, resource]
     result = subprocess.run(argv,
                             capture_output=True,
                             check=True,
@@ -266,15 +266,15 @@ def state_changes_for_module(module, statefile):
     migration = ProjectServicesMigration(module, statefile)
 
     for (old, new, id) in migration.moves():
-        argv = ["terraform", "state", "rm", "-state", statefile, old]
+        argv = ["terraform", "state", "rm", *statefile, old]
         commands.append(argv)
-        argv = ["terraform", "import", "-state", statefile, new, id]
+        argv = ["terraform", "import", *statefile, new, id]
         commands.append(argv)
 
     return commands
 
 
-def migrate(statefile, dryrun=False):
+def migrate(statefile, dryrun=False, verbose=False):
     """
     Migrate the terraform state in `statefile` to match the post-refactor
     resource structure.
@@ -310,9 +310,9 @@ def migrate(statefile, dryrun=False):
         commands += state_changes_for_module(factory, statefile)
 
     for argv in commands:
-        if dryrun:
+        if dryrun or verbose:
             print(" ".join(argv))
-        else:
+        if not dryrun:
             subprocess.run(argv, check=True, encoding='utf-8')
 
 
@@ -320,24 +320,28 @@ def main(argv):
     parser = argparser()
     args = parser.parse_args(argv[1:])
 
-    print("cp {} {}".format(args.oldstate, args.newstate))
-    shutil.copy(args.oldstate, args.newstate)
+    state = []
+    plan_command = "terraform plan"
+    if args.state:
+        state = ["-state", args.state]
+        plan_command += " {}".format(' '.join(state))
 
-    migrate(args.newstate, dryrun=args.dryrun)
+    migrate(state, dryrun=args.dryrun, verbose=args.verbose)
     print("State migration complete, verify migration with "
-          "`terraform plan -state '{}'`".format(args.newstate))
+          "`{}`".format(plan_command))
 
 
 def argparser():
     parser = argparse.ArgumentParser(description='Migrate Terraform state')
-    parser.add_argument('oldstate', metavar='oldstate.json',
-                        help='The current Terraform state (will not be '
-                             'modified)')
-    parser.add_argument('newstate', metavar='newstate.json',
-                        help='The path to the new state file')
+    parser.add_argument('--state',
+                        help='The Terraform state file to modify, otherwise '
+                        'Terraform default')
     parser.add_argument('--dryrun', action='store_true',
                         help='Print the `terraform state mv` commands instead '
                              'of running the commands.')
+    parser.add_argument('--verbose', '-v', action='store_true',
+                        help='Print the `terraform state mv` commands that '
+                             'are run.')
     return parser
 
 

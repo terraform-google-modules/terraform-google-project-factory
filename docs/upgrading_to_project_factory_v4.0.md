@@ -66,40 +66,22 @@ chmod +x migrate4.py
 terraform init -upgrade
 ```
 
-### Locally download your Terraform state
+### Backup your remote Terraform state
 
 This step is only required if you are using [remote state](https://www.terraform.io/docs/state/remote.html).
 
 ```
-terraform state pull >> terraform.tfstate
-```
-
-You should then disable remote state temporarily:
-
-```hcl
-terraform {
-#  backend "gcs" {
-#    bucket  = "my-bucket-name"
-#    prefix  = "terraform/state/projects"
-#  }
-}
-```
-
-After commenting out your remote state configuration, you must re-initialize Terraform.
-
-```
-terraform init
+terraform state pull > terraform-backup.tfstate
 ```
 
 ### Migrate the Terraform state to match the new Project Factory module structure
 
 ```
-./migrate4.py terraform.tfstate terraform.tfstate.new
+./migrate4.py
 ```
 
 Expected output:
 ```txt
-cp terraform.tfstate terraform.tfstate.new
 ---- Migrating the following project-factory modules:
 -- module.my-project.module.project-factory
 Removed module.my-project.module.project-factory.google_project_service.project_services[0]
@@ -113,13 +95,13 @@ Import successful!
 
 The resources that were imported are shown above. These resources are now in
 your Terraform state and will henceforth be managed by Terraform.
-State migration complete, verify migration with `terraform plan -state 'terraform.tfstate.new'`
+State migration complete, verify migration with `terraform plan`
 ```
 
 ### Check that terraform plans for expected changes
 
 ```
-terraform plan -state terraform.tfstate.new
+terraform plan
 ```
 
 The project services refactor will show this for each service:
@@ -137,38 +119,10 @@ The project services refactor will show this for each service:
   }
 ```
 
-### Back up the old Terraform state and switch to the new Terraform state
-
-If the Terraform plan suggests no changes, replace the old state file with the new state file.
-
-```
-mv terraform.tfstate terraform.tfstate.pre-migrate
-mv terraform.tfstate.new terraform.tfstate
-```
-
 ### Run Terraform to reconcile any differences
 
 ```
 terraform apply
-```
-
-### Re-enable remote state
-
-You should then re-enable remote state:
-
-```hcl
-terraform {
-  backend "gcs" {
-    bucket  = "my-bucket-name"
-    prefix  = "terraform/state/projects"
-  }
-}
-```
-
-After restoring remote state, you need to re-initialize Terraform and push your local state to the remote:
-
-```
-terraform init -force-copy
 ```
 
 ### Clean up
@@ -179,10 +133,10 @@ Once you are done with the migration, you can safely remove `migrate.py`.
 rm migrate4.py
 ```
 
-If you are using remote state, you can also remove the local state copies.
+If you are using remote state, you can also remove the local state backup.
 
 ```
-rm -rf terraform.tfstate*
+rm -rf terraform-backup.tfstate
 ```
 
 ## Troubleshooting
