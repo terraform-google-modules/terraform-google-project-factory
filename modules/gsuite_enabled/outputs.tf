@@ -38,7 +38,7 @@ output "group_email" {
 
 output "group_name" {
   value       = module.gsuite_group.name
-  description = "The email name of the created GSuite group with group_name"
+  description = "The group_name of the GSuite group"
 }
 
 output "service_account_id" {
