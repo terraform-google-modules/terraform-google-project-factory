@@ -24,3 +24,8 @@ output "email" {
   value       = local.email
 }
 
+output "name" {
+  description = "The username portion of the email address of the group."
+  value = var.name
+}
+
