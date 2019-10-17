@@ -77,7 +77,7 @@ resource "null_resource" "preconditions" {
 
   provisioner "local-exec" {
     command = <<EOD
-${path.module}/scripts/preconditions.sh \
+PIP3_EXTRA_FLAGS='${var.pip3_extra_flags}' ${path.module}/scripts/preconditions.sh \
     --credentials_path '${var.credentials_path}' \
     --impersonate_service_account '${var.impersonate_service_account}' \
     --billing_account '${var.billing_account}' \
