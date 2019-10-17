@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Fixed
+
+- Allow impersonating service accounts in G Suite submodule. [#285]
+
 ### [3.3.1] - 2019-10-08
 
 ### Fixed
@@ -231,6 +235,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#285]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/285
 [#268]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/268
 [#261]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/261
 [#259]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/259
