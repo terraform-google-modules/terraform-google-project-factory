@@ -36,6 +36,11 @@ output "group_email" {
   description = "The email of the created GSuite group with group_name"
 }
 
+output "group_name" {
+  value       = module.gsuite_group.name
+  description = "The email name of the created GSuite group with group_name"
+}
+
 output "service_account_id" {
   value       = module.project-factory.service_account_id
   description = "The id of the default service account"
