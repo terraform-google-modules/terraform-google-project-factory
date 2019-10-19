@@ -49,8 +49,8 @@ module "host-project" {
   Network Creation
  *****************************************/
 module "vpc" {
-  # source  = "terraform-google-modules/network/google"
-  # version = "~> 1.4.0"
+  source  = "terraform-google-modules/network/google"
+  version = "~> 1.4.0"
 
   project_id   = module.host-project.project_id
   network_name = var.network_name
