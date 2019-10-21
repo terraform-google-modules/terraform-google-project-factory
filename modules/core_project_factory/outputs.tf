@@ -21,8 +21,7 @@ output "project_name" {
 output "project_id" {
   value = element(
     concat(
-      google_project_service.project_services.*.project,
-      google_project_services.project_services_authority.*.project,
+      [module.project_services.project_id],
       [google_project.main.project_id],
     ),
     0,
