@@ -19,10 +19,11 @@ intended for Terraform 0.11.x is [2.4.1].
 
 ## Upgrading
 
-The current version is 3.X. The following guides are available to assist with upgrades:
+The current version is 4.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
+- [3.X -> 4.0](./docs/upgrading_to_project_factory_v4.0.md)
 
 ## Usage
 
@@ -31,7 +32,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -164,7 +165,7 @@ determining that location is as follows:
 
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 206.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
--   [Terraform](https://www.terraform.io/downloads.html) 0.11.x
+-   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
 -   [terraform-provider-google] plugin 2.1.x
 -   [terraform-provider-google-beta] plugin 2.1.x
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
