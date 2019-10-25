@@ -84,10 +84,10 @@ module "project-factory" {
   folder_id                   = var.folder_id
   sa_role                     = var.sa_role
   activate_apis               = var.activate_apis
-  apis_authority              = var.apis_authority
   usage_bucket_name           = var.usage_bucket_name
   usage_bucket_prefix         = var.usage_bucket_prefix
   credentials_path            = var.credentials_path
+  impersonate_service_account = var.impersonate_service_account
   shared_vpc_subnets          = var.shared_vpc_subnets
   labels                      = var.labels
   bucket_project              = var.bucket_project

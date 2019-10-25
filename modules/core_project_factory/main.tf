@@ -150,24 +150,14 @@ resource "google_resource_manager_lien" "lien" {
 /******************************************
   APIs configuration
  *****************************************/
-resource "google_project_service" "project_services" {
-  count = var.apis_authority ? 0 : length(local.activate_apis)
+module "project_services" {
+  source = "../project_services"
 
-  project = google_project.main.project_id
-  service = element(local.activate_apis, count.index)
+  project_id    = google_project.main.project_id
+  activate_apis = local.activate_apis
 
-  disable_on_destroy         = var.disable_services_on_destroy
-  disable_dependent_services = var.disable_dependent_services
-
-  depends_on = [google_project.main]
-}
-
-resource "google_project_services" "project_services_authority" {
-  count = var.apis_authority ? 1 : 0
-
-  project    = google_project.main.project_id
-  services   = local.activate_apis
-  depends_on = [google_project.main]
+  disable_services_on_destroy = var.disable_services_on_destroy
+  disable_dependent_services  = var.disable_dependent_services
 }
 
 /******************************************
@@ -180,8 +170,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   service_project = google_project.main.project_id
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -217,8 +206,7 @@ EOD
   }
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority
+    module.project_services,
   ]
 }
 
@@ -245,8 +233,7 @@ EOD
   }
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority
+    module.project_services,
   ]
 }
 
@@ -305,8 +292,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
   member  = element(local.shared_vpc_users, count.index)
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -379,8 +365,7 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
   member  = local.api_s_account_fmt
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -395,8 +380,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
   prefix      = var.usage_bucket_prefix != "" ? var.usage_bucket_prefix : "usage-${google_project.main.project_id}"
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -444,8 +428,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   member = local.api_s_account_fmt
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -471,8 +454,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   member  = local.gke_s_account_fmt
 
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 
@@ -485,8 +467,7 @@ resource "google_project_iam_member" "gke_host_agent" {
   role    = "roles/container.hostServiceAgentUser"
   member  = local.gke_s_account_fmt
   depends_on = [
-    google_project_service.project_services,
-    google_project_services.project_services_authority,
+    module.project_services,
   ]
 }
 

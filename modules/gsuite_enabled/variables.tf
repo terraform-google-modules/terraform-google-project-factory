@@ -89,11 +89,6 @@ variable "activate_apis" {
   default     = ["compute.googleapis.com"]
 }
 
-variable "apis_authority" {
-  description = "Toggles authoritative management of project services."
-  default     = "false"
-}
-
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
   default     = ""
@@ -106,6 +101,12 @@ variable "usage_bucket_prefix" {
 
 variable "credentials_path" {
   description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
+}
+
+variable "impersonate_service_account" {
+  description = "An optional service account to impersonate. If this service account is not specified, Terraform will fall back to credential file or Application Default Credentials."
+  type        = string
   default     = ""
 }
 
