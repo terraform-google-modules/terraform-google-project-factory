@@ -16,6 +16,7 @@ This module is meant for use with Terraform 0.12. If you haven't
 [upgraded][terraform-0.12-upgrade] and need a Terraform
 0.11.x-compatible version of this module, the last released version
 intended for Terraform 0.11.x is [2.4.1].
+Modele isn't supported on Windows and/or outside of a bash environment.
 
 ## Upgrading
 
