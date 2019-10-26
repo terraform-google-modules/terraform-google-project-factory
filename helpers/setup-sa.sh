@@ -36,19 +36,17 @@ fi
 echo "Verifying organization..."
 ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$1")"
 
-if [[ $ORG_ID == "" ]];
-then
+if [[ $ORG_ID == "" ]]; then
   echo "The organization id provided does not exist. Exiting."
   exit 1;
 fi
 
- # Seed Project
+# Seed Project
 echo "Verifying project..."
 SEED_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
 
-if [[ $SEED_PROJECT == "" ]];
-then
-   echo "The Seed Project does not exist. Exiting."
+if [[ $SEED_PROJECT == "" ]]; then
+  echo "The Seed Project does not exist. Exiting."
   exit 1;
 fi
 
@@ -57,8 +55,7 @@ if [ $# -eq 3 ]; then
   echo "Verifying billing account..."
   BILLING_ACCOUNT="$(gcloud beta billing accounts list --format="value(ACCOUNT_ID)" --filter="$3")"
 
-  if [[ $BILLING_ACCOUNT == "" ]];
-  then
+  if [[ $BILLING_ACCOUNT == "" ]]; then
     echo "The billing account does not exist. Exiting."
     exit 1;
   fi
@@ -66,7 +63,7 @@ else
   echo "Skipping billing account verification... (parameter not passed)"
 fi
 
- # Seed Service Account creation
+# Seed Service Account creation
 SA_NAME="project-factory-${RANDOM}"
 SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
@@ -74,16 +71,18 @@ KEY_FILE="${STAGING_DIR}/credentials.json"
 
 echo "Creating Seed Service Account..."
 gcloud iam service-accounts \
-    --project "${SEED_PROJECT}" create ${SA_NAME} \
-    --display-name ${SA_NAME}
+  --project "${SEED_PROJECT}" create ${SA_NAME} \
+  --display-name ${SA_NAME}
 
 echo "Downloading key to credentials.json..."
 gcloud iam service-accounts keys create "${KEY_FILE}" \
-    --iam-account "${SA_ID}" \
+  --iam-account "${SA_ID}" \
+  --user-output-enabled false
     --user-output-enabled false
 
 echo "Applying permissions for org $ORG_ID and project $SEED_PROJECT..."
- # Grant roles/resourcemanager.organizationViewer to the Seed Service Account on the organization
+# Grant roles/resourcemanager.organizationViewer to the Seed Service Account on the organization
+echo "Adding role roles/resourcemanager.organizationViewer..."
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
@@ -130,7 +129,7 @@ gcloud organizations add-iam-policy-binding \
   --role="roles/iam.serviceAccountAdmin" \
   --user-output-enabled false
 
- # Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
+# Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
 echo "Adding role roles/resourcemanager.projectIamAdmin..."
 gcloud projects add-iam-policy-binding \
   "${SEED_PROJECT}" \
