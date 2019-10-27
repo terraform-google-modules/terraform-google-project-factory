@@ -172,7 +172,7 @@ variable "shared_vpc_enabled" {
 }
 
 variable "pip3_extra_flags" {
-  description = "Extra flags that should be pass to pip3 install commands.  Usually used to specify '--user' for Mac users with native python installs."
+  description = "Extra flags that will be included in pip3 install commands when running preconditions script.  Intended for specifying '--user' on MacOS hosts with the native python installation, which doesn't allow packages to be installed globally."
   type        = string
   default     = ""
 }

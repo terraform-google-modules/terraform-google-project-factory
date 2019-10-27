@@ -79,7 +79,7 @@ The roles granted are specifically:
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
-| pip3\_extra\_flags | Extra flags that should be pass to pip3 install commands.  Usually used to specify '--user' for Mac users with native python installs. | string | `""` | no |
+| pip3\_extra\_flags | Extra flags that will be included in pip3 install commands when running preconditions script.  Intended for specifying '--user' on MacOS hosts with the native python installation, which doesn't allow packages to be installed globally. | string | `""` | no |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
 | random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
 | sa\_group | A GSuite group to place the default Service Account for the project in | string | `""` | no |

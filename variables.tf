@@ -167,3 +167,9 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
+variable "pip3_extra_flags" {
+  description = "Extra flags that will be included in pip3 install commands when running preconditions script.  Intended for specifying '--user' on MacOS hosts with the native python installation, which doesn't allow packages to be installed globally."
+  type        = string
+  default     = ""
+}
+
