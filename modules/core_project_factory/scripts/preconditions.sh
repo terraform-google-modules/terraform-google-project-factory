@@ -31,7 +31,9 @@ function extract_pip_flags {
             continue
         elif [ $extract -eq 1 ]; then
             if ! [[ "$flag" =~ $flag_re ]]; then
-                PIP_FLAGS+=("$flag")
+                if [ ${#flag} -gt 0 ]; then
+                    PIP_FLAGS+=("$flag")
+                fi
             fi
         fi
         extract=0
@@ -45,7 +47,11 @@ if command -v python3 1>/dev/null; then
     extract_pip_flags "$@"
 
     if command -v pip3 1>/dev/null; then
-        exec "pip3" "install" ${PIP_FLAGS[*]} "-r" "$BASEDIR/preconditions/requirements.txt"
+        if [ "${#PIP_FLAGS[*]}" == "0" ]; then
+          exec "pip3" "install" "-r" "$BASEDIR/preconditions/requirements.txt"
+        else
+          exec "pip3" "install" "${PIP_FLAGS[*]}" "-r" "$BASEDIR/preconditions/requirements.txt"
+        fi
     else
         echo "Unable to install project-factory requirements: pip3 executable not in PATH" 1>&2
     fi
