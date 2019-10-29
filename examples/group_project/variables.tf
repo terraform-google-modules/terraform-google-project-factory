@@ -31,10 +31,10 @@ variable "billing_account" {
 }
 
 variable "api_sa_group" {
-  description = "An existing GSuite group email to place the Google APIs Service Account for the project in"
+  description = "An existing G Suite group email to place the Google APIs Service Account for the project in"
 }
 
 variable "project_group_name" {
-  description = "The name of a GSuite group to create for controlling the project"
+  description = "The name of a G Suite group to create for controlling the project"
 }
 

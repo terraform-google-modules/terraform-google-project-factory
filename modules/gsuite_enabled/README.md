@@ -59,7 +59,7 @@ The roles granted are specifically:
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
-| api\_sa\_group | A GSuite group to place the Google APIs Service Account for the project in | string | `""` | no |
+| api\_sa\_group | A G Suite group to place the Google APIs Service Account for the project in | string | `""` | no |
 | auto\_create\_network | Create the default network | string | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `""` | no |
@@ -74,13 +74,14 @@ The roles granted are specifically:
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role - defaults to $${project_name}-editors | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
+| impersonate\_service\_account | An optional service account to impersonate. If this service account is not specified, Terraform will fall back to credential file or Application Default Credentials. | string | `""` | no |
 | labels | Map of labels for project | map(string) | `<map>` | no |
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
 | random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
-| sa\_group | A GSuite group to place the default Service Account for the project in | string | `""` | no |
+| sa\_group | A G Suite group to place the default Service Account for the project in | string | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_enabled | If shared VPC should be used | bool | `"false"` | no |
@@ -93,7 +94,8 @@ The roles granted are specifically:
 | Name | Description |
 |------|-------------|
 | domain | The organization's domain |
-| group\_email | The email of the created GSuite group with group_name |
+| group\_email | The email of the created G Suite group with group_name |
+| group\_name | The group_name of the G Suite group |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id |  |

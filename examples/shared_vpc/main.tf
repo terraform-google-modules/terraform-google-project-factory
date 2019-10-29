@@ -25,12 +25,12 @@ locals {
  *****************************************/
 provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.7.0"
+  version     = "~> 2.18.1"
 }
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.7.0"
+  version     = "~> 2.18.1"
 }
 
 /******************************************
