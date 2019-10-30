@@ -14,11 +14,16 @@
  * limitations under the License.
  */
 
+ locals {
+   api_set = var.enable_apis ? toset(var.activate_apis) : []
+   activated_apis = var.enable_apis ? [for v in google_project_service.project_services : v.project] : []
+ }
+
 /******************************************
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
-  for_each                   = toset([for api in var.activate_apis : api if var.enable_apis])
+  for_each                   = local.api_set
   project                    = var.project_id
   service                    = each.value
   disable_on_destroy         = var.disable_services_on_destroy
