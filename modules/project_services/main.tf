@@ -16,7 +16,6 @@
 
  locals {
    api_set = var.enable_apis ? toset(var.activate_apis) : []
-   activated_apis = var.enable_apis ? [for v in google_project_service.project_services : v.project] : []
  }
 
 /******************************************

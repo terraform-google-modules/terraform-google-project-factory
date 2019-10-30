@@ -36,4 +36,3 @@ module "project-services" {
     "bigquery-json.googleapis.com",
   ]
 }
-
