@@ -317,7 +317,7 @@ The core Project Factory solely deals with GCP APIs and does not integrate G Sui
 ## Install
 ### Terraform
 
-Be sure you have the correct Terraform version (0.11.x), you can choose the
+Be sure you have the correct Terraform version (0.12.6+), you can choose the
 binary here:
 
 - https://releases.hashicorp.com/terraform/
