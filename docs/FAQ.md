@@ -1,5 +1,12 @@
 # Frequently Asked Questions
 
+## Why am I encountering a low quota with projects created via Terraform?
+
+If you are running the Terraform Project Factory using Service Account credentials, the quota will be based on the
+reputation of your service account rather than your user identity. In many cases, this quota is initially low.
+
+If you encounter such quota issues, you should consider opening a support case with Google Cloud to have your quota lifted.
+
 ## How should I organize my Terraform structure?
 
 The specific directory structure which works for your organization can vary, but there two principles you should keep in mind:
