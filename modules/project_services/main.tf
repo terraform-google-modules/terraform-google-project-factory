@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
- locals {
-   api_set = var.enable_apis ? toset(var.activate_apis) : []
- }
+locals {
+  api_set = var.enable_apis ? toset(var.activate_apis) : []
+}
 
 /******************************************
   APIs configuration
