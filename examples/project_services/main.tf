@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = var.credentials_path
-}
-
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
 provider "google-beta" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
 module "project-services" {
-  source                      = "../../../../modules/project_services"
+  source                      = "../../modules/project_services"
   project_id                  = var.project_id
-  enable_apis                 = "true"
+  enable_apis                 = var.enable
   disable_services_on_destroy = "true"
 
   activate_apis = [
-    "compute.googleapis.com",
-    "iam.googleapis.com",
+    "sqladmin.googleapis.com",
+    "bigquery-json.googleapis.com",
   ]
 }
-
