@@ -321,7 +321,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 }
 
 /*************************************************************************************
-  compute.networkUser role granted to GSuite group on vpc subnets
+  compute.networkUser role granted to G Suite group on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta

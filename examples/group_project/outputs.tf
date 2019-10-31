@@ -26,6 +26,6 @@ output "domain_example" {
 
 output "group_email_example" {
   value       = module.project-factory.group_email
-  description = "The email of the created GSuite group"
+  description = "The email of the created G Suite group"
 }
 

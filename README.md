@@ -146,7 +146,7 @@ determining that location is as follows:
 | Name | Description |
 |------|-------------|
 | domain | The organization's domain |
-| group\_email | The email of the GSuite group with group_name |
+| group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id |  |
@@ -318,7 +318,7 @@ The core Project Factory solely deals with GCP APIs and does not integrate G Sui
 ## Install
 ### Terraform
 
-Be sure you have the correct Terraform version (0.11.x), you can choose the
+Be sure you have the correct Terraform version (0.12.6+), you can choose the
 binary here:
 
 - https://releases.hashicorp.com/terraform/

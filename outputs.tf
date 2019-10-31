@@ -33,7 +33,7 @@ output "domain" {
 
 output "group_email" {
   value       = module.gsuite_group.email
-  description = "The email of the GSuite group with group_name"
+  description = "The email of the G Suite group with group_name"
 }
 
 output "service_account_id" {

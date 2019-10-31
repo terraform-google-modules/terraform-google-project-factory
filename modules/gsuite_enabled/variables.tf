@@ -74,7 +74,7 @@ variable "group_role" {
 }
 
 variable "sa_group" {
-  description = "A GSuite group to place the default Service Account for the project in"
+  description = "A G Suite group to place the default Service Account for the project in"
   default     = ""
 }
 
@@ -138,7 +138,7 @@ variable "bucket_location" {
 }
 
 variable "api_sa_group" {
-  description = "A GSuite group to place the Google APIs Service Account for the project in"
+  description = "A G Suite group to place the Google APIs Service Account for the project in"
   default     = ""
 }
 
