@@ -167,3 +167,8 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
+variable "python_interpreter_path" {
+  description = "Python interpreter path for precondition check scrip."
+  type        = string
+  default     = "python3"
+}

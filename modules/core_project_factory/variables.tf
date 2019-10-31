@@ -172,3 +172,9 @@ variable "shared_vpc_enabled" {
   type        = bool
 }
 
+variable "python_interpreter_path" {
+  description = "Python interpreter path for precondition check script."
+  type        = string
+  default     = "python3"
+}
+
