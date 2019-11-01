@@ -52,18 +52,6 @@ locals {
   gke_s_account_fmt   = local.gke_shared_vpc_enabled ? format("serviceAccount:%s", local.gke_s_account) : ""
   project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
   create_bucket       = var.bucket_project != "" ? "true" : "false"
-
-  shared_vpc_users = compact(
-    [
-      local.group_id,
-      local.s_account_fmt,
-      local.api_s_account_fmt,
-      local.gke_s_account_fmt,
-    ],
-  )
-
-  # Workaround for https://github.com/hashicorp/terraform/issues/10857
-  shared_vpc_users_length = local.gke_shared_vpc_enabled ? 4 : 3
 }
 
 resource "null_resource" "preconditions" {
@@ -158,20 +146,6 @@ module "project_services" {
 
   disable_services_on_destroy = var.disable_services_on_destroy
   disable_dependent_services  = var.disable_dependent_services
-}
-
-/******************************************
-  Shared VPC configuration
- *****************************************/
-resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
-  count = var.shared_vpc_enabled ? 1 : 0
-
-  host_project    = var.shared_vpc
-  service_project = google_project.main.project_id
-
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /******************************************
@@ -280,93 +254,23 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
 }
 
-/******************************************************************************************************************
-  compute.networkUser role granted to G Suite group, APIs Service account, Project Service Account, and GKE Service
-  Account on shared VPC
- *****************************************************************************************************************/
-resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) == 0 ? local.shared_vpc_users_length : 0
+module "vpc_share" {
+  source = "../vpc_share"
 
-  project = var.shared_vpc
-  role    = "roles/compute.networkUser"
-  member  = element(local.shared_vpc_users, count.index)
+  shared_vpc_enabled = var.shared_vpc_enabled
+  host_project = var.shared_vpc
 
-  depends_on = [
-    module.project_services,
-  ]
-}
+  # get project id from project_services module in order to simulate depends_on
+  service_project = module.project_services.project_id
 
-/*************************************************************************************
-  compute.networkUser role granted to Project Service Account on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
-  provider = google-beta
-  count    = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
+  shared_vpc_subnets = var.shared_vpc_subnets
 
-  subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
-  )
-  role = "roles/compute.networkUser"
-  region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
-  )
-  project = var.shared_vpc
-  member  = local.s_account_fmt
-}
+  s_account_fmt = local.s_account_fmt
+  group_id      = local.group_id
+  api_s_account_fmt = local.api_s_account_fmt
 
-/*************************************************************************************
-  compute.networkUser role granted to G Suite group on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
-  provider = google-beta
-
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
-  subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
-  )
-  role = "roles/compute.networkUser"
-  region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
-  )
-  member  = local.group_id
-  project = var.shared_vpc
-}
-
-/*************************************************************************************
-  compute.networkUser role granted to APIs Service Account on vpc subnets
- *************************************************************************************/
-resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
-  provider = google-beta
-
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
-  subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
-  )
-  role = "roles/compute.networkUser"
-  region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
-  )
-  project = var.shared_vpc
-  member  = local.api_s_account_fmt
-
-  depends_on = [
-    module.project_services,
-  ]
+  gke_shared_vpc_enabled = local.gke_shared_vpc_enabled
+  gke_s_account_fmt = local.gke_s_account_fmt
 }
 
 /***********************************************
@@ -427,45 +331,6 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   role   = "roles/storage.admin"
   member = local.api_s_account_fmt
 
-  depends_on = [
-    module.project_services,
-  ]
-}
-
-/******************************************
-  compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
- *****************************************/
-resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
-  provider = google-beta
-  count    = local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0
-  subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
-  )
-  role = "roles/compute.networkUser"
-  region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
-  )
-  project = var.shared_vpc
-  member  = local.gke_s_account_fmt
-
-  depends_on = [
-    module.project_services,
-  ]
-}
-
-/******************************************
-  container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC
- *****************************************/
-resource "google_project_iam_member" "gke_host_agent" {
-  count   = local.gke_shared_vpc_enabled ? 1 : 0
-  project = var.shared_vpc
-  role    = "roles/container.hostServiceAgentUser"
-  member  = local.gke_s_account_fmt
   depends_on = [
     module.project_services,
   ]
