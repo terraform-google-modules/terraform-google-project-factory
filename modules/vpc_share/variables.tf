@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-variable "service_project_id" {
+variable "service_project" {
   description = "The project id of the service project"
   type        = string
 }
 
-variable "host_vpc" {
+variable "host_project" {
   description = "The ID of the host project which hosts the shared VPC"
   type        = string
   default     = ""
@@ -40,5 +40,21 @@ variable "gke_shared_vpc_enabled" {
   description = "If shared VPC should be available to kubernetes"
   type        = bool
   default     = false
+}
+
+variable "group_id" {
+  type = string
+}
+
+variable "s_account_fmt" {
+  type = string
+}
+
+variable "api_s_account_fmt" {
+  type = string
+}
+
+variable "gke_s_account_fmt" {
+  type = string
 }
 
