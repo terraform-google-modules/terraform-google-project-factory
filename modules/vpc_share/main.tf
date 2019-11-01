@@ -59,7 +59,7 @@ resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invali
   Shared VPC configuration
  *****************************************/
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
-  count = var.shared_vpc_enabled ? 1 : 0
+  count           = var.shared_vpc_enabled ? 1 : 0
   host_project    = var.host_project
   service_project = var.service_project
 }

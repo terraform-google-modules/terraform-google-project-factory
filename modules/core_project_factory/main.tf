@@ -257,21 +257,19 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
 module "vpc_share" {
   source = "../vpc_share"
 
-  shared_vpc_enabled = var.shared_vpc_enabled
-  host_project = var.shared_vpc
-
   # get project id from project_services module in order to simulate depends_on
-  service_project = module.project_services.project_id
-
+  service_project    = module.project_services.project_id
+  host_project       = var.shared_vpc
+  shared_vpc_enabled = var.shared_vpc_enabled
   shared_vpc_subnets = var.shared_vpc_subnets
 
-  s_account_fmt = local.s_account_fmt
-  manage_group = var.manage_group
-  group_id      = local.group_id
+  manage_group      = var.manage_group
+  group_id          = local.group_id
+  s_account_fmt     = local.s_account_fmt
   api_s_account_fmt = local.api_s_account_fmt
 
   gke_shared_vpc_enabled = local.gke_shared_vpc_enabled
-  gke_s_account_fmt = local.gke_s_account_fmt
+  gke_s_account_fmt      = local.gke_s_account_fmt
 }
 
 /***********************************************

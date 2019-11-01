@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-variable "manage_group" {
-  description = "A toggle to indicate if a G Suite group should be managed."
-  type        = bool
-  default     = false
-}
-
 variable "service_project" {
   description = "The project id of the service project"
   type        = string
@@ -48,19 +42,31 @@ variable "gke_shared_vpc_enabled" {
   default     = false
 }
 
+variable "manage_group" {
+  description = "A toggle to indicate if a G Suite group should be managed."
+  type        = bool
+  default     = false
+}
+
 variable "group_id" {
-  type = string
+  description = "The group id of the managed G Suite group. May be empty if manage_group is false. Should otherwise be in the format 'group:[GROUP EMAIL]'"
+  type        = string
+  default     = ""
 }
 
 variable "s_account_fmt" {
-  type = string
+  description = "The service account which will need access to the host network, in the format 'serviceAccount:[SERVICE ACCOUNT EMAIL]'"
+  type        = string
 }
 
 variable "api_s_account_fmt" {
-  type = string
+  description = "The API service account which will need access to the host network, in the format 'serviceAccount:[SERVICE ACCOUNT EMAIL]' The address is always '[PROJECT NUMBER]@cloudservices.gserviceaccount.com"
+  type        = string
 }
 
 variable "gke_s_account_fmt" {
-  type = string
+  description = "The GKE service agent which will need access to the host network, in the format 'serviceAccount:[SERVICE ACCOUNT EMAIL]' The address is always 'service-[PROJECT_NUMBER]@container-engine-robot.iam.gserviceaccount.com' Can be null if gke_shared_vpc_enabled is false"
+  type        = string
+  default     = null
 }
 
