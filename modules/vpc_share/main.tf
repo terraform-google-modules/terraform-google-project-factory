@@ -96,7 +96,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.host_project
-  member  = local.s_account_fmt
+  member  = var.s_account_fmt
 }
 
 /*************************************************************************************
@@ -118,7 +118,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
     split("/", var.shared_vpc_subnets[count.index]),
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
-  member  = local.group_id
+  member  = var.group_id
   project = var.host_project
 }
 
@@ -142,7 +142,7 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.host_project
-  member  = local.api_s_account_fmt
+  member  = var.api_s_account_fmt
 }
 
 /******************************************
@@ -164,7 +164,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
     index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.host_project
-  member  = local.gke_s_account_fmt
+  member  = var.gke_s_account_fmt
 }
 
 /******************************************
@@ -174,6 +174,6 @@ resource "google_project_iam_member" "gke_host_agent" {
   count   = var.gke_shared_vpc_enabled ? 1 : 0
   project = var.shared_vpc
   role    = "roles/container.hostServiceAgentUser"
-  member  = local.gke_s_account_fmt
+  member  = var.gke_s_account_fmt
 }
 
