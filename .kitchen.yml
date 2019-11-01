@@ -32,6 +32,11 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/minimal
+  - name: submodule_fabric
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/submodule_fabric
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
 #  - name: full
