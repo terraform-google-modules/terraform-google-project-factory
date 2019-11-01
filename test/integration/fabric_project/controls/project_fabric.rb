@@ -38,7 +38,7 @@ control 'fabric-project' do
     its('stderr') { should eq '' }
 
     its('stdout') { should match(/compute\.googleapis\.com/) }
-    its('stdout') { should match(/bigquery\.googleapis\.com/) }
+    its('stdout') { should match(/storage-api\.googleapis\.com/) }
   end
 
   describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do

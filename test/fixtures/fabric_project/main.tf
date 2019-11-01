@@ -26,6 +26,6 @@ module "fabric-project" {
   billing_account = var.billing_account
   activate_apis = [
     "compute.googleapis.com",
-    "bigquery.googleapis.com",
+    "storage-api.googleapis.com",
   ]
 }
