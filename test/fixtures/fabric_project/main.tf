@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-locals {
-  prefix = var.prefix == "" ? random_string.prefix.result : var.prefix
+provider "google" {
+  version = "~> 2.18.1"
 }
 
-resource "random_string" "prefix" {
-  length  = 30 - length(var.name) - 1
-  upper   = false
-  number  = false
-  special = false
-}
-module "project-fabric" {
-  source          = "../../modules/fabric-project"
-  activate_apis   = var.activate_apis
+module "fabric-project" {
+  source = "../../../examples/fabric_project"
+
+  name            = "fabric-project"
+  parent          = var.folder_id
   billing_account = var.billing_account
-  name            = var.name
-  owners          = var.owners
-  parent          = var.parent
-  prefix          = local.prefix
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+  ]
 }

@@ -14,17 +14,8 @@
  * limitations under the License.
  */
 
-output "id" {
-  description = "The project id of the created project."
-  value       = module.project-fabric.project_id
+variable "folder_id" {
 }
 
-output "name" {
-  description = "The name of the created project."
-  value       = module.project-fabric.name
-}
-
-output "project_number" {
-  description = "The project number of the created project."
-  value       = module.project-fabric.number
+variable "billing_account" {
 }
