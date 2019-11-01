@@ -172,7 +172,7 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
   count   = var.gke_shared_vpc_enabled ? 1 : 0
-  project = var.shared_vpc
+  project = var.host_project
   role    = "roles/container.hostServiceAgentUser"
   member  = var.gke_s_account_fmt
 }

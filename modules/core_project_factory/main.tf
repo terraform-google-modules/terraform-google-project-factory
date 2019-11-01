@@ -266,6 +266,7 @@ module "vpc_share" {
   shared_vpc_subnets = var.shared_vpc_subnets
 
   s_account_fmt = local.s_account_fmt
+  manage_group = var.manage_group
   group_id      = local.group_id
   api_s_account_fmt = local.api_s_account_fmt
 

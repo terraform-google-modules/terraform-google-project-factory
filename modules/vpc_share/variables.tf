@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+variable "manage_group" {
+  description = "A toggle to indicate if a G Suite group should be managed."
+  type        = bool
+  default     = false
+}
+
 variable "service_project" {
   description = "The project id of the service project"
   type        = string
