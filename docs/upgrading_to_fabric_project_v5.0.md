@@ -18,7 +18,7 @@ Backup Terraform state for safety.
 terraform state pull >terraform-state.json
 ```
 
-Update the `fabric-project` version to 4.1.0, run `terraform init`, then identify project service resources to move.
+Update the `fabric-project` version to 5.0.0, run `terraform init`, then identify project service resources to move.
 
 ```shell
 tf state list |grep module.project_services.google_project_service | sed 's/\[.*$//' |uniq
