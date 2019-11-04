@@ -1,8 +1,8 @@
-# Upgrading to Project Factory v4.1
+# Upgrading to the Fabric Project module v5.0
 
 **This document only applies to the `fabric-project` module. If you use the main module or other submodules, you can stop reading now.**
 
-The v4.1 release of the `fabric-project` module is a backwards incompatible release, changing how Google Project Services (APIs) are managed.
+The v5.0 release of the `fabric-project` module is a backwards incompatible release, changing how Google Project Services (APIs) are managed.
 
 ## Migration instructions
 

@@ -8,9 +8,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
-## [4.1.0] - 2019-11-04
+## [5.0.0] - 2019-11-04
 
-4.1.0 is a backwards incompatible release for `modules/fabric-project`. See the [upgrade guide](./docs/upgrading_to_fabric_project_v4.1.md) for details.
+5.0.0 is a backwards incompatible release for `modules/fabric-project`. See the [upgrade guide](./docs/upgrading_to_fabric_project_v5.0.md) for details.
 
 ### Changed
 
@@ -226,8 +226,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.1.0...HEAD
-[4.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v4.1.0
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.1...v4.0.0
 [3.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.0...v3.3.1
