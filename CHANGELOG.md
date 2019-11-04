@@ -12,7 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 5.0.0 is a backwards incompatible release for `modules/fabric-project`. See the [upgrade guide](./docs/upgrading_to_fabric_project_v5.0.md) for details.
 
-### Changed
+### Fixed
 
 - Manage service activation in `modules/fabric-project` with a resource instead of relying on `modules/project-services`, so that output dependency on services works again. Fixes [#308]. [#309]
 
