@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed an issue with passing an empty list to activate_apis. [#300]
+
 ## [5.0.0] - 2019-11-04
 
 5.0.0 is a backwards incompatible release for `modules/fabric-project`. See the [upgrade guide](./docs/upgrading_to_fabric_project_v5.0.md) for details.
@@ -257,6 +261,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
 [#308]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/308
 [#303]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/303
