@@ -1,0 +1,10 @@
+name: fabric_project
+attributes:
+  - name: project_id
+    required: true
+
+  - name: project_number
+    required: true
+
+  - name: name
+    required: true

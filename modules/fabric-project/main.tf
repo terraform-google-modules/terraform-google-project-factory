@@ -37,11 +37,12 @@ resource "google_project" "project" {
   labels              = var.labels
 }
 
-module "project_services" {
-  source = "../project_services"
-
-  project_id    = google_project.project.project_id
-  activate_apis = var.activate_apis
+resource "google_project_service" "project_services" {
+  for_each                   = toset(var.activate_apis)
+  project                    = google_project.project.project_id
+  service                    = each.value
+  disable_on_destroy         = true
+  disable_dependent_services = true
 }
 
 # this will fail for external users, who need to be manually added so they
@@ -74,7 +75,7 @@ resource "google_compute_project_metadata_item" "oslogin_meta" {
   value   = "TRUE"
 
   # depend on services or it will fail on destroy
-  depends_on = [module.project_services]
+  depends_on = [google_project_service.project_services]
 }
 
 resource "google_project_iam_member" "oslogin_admins" {

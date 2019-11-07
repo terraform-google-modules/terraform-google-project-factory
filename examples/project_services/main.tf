@@ -14,12 +14,25 @@
  * limitations under the License.
  */
 
-variable "credentials_path" {
-  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
-  default     = ""
+/******************************************
+  Provider configuration
+ *****************************************/
+provider "google" {
+  version = "~> 2.18.1"
 }
 
-variable "project_id" {
-  description = "The GCP project you want to enable APIs on"
+provider "google-beta" {
+  version = "~> 2.18.1"
 }
 
+module "project-services" {
+  source                      = "../../modules/project_services"
+  project_id                  = var.project_id
+  enable_apis                 = var.enable
+  disable_services_on_destroy = "true"
+
+  activate_apis = [
+    "sqladmin.googleapis.com",
+    "bigquery-json.googleapis.com",
+  ]
+}

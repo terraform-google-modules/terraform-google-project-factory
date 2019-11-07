@@ -15,17 +15,21 @@
  */
 
 locals {
-  api_set = var.enable_apis ? toset(var.activate_apis) : []
+  prefix = var.prefix == "" ? random_string.prefix.result : var.prefix
 }
 
-/******************************************
-  APIs configuration
- *****************************************/
-resource "google_project_service" "project_services" {
-  for_each                   = local.api_set
-  project                    = var.project_id
-  service                    = each.value
-  disable_on_destroy         = var.disable_services_on_destroy
-  disable_dependent_services = var.disable_dependent_services
+resource "random_string" "prefix" {
+  length  = 30 - length(var.name) - 1
+  upper   = false
+  number  = false
+  special = false
 }
-
+module "fabric-project" {
+  source          = "../../modules/fabric-project"
+  activate_apis   = var.activate_apis
+  billing_account = var.billing_account
+  name            = var.name
+  owners          = var.owners
+  parent          = var.parent
+  prefix          = local.prefix
+}

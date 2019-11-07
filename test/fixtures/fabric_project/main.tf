@@ -14,32 +14,18 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = var.credentials_path
-}
-
-/******************************************
-  Provider configuration
- *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
-provider "google-beta" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 2.18.1"
-}
+module "fabric-project" {
+  source = "../../../examples/fabric_project"
 
-module "project-services" {
-  source                      = "../../../../modules/project_services"
-  project_id                  = var.project_id
-  enable_apis                 = "true"
-  disable_services_on_destroy = "true"
-
+  name            = "fabric-project"
+  parent          = var.folder_id
+  billing_account = var.billing_account
   activate_apis = [
     "compute.googleapis.com",
-    "iam.googleapis.com",
+    "storage-api.googleapis.com",
   ]
 }
-
