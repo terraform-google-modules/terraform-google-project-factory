@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- Option to disable the default compute service account. [#313]
+
 ### Fixed
 
 - Fixed an issue with passing an empty list to activate_apis. [#300]
