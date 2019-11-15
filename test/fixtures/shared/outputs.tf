@@ -42,6 +42,10 @@ output "service_account_email" {
   value = module.project-factory.service_account_email
 }
 
+output "compute_service_account_email" {
+  value = "${module.project-factory.project_number}-compute@developer.gserviceaccount.com"
+}
+
 output "gsuite_admin_account" {
   value = var.gsuite_admin_account
 }

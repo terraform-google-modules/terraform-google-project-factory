@@ -119,6 +119,7 @@ module "project-factory" {
     "container.googleapis.com",
   ]
 
+  default_service_account     = "delete"
   disable_services_on_destroy = "false"
 }
 

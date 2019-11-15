@@ -12,10 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id            = attribute('project_id')
-service_account_email = attribute('service_account_email')
-group_email           = attribute('group_email')
-group_name            = attribute('group_name')
+project_id                    = attribute('project_id')
+service_account_email         = attribute('service_account_email')
+compute_service_account_email = attribute('compute_service_account_email')
+group_email                   = attribute('group_email')
+group_name                    = attribute('group_name')
 
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'
@@ -44,19 +45,20 @@ control 'project-factory-minimal' do
     its('stdout') { should match(/container\.googleapis\.com/) }
   end
 
-  describe command("gcloud iam service-accounts list --project #{project_id} --format='json(email)'") do
+  describe command("gcloud iam service-accounts list --project #{project_id} --format='json(email,disabled)'") do
     its('exit_status') { should be 0 }
     its('stderr') { should eq '' }
 
     let(:service_accounts) do
       if subject.exit_status == 0
-        JSON.parse(subject.stdout, symbolize_names: true).map { |entry| entry[:email] }
+        Hash[JSON.parse(subject.stdout, symbolize_names: true).map { |entry| [entry[:email], entry[:disabled]] }]
       else
-        []
+        {}
       end
     end
 
-    it { expect(service_accounts).to include service_account_email }
+    it { expect(service_accounts).to include service_account_email => false }
+    it { expect(service_accounts).to include compute_service_account_email => true }
   end
 
   describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do
