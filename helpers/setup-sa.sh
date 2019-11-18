@@ -107,6 +107,7 @@ fi
 # Project Folder
 if [ -z "${f}" ]; then
   echo "Skipping project folder verification... (parameter not passed)"
+  FOLDER_ID=""
 else
   echo "Verifying project folder..."
   FOLDER_ID="$(gcloud resource-manager folders list --format="value(ID)" --organization="$o" --filter="$f")"
