@@ -20,7 +20,7 @@ resource "random_id" "folder_rand" {
 
 resource "google_folder" "ci_pfactory_folder" {
   display_name = "ci-tests-pfactory-folder-${random_id.folder_rand.hex}"
-  parent       = "folders/${var.folder_id}"
+  parent       = "folders/${replace(var.folder_id, "folders/", "")}"
 }
 
 module "pfactory_project" {
