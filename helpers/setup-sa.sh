@@ -39,6 +39,7 @@ usage() {
 
 # Check for input variables
 while getopts ":ho:p:b:f:" OPT; do
+  # shellcheck disable=SC2213
   case ${OPT} in
     o )
       o=$OPTARG

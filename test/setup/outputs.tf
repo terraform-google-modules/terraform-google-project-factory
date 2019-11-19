@@ -18,6 +18,10 @@ output "project_id" {
   value = module.pfactory_project.project_id
 }
 
+output "shared_vpc" {
+  value = module.pfactory_project.project_id
+}
+
 output "sa_key" {
   value     = google_service_account_key.int_test.private_key
   sensitive = true
@@ -39,15 +43,14 @@ output "random_string_for_testing" {
   value = random_id.random_string_for_testing.hex
 }
 
-output "gsuite_admin_email" {
+output "gsuite_admin_account" {
   value = var.gsuite_admin_email
 }
 
-output "gsuite_domain" {
+output "domain" {
   value = var.gsuite_domain
 }
 
-output "gsuite_group" {
+output "group_name" {
   value = "ci-pfactory-test-group-${random_id.folder_rand.hex}"
 }
-
