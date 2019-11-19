@@ -43,7 +43,7 @@ output "random_string_for_testing" {
   value = random_id.random_string_for_testing.hex
 }
 
-output "gsuite_admin_email" {
+output "gsuite_admin_account" {
   value = var.gsuite_admin_email
 }
 
