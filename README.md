@@ -120,7 +120,7 @@ determining that location is as follows:
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, or `keep`. | string | `"delete"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`. | string | `"delete"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
@@ -163,7 +163,7 @@ determining that location is as follows:
 
 ### Software
 
--   [gcloud sdk](https://cloud.google.com/sdk/install) >= 206.0.0
+-   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
 -   [terraform-provider-google] plugin 2.1.x

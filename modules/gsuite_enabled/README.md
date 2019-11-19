@@ -67,7 +67,7 @@ The roles granted are specifically:
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | create\_group | Whether to create the group or not | bool | `"false"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, or `keep`. | string | `"delete"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`. | string | `"delete"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |

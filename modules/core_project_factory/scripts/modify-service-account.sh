@@ -92,12 +92,32 @@ depriviledge_sa() {
   fi
 }
 
+# Function to disable the default service account.
+disable_sa() {
+  SA_LIST_COMMAND="gcloud iam service-accounts list $APPEND_IMPERSONATE --project=$PROJECT_ID"
+  SA_LIST=$(${SA_LIST_COMMAND} || exit 1)
+
+  if [[ $SA_LIST = *"$SA_ID"* ]]; then
+      # There is no harm in disabling a service account that is already disabled
+      # Google agrees in their docs
+      echo "Disabling service account $SA_ID in project $PROJECT_ID"
+      SA_DISABLE_COMMAND="gcloud iam service-accounts disable \
+      --quiet $APPEND_IMPERSONATE \
+      --project=$PROJECT_ID $SA_ID"
+      ${SA_DISABLE_COMMAND}
+  else
+      echo "Service account not listed. It appears to have been deleted."
+  fi
+}
+
 # Perform specified action of default service account.
 case $SA_ACTION in
   delete)
       delete_sa ;;
   depriviledge)
       depriviledge_sa ;;
+  disable)
+      disable_sa ;;
   keep)
       echo "Default service account set to keep, nothing to do."
       ;;
