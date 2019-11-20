@@ -14,30 +14,17 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 2.18.1"
+output "project_id" {
+  description = "The project id of the created project."
+  value       = module.fabric-project.project_id
 }
 
-provider "google-beta" {
-  version = "~> 2.18.1"
+output "name" {
+  description = "The name of the created project."
+  value       = module.fabric-project.name
 }
 
-module "project-factory" {
-  source = "../../../"
-
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
-  random_project_id = true
-  domain            = var.domain
-  org_id            = var.org_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
-
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
-
-  default_service_account     = "disable"
-  disable_services_on_destroy = "false"
+output "project_number" {
+  description = "The project number of the created project."
+  value       = module.fabric-project.number
 }
-

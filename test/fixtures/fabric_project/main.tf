@@ -18,26 +18,14 @@ provider "google" {
   version = "~> 2.18.1"
 }
 
-provider "google-beta" {
-  version = "~> 2.18.1"
-}
+module "fabric-project" {
+  source = "../../../examples/fabric_project"
 
-module "project-factory" {
-  source = "../../../"
-
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
-  random_project_id = true
-  domain            = var.domain
-  org_id            = var.org_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
-
+  name            = "fabric-project"
+  parent          = var.folder_id
+  billing_account = var.billing_account
   activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com",
+    "storage-api.googleapis.com",
   ]
-
-  default_service_account     = "disable"
-  disable_services_on_destroy = "false"
 }
-

@@ -20,6 +20,10 @@ attributes:
     required: true
     type: string
 
+  - name: compute_service_account_email
+    required: true
+    type: string
+
   - name: sa_role
     required: false
     default: null

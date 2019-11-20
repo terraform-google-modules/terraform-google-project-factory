@@ -12,14 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id                    = attribute('project_id')
-service_account_email         = attribute('service_account_email')
-compute_service_account_email = attribute('compute_service_account_email')
-group_email                   = attribute('group_email')
-group_name                    = attribute('group_name')
+project_id = attribute('project_id')
 
-control 'project-factory-minimal' do
-  title 'Project Factory minimal configuration'
+control 'fabric-project' do
+  title 'Submodule Project Fabric'
 
   describe command("gcloud projects describe #{project_id} --format=json") do
     its('exit_status') { should be 0 }
@@ -33,7 +29,7 @@ control 'project-factory-minimal' do
       end
     end
 
-    it { expect(metadata).to include(name: project_id[0...-5]) }
+    it { expect(metadata).to include(name: project_id) }
     it { expect(metadata).to include(projectId: project_id) }
   end
 
@@ -42,23 +38,7 @@ control 'project-factory-minimal' do
     its('stderr') { should eq '' }
 
     its('stdout') { should match(/compute\.googleapis\.com/) }
-    its('stdout') { should match(/container\.googleapis\.com/) }
-  end
-
-  describe command("gcloud iam service-accounts list --project #{project_id} --format='json(email,disabled)'") do
-    its('exit_status') { should be 0 }
-    its('stderr') { should eq '' }
-
-    let(:service_accounts) do
-      if subject.exit_status == 0
-        Hash[JSON.parse(subject.stdout, symbolize_names: true).map { |entry| [entry[:email], entry[:disabled]] }]
-      else
-        {}
-      end
-    end
-
-    it { expect(service_accounts).to include service_account_email => false }
-    it { expect(service_accounts).to include compute_service_account_email => true }
+    its('stdout') { should match(/storage-api\.googleapis\.com/) }
   end
 
   describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do
@@ -78,12 +58,4 @@ control 'project-factory-minimal' do
     end
   end
 
-  describe "group_email" do
-    it "group_name should be empty" do
-      expect(group_name).to be_empty
-    end
-    it "should be empty when group_name is empty" do
-      expect(group_email).to be_empty
-    end
-  end
 end

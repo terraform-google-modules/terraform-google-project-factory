@@ -237,6 +237,33 @@ EOD
 }
 
 /******************************************
+  Default compute service account disable
+ *****************************************/
+resource "null_resource" "disable_default_compute_service_account" {
+  count = var.default_service_account == "disable" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = <<EOD
+${path.module}/scripts/modify-service-account.sh \
+  --project_id='${google_project.main.project_id}' \
+  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+  --credentials_path='${var.credentials_path}' \
+  --impersonate-service-account='${var.impersonate_service_account}' \
+  --action='disable'
+EOD
+  }
+
+  triggers = {
+    default_service_account = data.null_data_source.default_service_account.outputs["email"]
+    activated_apis          = join(",", local.activate_apis)
+  }
+
+  depends_on = [
+    module.project_services,
+  ]
+}
+
+/******************************************
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {

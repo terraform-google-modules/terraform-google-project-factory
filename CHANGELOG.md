@@ -8,6 +8,23 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- Option to disable the default compute service account. [#313]
+
+### Fixed
+
+- Fixed an issue with passing an empty list to activate_apis. [#300]
+
+## [5.0.0] - 2019-11-04
+
+5.0.0 is a backwards incompatible release for `modules/fabric-project`. See the [upgrade guide](./docs/upgrading_to_fabric_project_v5.0.md) for details.
+
+### Fixed
+
+- Manage service activation in `modules/fabric-project` with a resource instead of relying on `modules/project-services`, so that output dependency on services works again. Fixes [#308]. [#309]
+
+
 ## [4.0.1] - 2019-10-30
 
 ### Fixed
@@ -217,7 +234,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.1...v4.0.0
 [3.3.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.0...v3.3.1
@@ -247,6 +265,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
+[#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
+[#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
+[#308]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/308
 [#303]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/303
 [#288]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/288
 [#282]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/282

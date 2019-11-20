@@ -14,30 +14,22 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 2.18.1"
+locals {
+  prefix = var.prefix == "" ? random_string.prefix.result : var.prefix
 }
 
-provider "google-beta" {
-  version = "~> 2.18.1"
+resource "random_string" "prefix" {
+  length  = 30 - length(var.name) - 1
+  upper   = false
+  number  = false
+  special = false
 }
-
-module "project-factory" {
-  source = "../../../"
-
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
-  random_project_id = true
-  domain            = var.domain
-  org_id            = var.org_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
-
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
-
-  default_service_account     = "disable"
-  disable_services_on_destroy = "false"
+module "fabric-project" {
+  source          = "../../modules/fabric-project"
+  activate_apis   = var.activate_apis
+  billing_account = var.billing_account
+  name            = var.name
+  owners          = var.owners
+  parent          = var.parent
+  prefix          = local.prefix
 }
-
