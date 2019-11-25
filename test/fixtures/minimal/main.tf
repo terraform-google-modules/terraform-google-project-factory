@@ -27,7 +27,6 @@ module "project-factory" {
 
   name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
   random_project_id = true
-  domain            = var.domain
   org_id            = var.org_id
   folder_id         = var.folder_id
   billing_account   = var.billing_account

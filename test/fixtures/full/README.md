@@ -5,23 +5,20 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| billing\_account |  | string | n/a | yes |
-| create\_group |  | bool | `"false"` | no |
-| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture. | string | `""` | no |
+| billing\_account | Billing account ID. | string | n/a | yes |
 | domain |  | string | n/a | yes |
-| folder\_id |  | string | `""` | no |
-| group\_name |  | string | `""` | no |
+| folder\_id |  | string | n/a | yes |
+| group\_name |  | string | n/a | yes |
 | group\_role |  | string | `"roles/viewer"` | no |
 | gsuite\_admin\_account |  | string | n/a | yes |
-| org\_id |  | string | n/a | yes |
+| org\_id | Organization ID. | string | n/a | yes |
 | random\_string\_for\_testing | A random string of characters to be appended to resource names to ensure uniqueness | string | n/a | yes |
 | region |  | string | `"us-east4"` | no |
-| sa\_group |  | string | `""` | no |
+| sa\_group |  | string | n/a | yes |
 | sa\_role |  | string | `"roles/editor"` | no |
-| shared\_vpc |  | string | `""` | no |
-| shared\_vpc\_enabled | If shared VPC should be used | bool | `"false"` | no |
-| usage\_bucket\_name |  | string | `""` | no |
-| usage\_bucket\_prefix |  | string | `""` | no |
+| shared\_vpc |  | string | n/a | yes |
+| usage\_bucket\_name |  | string | n/a | yes |
+| usage\_bucket\_prefix |  | string | n/a | yes |
 
 ## Outputs
 

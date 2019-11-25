@@ -15,17 +15,14 @@
  */
 
 provider "google" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
 provider "google-beta" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
 provider "gsuite" {
-  credentials             = file(var.credentials_path)
   impersonated_user_email = var.gsuite_admin_account
 
   oauth_scopes = [
@@ -111,7 +108,6 @@ module "project-factory" {
   shared_vpc_subnets  = local.shared_vpc_subnets
   sa_role             = var.sa_role
   sa_group            = var.sa_group
-  credentials_path    = var.credentials_path
   lien                = "true"
 
   activate_apis = [

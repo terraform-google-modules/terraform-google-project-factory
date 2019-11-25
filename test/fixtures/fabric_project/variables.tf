@@ -15,7 +15,12 @@
  */
 
 variable "folder_id" {
+  type        = string
+  description = "Parent folder ID."
 }
 
 variable "billing_account" {
+  type        = string
+  description = "Billing account ID."
 }
+
