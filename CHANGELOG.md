@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [6.0.0] - 2019-11-26
+
+6.0.0 is a backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v6.0.md) for details.
+
 ### Added
 
 - Option to disable the default compute service account. [#313]
