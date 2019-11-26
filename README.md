@@ -19,11 +19,13 @@ intended for Terraform 0.11.x is [2.4.1].
 
 ## Upgrading
 
-The current version is 4.X. The following guides are available to assist with upgrades:
+The current version is 6.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
 - [3.X -> 4.0](./docs/upgrading_to_project_factory_v4.0.md)
+- [4.X -> 5.0](./docs/upgrading_to_fabric_project_v5.0.md)
+- [5.X -> 6.0](./docs/upgrading_to_project_factory_v6.0.md)
 
 ## Usage
 
@@ -32,7 +34,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
