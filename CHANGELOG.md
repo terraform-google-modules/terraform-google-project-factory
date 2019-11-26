@@ -23,6 +23,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Fixed
 
 - Fixed an issue with passing an empty list to activate_apis. [#300]
+- Fixed issues with running project factory requiring org-level permissions. [#320](https://github.com/terraform-google-modules/terraform-google-project-factory/pull/320)
 
 ## [5.0.0] - 2019-11-04
 
