@@ -34,6 +34,7 @@ locals {
   ]
 
   gsuite_sa_credentials_path = "${path.module}/credentials_gsuite.json"
+  gsuite_sa_project_id       = "ci-gsuite-sa-project"
 }
 
 resource "google_service_account" "int_test" {
