@@ -19,11 +19,13 @@ intended for Terraform 0.11.x is [2.4.1].
 
 ## Upgrading
 
-The current version is 4.X. The following guides are available to assist with upgrades:
+The current version is 6.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
 - [3.X -> 4.0](./docs/upgrading_to_project_factory_v4.0.md)
+- [4.X -> 5.0](./docs/upgrading_to_fabric_project_v5.0.md)
+- [5.X -> 6.0](./docs/upgrading_to_project_factory_v6.0.md)
 
 ## Usage
 
@@ -32,7 +34,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 4.0"
+  version = "~> 6.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -120,7 +122,7 @@ determining that location is as follows:
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`. | string | `"delete"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |

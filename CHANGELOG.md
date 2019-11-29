@@ -8,13 +8,22 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [6.0.0] - 2019-11-26
+
+6.0.0 is a backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v6.0.md) for details.
+
 ### Added
 
 - Option to disable the default compute service account. [#313]
 
+### Changed
+
+- **Breaking**: Default for default compute service account changed to disable from delete. [#313]
+
 ### Fixed
 
 - Fixed an issue with passing an empty list to activate_apis. [#300]
+- Fixed issues with running project factory requiring org-level permissions. [#320](https://github.com/terraform-google-modules/terraform-google-project-factory/pull/320)
 
 ## [5.0.0] - 2019-11-04
 
@@ -234,7 +243,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...HEAD
+[6.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.0...v4.0.1
 [4.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v3.3.1...v4.0.0
