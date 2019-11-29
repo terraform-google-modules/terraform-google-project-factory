@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2018 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,28 @@
  * limitations under the License.
  */
 
-variable "org_id" {
-  description = "The numeric organization id"
+provider "google" {
+  credentials = file(var.gsuite_sa_credentials_path)
+  version     = "~> 2.18.1"
 }
 
-variable "folder_id" {
-  description = "The folder to deploy in"
+provider "google-beta" {
+  credentials = file(var.gsuite_sa_credentials_path)
+  version     = "~> 2.18.1"
 }
 
-variable "billing_account" {
-  description = "The billing account id associated with the project, e.g. XXXXXX-YYYYYY-ZZZZZZ"
+provider "gsuite" {
+  credentials = file(var.gsuite_sa_credentials_path)
+  impersonated_user_email = var.gsuite_admin_account
+
+  oauth_scopes = [
+    "https://www.googleapis.com/auth/admin.directory.group",
+    "https://www.googleapis.com/auth/admin.directory.group.member",
+  ]
+
+  version = "~> 0.1.12"
 }
 
-variable "gsuite_admin_email" {
-  description = "Gsuite administrator e-mail "
-}
-
-variable "gsuite_domain" {
-  description = "Gsuite domain"
-}
-
-variable "gsuite_sa_email" {
-  description = "Gsuite Service Account email. Must have access to Admin SDK Directory API."
+terraform {
+  required_version = ">= 0.12"
 }

@@ -14,7 +14,30 @@
  * limitations under the License.
  */
 
+variable "gsuite_admin_account" {
+  description = "Admin user email on Gsuite. This should be a user account, not a service account."
+}
+
+variable "org_id" {
+  description = "The organization id for the associated services"
+}
+
+variable "folder_id" {
+  default = ""
+}
+
+variable "domain" {
+}
+
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+}
+
 variable "gsuite_sa_credentials_path" {
-  description = "Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture."
+  description = "Path to a service account credentials file with rights to run the Project Factory."
   default     = ""
 }
+
+# variable "api_sa_group" {
+#   description = "An existing G Suite group email to place the Google APIs Service Account for the project in"
+# }

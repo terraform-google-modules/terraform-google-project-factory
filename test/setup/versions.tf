@@ -25,3 +25,7 @@ provider "google" {
 provider "google-beta" {
   version = "~> 2.18.1"
 }
+
+provider "local" {
+  version = "~> 1.4.0"
+}

@@ -32,6 +32,8 @@ locals {
     "roles/resourcemanager.folderIamAdmin",
     "roles/billing.projectManager",
   ]
+
+  gsuite_sa_credentials_path = "${path.module}/credentials_gsuite.json"
 }
 
 resource "google_service_account" "int_test" {
@@ -64,4 +66,13 @@ resource "google_billing_account_iam_member" "int_billing_user" {
   billing_account_id = var.billing_account
   role               = "roles/billing.user"
   member             = "serviceAccount:${google_service_account.int_test.email}"
+}
+
+resource "google_service_account_key" "gsuite_sa" {
+  service_account_id = var.gsuite_sa_email
+}
+
+resource "local_file" "gsuite_sa_json" {
+  content  = base64decode(google_service_account_key.gsuite_sa.private_key)
+  filename = local.gsuite_sa_credentials_path
 }

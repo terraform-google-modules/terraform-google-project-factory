@@ -54,3 +54,7 @@ output "domain" {
 output "group_name" {
   value = "ci-pfactory-test-group-${random_id.folder_rand.hex}"
 }
+
+output "gsuite_sa_credentials_path" {
+  value = local.gsuite_sa_credentials_path
+}

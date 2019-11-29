@@ -14,7 +14,20 @@
  * limitations under the License.
  */
 
-variable "gsuite_sa_credentials_path" {
-  description = "Path to a service account credentials file with rights to run the Project Factory. This is required for the `full` test fixture."
-  default     = ""
+module "test-create-group" {
+  source            = "../../../modules/gsuite_enabled"
+  random_project_id = true
+  name              = "test-create-group"
+  domain            = var.domain
+  folder_id         = var.folder_id
+  org_id            = var.org_id
+  billing_account   = var.billing_account
+  create_group      = true
+  group_name        = "test-create-group"
+  credentials_path  = var.gsuite_sa_credentials_path
+  # api_sa_group      = var.api_sa_group
+
+  default_service_account     = "delete"
+  disable_services_on_destroy = "false"
+
 }
