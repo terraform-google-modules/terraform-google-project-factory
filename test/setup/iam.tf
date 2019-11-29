@@ -84,5 +84,4 @@ resource "google_folder_iam_member" "iam_sa_folder" {
   folder = google_folder.ci_pfactory_folder.name
   role   = local.int_required_folder_roles[count.index]
   member = "serviceAccount:${var.gsuite_sa_email}"
-
 }
