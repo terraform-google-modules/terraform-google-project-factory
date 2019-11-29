@@ -135,6 +135,7 @@ determining that location is as follows:
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
+| python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
 | random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | bool | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
