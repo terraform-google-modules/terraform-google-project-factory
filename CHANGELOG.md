@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
+
 ## [6.0.0] - 2019-11-26
 
 6.0.0 is a backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v6.0.md) for details.
@@ -284,6 +288,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [#282]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/282
 [#285]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/285
 [#268]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/268
+[#265]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/265
 [#261]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/261
 [#259]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/259
 [#253]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/253
