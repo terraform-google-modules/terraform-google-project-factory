@@ -33,7 +33,7 @@ locals {
     "roles/billing.projectManager",
   ]
 
-  gsuite_sa_credentials_path = "${path.module}/credentials_gsuite.json"
+  gsuite_sa_credentials_path = "${path.cwd}/credentials_gsuite.json"
   gsuite_sa_project_id       = "ci-gsuite-sa-project"
 }
 
