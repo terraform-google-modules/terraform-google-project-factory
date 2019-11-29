@@ -76,3 +76,11 @@ resource "local_file" "gsuite_sa_json" {
   content  = base64decode(google_service_account_key.gsuite_sa.private_key)
   filename = local.gsuite_sa_credentials_path
 }
+
+resource "google_folder_iam_member" "iam_sa_folder" {
+  count = length(local.int_required_folder_roles)
+
+  folder = google_folder.ci_pfactory_folder.name
+  role   = local.int_required_folder_roles[count.index]
+  member = "serviceAccount:${var.gsuite_sa_email}"
+}
