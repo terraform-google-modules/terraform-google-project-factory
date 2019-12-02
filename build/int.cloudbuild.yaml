@@ -26,16 +26,16 @@ steps:
   - 'TF_VAR_gsuite_sa_email=ci-gsuite-sa@ci-gsuite-sa-project.iam.gserviceaccount.com'
 - id: create
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do create group-project']
+  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do create full']
 - id: converge
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do converge group-project']
+  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do converge full']
 - id: verify
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do verify group-project']
+  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do verify full']
 - id: destroy
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy group-project']
+  args: ['/bin/bash', '-c', 'ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy full']
 tags:
 - 'ci'
 - 'integration'

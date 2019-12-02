@@ -37,37 +37,37 @@ locals {
   gsuite_sa_project_id       = "ci-gsuite-sa-project"
 }
 
-# resource "google_service_account" "int_test" {
-#   project      = module.pfactory_project.project_id
-#   account_id   = "pfactory-int-test"
-#   display_name = "pfactory-int-test"
-# }
+resource "google_service_account" "int_test" {
+  project      = module.pfactory_project.project_id
+  account_id   = "pfactory-int-test"
+  display_name = "pfactory-int-test"
+}
 
-# resource "google_project_iam_member" "int_test_project" {
-#   count = length(local.int_required_project_roles)
+resource "google_project_iam_member" "int_test_project" {
+  count = length(local.int_required_project_roles)
 
-#   project = module.pfactory_project.project_id
-#   role    = local.int_required_project_roles[count.index]
-#   member  = "serviceAccount:${google_service_account.int_test.email}"
-# }
+  project = module.pfactory_project.project_id
+  role    = local.int_required_project_roles[count.index]
+  member  = "serviceAccount:${google_service_account.int_test.email}"
+}
 
-# resource "google_folder_iam_member" "int_test_folder" {
-#   count = length(local.int_required_folder_roles)
+resource "google_folder_iam_member" "int_test_folder" {
+  count = length(local.int_required_folder_roles)
 
-#   folder = google_folder.ci_pfactory_folder.name
-#   role   = local.int_required_folder_roles[count.index]
-#   member = "serviceAccount:${google_service_account.int_test.email}"
-# }
+  folder = google_folder.ci_pfactory_folder.name
+  role   = local.int_required_folder_roles[count.index]
+  member = "serviceAccount:${google_service_account.int_test.email}"
+}
 
-# resource "google_billing_account_iam_member" "int_billing_user" {
-#   billing_account_id = var.billing_account
-#   role               = "roles/billing.user"
-#   member             = "serviceAccount:${google_service_account.int_test.email}"
-# }
+resource "google_service_account_key" "int_test" {
+  service_account_id = google_service_account.int_test.id
+}
 
-# resource "google_service_account_key" "int_test" {
-#   service_account_id = google_service_account.int_test.id
-# }
+resource "google_billing_account_iam_member" "int_billing_user" {
+  billing_account_id = var.billing_account
+  role               = "roles/billing.user"
+  member             = "serviceAccount:${google_service_account.int_test.email}"
+}
 
 resource "google_service_account_key" "gsuite_sa" {
   service_account_id = var.gsuite_sa_email
@@ -78,33 +78,11 @@ resource "local_file" "gsuite_sa_json" {
   filename = local.gsuite_sa_credentials_path
 }
 
-# resource "google_folder_iam_member" "iam_sa_folder" {
-#   count = length(local.int_required_folder_roles)
-
-#   folder = google_folder.ci_pfactory_folder.name
-#   role   = local.int_required_folder_roles[count.index]
-#   member = "serviceAccount:${var.gsuite_sa_email}"
-
-# }
-
-resource "google_project_iam_member" "int_test_project" {
-  count = length(local.int_required_project_roles)
-
-  project = module.pfactory_project.project_id
-  role    = local.int_required_project_roles[count.index]
-  member  = "serviceAccount:${var.gsuite_sa_email}"
-}
-
-resource "google_folder_iam_member" "int_test_folder" {
+resource "google_folder_iam_member" "iam_sa_folder" {
   count = length(local.int_required_folder_roles)
 
   folder = google_folder.ci_pfactory_folder.name
   role   = local.int_required_folder_roles[count.index]
   member = "serviceAccount:${var.gsuite_sa_email}"
-}
 
-resource "google_billing_account_iam_member" "int_billing_user" {
-  billing_account_id = var.billing_account
-  role               = "roles/billing.user"
-  member             = "serviceAccount:${var.gsuite_sa_email}"
 }
