@@ -44,11 +44,11 @@ suites:
       root_module_directory: test/fixtures/group_project
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
-#  - name: full
-#    driver:
-#      name: terraform
-#      command_timeout: 1800
-#      root_module_directory: test/fixtures/full
+ - name: full
+   driver:
+     name: terraform
+     command_timeout: 1800
+     root_module_directory: test/fixtures/full
 #  - name: "shared_vpc_no_subnets"
 #    driver:
 #      name: "terraform"
