@@ -23,7 +23,7 @@ output "shared_vpc" {
 }
 
 output "sa_key" {
-  value     = google_service_account_key.int_test.private_key
+  value     = google_service_account_key.gsuite_sa.private_key # google_service_account_key.int_test.private_key
   sensitive = true
 }
 
