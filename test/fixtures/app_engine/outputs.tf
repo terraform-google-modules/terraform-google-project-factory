@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,20 @@
 
 output "project_id" {
   description = "The project ID where app engine is created"
-  value       = module.app-engine-project.project_id
+  value       = module.app-eng.project_id
 }
 
 output "app_name" {
   description = "Unique name of the app, usually apps/{PROJECT_ID}."
-  value       = module.app-engine.name
+  value       = module.app-eng.app_name
 }
 
 output "default_hostname" {
   description = "The default hostname for this app."
-  value       = module.app-engine.default_hostname
+  value       = module.app-eng.default_hostname
 }
 
-output "location_id" {
+output "region" {
   description = "The location app engine is serving from"
-  value       = var.location_id
+  value       = module.app-eng.location_id
 }
-

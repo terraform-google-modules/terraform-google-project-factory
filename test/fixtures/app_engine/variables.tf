@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-output "project_id" {
-  description = "The project ID where app engine is created"
-  value       = module.app-engine-project.project_id
+variable "org_id" {
+  description = "The organization ID."
+  type        = string
 }
 
-output "app_name" {
-  description = "Unique name of the app, usually apps/{PROJECT_ID}."
-  value       = module.app-engine.name
+variable "folder_id" {
+  description = "The ID of a folder to host this project."
+  type        = string
+  default     = ""
 }
 
-output "default_hostname" {
-  description = "The default hostname for this app."
-  value       = module.app-engine.default_hostname
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+  type        = string
 }
 
-output "location_id" {
-  description = "The location app engine is serving from"
-  value       = var.location_id
-}
 
