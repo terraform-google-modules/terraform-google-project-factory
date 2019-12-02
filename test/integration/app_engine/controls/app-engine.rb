@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-domain           = attribute('domain')
 project_id       = attribute('project_id')
 region           = attribute('region')
+app_name           = attribute('app_name')
 
 control 'project-factory-app-engine' do
   title "Project Factory App Engine configuration"
@@ -31,10 +31,9 @@ control 'project-factory-app-engine' do
       end
     end
 
-    it { expect(metadata).to include(authDomain: domain) }
     it { expect(metadata[:featureSettings]).to include({splitHealthChecks: true}) }
     it { expect(metadata).to include(id: project_id) }
-    it { expect(metadata).to include(name: "apps/#{project_id}") }
+    it { expect(metadata).to include(name: app_name) }
     it { expect(metadata).to include(locationId: region) }
     it { expect(metadata).to include(servingStatus: 'SERVING') }
   end
