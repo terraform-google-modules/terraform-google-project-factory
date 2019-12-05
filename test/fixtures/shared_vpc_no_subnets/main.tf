@@ -23,7 +23,6 @@ provider "google-beta" {
 }
 
 provider "gsuite" {
-  credentials             = file(var.credentials_path)
   impersonated_user_email = var.gsuite_admin_account
 
   oauth_scopes = [
@@ -49,7 +48,6 @@ module "project-factory" {
   group_name         = "pf-secondgroup-${var.random_string_for_testing}"
   shared_vpc         = var.shared_vpc
   shared_vpc_enabled = true
-  credentials_path   = var.credentials_path
 
   activate_apis = [
     "compute.googleapis.com",

@@ -24,6 +24,7 @@ resource "random_string" "prefix" {
   number  = false
   special = false
 }
+
 module "fabric-project" {
   source          = "../../modules/fabric-project"
   activate_apis   = var.activate_apis

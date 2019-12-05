@@ -2,10 +2,6 @@
 
 This example illustrates how to use the project_services submodule to activate APIs
 
-Expected variables:
-- `credentials_path`
-- `project_id`
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
 
