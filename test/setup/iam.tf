@@ -34,7 +34,6 @@ locals {
   ]
 
   gsuite_sa_credentials_path = "${path.cwd}/credentials_gsuite.json"
-  gsuite_sa_project_id       = "ci-gsuite-sa-project"
 }
 
 resource "google_service_account" "int_test" {
@@ -69,12 +68,18 @@ resource "google_billing_account_iam_member" "int_billing_user" {
   member             = "serviceAccount:${google_service_account.int_test.email}"
 }
 
-resource "google_service_account_key" "gsuite_sa" {
-  service_account_id = var.gsuite_sa_email
+data "google_storage_object_signed_url" "ci_gsuite_sa_json" {
+  bucket   = var.gsuite_sa_bucket
+  path     = var.gsuite_sa_bucket_path
+  duration = "1m"
+}
+
+data "http" "ci_gsuite_sa_json" {
+  url = data.google_storage_object_signed_url.ci_gsuite_sa_json.signed_url
 }
 
 resource "local_file" "gsuite_sa_json" {
-  content  = base64decode(google_service_account_key.gsuite_sa.private_key)
+  content  = data.http.ci_gsuite_sa_json.body
   filename = local.gsuite_sa_credentials_path
 }
 

@@ -34,6 +34,10 @@ variable "gsuite_domain" {
   description = "Gsuite domain"
 }
 
-variable "gsuite_sa_email" {
-  description = "Gsuite Service Account email. Must have access to Admin SDK Directory API."
+variable "gsuite_sa_bucket" {
+  description = "Bucket with Gsuite Service Account email which must have access to Admin SDK Directory API."
+}
+
+variable "gsuite_sa_bucket_path" {
+  description = "Path to the actual credentials file on gsuite_sa_bucket."
 }
