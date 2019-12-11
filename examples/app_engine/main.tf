@@ -39,7 +39,7 @@ resource "random_string" "suffix" {
 module "app-engine-project" {
   source            = "../../"
   name              = "appeng-${random_string.suffix.result}"
-  random_project_id = "true"
+  random_project_id = true
   org_id            = var.org_id
   folder_id         = var.folder_id
   billing_account   = var.billing_account
@@ -51,5 +51,5 @@ module "app-engine-project" {
 module "app-engine" {
   source      = "../../modules/app_engine"
   project_id  = module.app-engine-project.project_id
-  location_id = var.location_id
+  location_id = "us-east4"
 }

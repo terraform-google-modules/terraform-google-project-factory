@@ -31,6 +31,6 @@ output "default_hostname" {
 
 output "location_id" {
   description = "The location app engine is serving from"
-  value       = var.location_id
+  value       = module.app-engine.location_id
 }
 
