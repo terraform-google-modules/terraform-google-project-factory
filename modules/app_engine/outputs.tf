@@ -39,3 +39,8 @@ output "default_bucket" {
   value       = google_app_engine_application.main.default_bucket
 }
 
+output "location_id" {
+  description = "The location app engine is serving from"
+  value       = google_app_engine_application.main.location_id
+}
+
