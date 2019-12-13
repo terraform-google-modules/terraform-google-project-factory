@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = "${path.module}/sa-key.json"
-}
-
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 2.18.1"
+  version = "~> 2.18.1"
 }
 
 module "app-engine" {
