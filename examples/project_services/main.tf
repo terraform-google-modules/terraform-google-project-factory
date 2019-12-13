@@ -21,10 +21,6 @@ provider "google" {
   version = "~> 2.18.1"
 }
 
-provider "google-beta" {
-  version = "~> 2.18.1"
-}
-
 module "project-services" {
   source                      = "../../modules/project_services"
   project_id                  = var.project_id

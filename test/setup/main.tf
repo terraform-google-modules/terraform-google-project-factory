@@ -14,6 +14,22 @@
  * limitations under the License.
  */
 
+provider "google" {
+  version = "~> 2.12.0"
+}
+
+provider "google-beta" {
+  version = "~> 2.12.0"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 resource "random_id" "folder_rand" {
   byte_length = 2
 }
@@ -49,4 +65,3 @@ module "pfactory_project" {
 resource "random_id" "random_string_for_testing" {
   byte_length = 3
 }
-

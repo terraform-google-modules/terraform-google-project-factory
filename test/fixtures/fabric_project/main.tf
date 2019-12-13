@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 2.18.1"
-}
-
 module "fabric-project" {
   source = "../../../examples/fabric_project"
 

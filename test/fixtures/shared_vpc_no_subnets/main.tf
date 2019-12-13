@@ -33,6 +33,14 @@ provider "gsuite" {
   version = "~> 0.1.12"
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
@@ -56,4 +64,3 @@ module "project-factory" {
 
   disable_services_on_destroy = "false"
 }
-
