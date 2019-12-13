@@ -22,6 +22,14 @@ provider "google-beta" {
   version = "~> 2.18.1"
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 module "project-factory" {
   source = "../../../"
 
@@ -39,4 +47,3 @@ module "project-factory" {
   default_service_account     = "disable"
   disable_services_on_destroy = "false"
 }
-

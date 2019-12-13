@@ -33,6 +33,14 @@ provider "gsuite" {
   version = "~> 0.1.12"
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 locals {
   subnet_name_01              = "pf-test-subnet-10-${var.random_string_for_testing}"
   shared_vpc_subnet_name_01   = module.vpc.subnets_names[0]
