@@ -28,3 +28,7 @@ if command -v python3 1>/dev/null; then
 else
     echo "Unable to check project-factory preconditions: python3 executable not in PATH" 1>&2
 fi
+
+if ! command -v gcloud 1>/dev/null; then
+    echo "Unable to check project-factory preconditions: gcloud executable not in PATH" 1>&2
+fi
