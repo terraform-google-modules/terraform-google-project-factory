@@ -27,8 +27,8 @@ resource "random_id" "random_project_id_suffix" {
 locals {
   group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
-  project_org_id    = var.folder_id != "" ? "" : var.org_id
-  project_folder_id = var.folder_id != "" ? var.folder_id : ""
+  project_org_id    = var.folder_id != "" ? null : var.org_id
+  project_folder_id = var.folder_id != "" ? var.folder_id : null
   temp_project_id = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
