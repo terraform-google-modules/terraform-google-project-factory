@@ -21,9 +21,9 @@ locals {
 /******************************************
   Provider configuration
  *****************************************/
-provider "gsuite" {
+provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 0.1.12"
+  version     = "~> 2.18.1"
 }
 
 module "app-engine" {

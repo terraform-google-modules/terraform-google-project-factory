@@ -28,6 +28,14 @@ provider "google-beta" {
   version     = "~> 2.18.1"
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 module "project-factory" {
   source             = "../../"
   random_project_id  = true
@@ -39,4 +47,3 @@ module "project-factory" {
   credentials_path   = local.credentials_file_path
   shared_vpc_subnets = var.shared_vpc_subnets
 }
-
