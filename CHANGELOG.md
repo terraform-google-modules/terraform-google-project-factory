@@ -11,6 +11,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Added
 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
+- Support for importing existing projects. [#138]
 
 ## [6.0.0] - 2019-11-26
 
@@ -324,6 +325,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [#144]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/144
 [#143]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/143
 [#141]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/141
+[#138]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/138
 [#133]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/133
 [#117]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/117
 [#104]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/104
