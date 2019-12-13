@@ -85,7 +85,7 @@ fi
 
 # Seed Project
 echo "Verifying project..."
-SEED_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$p")"
+SEED_PROJECT="$(gcloud projects describe --format="value(projectId)" "$p")"
 
 if [[ $SEED_PROJECT == "" ]]; then
   echo "The Seed Project does not exist. Exiting."
