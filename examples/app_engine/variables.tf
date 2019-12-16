@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  description = "The project to enable app engine on."
+variable "org_id" {
+  description = "The organization ID."
+  type        = string
+}
+
+variable "folder_id" {
+  description = "The ID of a folder to host this project."
+  type        = string
+  default     = ""
+}
+
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
+  type        = string
 }
 
 variable "location_id" {
   description = "The location to serve the app from."
-  default     = "us-central"
-}
-
-variable "auth_domain" {
-  description = "The domain to authenticate users with when using App Engine's User API."
-}
-
-variable "serving_status" {
-  description = "The serving status of the app."
-  default     = "SERVING"
-}
-
-variable "feature_settings" {
-  description = "A list of maps of optional settings to configure specific App Engine features."
-  type        = list
-  default     = [{ enabled = true }]
+  default     = "us-east4"
 }
