@@ -21,7 +21,7 @@ variable "lien" {
 }
 
 variable "random_project_id" {
-  description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
+  description = "Adds a suffix of 2 random characters to the `project_id`"
   default     = "false"
 }
 
@@ -39,7 +39,7 @@ variable "name" {
 }
 
 variable "project_id" {
-  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
+  description = "The ID to give the project. If not provided, the `name` will be used."
   default     = ""
 }
 
