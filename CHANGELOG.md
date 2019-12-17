@@ -12,6 +12,12 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
 - Support for importing existing projects. [#138]
+- The `use_bundled_gcloud_binary` variable can be set to use the `terraform-google-gcloud` module for `gcloud` instead of requiring `gcloud` be pre-installed. [#343]
+- The `gcloud_executable_path` variable can be set to use an alternate path for the `gcloud` executable. [#343]
+
+### Fixed
+
+- Fixed an issue where the precondition script would never run and both precondition and modify-service-account steps could fail silently [#343]
 
 ## [6.0.0] - 2019-11-26
 
@@ -280,6 +286,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
 [#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
 [#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
