@@ -28,5 +28,5 @@ locals {
     folder_id                   = var.folder_id
     shared_vpc                  = var.shared_vpc
   }
-  preconditions_command = "${local.preconditions_py_absolute_path} %{for key, value in local.attributes}--${key}=\"${value}\" %{endfor}"
+  preconditions_command = "${var.python_interpreter_path} ${local.preconditions_py_absolute_path} %{for key, value in local.attributes}--${key}=\"${value}\" %{endfor}"
 }
