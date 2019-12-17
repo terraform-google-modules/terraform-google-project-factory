@@ -17,17 +17,18 @@ Expected variables:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| auth\_domain | The domain to authenticate users with when using App Engine's User API. | string | n/a | yes |
-| feature\_settings | A list of maps of optional settings to configure specific App Engine features. | list | `<list>` | no |
-| location\_id | The location to serve the app from. | string | `"us-central"` | no |
-| project\_id | The project to enable app engine on. | string | n/a | yes |
-| serving\_status | The serving status of the app. | string | `"SERVING"` | no |
+| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
+| folder\_id | The ID of a folder to host this project. | string | `""` | no |
+| location\_id | The location to serve the app from. | string | `"us-east4"` | no |
+| org\_id | The organization ID. | string | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| code\_bucket | The GCS bucket code is being stored in for this app. |
-| name | Unique name of the app, usually apps/{PROJECT_ID}. |
+| app\_name | Unique name of the app, usually apps/{PROJECT_ID}. |
+| default\_hostname | The default hostname for this app. |
+| location\_id | The location app engine is serving from |
+| project\_id | The project ID where app engine is created |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
