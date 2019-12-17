@@ -113,6 +113,7 @@ disable_sa() {
 # Perform specified action of default service account.
 case $SA_ACTION in
   delete)
+      depriviledge_sa
       delete_sa ;;
   depriviledge)
       depriviledge_sa ;;

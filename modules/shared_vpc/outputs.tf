@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// This file was automatically generated from a template in ./autogen
+
 output "project_name" {
   description = "The name for the project"
   value       = module.project-factory.project_name

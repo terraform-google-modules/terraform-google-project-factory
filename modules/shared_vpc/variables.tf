@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// This file was automatically generated from a template in ./autogen
+
 variable "random_project_id" {
   description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
   type        = bool
@@ -73,6 +75,7 @@ variable "group_role" {
 
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
+  type        = string
   default     = ""
 }
 
@@ -96,6 +99,7 @@ variable "usage_bucket_prefix" {
 
 variable "credentials_path" {
   description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  type        = string
   default     = ""
 }
 
@@ -148,7 +152,7 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`."
+  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
   default     = "disable"
   type        = string
 }

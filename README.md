@@ -151,9 +151,9 @@ determining that location is as follows:
 | group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id |  |
-| project\_name |  |
-| project\_number |  |
+| project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. |
+| project\_name | The name for the project |
+| project\_number | The number for the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |

@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-// This file was automatically generated from a template in ./autogen
+ {{ autogeneration_note }}
 
 variable "random_project_id" {
   description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
+  {% if gsuite_enabled %}
+  default     = "false"
+  type        = string
+  {% else %}
   type        = bool
   default     = false
+  {% endif %}
 }
 
 variable "org_id" {
@@ -103,12 +108,14 @@ variable "credentials_path" {
   default     = ""
 }
 
+{% if root_module or gsuite_enabled %}
 variable "impersonate_service_account" {
   description = "An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials."
   type        = string
   default     = ""
 }
 
+{% endif %}
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
   type        = list(string)
@@ -136,25 +143,44 @@ variable "bucket_name" {
 variable "bucket_location" {
   description = "The location for a GCS bucket to create (optional)"
   type        = string
+  {% if gsuite_enabled %}
+  default     = ""
+  {% else %}
   default     = "US"
+  {% endif %}
 }
 
 variable "auto_create_network" {
   description = "Create the default network"
+  {% if gsuite_enabled %}
+  type        = string
+  default     = "false"
+  {% else %}
   type        = bool
   default     = false
+  {% endif %}
 }
 
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
+  {% if gsuite_enabled %}
+  default     = "false"
+  type        = string
+  {% else %}
   type        = bool
   default     = false
+  {% endif %}
 }
 
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
+  {% if svpc_module %}
+  default     = true
+  type        = bool
+  {% else %}
   default     = "true"
   type        = string
+  {% endif %}
 }
 
 variable "default_service_account" {
@@ -165,12 +191,45 @@ variable "default_service_account" {
 
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
+  {% if gsuite_enabled %}
+  default     = "true"
+  type        = string
+  {% else %}
   default     = true
   type        = bool
+  {% endif %}
 }
 
+{% if svpc_module or gsuite_enabled %}
+variable "shared_vpc_enabled" {
+  description = "If shared VPC should be used"
+  type        = bool
+  default     = false
+}
+
+{% endif %}
 variable "python_interpreter_path" {
   description = "Python interpreter path for precondition check script."
   type        = string
   default     = "python3"
 }
+{% if gsuite_enabled %}
+
+variable "create_group" {
+  type        = bool
+  description = "Whether to create the group or not"
+  default     = false
+}
+
+variable "sa_group" {
+  type        = string
+  description = "A G Suite group to place the default Service Account for the project in"
+  default     = ""
+}
+
+variable "api_sa_group" {
+  type        = string
+  description = "A G Suite group to place the Google APIs Service Account for the project in"
+  default     = ""
+}
+{% endif %}

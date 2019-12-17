@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-// This file was automatically generated from a template in ./autogen
+ {{ autogeneration_note }}
 
 terraform {
   required_version = "~> 0.12.6"
+  {% if gsuite_enabled %}
+
+  required_providers {
+    gsuite = "~> 0.1"
+  }
+  {% endif %}
 }

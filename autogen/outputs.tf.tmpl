@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// This file was automatically generated from a template in ./autogen
+{{ autogeneration_note }}
 
 output "project_name" {
   description = "The name for the project"
@@ -38,8 +38,19 @@ output "domain" {
 
 output "group_email" {
   value       = module.gsuite_group.email
+  {% if gsuite_enabled %}
+  description = "The email of the created G Suite group with group_name"
+  {% else %}
   description = "The email of the G Suite group with group_name"
+  {% endif %}
 }
+{% if gsuite_enabled %}
+
+output "group_name" {
+  value       = module.gsuite_group.name
+  description = "The group_name of the G Suite group"
+}
+{% endif %}
 
 output "service_account_id" {
   value       = module.project-factory.service_account_id

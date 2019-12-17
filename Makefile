@@ -89,6 +89,17 @@ docker_generate_docs:
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/bin/bash -c 'source /usr/local/bin/task_helper_functions.sh && generate_docs'
 
+# Generate files from autogen
+.PHONY: docker_generate
+docker_generate:
+	docker run --rm -it \
+                -v "$(CURDIR)":/workspace \
+                $(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
+                /bin/bash -c 'source /usr/local/bin/task_helper_functions.sh && generate'
+
 # Alias for backwards compatibility
 .PHONY: generate_docs
 generate_docs: docker_generate_docs
+
+.PHONY: generate
+generate: docker_generate

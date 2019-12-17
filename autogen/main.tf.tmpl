@@ -14,32 +14,108 @@
  * limitations under the License.
  */
 
-// This file was automatically generated from a template in ./autogen
+{{ autogeneration_note }}
 
+{% if gsuite_enabled %}
+locals {
+  group_name = var.group_name != "" ? var.group_name : format("%s-editors", var.name)
+}
+
+/***********************************************
+  Make service account member of sa_group group
+ ***********************************************/
+resource "gsuite_group_member" "service_account_sa_group_member" {
+  count = var.sa_group != "" ? 1 : 0
+
+  group = var.sa_group
+  email = module.project-factory.service_account_email
+  role  = "MEMBER"
+}
+
+/*****************************************
+  G Suite group information retrieval
+ *****************************************/
+{% else %}
 /*****************************************
   Organization info retrieval
  *****************************************/
+{% endif %}
 module "gsuite_group" {
+  {% if root_module %}
   source = "./modules/gsuite_group"
+  {% else %}
+  source = "../gsuite_group"
+  {% endif %}
 
   domain = var.domain
+  {% if gsuite_enabled %}
+  name   = local.group_name
+  {% else %}
   name   = var.group_name
+  {% endif %}
   org_id = var.org_id
 }
 
-module "project-factory" {
-  source = "./modules/core_project_factory"
+{% if gsuite_enabled %}
+/******************************************
+  Gsuite Group Configuration
+ *****************************************/
+resource "gsuite_group" "group" {
+  count = var.create_group ? 1 : 0
 
+  description = "${var.name} project group"
+  email       = module.gsuite_group.email
+  name        = local.group_name
+}
+
+/***********************************************
+  Make APIs service account member of api_sa_group
+ ***********************************************/
+resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
+  count = var.api_sa_group != "" ? 1 : 0
+
+  group = var.api_sa_group
+  email = module.project-factory.api_s_account
+  role  = "MEMBER"
+}
+
+{% endif %}
+module "project-factory" {
+  {% if root_module %}
+  source = "./modules/core_project_factory"
+  {% else %}
+  source = "../core_project_factory"
+  {% endif %}
+
+  {% if gsuite_enabled %}
+  group_email = element(
+    compact(
+      concat(gsuite_group.group.*.email, [module.gsuite_group.email]),
+    ),
+    0,
+  )
+  {% else %}
   group_email                 = module.gsuite_group.email
+  {% endif %}
   group_role                  = var.group_role
   lien                        = var.lien
+  {% if gsuite_enabled %}
+  manage_group                = var.group_name != "" || var.create_group
+  {% else %}
   manage_group                = var.group_name != "" ? "true" : "false"
+  {% endif %}
   random_project_id           = var.random_project_id
   org_id                      = var.org_id
   name                        = var.name
   project_id                  = var.project_id
   shared_vpc                  = var.shared_vpc
+  {% if svpc_module %}
+  shared_vpc_enabled          = true
+  {% elif gsuite_enabled %}
+  shared_vpc_enabled          =  var.shared_vpc_enabled
+  {% elif root_module %}
   shared_vpc_enabled          = var.shared_vpc != ""
+  {% endif %}
   billing_account             = var.billing_account
   folder_id                   = var.folder_id
   sa_role                     = var.sa_role
@@ -47,7 +123,9 @@ module "project-factory" {
   usage_bucket_name           = var.usage_bucket_name
   usage_bucket_prefix         = var.usage_bucket_prefix
   credentials_path            = var.credentials_path
+  {% if root_module or gsuite_enabled %}
   impersonate_service_account = var.impersonate_service_account
+  {% endif %}
   shared_vpc_subnets          = var.shared_vpc_subnets
   labels                      = var.labels
   bucket_project              = var.bucket_project

@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
+// This file was automatically generated from a template in ./autogen
+
 output "project_name" {
-  value = module.project-factory.project_name
+  description = "The name for the project"
+  value       = module.project-factory.project_name
 }
 
 output "project_id" {
-  value = module.project-factory.project_id
+  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
+  value       = module.project-factory.project_id
 }
 
 output "project_number" {
-  value = module.project-factory.project_number
+  description = "The number for the project"
+  value       = module.project-factory.project_number
 }
 
 output "domain" {

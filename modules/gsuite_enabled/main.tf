@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+// This file was automatically generated from a template in ./autogen
+
 locals {
   group_name = var.group_name != "" ? var.group_name : format("%s-editors", var.name)
 }
@@ -63,7 +65,7 @@ resource "gsuite_group_member" "api_s_account_api_sa_group_member" {
 }
 
 module "project-factory" {
-  source = "../core_project_factory/"
+  source = "../core_project_factory"
 
   group_email = element(
     compact(
