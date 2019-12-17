@@ -170,6 +170,15 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
 }
 
 /******************************************
+  Bundled gcloud executable through module
+ *****************************************/
+module "gcloud" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "0.1"
+  enabled = var.use_bundled_gcloud_binary
+}
+
+/******************************************
   Default compute service account retrieval
  *****************************************/
 data "null_data_source" "default_service_account" {
@@ -191,7 +200,8 @@ ${path.module}/scripts/modify-service-account.sh \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
   --credentials_path='${var.credentials_path}' \
   --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='delete'
+  --action='delete' \
+  --gcloud_bin='${local.gcloud_bin}'
 EOD
   }
 
@@ -218,7 +228,8 @@ ${path.module}/scripts/modify-service-account.sh \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
   --credentials_path='${var.credentials_path}' \
   --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='depriviledge'
+  --action='depriviledge' \
+  --gcloud_bin='${local.gcloud_bin}'
 EOD
   }
 
@@ -245,7 +256,8 @@ ${path.module}/scripts/modify-service-account.sh \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
   --credentials_path='${var.credentials_path}' \
   --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='disable'
+  --action='disable' \
+  --gcloud_bin='${local.gcloud_bin}'
 EOD
   }
 

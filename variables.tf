@@ -179,3 +179,14 @@ variable "pip_executable_path" {
   default     = "pip3"
 }
 
+variable "gcloud_executable_path" {
+  description = "When `use_bundled_gcloud_binary` is `false` the location of the gcloud executable to use"
+  type        = string
+  default     = "gcloud"
+}
+
+variable "use_bundled_gcloud_binary" {
+  description = "Whether to use this modules bundled gcloud binary or the systems `gcloud` command from $PATH"
+  type        = bool
+  default     = false
+}

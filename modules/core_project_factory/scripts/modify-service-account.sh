@@ -40,6 +40,10 @@ case $i in
     SA_ACTION="${i#*=}"
     shift
     ;;
+    --gcloud_bin=*)
+    GCLOUD_BIN="${i#*=}"
+    shift
+    ;;
 esac
 done
 
@@ -54,6 +58,12 @@ if [[ -n "${CREDENTIALS}" ]]; then
   export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$CREDENTIALS"
 elif [[ -n "${GOOGLE_APPLICATION_CREDENTIALS}" ]]; then
   export CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE="$GOOGLE_APPLICATION_CREDENTIALS"
+fi
+
+if [[ -n "${GCLOUD_BIN}" ]]; then
+  echo "Using gcloud binary at ${GCLOUD_BIN}"
+else
+  GCLOUD_BIN="gcloud"
 fi
 
 # Function to delete the default service account.
@@ -74,7 +84,7 @@ delete_sa() {
 
 # Function to depriviledge the default service account.
 depriviledge_sa() {
-  EDITORS_LIST_COMMAND="gcloud projects get-iam-policy $PROJECT_ID \
+  EDITORS_LIST_COMMAND="${GCLOUD_BIN} projects get-iam-policy $PROJECT_ID \
   --flatten=bindings[].members \
   --format=table(bindings.role,bindings.members) \
   --filter=bindings.role:editor $APPEND_IMPERSONATE"
@@ -82,7 +92,7 @@ depriviledge_sa() {
 
   if [[ $EDITORS_LIST = *"$SA_ID"* ]]; then
       echo "Depriviledge service account $SA_ID in project $PROJECT_ID"
-      SA_DEPRIV_COMMAND="gcloud projects remove-iam-policy-binding $PROJECT_ID \
+      SA_DEPRIV_COMMAND="${GCLOUD_BIN} projects remove-iam-policy-binding $PROJECT_ID \
       --member=serviceAccount:$SA_ID \
       --role=roles/editor \
       --project=$PROJECT_ID $APPEND_IMPERSONATE"
@@ -94,14 +104,14 @@ depriviledge_sa() {
 
 # Function to disable the default service account.
 disable_sa() {
-  SA_LIST_COMMAND="gcloud iam service-accounts list $APPEND_IMPERSONATE --project=$PROJECT_ID"
+  SA_LIST_COMMAND="${GCLOUD_BIN} iam service-accounts list $APPEND_IMPERSONATE --project=$PROJECT_ID"
   SA_LIST=$(${SA_LIST_COMMAND} || exit 1)
 
   if [[ $SA_LIST = *"$SA_ID"* ]]; then
       # There is no harm in disabling a service account that is already disabled
       # Google agrees in their docs
       echo "Disabling service account $SA_ID in project $PROJECT_ID"
-      SA_DISABLE_COMMAND="gcloud iam service-accounts disable \
+      SA_DISABLE_COMMAND="${GCLOUD_BIN} iam service-accounts disable \
       --quiet $APPEND_IMPERSONATE \
       --project=$PROJECT_ID $SA_ID"
       ${SA_DISABLE_COMMAND}
@@ -126,6 +136,3 @@ case $SA_ACTION in
       echo "$SA_ACTION is not a valid action, nothing to do."
       ;;
 esac
-
-
-
