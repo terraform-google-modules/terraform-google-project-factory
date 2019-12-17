@@ -46,5 +46,5 @@ module "project-factory" {
 
   default_service_account     = "disable"
   disable_services_on_destroy = "false"
-  use_bundled_gcloud_binary   = false
+  use_bundled_gcloud_binary   = true
 }
