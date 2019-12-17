@@ -174,7 +174,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
  *****************************************/
 module "gcloud" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "0.1"
+  version = "~> 0.1"
   enabled = var.use_bundled_gcloud_binary
 }
 
