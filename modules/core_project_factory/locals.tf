@@ -20,13 +20,12 @@ locals {
   pip_requirements_absolute_path = join("/", [local.preconditions_path, "requirements.txt"])
   preconditions_py_absolute_path = join("/", [local.preconditions_path, "preconditions.py"])
   attributes = {
-    billing_account_attr             = var.billing_account
-    org_id_attr                      = var.org_id
-    credentials_path_attr            = var.credentials_path
-    impersonate_service_account_attr = var.impersonate_service_account
-    folder_id_attr                   = var.folder_id
-    shared_vpc_attr                  = var.shared_vpc
+    billing_account             = var.billing_account
+    org_id                      = var.org_id
+    credentials_path            = var.credentials_path
+    impersonate_service_account = var.impersonate_service_account
+    folder_id                   = var.folder_id
+    shared_vpc                  = var.shared_vpc
   }
-  preconditions_command = "${var.python_interpreter_path} ${local.preconditions_py_absolute_path} %{for key, value in local.attributes}--${key} ${value} %{endfor}"
+  preconditions_command = "${local.preconditions_py_absolute_path} %{for key, value in local.attributes}--${key}=\"${value}\" %{endfor}"
 }
-

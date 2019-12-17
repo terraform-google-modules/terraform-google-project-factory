@@ -77,13 +77,11 @@ resource "null_resource" "preconditions" {
 
   provisioner "local-exec" {
     command     = local.pip_requirements_absolute_path
-    interpreter = ["pip3", "install", "-r"]
-    on_failure  = "continue"
+    interpreter = [var.pip_executable_path, "install", "-r"]
   }
 
   provisioner "local-exec" {
-    command    = local.preconditions_command
-    on_failure = "continue"
+    command = local.preconditions_command
     environment = {
       GRACEFUL_IMPORTERROR = "true"
     }
@@ -187,7 +185,7 @@ resource "null_resource" "delete_default_compute_service_account" {
   count = var.default_service_account == "delete" ? 1 : 0
 
   provisioner "local-exec" {
-    command    = <<EOD
+    command = <<EOD
 ${path.module}/scripts/modify-service-account.sh \
   --project_id='${google_project.main.project_id}' \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
@@ -195,7 +193,6 @@ ${path.module}/scripts/modify-service-account.sh \
   --impersonate-service-account='${var.impersonate_service_account}' \
   --action='delete'
 EOD
-    on_failure = "continue"
   }
 
   triggers = {
@@ -215,7 +212,7 @@ resource "null_resource" "depriviledge_default_compute_service_account" {
   count = var.default_service_account == "depriviledge" ? 1 : 0
 
   provisioner "local-exec" {
-    command    = <<EOD
+    command = <<EOD
 ${path.module}/scripts/modify-service-account.sh \
   --project_id='${google_project.main.project_id}' \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
@@ -223,7 +220,6 @@ ${path.module}/scripts/modify-service-account.sh \
   --impersonate-service-account='${var.impersonate_service_account}' \
   --action='depriviledge'
 EOD
-    on_failure = "continue"
   }
 
   triggers = {
@@ -496,4 +492,3 @@ resource "google_project_iam_member" "gke_host_agent" {
     module.project_services,
   ]
 }
-
