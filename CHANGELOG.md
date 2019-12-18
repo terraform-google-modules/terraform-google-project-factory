@@ -8,6 +8,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [6.1.0] - 2019-12-18
+
 ### Added
 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
@@ -16,10 +18,13 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Changed
 
 - When deleting a service account, deprivilege first to remove IAM binding [#341]
+- The preconditions script checks for the existence of `gcloud`. [#331]
+- The service account setup script only requests the specified project. [#338]
 
 ### Fixed
 
 - Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#345]
+- The `feature_settings` variable on the `app_engine` submodule has a valid default. [#324]
 
 ## [6.0.0] - 2019-11-26
 
@@ -256,7 +261,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...HEAD
+[6.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.0...v4.0.1
@@ -290,6 +296,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 [#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
 [#341]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/341
+[#338]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/338
+[#331]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/331
+[#324]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/324
 [#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
 [#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
