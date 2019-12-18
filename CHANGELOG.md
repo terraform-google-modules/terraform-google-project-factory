@@ -15,7 +15,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Changed
 
-- Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#342]
+- When deleting a service account, deprivilege first to remove IAM binding [#341]
+- Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#345]
 
 ## [6.0.0] - 2019-11-26
 
@@ -284,7 +285,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
-[#342]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/342
+[#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
+[#341]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/341
 [#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
 [#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
