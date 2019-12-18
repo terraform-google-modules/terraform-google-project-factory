@@ -13,6 +13,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
 - Support for importing existing projects. [#138]
 
+### Changed
+
+- Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#342]
+
 ## [6.0.0] - 2019-11-26
 
 6.0.0 is a backwards incompatible release. See the [upgrade guide](./docs/upgrading_to_project_factory_v6.0.md) for details.
@@ -112,7 +116,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
-- Precoditions script handles projects with a large number of enabled APIs. [#220]
+- Preconditions script handles projects with a large number of enabled APIs. [#220]
 
 ## [2.3.0] - 2019-05-28
 
@@ -120,7 +124,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - Feature that toggles authoritative management of project services. [#213]
 - Option that provides ability to choose the region of the bucket [#207]
-- Added option to depriviledge or keep default compute service account. [#186]
+- Added option to deprivilege or keep default compute service account. [#186]
 
 ### Fixed
 
@@ -280,6 +284,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#342]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/342
 [#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
 [#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309
