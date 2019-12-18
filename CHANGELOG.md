@@ -16,6 +16,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Changed
 
 - When deleting a service account, deprivilege first to remove IAM binding [#341]
+
+### Fixed
+
 - Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#345]
 
 ## [6.0.0] - 2019-11-26
