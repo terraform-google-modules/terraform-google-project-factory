@@ -209,10 +209,10 @@ EOD
 }
 
 /*********************************************
-  Default compute service account depriviledge
+  Default compute service account deprivilege
  ********************************************/
-resource "null_resource" "depriviledge_default_compute_service_account" {
-  count = var.default_service_account == "depriviledge" ? 1 : 0
+resource "null_resource" "deprivilege_default_compute_service_account" {
+  count = var.default_service_account == "deprivilege" ? 1 : 0
 
   provisioner "local-exec" {
     command    = <<EOD
@@ -221,7 +221,7 @@ ${path.module}/scripts/modify-service-account.sh \
   --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
   --credentials_path='${var.credentials_path}' \
   --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='depriviledge'
+  --action='deprivilege'
 EOD
     on_failure = "continue"
   }
