@@ -127,20 +127,6 @@ module "project-factory" {
   disable_services_on_destroy = "false"
 }
 
-module "app-engine" {
-  source = "../../../modules/app_engine"
-
-  project_id  = module.project-factory.project_id
-  location_id = var.region
-  auth_domain = var.domain
-
-  feature_settings = [
-    {
-      split_health_checks = true
-    },
-  ]
-}
-
 resource "google_service_account" "extra_service_account" {
   project    = module.project-factory.project_id
   account_id = "extra-service-account"

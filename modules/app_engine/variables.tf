@@ -35,7 +35,7 @@ variable "serving_status" {
 
 variable "feature_settings" {
   description = "A list of maps of optional settings to configure specific App Engine features."
-  type        = list
-  default     = [{ enabled = true }]
+  type        = list(object({ split_health_checks = bool }))
+  default     = [{ split_health_checks = true }]
 }
 
