@@ -127,7 +127,6 @@ determining that location is as follows:
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
-| gcloud\_executable\_path | When `use_bundled_gcloud_binary` is `false` the location of the gcloud executable to use | string | `"gcloud"` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
 | impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials. | string | `""` | no |
@@ -144,7 +143,6 @@ determining that location is as follows:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
-| use\_bundled\_gcloud\_binary | Whether to use this modules bundled gcloud binary or the systems `gcloud` command from $PATH | bool | `"false"` | no |
 
 ## Outputs
 

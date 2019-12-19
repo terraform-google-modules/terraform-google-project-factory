@@ -170,15 +170,6 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
 }
 
 /******************************************
-  Bundled gcloud executable through module
- *****************************************/
-module "gcloud" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.1"
-  enabled = var.use_bundled_gcloud_binary
-}
-
-/******************************************
   Default compute service account retrieval
  *****************************************/
 data "null_data_source" "default_service_account" {
@@ -190,85 +181,83 @@ data "null_data_source" "default_service_account" {
 /******************************************
   Default compute service account deletion
  *****************************************/
-resource "null_resource" "delete_default_compute_service_account" {
-  count = var.default_service_account == "delete" ? 1 : 0
+module "gcloud_delete" {
+  # TODO update source once released
+  #source  = "terraform-google-modules/gcloud/google"
+  #version = "~> 0.1"
+  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
 
-  provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/modify-service-account.sh \
-  --project_id='${google_project.main.project_id}' \
-  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-  --credentials_path='${var.credentials_path}' \
-  --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='delete' \
-  --gcloud_bin='${local.gcloud_bin}'
-EOD
-  }
+  enabled = var.default_service_account == "delete"
 
-  triggers = {
+  create_script           = "${path.module}/scripts/modify-service-account.sh"
+  create_script_arguments = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='delete'
+  EOT
+
+  create_script_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
   }
-
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /*********************************************
   Default compute service account depriviledge
  ********************************************/
-resource "null_resource" "depriviledge_default_compute_service_account" {
-  count = var.default_service_account == "depriviledge" ? 1 : 0
+module "gcloud_depriviledge" {
+  # TODO update source once released
+  #source  = "terraform-google-modules/gcloud/google"
+  #version = "~> 0.1"
+  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
 
-  provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/modify-service-account.sh \
-  --project_id='${google_project.main.project_id}' \
-  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-  --credentials_path='${var.credentials_path}' \
-  --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='depriviledge' \
-  --gcloud_bin='${local.gcloud_bin}'
-EOD
-  }
+  enabled = var.default_service_account == "depriviledge"
 
-  triggers = {
+  create_script           = "${path.module}/scripts/modify-service-account.sh"
+  create_script_arguments = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='depriviledge'
+  EOT
+
+  create_script_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
   }
-
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /******************************************
   Default compute service account disable
  *****************************************/
-resource "null_resource" "disable_default_compute_service_account" {
-  count = var.default_service_account == "disable" ? 1 : 0
+module "gcloud_disable" {
+  # TODO update source once released
+  #source  = "terraform-google-modules/gcloud/google"
+  #version = "~> 0.1"
+  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
 
-  provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/modify-service-account.sh \
-  --project_id='${google_project.main.project_id}' \
-  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-  --credentials_path='${var.credentials_path}' \
-  --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='disable' \
-  --gcloud_bin='${local.gcloud_bin}'
-EOD
-  }
+  enabled = var.default_service_account == "disable"
 
-  triggers = {
+  create_script           = "${path.module}/scripts/modify-service-account.sh"
+  create_script_arguments = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='disable'
+  EOT
+
+  create_script_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
   }
 
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /******************************************

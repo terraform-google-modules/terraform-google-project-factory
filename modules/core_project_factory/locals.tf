@@ -19,7 +19,6 @@ locals {
   preconditions_path             = join("/", [local.root_path, path.module, "scripts", "preconditions"])
   pip_requirements_absolute_path = join("/", [local.preconditions_path, "requirements.txt"])
   preconditions_py_absolute_path = join("/", [local.preconditions_path, "preconditions.py"])
-  gcloud_bin                     = var.use_bundled_gcloud_binary ? module.gcloud.create_cmd_bin : var.gcloud_executable_path
   attributes = {
     billing_account             = var.billing_account
     org_id                      = var.org_id

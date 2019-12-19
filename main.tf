@@ -57,6 +57,4 @@ module "project-factory" {
   disable_dependent_services  = var.disable_dependent_services
   python_interpreter_path     = var.python_interpreter_path
   pip_executable_path         = var.pip_executable_path
-  gcloud_executable_path      = var.gcloud_executable_path
-  use_bundled_gcloud_binary   = var.use_bundled_gcloud_binary
 }
