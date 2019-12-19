@@ -45,7 +45,7 @@ variable "project_id" {
 }
 
 variable "random_project_id" {
-  description = "Adds a suffix of 2 random characters to the `project_id`"
+  description = "Adds a suffix of 4 random characters to the `project_id`"
   type        = bool
   default     = false
 }

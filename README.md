@@ -136,7 +136,7 @@ determining that location is as follows:
 | org\_id | The organization ID. | string | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
-| random\_project\_id | Adds a suffix of 2 random characters to the `project_id` | bool | `"false"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | bool | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |

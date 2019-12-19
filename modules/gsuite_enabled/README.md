@@ -81,7 +81,7 @@ The roles granted are specifically:
 | org\_id | The organization ID. | string | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
-| random\_project\_id | Adds a suffix of 2 random characters to the `project_id` | string | `"false"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | string | `"false"` | no |
 | sa\_group | A G Suite group to place the default Service Account for the project in | string | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
