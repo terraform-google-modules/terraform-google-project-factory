@@ -24,10 +24,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
 - Support for importing existing projects. [#138]
 
-### Fixed
-
-- Fixed an issue where the precondition script would never run and both precondition and modify-service-account steps could fail silently [#343]
-
 ### Changed
 
 - When deleting a service account, deprivilege first to remove IAM binding [#341]
