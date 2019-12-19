@@ -206,15 +206,15 @@ module "gcloud_delete" {
 }
 
 /*********************************************
-  Default compute service account depriviledge
+  Default compute service account deprivilege
  ********************************************/
-module "gcloud_depriviledge" {
+module "gcloud_deprivilege" {
   # TODO update source once released
   #source  = "terraform-google-modules/gcloud/google"
   #version = "~> 0.1"
   source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
 
-  enabled = var.default_service_account == "depriviledge"
+  enabled = var.default_service_account == "deprivilege"
 
   create_script           = "${path.module}/scripts/modify-service-account.sh"
   create_script_arguments = <<-EOT
@@ -222,7 +222,7 @@ module "gcloud_depriviledge" {
     --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
     --credentials_path='${var.credentials_path}' \
     --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='depriviledge'
+    --action='deprivilege'
   EOT
 
   create_script_triggers = {
