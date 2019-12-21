@@ -189,8 +189,8 @@ module "gcloud_delete" {
 
   enabled = var.default_service_account == "delete"
 
-  create_script           = "${path.module}/scripts/modify-service-account.sh"
-  create_script_arguments = <<-EOT
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
     --project_id='${google_project.main.project_id}' \
     --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
     --credentials_path='${var.credentials_path}' \
@@ -198,7 +198,7 @@ module "gcloud_delete" {
     --action='delete'
   EOT
 
-  create_script_triggers = {
+  create_cmd_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
     project_services        = module.project_services.project_id
@@ -216,8 +216,8 @@ module "gcloud_deprivilege" {
 
   enabled = var.default_service_account == "deprivilege"
 
-  create_script           = "${path.module}/scripts/modify-service-account.sh"
-  create_script_arguments = <<-EOT
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
     --project_id='${google_project.main.project_id}' \
     --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
     --credentials_path='${var.credentials_path}' \
@@ -225,7 +225,7 @@ module "gcloud_deprivilege" {
     --action='deprivilege'
   EOT
 
-  create_script_triggers = {
+  create_cmd_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
     project_services        = module.project_services.project_id
@@ -243,8 +243,8 @@ module "gcloud_disable" {
 
   enabled = var.default_service_account == "disable"
 
-  create_script           = "${path.module}/scripts/modify-service-account.sh"
-  create_script_arguments = <<-EOT
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
     --project_id='${google_project.main.project_id}' \
     --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
     --credentials_path='${var.credentials_path}' \
@@ -252,7 +252,7 @@ module "gcloud_disable" {
     --action='disable'
   EOT
 
-  create_script_triggers = {
+  create_cmd_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
     project_services        = module.project_services.project_id
