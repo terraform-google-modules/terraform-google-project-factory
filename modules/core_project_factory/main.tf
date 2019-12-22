@@ -182,10 +182,8 @@ data "null_data_source" "default_service_account" {
   Default compute service account deletion
  *****************************************/
 module "gcloud_delete" {
-  # TODO update source once released
-  #source  = "terraform-google-modules/gcloud/google"
-  #version = "~> 0.1"
-  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.3"
 
   enabled = var.default_service_account == "delete"
 
@@ -209,10 +207,8 @@ module "gcloud_delete" {
   Default compute service account deprivilege
  ********************************************/
 module "gcloud_deprivilege" {
-  # TODO update source once released
-  #source  = "terraform-google-modules/gcloud/google"
-  #version = "~> 0.1"
-  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.3"
 
   enabled = var.default_service_account == "deprivilege"
 
@@ -236,10 +232,8 @@ module "gcloud_deprivilege" {
   Default compute service account disable
  *****************************************/
 module "gcloud_disable" {
-  # TODO update source once released
-  #source  = "terraform-google-modules/gcloud/google"
-  #version = "~> 0.1"
-  source = "github.com/taylorludwig/terraform-google-gcloud?ref=feature%2Frun-script"
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.3"
 
   enabled = var.default_service_account == "disable"
 
