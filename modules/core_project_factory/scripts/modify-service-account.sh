@@ -126,6 +126,3 @@ case $SA_ACTION in
       echo "$SA_ACTION is not a valid action, nothing to do."
       ;;
 esac
-
-
-

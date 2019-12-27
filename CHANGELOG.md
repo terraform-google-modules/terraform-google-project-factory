@@ -8,6 +8,15 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- The `pip_executable_path` variable which can be altered to support execution in a Windows environment. [#343]
+- The `modify-service-account.sh` steps are now executed in the context of the `terraform-google-gcloud` module so there is no longer a dependency on having `gcloud` installed on the host. [#343]
+
+### Fixed
+
+- The precondition script is fixed and will run successfully. `on_failure = "continue"` was also removed to prevent silent failures. [#343]
+
 ## [6.1.0] - 2019-12-18
 
 ### Added
@@ -294,6 +303,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
 [#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
 [#341]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/341
 [#338]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/338
