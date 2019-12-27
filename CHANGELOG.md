@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Changed
+
+- Changed required `google` provider version to `>= 2.1, < 4.0` [#350]
+
 ## [6.2.0] - 2019-12-27
 
 ### Added
@@ -306,6 +310,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#350]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/350
 [#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
 [#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
 [#341]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/341
