@@ -8,6 +8,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [6.2.0] - 2019-12-27
+
 ### Added
 
 - The `pip_executable_path` variable which can be altered to support execution in a Windows environment. [#343]
@@ -270,7 +272,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.0...HEAD
+[6.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
