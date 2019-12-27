@@ -170,8 +170,8 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin 2.1.x
--   [terraform-provider-google-beta] plugin 2.1.x
+-   [terraform-provider-google] plugin >= 2.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -233,7 +233,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
     ```terraform
     provider "google" {
       credentials = "${file(var.credentials_path)}"
-      version = "~> 1.20"
+      version = "~> 3.3"
     }
 
     module "project-factory" {
@@ -251,7 +251,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
    provider "google" {
      # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
      # value is needed here.
-      version = "~> 1.20"
+      version = "~> 3.3"
    }
 
    module "project-factory" {
