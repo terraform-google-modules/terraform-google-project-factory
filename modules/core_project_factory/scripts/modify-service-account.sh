@@ -72,8 +72,8 @@ delete_sa() {
   fi
 }
 
-# Function to depriviledge the default service account.
-depriviledge_sa() {
+# Function to deprivilege the default service account.
+deprivilege_sa() {
   EDITORS_LIST_COMMAND="gcloud projects get-iam-policy $PROJECT_ID \
   --flatten=bindings[].members \
   --format=table(bindings.role,bindings.members) \
@@ -81,14 +81,14 @@ depriviledge_sa() {
   EDITORS_LIST=$(${EDITORS_LIST_COMMAND} || exit 1)
 
   if [[ $EDITORS_LIST = *"$SA_ID"* ]]; then
-      echo "Depriviledge service account $SA_ID in project $PROJECT_ID"
+      echo "Deprivilege service account $SA_ID in project $PROJECT_ID"
       SA_DEPRIV_COMMAND="gcloud projects remove-iam-policy-binding $PROJECT_ID \
       --member=serviceAccount:$SA_ID \
       --role=roles/editor \
       --project=$PROJECT_ID $APPEND_IMPERSONATE"
       ${SA_DEPRIV_COMMAND}
   else
-      echo "Service account not listed. It appears to have already been depriviledged."
+      echo "Service account not listed. It appears to have already been deprivileged."
   fi
 }
 
@@ -113,10 +113,10 @@ disable_sa() {
 # Perform specified action of default service account.
 case $SA_ACTION in
   delete)
-      depriviledge_sa
+      deprivilege_sa
       delete_sa ;;
-  depriviledge)
-      depriviledge_sa ;;
+  deprivilege)
+      deprivilege_sa ;;
   disable)
       disable_sa ;;
   keep)
@@ -126,6 +126,3 @@ case $SA_ACTION in
       echo "$SA_ACTION is not a valid action, nothing to do."
       ;;
 esac
-
-
-

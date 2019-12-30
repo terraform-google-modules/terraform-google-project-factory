@@ -251,7 +251,7 @@ requires that the default compute service account be in place in the project.
 In order to deploy an App Engine Flex application into a project created by Project Factory,
 the default service account must not be disabled (as is the default behavior) or deleted. To prevent the
 default service account from being deleted, ensure that the `default_service_account` input
-is set to either `depriviledge` or `keep`.
+is set to either `deprivilege` or `keep`.
 
 - - -
 ### Seed project missing APIs

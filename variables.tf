@@ -156,7 +156,7 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`."
+  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
   default     = "disable"
   type        = string
 }
@@ -171,4 +171,10 @@ variable "python_interpreter_path" {
   description = "Python interpreter path for precondition check script."
   type        = string
   default     = "python3"
+}
+
+variable "pip_executable_path" {
+  description = "Pip executable path for precondition requirements.txt install."
+  type        = string
+  default     = "pip3"
 }

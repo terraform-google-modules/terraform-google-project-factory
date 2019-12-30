@@ -8,10 +8,38 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Changed
+
+- Changed required `google` provider version to `>= 2.1, < 4.0` [#350]
+
+## [6.2.0] - 2019-12-27
+
+### Added
+
+- The `pip_executable_path` variable which can be altered to support execution in a Windows environment. [#343]
+- The `modify-service-account.sh` steps are now executed in the context of the `terraform-google-gcloud` module so there is no longer a dependency on having `gcloud` installed on the host. [#343]
+
+### Fixed
+
+- The precondition script is fixed and will run successfully. `on_failure = "continue"` was also removed to prevent silent failures. [#343]
+
+## [6.1.0] - 2019-12-18
+
 ### Added
 
 - The `python_interpreter_path` variable which can be altered to support execution in a Windows environment. [#265]
 - Support for importing existing projects. [#138]
+
+### Changed
+
+- When deleting a service account, deprivilege first to remove IAM binding [#341]
+- The preconditions script checks for the existence of `gcloud`. [#331]
+- The service account setup script only requests the specified project. [#338]
+
+### Fixed
+
+- Fixed typo in `default_service_account` variable's default value from `depriviledge` to `deprivilege`. [#345]
+- The `feature_settings` variable on the `app_engine` submodule has a valid default. [#324]
 
 ## [6.0.0] - 2019-11-26
 
@@ -112,7 +140,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Fixed
 
-- Precoditions script handles projects with a large number of enabled APIs. [#220]
+- Preconditions script handles projects with a large number of enabled APIs. [#220]
 
 ## [2.3.0] - 2019-05-28
 
@@ -120,7 +148,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 - Feature that toggles authoritative management of project services. [#213]
 - Option that provides ability to choose the region of the bucket [#207]
-- Added option to depriviledge or keep default compute service account. [#186]
+- Added option to deprivilege or keep default compute service account. [#186]
 
 ### Fixed
 
@@ -248,7 +276,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.0...HEAD
+[6.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...v6.2.0
+[6.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...v6.0.0
 [5.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.1...v5.0.0
 [4.0.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v4.0.0...v4.0.1
@@ -280,6 +310,13 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#350]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/350
+[#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
+[#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
+[#341]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/341
+[#338]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/338
+[#331]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/331
+[#324]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/324
 [#313]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/313
 [#300]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/300
 [#309]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/309

@@ -122,7 +122,7 @@ determining that location is as follows:
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `disable`, or `keep`. | string | `"disable"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
@@ -134,6 +134,7 @@ determining that location is as follows:
 | lien | Add a lien on the project to prevent accidental deletion | bool | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
+| pip\_executable\_path | Pip executable path for precondition requirements.txt install. | string | `"pip3"` | no |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | bool | `"false"` | no |
@@ -169,8 +170,8 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin 2.1.x
--   [terraform-provider-google-beta] plugin 2.1.x
+-   [terraform-provider-google] plugin >= 2.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -232,7 +233,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
     ```terraform
     provider "google" {
       credentials = "${file(var.credentials_path)}"
-      version = "~> 1.20"
+      version = "~> 3.3"
     }
 
     module "project-factory" {
@@ -250,7 +251,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
    provider "google" {
      # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
      # value is needed here.
-      version = "~> 1.20"
+      version = "~> 3.3"
    }
 
    module "project-factory" {
