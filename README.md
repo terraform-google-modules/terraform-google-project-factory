@@ -134,6 +134,7 @@ determining that location is as follows:
 | lien | Add a lien on the project to prevent accidental deletion | bool | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
+| pip\_executable\_path | Pip executable path for precondition requirements.txt install. | string | `"pip3"` | no |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
 | random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | bool | `"false"` | no |
@@ -169,8 +170,8 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin 2.1.x
--   [terraform-provider-google-beta] plugin 2.1.x
+-   [terraform-provider-google] plugin >= 2.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -232,7 +233,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
     ```terraform
     provider "google" {
       credentials = "${file(var.credentials_path)}"
-      version = "~> 1.20"
+      version = "~> 3.3"
     }
 
     module "project-factory" {
@@ -250,7 +251,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
    provider "google" {
      # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
      # value is needed here.
-      version = "~> 1.20"
+      version = "~> 3.3"
    }
 
    module "project-factory" {

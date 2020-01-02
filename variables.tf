@@ -174,3 +174,9 @@ variable "python_interpreter_path" {
   type        = string
   default     = "python3"
 }
+
+variable "pip_executable_path" {
+  description = "Pip executable path for precondition requirements.txt install."
+  type        = string
+  default     = "pip3"
+}
