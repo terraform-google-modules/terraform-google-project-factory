@@ -121,6 +121,9 @@ determining that location is as follows:
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
+| budget\_amount | The amount to use for a budget alert | string | `"null"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
@@ -148,6 +151,7 @@ determining that location is as follows:
 
 | Name | Description |
 |------|-------------|
+| budget\_name | The name of the budget if created |
 | domain | The organization's domain |
 | group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |

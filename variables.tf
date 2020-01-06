@@ -178,3 +178,21 @@ variable "pip_executable_path" {
   type        = string
   default     = "pip3"
 }
+
+variable "budget_amount" {
+  description = "The amount to use for a budget alert"
+  type        = string
+  default     = null
+}
+
+variable "budget_alert_pubsub_topic" {
+  description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
+  type        = string
+  default     = null
+}
+
+variable "budget_alert_spent_percents" {
+  description = "A list of percentages of the budget to alert on when threshold is exceeded"
+  type        = list(number)
+  default     = [0.5, 0.7, 1.0]
+}

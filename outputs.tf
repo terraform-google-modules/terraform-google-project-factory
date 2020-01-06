@@ -71,3 +71,7 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
+output "budget_name" {
+  value       = module.project-factory.budget_name
+  description = "The name of the budget if created"
+}

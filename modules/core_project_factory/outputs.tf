@@ -81,3 +81,8 @@ output "api_s_account_fmt" {
   value       = local.api_s_account_fmt
   description = "API service account email formatted for terraform use"
 }
+
+output "budget_name" {
+  value       = module.budget.name
+  description = "The name of the budget if created"
+}

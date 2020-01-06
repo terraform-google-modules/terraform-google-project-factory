@@ -487,3 +487,17 @@ resource "google_project_iam_member" "gke_host_agent" {
     module.project_services,
   ]
 }
+
+/******************************************
+  gcloud budget to create if amount is set
+ *****************************************/
+module "budget" {
+  source        = "../budget"
+  create_budget = var.budget_amount != null
+
+  project_id           = google_project.main.project_id
+  billing_account      = var.billing_account
+  amount               = var.budget_amount
+  alert_spent_percents = var.budget_alert_spent_percents
+  alert_pubsub_topic   = var.budget_alert_pubsub_topic
+}
