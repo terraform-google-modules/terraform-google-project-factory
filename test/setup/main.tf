@@ -59,6 +59,7 @@ module "pfactory_project" {
     "iamcredentials.googleapis.com",
     "oslogin.googleapis.com",
     "serviceusage.googleapis.com",
+    "billingbudgets.googleapis.com",
   ]
 }
 
