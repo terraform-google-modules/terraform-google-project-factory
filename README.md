@@ -174,9 +174,23 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin >= 2.1, < 4.0
--   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
+-   [terraform-provider-google] plugin >= 3.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 3.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+
+#### `terraform-provider-google` version 2.x
+
+Starting with version `6.4.0` of this module, `google_billing_budget` resources can now be created. This increases the minimum `terraform-provider-google` version to `3.1.0`
+
+To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `5.3.0`
+
+```hcl
+module "project-factory" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 5.3"
+  ...
+}
+```
 
 ### Permissions
 
