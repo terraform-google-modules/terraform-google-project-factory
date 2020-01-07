@@ -60,8 +60,8 @@ resource "google_service_account_key" "int_test" {
   service_account_id = google_service_account.int_test.id
 }
 
-resource "google_billing_account_iam_member" "int_billing_user" {
+resource "google_billing_account_iam_member" "int_billing_admin" {
   billing_account_id = var.billing_account
-  role               = "roles/billing.user"
+  role               = "roles/billing.admin"
   member             = "serviceAccount:${google_service_account.int_test.email}"
 }
