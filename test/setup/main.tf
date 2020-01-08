@@ -60,6 +60,7 @@ module "pfactory_project" {
     "oslogin.googleapis.com",
     "serviceusage.googleapis.com",
     "billingbudgets.googleapis.com",
+    "pubsub.googleapis.com",
   ]
 }
 
