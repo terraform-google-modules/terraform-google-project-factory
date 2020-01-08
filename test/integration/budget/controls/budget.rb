@@ -96,7 +96,6 @@ control "project-factory-budget-additional" do
         name: additional_budget_name,
         displayName: "CI/CD Budget for #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: budget_credit_types_treatment}),
-        # budgetFilter: hash_including({creditTypesTreatment: budget_credit_types_treatment, services: budget_services}),
         amount: hash_including({specifiedAmount: hash_including({units: budget_amount})}),
         allUpdatesRule: hash_including({pubsubTopic: "projects/#{pubsub_project_id}/topics/#{pubsub_topic}"}),
       }))

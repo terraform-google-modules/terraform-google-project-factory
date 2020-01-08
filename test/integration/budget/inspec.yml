@@ -1,4 +1,4 @@
-name: minimal
+name: budget
 attributes:
   - name: project_id
     required: true
