@@ -55,7 +55,18 @@ module "project-factory" {
   default_service_account     = var.default_service_account
   disable_dependent_services  = var.disable_dependent_services
   python_interpreter_path     = var.python_interpreter_path
-  budget_amount               = var.budget_amount
-  budget_alert_pubsub_topic   = var.budget_alert_pubsub_topic
-  budget_alert_spent_percents = var.budget_alert_spent_percents
+}
+
+/******************************************
+  Billing budget to create if amount is set
+ *****************************************/
+module "budget" {
+  source        = "./modules/budget"
+  create_budget = var.budget_amount != null
+
+  projects             = [module.project-factory.project_id]
+  billing_account      = var.billing_account
+  amount               = var.budget_amount
+  alert_spent_percents = var.budget_alert_spent_percents
+  alert_pubsub_topic   = var.budget_alert_pubsub_topic
 }

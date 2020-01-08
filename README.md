@@ -182,7 +182,7 @@ determining that location is as follows:
 
 Starting with version `6.3.0` of this module, `google_billing_budget` resources can now be created. This increases the minimum `terraform-provider-google` version to `3.1.0`
 
-To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `6.2.1`
+To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `6.2.1`. Or use the `core_project_factory` submodule directly.
 
 ```hcl
 module "project-factory" {
