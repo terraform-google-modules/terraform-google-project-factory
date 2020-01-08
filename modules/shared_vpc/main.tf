@@ -55,4 +55,7 @@ module "project-factory" {
   default_service_account     = var.default_service_account
   disable_dependent_services  = var.disable_dependent_services
   python_interpreter_path     = var.python_interpreter_path
+  budget_amount               = var.budget_amount
+  budget_alert_pubsub_topic   = var.budget_alert_pubsub_topic
+  budget_alert_spent_percents = var.budget_alert_spent_percents
 }

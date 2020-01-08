@@ -8,8 +8,13 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Added
+
+- The optional `budget_amount` variable will create a budget on the new project. Separate submodule `budget` for additional options [#354]
+
 ### Changed
 
+- Addition of `google_billing_budget` increases `google` provider to `>=3.1` [#354]
 - Changed required `google` provider version to `>= 2.1, < 4.0` [#350]
 
 ## [6.2.0] - 2019-12-27
@@ -310,6 +315,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#354]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/354
 [#350]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/350
 [#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
 [#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
