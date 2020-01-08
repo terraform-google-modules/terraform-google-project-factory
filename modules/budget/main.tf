@@ -15,8 +15,17 @@
  */
 
 locals {
-  display_name  = var.display_name == null ? "Budget For ${var.project_id}" : var.display_name
+  project_name  = length(var.projects) == 0 ? "All Projects" : var.projects[0]
+  display_name  = var.display_name == null ? "Budget For ${local.project_name}" : var.display_name
   pubsub_topics = var.alert_pubsub_topic == null ? [] : [var.alert_pubsub_topic]
+  projects = length(var.projects) == 0 ? null : [
+    for id in var.projects :
+    "projects/${id}"
+  ]
+  services = var.services == null ? null : [
+    for id in var.services :
+    "services/${id}"
+  ]
 }
 
 resource "google_billing_budget" "budget" {
@@ -27,9 +36,9 @@ resource "google_billing_budget" "budget" {
   display_name    = local.display_name
 
   budget_filter {
-    projects               = ["projects/${var.project_id}"]
+    projects               = local.projects
     credit_types_treatment = var.credit_types_treatment
-    services               = var.services
+    services               = local.services
   }
 
   amount {

@@ -27,8 +27,8 @@ module "project_myproject" {
 | create\_budget | If the budget should be created | bool | `"true"` | no |
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | string | `"INCLUDE_ALL_CREDITS"` | no |
 | display\_name | The display name of the budget | string | `"null"` | no |
-| project\_id | The project id to include in this budget | string | n/a | yes |
-| services | A list of services to be included in the budget in the form of `services/{service_id}` | list(string) | `"null"` | no |
+| projects | The project ids to include in this budget. If empty budget will include all projects | list(string) | n/a | yes |
+| services | A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/ | list(string) | `"null"` | no |
 
 ## Outputs
 

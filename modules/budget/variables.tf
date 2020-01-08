@@ -19,9 +19,9 @@ variable "billing_account" {
   type        = string
 }
 
-variable "project_id" {
-  description = "The project id to include in this budget"
-  type        = string
+variable "projects" {
+  description = "The project ids to include in this budget. If empty budget will include all projects"
+  type        = list(string)
 }
 
 variable "amount" {
@@ -48,7 +48,7 @@ variable "credit_types_treatment" {
 }
 
 variable "services" {
-  description = "A list of services to be included in the budget in the form of `services/{service_id}`"
+  description = "A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/"
   type        = list(string)
   default     = null
 }

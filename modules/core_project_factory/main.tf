@@ -495,7 +495,7 @@ module "budget" {
   source        = "../budget"
   create_budget = var.budget_amount != null
 
-  project_id           = google_project.main.project_id
+  projects             = [google_project.main.project_id]
   billing_account      = var.billing_account
   amount               = var.budget_amount
   alert_spent_percents = var.budget_alert_spent_percents
