@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,36 +14,10 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.3.0"
-}
-
-provider "google-beta" {
-  version = "~> 3.3.0"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
-module "project-factory" {
-  source = "../../../"
-
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
-  random_project_id = true
+module "budget" {
+  source            = "../../../examples/budget_project"
   org_id            = var.org_id
   folder_id         = var.folder_id
   billing_account   = var.billing_account
-
-  activate_apis = [
-    "compute.googleapis.com",
-    "container.googleapis.com",
-  ]
-
-  default_service_account     = "disable"
-  disable_services_on_destroy = "false"
+  pubsub_project_id = var.project_id
 }
