@@ -10,7 +10,7 @@ Basic usage of this module is as follows:
 module "project_myproject" {
   source          = "terraform-google-modules/project-factory/google//modules/budget"
   billing_account = "ABCD-1234-ABCD-1234"
-  project_id      = "my-project-id"
+  projects        = ["my-project-id"]
   amount          = "100"
 }
 ```
