@@ -14,7 +14,7 @@ It will do the following:
 |------|-------------|:----:|:-----:|:-----:|
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
 | budget\_alert\_spent\_percents | The list of percentages of the budget to alert on | list(number) | `<list>` | no |
-| budget\_amount | The amount to use for the budget | string | `"10"` | no |
+| budget\_amount | The amount to use for the budget | number | `"10"` | no |
 | budget\_credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | string | `"EXCLUDE_ALL_CREDITS"` | no |
 | budget\_services | A list of services to be included in the budget | list(string) | `<list>` | no |
 | folder\_id | The ID of a folder to host this project. | string | `""` | no |

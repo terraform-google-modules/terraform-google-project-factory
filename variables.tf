@@ -181,7 +181,7 @@ variable "pip_executable_path" {
 
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
-  type        = string
+  type        = number
   default     = null
 }
 

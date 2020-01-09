@@ -43,7 +43,7 @@ resource "google_billing_budget" "budget" {
 
   amount {
     specified_amount {
-      units = var.amount
+      units = tostring(var.amount)
     }
   }
 

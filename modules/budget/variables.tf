@@ -26,7 +26,7 @@ variable "projects" {
 
 variable "amount" {
   description = "The amount to use as the budget"
-  type        = string
+  type        = number
 }
 
 variable "create_budget" {

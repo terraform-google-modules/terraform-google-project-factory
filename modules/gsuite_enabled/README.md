@@ -67,7 +67,7 @@ The roles granted are specifically:
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
 | budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
-| budget\_amount | The amount to use for a budget alert | string | `"null"` | no |
+| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
 | create\_group | Whether to create the group or not | bool | `"false"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |

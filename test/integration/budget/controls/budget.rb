@@ -63,7 +63,7 @@ control "project-factory-budget-main" do
         name: main_budget_name,
         displayName: "Budget For #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: "INCLUDE_ALL_CREDITS"}),
-        amount: hash_including({specifiedAmount: hash_including({units: budget_amount})}),
+        amount: hash_including({specifiedAmount: hash_including({units: "#{budget_amount}"})}),
       }))
 
       expect(metadata[:budgetFilter][:projects].length).to be(1)
@@ -96,7 +96,7 @@ control "project-factory-budget-additional" do
         name: additional_budget_name,
         displayName: "CI/CD Budget for #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: budget_credit_types_treatment}),
-        amount: hash_including({specifiedAmount: hash_including({units: budget_amount})}),
+        amount: hash_including({specifiedAmount: hash_including({units: "#{budget_amount}"})}),
         allUpdatesRule: hash_including({pubsubTopic: "projects/#{project_id}/topics/#{pubsub_topic}"}),
       }))
 

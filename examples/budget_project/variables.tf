@@ -42,7 +42,8 @@ variable "location_id" {
 
 variable "budget_amount" {
   description = "The amount to use for the budget"
-  default     = "10"
+  default     = 10
+  type        = number
 }
 
 variable "budget_alert_spent_percents" {
