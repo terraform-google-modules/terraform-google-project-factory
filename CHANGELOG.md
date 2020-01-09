@@ -10,11 +10,11 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### Added
 
-- The optional `budget_amount` variable will create a budget on the new project. Separate submodule `budget` for additional options [#354]
+- The optional `budget_amount` variable will create a budget on the new project. Separate submodule `budget` for additional options. [#354]
 
 ### Changed
 
-- Addition of `google_billing_budget` increases `google` provider to `>=3.1` [#354]
+- **BREAKING**: Addition of `google_billing_budget` increases `google` provider minimum to `>=3.1`. [#354]
 
 ## [6.2.1] - 2019-12-18
 
