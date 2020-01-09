@@ -61,7 +61,7 @@ module "project-factory" {
   Billing budget to create if amount is set
  *****************************************/
 module "budget" {
-  source        = "./modules/budget"
+  source        = "../budget"
   create_budget = var.budget_amount != null
 
   projects             = [module.project-factory.project_id]
