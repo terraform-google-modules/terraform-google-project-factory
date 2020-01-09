@@ -42,6 +42,11 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/app_engine
+  - name: budget
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/budget
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
 #  - name: full

@@ -121,6 +121,9 @@ determining that location is as follows:
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
+| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
@@ -148,6 +151,7 @@ determining that location is as follows:
 
 | Name | Description |
 |------|-------------|
+| budget\_name | The name of the budget if created |
 | domain | The organization's domain |
 | group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
@@ -170,9 +174,23 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin >= 2.1, < 4.0
--   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
+-   [terraform-provider-google] plugin >= 3.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 3.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+
+#### `terraform-provider-google` version 2.x
+
+Starting with version `6.3.0` of this module, `google_billing_budget` resources can now be created. This increases the minimum `terraform-provider-google` version to `3.1.0`
+
+To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `6.2.1`. Or use the `core_project_factory` submodule directly.
+
+```hcl
+module "project-factory" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 6.2.1"
+  ...
+}
+```
 
 ### Permissions
 
