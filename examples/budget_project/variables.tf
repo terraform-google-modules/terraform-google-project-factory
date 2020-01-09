@@ -25,8 +25,8 @@ variable "folder_id" {
   default     = ""
 }
 
-variable "pubsub_project_id" {
-  description = "The project_id of the parent project when the PubSub topic will be created"
+variable "parent_project_id" {
+  description = "The project_id of the parent project to add as an additional project for the budget"
   type        = string
 }
 

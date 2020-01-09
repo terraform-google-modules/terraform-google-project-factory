@@ -20,7 +20,7 @@ It will do the following:
 | folder\_id | The ID of a folder to host this project. | string | `""` | no |
 | location\_id | The location to serve the app from. | string | `"us-east4"` | no |
 | org\_id | The organization ID. | string | n/a | yes |
-| pubsub\_project\_id | The project_id of the parent project when the PubSub topic will be created | string | n/a | yes |
+| parent\_project\_id | The project_id of the parent project to add as an additional project for the budget | string | n/a | yes |
 
 ## Outputs
 
@@ -32,8 +32,8 @@ It will do the following:
 | budget\_credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations |
 | budget\_services | A list of services to be included in the budget |
 | main\_budget\_name | The name of the budget created by the core project factory module |
+| parent\_project\_id | The project_id of the parent project to add as an additional project for the budget |
 | project\_id | The project ID created |
-| pubsub\_project\_id | The parent project where PubSub topic is created |
 | pubsub\_topic | The PubSub topic name created for budget alerts |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -19,9 +19,9 @@ output "project_id" {
   value       = module.budget_project.project_id
 }
 
-output "pubsub_project_id" {
-  description = "The parent project where PubSub topic is created"
-  value       = var.pubsub_project_id
+output "parent_project_id" {
+  description = "The project_id of the parent project to add as an additional project for the budget"
+  value       = var.parent_project_id
 }
 
 output "pubsub_topic" {

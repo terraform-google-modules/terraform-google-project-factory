@@ -50,18 +50,18 @@ module "budget_project" {
 # An additional budget with more options
 resource "google_pubsub_topic" "budget" {
   name    = "budget-topic-${random_string.suffix.result}"
-  project = var.pubsub_project_id
+  project = module.budget_project.project_id
 }
 
 module "additional_budget" {
   source = "../../modules/budget"
 
   billing_account        = var.billing_account
-  projects               = [var.pubsub_project_id, module.budget_project.project_id]
+  projects               = [var.parent_project_id, module.budget_project.project_id]
   amount                 = var.budget_amount
   display_name           = "CI/CD Budget for ${module.budget_project.project_id}"
   credit_types_treatment = var.budget_credit_types_treatment
   services               = var.budget_services
   alert_spent_percents   = var.budget_alert_spent_percents
-  alert_pubsub_topic     = "projects/${var.pubsub_project_id}/topics/${google_pubsub_topic.budget.name}"
+  alert_pubsub_topic     = "projects/${module.budget_project.project_id}/topics/${google_pubsub_topic.budget.name}"
 }

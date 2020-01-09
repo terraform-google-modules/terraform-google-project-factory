@@ -3,7 +3,7 @@ attributes:
   - name: project_id
     required: true
 
-  - name: pubsub_project_id
+  - name: parent_project_id
     required: true
 
   - name: pubsub_topic

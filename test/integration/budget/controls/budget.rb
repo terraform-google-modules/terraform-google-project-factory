@@ -13,7 +13,7 @@
 # limitations under the License.
 
 project_id                    = attribute("project_id")
-pubsub_project_id             = attribute("pubsub_project_id")
+parent_project_id             = attribute("parent_project_id")
 pubsub_topic                  = attribute("pubsub_topic")
 main_budget_name              = attribute("main_budget_name")
 additional_budget_name        = attribute("additional_budget_name")
@@ -97,7 +97,7 @@ control "project-factory-budget-additional" do
         displayName: "CI/CD Budget for #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: budget_credit_types_treatment}),
         amount: hash_including({specifiedAmount: hash_including({units: budget_amount})}),
-        allUpdatesRule: hash_including({pubsubTopic: "projects/#{pubsub_project_id}/topics/#{pubsub_topic}"}),
+        allUpdatesRule: hash_including({pubsubTopic: "projects/#{project_id}/topics/#{pubsub_topic}"}),
       }))
 
       expect(metadata[:budgetFilter][:projects].length).to be(2)
