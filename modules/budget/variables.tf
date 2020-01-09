@@ -36,7 +36,7 @@ variable "create_budget" {
 }
 
 variable "display_name" {
-  description = "The display name of the budget"
+  description = "The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` "
   type        = string
   default     = null
 }
