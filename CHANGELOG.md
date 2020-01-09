@@ -8,6 +8,10 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+### Fixed
+
+- Added back `on_failure = continue` to precondition's `local-exec` [#357]
+
 ### Added
 
 - The optional `budget_amount` variable will create a budget on the new project. Separate submodule `budget` for additional options. [#354]
@@ -321,6 +325,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#357]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/357
 [#354]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/354
 [#350]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/350
 [#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
