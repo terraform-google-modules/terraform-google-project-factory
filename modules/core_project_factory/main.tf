@@ -78,10 +78,12 @@ resource "null_resource" "preconditions" {
   provisioner "local-exec" {
     command     = local.pip_requirements_absolute_path
     interpreter = [var.pip_executable_path, "install", "-r"]
+    on_failure  = continue
   }
 
   provisioner "local-exec" {
-    command = local.preconditions_command
+    command    = local.preconditions_command
+    on_failure = continue
     environment = {
       GRACEFUL_IMPORTERROR = "true"
     }
