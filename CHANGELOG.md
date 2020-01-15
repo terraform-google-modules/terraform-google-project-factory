@@ -8,6 +8,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [7.0.0] - 2020-01-15
+
 ### Fixed
 
 - Added back `on_failure = continue` to precondition's `local-exec` [#357]
@@ -290,7 +292,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.1...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.0...HEAD
+[7.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.1...v7.0.0
 [6.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...v6.1.0
