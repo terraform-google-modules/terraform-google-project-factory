@@ -17,7 +17,7 @@
  {{ autogeneration_note }}
 
 variable "random_project_id" {
-  description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
+  description = "Adds a suffix of 4 random characters to the `project_id`"
   {% if gsuite_enabled %}
   default     = "false"
   type        = string
@@ -44,7 +44,7 @@ variable "name" {
 }
 
 variable "project_id" {
-  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
+  description = "The ID to give the project. If not provided, the `name` will be used."
   type        = string
   default     = ""
 }
@@ -241,3 +241,21 @@ variable "api_sa_group" {
   default     = ""
 }
 {% endif %}
+
+variable "budget_amount" {
+  description = "The amount to use for a budget alert"
+  type        = number
+  default     = null
+}
+
+variable "budget_alert_pubsub_topic" {
+  description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
+  type        = string
+  default     = null
+}
+
+variable "budget_alert_spent_percents" {
+  description = "A list of percentages of the budget to alert on when threshold is exceeded"
+  type        = list(number)
+  default     = [0.5, 0.7, 1.0]
+}

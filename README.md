@@ -151,7 +151,6 @@ determining that location is as follows:
 
 | Name | Description |
 |------|-------------|
-| budget\_name | The name of the budget if created |
 | domain | The organization's domain |
 | group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |

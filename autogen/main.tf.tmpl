@@ -140,3 +140,21 @@ module "project-factory" {
   pip_executable_path         = var.pip_executable_path
   {% endif %}
 }
+
+/******************************************
+  Billing budget to create if amount is set
+ *****************************************/
+module "budget" {
+  {% if root_module %}
+  source = "./modules/budget"
+  {% else %}
+  source = "../budget"
+  {% endif %}
+  create_budget = var.budget_amount != null
+
+  projects             = [module.project-factory.project_id]
+  billing_account      = var.billing_account
+  amount               = var.budget_amount
+  alert_spent_percents = var.budget_alert_spent_percents
+  alert_pubsub_topic   = var.budget_alert_pubsub_topic
+}

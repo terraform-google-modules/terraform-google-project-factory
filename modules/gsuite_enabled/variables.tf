@@ -40,6 +40,7 @@ variable "name" {
 
 variable "project_id" {
   description = "The ID to give the project. If not provided, the `name` will be used."
+  type        = string
   default     = ""
 }
 
@@ -64,12 +65,6 @@ variable "group_name" {
   description = "A group to control the project by being assigned group_role (defaults to project editor)"
   type        = string
   default     = ""
-}
-
-variable "create_group" {
-  type        = bool
-  description = "Whether to create the group or not"
-  default     = false
 }
 
 variable "group_role" {
@@ -186,24 +181,6 @@ variable "python_interpreter_path" {
   default     = "python3"
 }
 
-variable "budget_amount" {
-  description = "The amount to use for a budget alert"
-  type        = number
-  default     = null
-}
-
-variable "budget_alert_pubsub_topic" {
-  description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
-  type        = string
-  default     = null
-}
-
-variable "budget_alert_spent_percents" {
-  description = "A list of percentages of the budget to alert on when threshold is exceeded"
-  type        = list(number)
-  default     = [0.5, 0.7, 1.0]
-}
-
 variable "create_group" {
   type        = bool
   description = "Whether to create the group or not"
@@ -220,4 +197,22 @@ variable "api_sa_group" {
   type        = string
   description = "A G Suite group to place the Google APIs Service Account for the project in"
   default     = ""
+}
+
+variable "budget_amount" {
+  description = "The amount to use for a budget alert"
+  type        = number
+  default     = null
+}
+
+variable "budget_alert_pubsub_topic" {
+  description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
+  type        = string
+  default     = null
+}
+
+variable "budget_alert_spent_percents" {
+  description = "A list of percentages of the budget to alert on when threshold is exceeded"
+  type        = list(number)
+  default     = [0.5, 0.7, 1.0]
 }
