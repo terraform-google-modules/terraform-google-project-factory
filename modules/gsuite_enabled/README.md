@@ -65,6 +65,9 @@ The roles granted are specifically:
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `""` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
+| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
 | create\_group | Whether to create the group or not | bool | `"false"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
@@ -79,9 +82,9 @@ The roles granted are specifically:
 | lien | Add a lien on the project to prevent accidental deletion | string | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
-| project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
+| project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
-| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | string | `"false"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | string | `"false"` | no |
 | sa\_group | A G Suite group to place the default Service Account for the project in | string | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |

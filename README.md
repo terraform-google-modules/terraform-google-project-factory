@@ -121,6 +121,9 @@ determining that location is as follows:
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
+| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
@@ -135,9 +138,9 @@ determining that location is as follows:
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
 | pip\_executable\_path | Pip executable path for precondition requirements.txt install. | string | `"pip3"` | no |
-| project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
+| project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
 | python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
-| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | bool | `"false"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | bool | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
@@ -148,6 +151,7 @@ determining that location is as follows:
 
 | Name | Description |
 |------|-------------|
+| budget\_name | The name of the budget if created |
 | domain | The organization's domain |
 | group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
@@ -170,9 +174,23 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin >= 2.1, < 4.0
--   [terraform-provider-google-beta] plugin >= 2.1, < 4.0
+-   [terraform-provider-google] plugin >= 3.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 3.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+
+#### `terraform-provider-google` version 2.x
+
+Starting with version `6.3.0` of this module, `google_billing_budget` resources can now be created. This increases the minimum `terraform-provider-google` version to `3.1.0`
+
+To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `6.2.1`. Or use the `core_project_factory` submodule directly.
+
+```hcl
+module "project-factory" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 6.2.1"
+  ...
+}
+```
 
 ### Permissions
 
@@ -195,8 +213,9 @@ following roles:
 #### Script Helper
 
 A [helper script](./helpers/setup-sa.sh) is included to create the Seed Service
-Account in the Seed Project, grant the necessary roles to the Seed Service
-Account, and enable the necessary API's in the Seed Project.  Run it as follows:
+Account in the [Seed Project](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-project),
+grant the necessary roles to the [Seed Service Account](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-service-account),
+and enable the necessary API's in the Seed Project.  Run it as follows:
 
 ```sh
 ./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [BILLING_ACCOUNT]

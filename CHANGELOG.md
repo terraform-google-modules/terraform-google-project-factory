@@ -8,6 +8,22 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+## [7.0.0] - 2020-01-15
+
+### Fixed
+
+- Added back `on_failure = continue` to precondition's `local-exec` [#357]
+
+### Added
+
+- The optional `budget_amount` variable will create a budget on the new project. Separate submodule `budget` for additional options. [#354]
+
+### Changed
+
+- **BREAKING**: Addition of `google_billing_budget` increases `google` provider minimum to `>=3.1`. [#354]
+
+## [6.2.1] - 2019-12-18
+
 ### Changed
 
 - Changed required `google` provider version to `>= 2.1, < 4.0` [#350]
@@ -276,7 +292,9 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ADDED
 - This is the initial release of the Project Factory Module.
 
-[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.0...HEAD
+[Unreleased]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.0...HEAD
+[7.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.1...v7.0.0
+[6.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.2.0...v6.2.1
 [6.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.1.0...v6.2.0
 [6.1.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v6.0.0...v6.1.0
 [6.0.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v5.0.0...v6.0.0
@@ -310,6 +328,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 [0.2.1]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v0.1.0...v0.2.0
 
+[#357]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/357
+[#354]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/354
 [#350]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/350
 [#343]: https://github.com/terraform-google-modules/terraform-google-project-factory/issues/343
 [#345]: https://github.com/terraform-google-modules/terraform-google-project-factory/pull/345
