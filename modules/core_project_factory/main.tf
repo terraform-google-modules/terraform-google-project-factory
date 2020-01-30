@@ -91,33 +91,6 @@ resource "null_resource" "preconditions" {
 }
 
 /*******************************************
-  Shared VPC Subnets names validation
-*******************************************/
-
-# resource "null_resource" "shared_vpc_subnet_invalid_name" {
-#   count = var.shared_vpc_subnets_length
-
-#   triggers = {
-#     name = replace(
-#       var.shared_vpc_subnets[count.index],
-#       "/(https://www.googleapis.com/compute/v1/)?projects/[a-z0-9-]+/regions/[a-z0-9-]+/subnetworks/[a-z0-9-]+/",
-#       "",
-#     )
-#   }
-# }
-
-# resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invalid_name" {
-#   count = length(
-#     compact(null_resource.shared_vpc_subnet_invalid_name.*.triggers.name),
-#   ) == 0 ? 0 : 1
-
-#   provisioner "local-exec" {
-#     command     = "false"
-#     interpreter = ["bash", "-c"]
-#   }
-# }
-
-/*******************************************
   Project creation
  *******************************************/
 resource "google_project" "main" {
