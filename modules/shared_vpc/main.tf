@@ -55,6 +55,7 @@ module "project-factory" {
   default_service_account     = var.default_service_account
   disable_dependent_services  = var.disable_dependent_services
   python_interpreter_path     = var.python_interpreter_path
+  shared_vpc_subnets_length   = var.shared_vpc_subnets_length
 }
 
 /******************************************

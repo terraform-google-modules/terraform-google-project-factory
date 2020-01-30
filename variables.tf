@@ -113,6 +113,12 @@ variable "shared_vpc_subnets" {
   default     = [""]
 }
 
+variable "shared_vpc_subnets_length" {
+  description = "A count of the number of subnets to attach"
+  type        = number
+  default     = 0
+}
+
 variable "labels" {
   description = "Map of labels for project"
   type        = map(string)

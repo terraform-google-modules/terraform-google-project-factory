@@ -183,3 +183,9 @@ variable "pip_executable_path" {
   type        = string
   default     = "pip3"
 }
+
+variable "shared_vpc_subnets_length" {
+  description = "A count of the number of subnets to attach"
+  type        = number
+  default     = 0
+}

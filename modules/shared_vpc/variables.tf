@@ -188,3 +188,9 @@ variable "budget_alert_spent_percents" {
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
 }
+
+variable "shared_vpc_subnets_length" {
+  description = "A count of the number of subnets to attach"
+  type        = number
+  default     = 0
+}
