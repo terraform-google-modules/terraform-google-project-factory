@@ -15,27 +15,27 @@
  */
 
 output "service_project_name" {
-  value       = module.example.service-project.project_name
+  value       = module.example.service_project.project_name
   description = "The service project name"
 }
 
 output "service_project_id" {
-  value       = module.example.service-project.project_id
+  value       = module.example.service_project.project_id
   description = "The service project ID"
 }
 
 output "service_project_number" {
-  value       = module.example.service-project.project_number
+  value       = module.example.service_project.project_number
   description = "The service project number"
 }
 
 output "service_account_email" {
-  value       = module.example.service-project.service_account_email
+  value       = module.example.service_project.service_account_email
   description = "The service account email"
 }
 
 output "shared_vpc" {
-  value       = module.example.host-project.project_id
+  value       = module.example.host_project.project_id
   description = "The host project ID"
 }
 

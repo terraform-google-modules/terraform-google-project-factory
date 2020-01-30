@@ -113,7 +113,7 @@ module "service-project" {
   billing_account    = var.billing_account
   shared_vpc_enabled = true
 
-  shared_vpc         = module.host-project.project_id
+  shared_vpc         = module.vpc.project_id
   shared_vpc_subnets = module.vpc.subnets_self_links
 
   activate_apis = [

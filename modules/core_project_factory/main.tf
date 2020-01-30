@@ -157,9 +157,11 @@ data "null_data_source" "default_service_account" {
   Default compute service account deletion
  *****************************************/
 module "gcloud_delete" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.3"
+  # source  = "terraform-google-modules/gcloud/google"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-gcloud?ref=feature/skip_download"
+  # version = "~> 0.3"
 
+  skip_download = var.skip_gcloud_download
   enabled = var.default_service_account == "delete"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
@@ -182,9 +184,11 @@ module "gcloud_delete" {
   Default compute service account deprivilege
  ********************************************/
 module "gcloud_deprivilege" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.3"
+  # source  = "terraform-google-modules/gcloud/google"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-gcloud?ref=feature/skip_download"
+  # version = "~> 0.3"
 
+  skip_download = var.skip_gcloud_download
   enabled = var.default_service_account == "deprivilege"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
@@ -207,9 +211,10 @@ module "gcloud_deprivilege" {
   Default compute service account disable
  *****************************************/
 module "gcloud_disable" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.3"
+  # source  = "terraform-google-modules/gcloud/google"
+  source = "git::https://github.com/terraform-google-modules/terraform-google-gcloud?ref=feature/skip_download"
 
+  skip_download = var.skip_gcloud_download
   enabled = var.default_service_account == "disable"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"

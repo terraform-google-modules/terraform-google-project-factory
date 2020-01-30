@@ -12,8 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-service_project_id          = attribute('project_id')
-service_project_number      = attribute('project_number')
+service_project_id          = attribute('service_project_id')
+service_project_number      = attribute('service_project_number')
 service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
 shared_vpc_subnet_name_01   = attribute('shared_vpc_subnet_name_01')
@@ -53,7 +53,7 @@ control 'project-factory-shared-vpc' do
       it "does not include the GKE service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).not_to include(
           members: including(
-            "serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"
+            "serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"
           ),
           role: "roles/compute.networkUser",
         )
@@ -62,7 +62,7 @@ control 'project-factory-shared-vpc' do
 
     it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
       expect(bindings).to include(
-        members: including("serviceAccount:service-#{project_number}@container-engine-robot.iam.gserviceaccount.com"),
+        members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
         role: "roles/container.hostServiceAgentUser",
       )
     end
