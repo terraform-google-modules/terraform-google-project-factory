@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2019 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,30 +14,24 @@
  * limitations under the License.
  */
 
-variable "organization_id" {
-  description = "The organization id for the associated services"
+variable "org_id" {
+  description = "The organization ID."
+  type        = string
 }
 
 variable "folder_id" {
-  description = "The folder to create projects in"
+  description = "The ID of a folder to host this project."
+  type        = string
+  default     = ""
 }
 
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
+  type        = string
 }
 
-variable "host_project_name" {
-  description = "Name for Shared VPC host project"
-  default     = "shared-vpc-host"
-}
-
-variable "service_project_name" {
-  description = "Name for Shared VPC service project"
-  default     = "shared-vpc-service"
-}
-
-variable "network_name" {
-  description = "Name for Shared VPC network"
-  default     = "shared-network"
+variable "random_string_for_testing" {
+  type        = string
+  description = "A random string of characters to be appended to resource names to ensure uniqueness"
 }
 

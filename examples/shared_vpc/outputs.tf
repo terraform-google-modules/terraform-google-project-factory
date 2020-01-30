@@ -19,6 +19,21 @@ output "host_project_id" {
   description = "The ID of the created project"
 }
 
+output "host_project" {
+  value       = module.host-project
+  description = "The full host project info"
+}
+
+output "service_project" {
+  value       = module.service-project
+  description = "The service project info"
+}
+
+output "vpc" {
+  value       = module.vpc
+  description = "The network info"
+}
+
 output "network_name" {
   value       = module.vpc.network_name
   description = "The name of the VPC being created"
