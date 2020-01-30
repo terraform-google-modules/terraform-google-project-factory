@@ -15,19 +15,19 @@
  */
 
 locals {
-  subnet_01             = "${var.network_name}-subnet-01"
-  subnet_02             = "${var.network_name}-subnet-02"
+  subnet_01 = "${var.network_name}-subnet-01"
+  subnet_02 = "${var.network_name}-subnet-02"
 }
 
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  version     = "~> 3.3.0"
+  version = "~> 3.3.0"
 }
 
 provider "google-beta" {
-  version     = "~> 3.3.0"
+  version = "~> 3.3.0"
 }
 
 provider "null" {
@@ -105,8 +105,8 @@ module "vpc" {
 module "service-project" {
   source = "../../modules/shared_vpc"
 
-  name               = var.service_project_name
-  random_project_id  = "false"
+  name              = var.service_project_name
+  random_project_id = "false"
 
   org_id             = var.organization_id
   folder_id          = var.folder_id

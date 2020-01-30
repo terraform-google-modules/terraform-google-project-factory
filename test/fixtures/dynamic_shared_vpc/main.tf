@@ -15,10 +15,10 @@
  */
 
 module "example" {
-  source          = "../../../examples/shared_vpc"
-  organization_id = var.org_id
-  folder_id       = var.folder_id
-  billing_account = var.billing_account
+  source               = "../../../examples/shared_vpc"
+  organization_id      = var.org_id
+  folder_id            = var.folder_id
+  billing_account      = var.billing_account
   host_project_name    = "pf-ci-shared2-host-${var.random_string_for_testing}"
   service_project_name = "pf-ci-shared2-svc-${var.random_string_for_testing}"
 }

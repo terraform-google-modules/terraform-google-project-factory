@@ -162,7 +162,7 @@ module "gcloud_delete" {
   # version = "~> 0.3"
 
   skip_download = var.skip_gcloud_download
-  enabled = var.default_service_account == "delete"
+  enabled       = var.default_service_account == "delete"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
@@ -189,7 +189,7 @@ module "gcloud_deprivilege" {
   # version = "~> 0.3"
 
   skip_download = var.skip_gcloud_download
-  enabled = var.default_service_account == "deprivilege"
+  enabled       = var.default_service_account == "deprivilege"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
@@ -215,7 +215,7 @@ module "gcloud_disable" {
   source = "git::https://github.com/terraform-google-modules/terraform-google-gcloud?ref=feature/skip_download"
 
   skip_download = var.skip_gcloud_download
-  enabled = var.default_service_account == "disable"
+  enabled       = var.default_service_account == "disable"
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
