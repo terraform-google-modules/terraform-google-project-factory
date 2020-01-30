@@ -31,6 +31,7 @@ locals {
     "roles/resourcemanager.folderAdmin",
     "roles/resourcemanager.folderIamAdmin",
     "roles/billing.projectManager",
+    "roles/compute.xpnAdmin"
   ]
 }
 

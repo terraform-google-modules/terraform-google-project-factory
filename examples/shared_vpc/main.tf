@@ -15,22 +15,19 @@
  */
 
 locals {
-  credentials_file_path = var.credentials_path
-  subnet_01             = "${var.network_name}-subnet-01"
-  subnet_02             = "${var.network_name}-subnet-02"
+  subnet_01 = "${var.network_name}-subnet-01"
+  subnet_02 = "${var.network_name}-subnet-02"
 }
 
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.3.0"
+  version = "~> 3.3.0"
 }
 
 provider "google-beta" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.3.0"
+  version = "~> 3.3.0"
 }
 
 provider "null" {
@@ -49,8 +46,8 @@ module "host-project" {
   random_project_id = true
   name              = var.host_project_name
   org_id            = var.organization_id
+  folder_id         = var.folder_id
   billing_account   = var.billing_account
-  credentials_path  = local.credentials_file_path
 }
 
 /******************************************
@@ -58,7 +55,7 @@ module "host-project" {
  *****************************************/
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 1.4.0"
+  version = "~> 2.1.0"
 
   project_id   = module.host-project.project_id
   network_name = var.network_name
@@ -100,4 +97,29 @@ module "vpc" {
       },
     ]
   }
+}
+
+/******************************************
+  Service Project Creation
+ *****************************************/
+module "service-project" {
+  source = "../../modules/shared_vpc"
+
+  name              = var.service_project_name
+  random_project_id = "false"
+
+  org_id             = var.organization_id
+  folder_id          = var.folder_id
+  billing_account    = var.billing_account
+  shared_vpc_enabled = true
+
+  shared_vpc         = module.vpc.project_id
+  shared_vpc_subnets = module.vpc.subnets_self_links
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+  ]
+
+  disable_services_on_destroy = "false"
 }
