@@ -101,13 +101,6 @@ variable "usage_bucket_prefix" {
   default     = ""
 }
 
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
-  type        = bool
-  default     = true
-}
-
-
 variable "credentials_path" {
   description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
   type        = string
