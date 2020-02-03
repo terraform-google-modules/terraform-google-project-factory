@@ -18,7 +18,7 @@
   Provider configuration
  *****************************************/
 provider "google" {
-  version = "~> 2.18.1"
+  version = "~> 3.6.0"
 }
 
 module "project-services" {
