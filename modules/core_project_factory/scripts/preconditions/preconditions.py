@@ -14,6 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+"""
+The preconditions script helps avoid situations where a project resource
+can be left in a half deployed and irrecoverable state.
+
+See
+https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/TROUBLESHOOTING.md
+for common errors that this script helps prevent.
+"""
+
 import argparse
 import json
 import logging
