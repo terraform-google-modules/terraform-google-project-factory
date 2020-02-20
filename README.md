@@ -146,6 +146,7 @@ determining that location is as follows:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
+| use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run `gcloud auth activate-service-account` with (optional) | bool | `"false"` | no |
 
 ## Outputs
 

@@ -179,6 +179,12 @@ variable "pip_executable_path" {
   default     = "pip3"
 }
 
+variable "use_tf_google_credentials_env_var" {
+  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
+  type        = string
+  default     = false
+}
+
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
