@@ -302,6 +302,8 @@ the base project where the Service Account was created:
   [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
   - Please note that if you are deploying an App Engine Flex application, you should not delete the default compute service account
     (as is default behavior). Please see the [troubleshooting doc](docs/TROUBLESHOOTING.md#cannot-deploy-app-engine-flex-application) for more information.
+- Cloud Billing Budget API - `billingbudgets.googleapis.com`
+  - Please note this API is only required if configuring budgets for projects.
 
 ### Verifying setup
 
