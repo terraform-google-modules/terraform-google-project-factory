@@ -19,11 +19,13 @@ intended for Terraform 0.11.x is [2.4.1].
 
 ## Upgrading
 
-The current version is 4.X. The following guides are available to assist with upgrades:
+The current version is 6.X. The following guides are available to assist with upgrades:
 
 - [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
 - [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
 - [3.X -> 4.0](./docs/upgrading_to_project_factory_v4.0.md)
+- [4.X -> 5.0](./docs/upgrading_to_fabric_project_v5.0.md)
+- [5.X -> 6.0](./docs/upgrading_to_project_factory_v6.0.md)
 
 ## Usage
 
@@ -32,7 +34,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 4.0"
+  version = "~> 7.0"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -119,8 +121,11 @@ determining that location is as follows:
 | bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
+| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, or `keep`. | string | `"delete"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
@@ -132,8 +137,10 @@ determining that location is as follows:
 | lien | Add a lien on the project to prevent accidental deletion | bool | `"false"` | no |
 | name | The name for the project | string | n/a | yes |
 | org\_id | The organization ID. | string | n/a | yes |
-| project\_id | If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true. | string | `""` | no |
-| random\_project\_id | Enables project random id generation. Mutually exclusive with project_id being non-empty. | bool | `"false"` | no |
+| pip\_executable\_path | Pip executable path for precondition requirements.txt install. | string | `"pip3"` | no |
+| project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
+| python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | bool | `"false"` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
@@ -144,8 +151,9 @@ determining that location is as follows:
 
 | Name | Description |
 |------|-------------|
+| budget\_name | The name of the budget if created |
 | domain | The organization's domain |
-| group\_email | The email of the GSuite group with group_name |
+| group\_email | The email of the G Suite group with group_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id |  |
@@ -163,12 +171,26 @@ determining that location is as follows:
 
 ### Software
 
--   [gcloud sdk](https://cloud.google.com/sdk/install) >= 206.0.0
+-   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.12.6
--   [terraform-provider-google] plugin 2.1.x
--   [terraform-provider-google-beta] plugin 2.1.x
+-   [terraform-provider-google] plugin >= 3.1, < 4.0
+-   [terraform-provider-google-beta] plugin >= 3.1, < 4.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+
+#### `terraform-provider-google` version 2.x
+
+Starting with version `6.3.0` of this module, `google_billing_budget` resources can now be created. This increases the minimum `terraform-provider-google` version to `3.1.0`
+
+To continue to use a version `>= 2.1, < 3.1` of the google provider pin this module to `6.2.1`. Or use the `core_project_factory` submodule directly.
+
+```hcl
+module "project-factory" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 6.2.1"
+  ...
+}
+```
 
 ### Permissions
 
@@ -191,8 +213,9 @@ following roles:
 #### Script Helper
 
 A [helper script](./helpers/setup-sa.sh) is included to create the Seed Service
-Account in the Seed Project, grant the necessary roles to the Seed Service
-Account, and enable the necessary API's in the Seed Project.  Run it as follows:
+Account in the [Seed Project](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-project),
+grant the necessary roles to the [Seed Service Account](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-service-account),
+and enable the necessary API's in the Seed Project.  Run it as follows:
 
 ```sh
 ./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [BILLING_ACCOUNT]
@@ -229,7 +252,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
     ```terraform
     provider "google" {
       credentials = "${file(var.credentials_path)}"
-      version = "~> 1.20"
+      version = "~> 3.3"
     }
 
     module "project-factory" {
@@ -247,7 +270,7 @@ credentials to pass to these scripts. Credentials can be provided via two mechan
    provider "google" {
      # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
      # value is needed here.
-      version = "~> 1.20"
+      version = "~> 3.3"
    }
 
    module "project-factory" {
@@ -279,6 +302,8 @@ the base project where the Service Account was created:
   [troubleshooting](docs/TROUBLESHOOTING.md#missing-api-appenginegoogleapiscom)
   - Please note that if you are deploying an App Engine Flex application, you should not delete the default compute service account
     (as is default behavior). Please see the [troubleshooting doc](docs/TROUBLESHOOTING.md#cannot-deploy-app-engine-flex-application) for more information.
+- Cloud Billing Budget API - `billingbudgets.googleapis.com`
+  - Please note this API is only required if configuring budgets for projects.
 
 ### Verifying setup
 
@@ -317,7 +342,7 @@ The core Project Factory solely deals with GCP APIs and does not integrate G Sui
 ## Install
 ### Terraform
 
-Be sure you have the correct Terraform version (0.11.x), you can choose the
+Be sure you have the correct Terraform version (0.12.6+), you can choose the
 binary here:
 
 - https://releases.hashicorp.com/terraform/

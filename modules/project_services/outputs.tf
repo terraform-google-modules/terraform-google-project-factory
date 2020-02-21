@@ -16,9 +16,5 @@
 
 output "project_id" {
   description = "The GCP project you want to enable APIs on"
-  value = element(
-    [for v in google_project_service.project_services : v.project],
-    0,
-  )
+  value       = element(concat([for v in google_project_service.project_services : v.project], [var.project_id]), 0)
 }
-

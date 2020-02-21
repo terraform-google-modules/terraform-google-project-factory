@@ -32,6 +32,26 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/minimal
+  - name: fabric_project
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/fabric_project
+  - name: app_engine
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/app_engine
+  - name: budget
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/budget
+  - name: dynamic_shared_vpc
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/dynamic_shared_vpc
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
 #  - name: full

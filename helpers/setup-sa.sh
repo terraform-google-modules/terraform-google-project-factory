@@ -17,56 +17,109 @@
 set -e
 set -u
 
-# check for input variables
-if [ $# -lt 2 ]; then
+o=""
+p=""
+b=""
+f=""
+
+usage() {
   echo
-  echo "Usage: $0 <organization name> <project id> [<billing account id>]"
+  echo " Usage:"
+  echo "     $0 -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>]"
+  echo "         organization id        (required)"
+  echo "         project id             (required)"
+  echo "         billing accout id      (optional)"
+  echo "         folder id              (optional)"
   echo
-  echo "  organization name (required)"
-  echo "  project id (required)"
-  echo "  billing account id (optional)"
-  echo
-  echo "The billing account id is required if owned by a different organization"
-  echo "than the Seed Project organization."
+  echo " The billing account id is required if owned by a different organization"
+  echo " than the Seed Project organization."
   echo
   exit 1
+}
+
+# Check for input variables
+while getopts ":ho:p:b:f:" OPT; do
+  # shellcheck disable=SC2213
+  case ${OPT} in
+    o )
+      o=$OPTARG
+      ;;
+    p )
+      p=$OPTARG
+      ;;
+    b )
+      b=$OPTARG
+      ;;
+    f )
+      f=$OPTARG
+      ;;
+    : )
+      echo
+      echo " Error: option -${OPTARG} requires an argument"
+      usage
+      ;;
+   \? )
+      echo
+      echo " Error: invalid option -${OPTARG}"
+      usage
+      ;;
+  esac
+done
+shift $((OPTIND -1))
+
+# Check for required input variables
+if [ -z "${o}" ] || [ -z "${p}" ]; then
+  echo
+  echo " Error: -o <organization id> and -p <project id> required."
+  usage
 fi
 
 # Organization ID
 echo "Verifying organization..."
-ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$1")"
+ORG_ID="$(gcloud organizations list --format="value(ID)" --filter="$o")"
 
-if [[ $ORG_ID == "" ]];
-then
+if [[ $ORG_ID == "" ]]; then
   echo "The organization id provided does not exist. Exiting."
   exit 1;
 fi
 
- # Seed Project
+# Seed Project
 echo "Verifying project..."
-SEED_PROJECT="$(gcloud projects list --format="value(projectId)" --filter="$2")"
+SEED_PROJECT="$(gcloud projects describe --format="value(projectId)" "$p")"
 
-if [[ $SEED_PROJECT == "" ]];
-then
-   echo "The Seed Project does not exist. Exiting."
+if [[ $SEED_PROJECT == "" ]]; then
+  echo "The Seed Project does not exist. Exiting."
   exit 1;
 fi
 
 # Billing account
-if [ $# -eq 3 ]; then
+if [ -z "${b}" ]; then
+  echo "Skipping billing account verification... (parameter not passed)"
+else
   echo "Verifying billing account..."
-  BILLING_ACCOUNT="$(gcloud beta billing accounts list --format="value(ACCOUNT_ID)" --filter="$3")"
+  BILLING_ACCOUNT="$(gcloud beta billing accounts list --format="value(ACCOUNT_ID)" --filter="$b")"
 
-  if [[ $BILLING_ACCOUNT == "" ]];
-  then
+  if [[ $BILLING_ACCOUNT == "" ]]; then
     echo "The billing account does not exist. Exiting."
     exit 1;
   fi
-else
-  echo "Skipping billing account verification... (parameter not passed)"
 fi
 
- # Seed Service Account creation
+# Project Folder
+if [ -z "${f}" ]; then
+  echo "Skipping project folder verification... (parameter not passed)"
+  FOLDER_ID=""
+else
+  echo "Verifying project folder..."
+  FOLDER_ID="$(gcloud resource-manager folders list --format="value(ID)" --organization="$o" --filter="$f")"
+
+  if [[ $FOLDER_ID == "" ]]; then
+    echo "The project folder does not exist. Exiting."
+    exit 1;
+  fi
+fi
+
+# Seed Service Account creation
 SA_NAME="project-factory-${RANDOM}"
 SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
@@ -74,16 +127,30 @@ KEY_FILE="${STAGING_DIR}/credentials.json"
 
 echo "Creating Seed Service Account..."
 gcloud iam service-accounts \
-    --project "${SEED_PROJECT}" create ${SA_NAME} \
-    --display-name ${SA_NAME}
+  --project "${SEED_PROJECT}" create ${SA_NAME} \
+  --display-name ${SA_NAME}
 
 echo "Downloading key to credentials.json..."
 gcloud iam service-accounts keys create "${KEY_FILE}" \
-    --iam-account "${SA_ID}" \
+  --iam-account "${SA_ID}" \
+  --user-output-enabled false
+
+if [[ $FOLDER_ID == "" ]]; then
+  echo "Skipping grant roles on project folder... (parameter not passed)"
+else
+  echo "Applying permissions for folder $FOLDER_ID..."
+  # Grant roles/resourcemanager.folderViewer to the Seed Service Account on the folder
+  echo "Adding role roles/resourcemanager.folderViewer..."
+  gcloud resource-manager folders add-iam-policy-binding \
+    "${FOLDER_ID}" \
+    --member="serviceAccount:${SA_ID}" \
+    --role="roles/resourcemanager.folderViewer" \
     --user-output-enabled false
+fi
 
 echo "Applying permissions for org $ORG_ID and project $SEED_PROJECT..."
- # Grant roles/resourcemanager.organizationViewer to the Seed Service Account on the organization
+# Grant roles/resourcemanager.organizationViewer to the Seed Service Account on the organization
+echo "Adding role roles/resourcemanager.organizationViewer..."
 gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
@@ -130,7 +197,7 @@ gcloud organizations add-iam-policy-binding \
   --role="roles/iam.serviceAccountAdmin" \
   --user-output-enabled false
 
- # Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
+# Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
 echo "Adding role roles/resourcemanager.projectIamAdmin..."
 gcloud projects add-iam-policy-binding \
   "${SEED_PROJECT}" \

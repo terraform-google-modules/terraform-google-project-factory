@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-extra_service_account_email = attribute('extra_service_account_email')
-project_name                = attribute('project_name')
-project_id                  = attribute('project_id')
-sa_role                     = attribute('sa_role')
-service_account_email       = attribute('service_account_email')
-usage_bucket_name           = attribute('usage_bucket_name')
-usage_bucket_prefix         = attribute('usage_bucket_prefix')
+extra_service_account_email   = attribute('extra_service_account_email')
+compute_service_account_email = attribute('compute_service_account_email')
+project_name                  = attribute('project_name')
+project_id                    = attribute('project_id')
+sa_role                       = attribute('sa_role')
+service_account_email         = attribute('service_account_email')
+usage_bucket_name             = attribute('usage_bucket_name')
+usage_bucket_prefix           = attribute('usage_bucket_prefix')
 
 # Set a reasonable default value for `usage_bucket_prefix` if the Terraform
 # provided value is empty.
@@ -69,6 +70,10 @@ control 'project-factory' do
 
     it "includes the service account created outside of the project factory" do
       expect(service_accounts).to include extra_service_account_email
+    end
+
+    it "does not include the default compute service account" do
+      expect(service_accounts).not_to include compute_service_account_email
     end
   end
 

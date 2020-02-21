@@ -15,15 +15,14 @@
  */
 
 provider "google" {
-  version = "~> 2.1"
+  version = "~> 3.6.0"
 }
 
 provider "google-beta" {
-  version = "~> 2.1"
+  version = "~> 3.6.0"
 }
 
 provider "gsuite" {
-  credentials             = file(var.credentials_path)
   impersonated_user_email = var.gsuite_admin_account
 
   oauth_scopes = [
@@ -32,6 +31,14 @@ provider "gsuite" {
   ]
 
   version = "~> 0.1.12"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 module "project-factory" {
@@ -49,7 +56,6 @@ module "project-factory" {
   group_name         = "pf-secondgroup-${var.random_string_for_testing}"
   shared_vpc         = var.shared_vpc
   shared_vpc_enabled = true
-  credentials_path   = var.credentials_path
 
   activate_apis = [
     "compute.googleapis.com",
@@ -58,4 +64,3 @@ module "project-factory" {
 
   disable_services_on_destroy = "false"
 }
-

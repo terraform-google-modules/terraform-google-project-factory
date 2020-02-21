@@ -23,12 +23,20 @@ locals {
  *****************************************/
 provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
 }
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 module "project-factory" {
@@ -40,4 +48,3 @@ module "project-factory" {
   credentials_path        = local.credentials_file_path
   default_service_account = var.default_service_account
 }
-

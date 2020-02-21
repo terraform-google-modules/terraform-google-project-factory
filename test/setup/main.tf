@@ -14,18 +14,34 @@
  * limitations under the License.
  */
 
+provider "google" {
+  version = "~> 3.6.0"
+}
+
+provider "google-beta" {
+  version = "~> 3.6.0"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 resource "random_id" "folder_rand" {
   byte_length = 2
 }
 
 resource "google_folder" "ci_pfactory_folder" {
   display_name = "ci-tests-pfactory-folder-${random_id.folder_rand.hex}"
-  parent       = "folders/${var.folder_id}"
+  parent       = "folders/${replace(var.folder_id, "folders/", "")}"
 }
 
 module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 3.0"
+  version = "~> 7.0"
 
   name              = "ci-pfactory-tests"
   random_project_id = true
@@ -43,10 +59,11 @@ module "pfactory_project" {
     "iamcredentials.googleapis.com",
     "oslogin.googleapis.com",
     "serviceusage.googleapis.com",
+    "billingbudgets.googleapis.com",
+    "pubsub.googleapis.com",
   ]
 }
 
 resource "random_id" "random_string_for_testing" {
   byte_length = 3
 }
-

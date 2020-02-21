@@ -15,7 +15,7 @@
  */
 
 variable "random_project_id" {
-  description = "Enables project random id generation. Mutually exclusive with project_id being non-empty."
+  description = "Adds a suffix of 4 random characters to the `project_id`"
   type        = bool
   default     = false
 }
@@ -37,7 +37,7 @@ variable "name" {
 }
 
 variable "project_id" {
-  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
+  description = "The ID to give the project. If not provided, the `name` will be used."
   type        = string
   default     = ""
 }
@@ -156,8 +156,8 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `delete`, `depriviledge`, or `keep`."
-  default     = "delete"
+  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
+  default     = "disable"
   type        = string
 }
 
@@ -167,3 +167,32 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
+variable "python_interpreter_path" {
+  description = "Python interpreter path for precondition check script."
+  type        = string
+  default     = "python3"
+}
+
+variable "pip_executable_path" {
+  description = "Pip executable path for precondition requirements.txt install."
+  type        = string
+  default     = "pip3"
+}
+
+variable "budget_amount" {
+  description = "The amount to use for a budget alert"
+  type        = number
+  default     = null
+}
+
+variable "budget_alert_pubsub_topic" {
+  description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
+  type        = string
+  default     = null
+}
+
+variable "budget_alert_spent_percents" {
+  description = "A list of percentages of the budget to alert on when threshold is exceeded"
+  type        = list(number)
+  default     = [0.5, 0.7, 1.0]
+}

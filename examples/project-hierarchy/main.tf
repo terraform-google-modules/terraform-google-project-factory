@@ -23,12 +23,12 @@ locals {
  *****************************************/
 provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
 }
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
 }
 
 provider "gsuite" {
@@ -41,6 +41,14 @@ provider "gsuite" {
   ]
 
   version = "~> 0.1.12"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 resource "google_folder" "prod" {
@@ -67,4 +75,3 @@ module "project-factory" {
   folder_id         = google_folder.prod.id
   credentials_path  = local.credentials_file_path
 }
-

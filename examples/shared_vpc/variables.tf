@@ -18,17 +18,22 @@ variable "organization_id" {
   description = "The organization id for the associated services"
 }
 
-variable "billing_account" {
-  description = "The ID of the billing account to associate this project with"
+variable "folder_id" {
+  description = "The folder to create projects in"
 }
 
-variable "credentials_path" {
-  description = "Path to a Service Account credentials file with permissions documented in the readme"
+variable "billing_account" {
+  description = "The ID of the billing account to associate this project with"
 }
 
 variable "host_project_name" {
   description = "Name for Shared VPC host project"
   default     = "shared-vpc-host"
+}
+
+variable "service_project_name" {
+  description = "Name for Shared VPC service project"
+  default     = "shared-vpc-service"
 }
 
 variable "network_name" {

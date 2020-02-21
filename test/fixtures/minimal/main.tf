@@ -15,11 +15,19 @@
  */
 
 provider "google" {
-  version = "~> 2.1"
+  version = "~> 3.6.0"
 }
 
 provider "google-beta" {
+  version = "~> 3.6.0"
+}
+
+provider "null" {
   version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 module "project-factory" {
@@ -27,7 +35,6 @@ module "project-factory" {
 
   name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
   random_project_id = true
-  domain            = var.domain
   org_id            = var.org_id
   folder_id         = var.folder_id
   billing_account   = var.billing_account
@@ -37,6 +44,6 @@ module "project-factory" {
     "container.googleapis.com",
   ]
 
+  default_service_account     = "disable"
   disable_services_on_destroy = "false"
 }
-

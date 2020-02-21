@@ -55,4 +55,20 @@ module "project-factory" {
   disable_services_on_destroy = var.disable_services_on_destroy
   default_service_account     = var.default_service_account
   disable_dependent_services  = var.disable_dependent_services
+  python_interpreter_path     = var.python_interpreter_path
+  pip_executable_path         = var.pip_executable_path
+}
+
+/******************************************
+  Billing budget to create if amount is set
+ *****************************************/
+module "budget" {
+  source        = "./modules/budget"
+  create_budget = var.budget_amount != null
+
+  projects             = [module.project-factory.project_id]
+  billing_account      = var.billing_account
+  amount               = var.budget_amount
+  alert_spent_percents = var.budget_alert_spent_percents
+  alert_pubsub_topic   = var.budget_alert_pubsub_topic
 }

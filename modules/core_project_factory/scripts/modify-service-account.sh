@@ -72,8 +72,8 @@ delete_sa() {
   fi
 }
 
-# Function to depriviledge the default service account.
-depriviledge_sa() {
+# Function to deprivilege the default service account.
+deprivilege_sa() {
   EDITORS_LIST_COMMAND="gcloud projects get-iam-policy $PROJECT_ID \
   --flatten=bindings[].members \
   --format=table(bindings.role,bindings.members) \
@@ -81,23 +81,44 @@ depriviledge_sa() {
   EDITORS_LIST=$(${EDITORS_LIST_COMMAND} || exit 1)
 
   if [[ $EDITORS_LIST = *"$SA_ID"* ]]; then
-      echo "Depriviledge service account $SA_ID in project $PROJECT_ID"
+      echo "Deprivilege service account $SA_ID in project $PROJECT_ID"
       SA_DEPRIV_COMMAND="gcloud projects remove-iam-policy-binding $PROJECT_ID \
       --member=serviceAccount:$SA_ID \
       --role=roles/editor \
       --project=$PROJECT_ID $APPEND_IMPERSONATE"
       ${SA_DEPRIV_COMMAND}
   else
-      echo "Service account not listed. It appears to have already been depriviledged."
+      echo "Service account not listed. It appears to have already been deprivileged."
+  fi
+}
+
+# Function to disable the default service account.
+disable_sa() {
+  SA_LIST_COMMAND="gcloud iam service-accounts list $APPEND_IMPERSONATE --project=$PROJECT_ID"
+  SA_LIST=$(${SA_LIST_COMMAND} || exit 1)
+
+  if [[ $SA_LIST = *"$SA_ID"* ]]; then
+      # There is no harm in disabling a service account that is already disabled
+      # Google agrees in their docs
+      echo "Disabling service account $SA_ID in project $PROJECT_ID"
+      SA_DISABLE_COMMAND="gcloud iam service-accounts disable \
+      --quiet $APPEND_IMPERSONATE \
+      --project=$PROJECT_ID $SA_ID"
+      ${SA_DISABLE_COMMAND}
+  else
+      echo "Service account not listed. It appears to have been deleted."
   fi
 }
 
 # Perform specified action of default service account.
 case $SA_ACTION in
   delete)
+      deprivilege_sa
       delete_sa ;;
-  depriviledge)
-      depriviledge_sa ;;
+  deprivilege)
+      deprivilege_sa ;;
+  disable)
+      disable_sa ;;
   keep)
       echo "Default service account set to keep, nothing to do."
       ;;
@@ -105,6 +126,3 @@ case $SA_ACTION in
       echo "$SA_ACTION is not a valid action, nothing to do."
       ;;
 esac
-
-
-

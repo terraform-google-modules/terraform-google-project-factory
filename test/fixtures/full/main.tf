@@ -15,17 +15,14 @@
  */
 
 provider "google" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.1"
+  version = "~> 3.6.0"
 }
 
 provider "google-beta" {
-  credentials = file(var.credentials_path)
-  version     = "~> 2.1"
+  version = "~> 3.6.0"
 }
 
 provider "gsuite" {
-  credentials             = file(var.credentials_path)
   impersonated_user_email = var.gsuite_admin_account
 
   oauth_scopes = [
@@ -34,6 +31,14 @@ provider "gsuite" {
   ]
 
   version = "~> 0.1.12"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
 }
 
 locals {
@@ -111,7 +116,6 @@ module "project-factory" {
   shared_vpc_subnets  = local.shared_vpc_subnets
   sa_role             = var.sa_role
   sa_group            = var.sa_group
-  credentials_path    = var.credentials_path
   lien                = "true"
 
   activate_apis = [
@@ -119,21 +123,8 @@ module "project-factory" {
     "container.googleapis.com",
   ]
 
+  default_service_account     = "delete"
   disable_services_on_destroy = "false"
-}
-
-module "app-engine" {
-  source = "../../../modules/app_engine"
-
-  project_id  = module.project-factory.project_id
-  location_id = var.region
-  auth_domain = var.domain
-
-  feature_settings = [
-    {
-      split_health_checks = true
-    },
-  ]
 }
 
 resource "google_service_account" "extra_service_account" {

@@ -23,12 +23,12 @@ locals {
  *****************************************/
 provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
 }
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 2.1"
+  version     = "~> 3.6.0"
 }
 
 provider "gsuite" {
@@ -43,6 +43,14 @@ provider "gsuite" {
   version = "~> 0.1.12"
 }
 
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
 module "project-factory" {
   source            = "../../modules/gsuite_enabled"
   random_project_id = true
@@ -54,4 +62,3 @@ module "project-factory" {
   group_name        = var.project_group_name
   api_sa_group      = var.api_sa_group
 }
-

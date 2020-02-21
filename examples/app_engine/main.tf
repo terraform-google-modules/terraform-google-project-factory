@@ -14,23 +14,42 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = "${path.module}/sa-key.json"
+provider "google" {
+  version = "~> 3.6.0"
 }
 
-/******************************************
-  Provider configuration
- *****************************************/
-provider "gsuite" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 0.1.12"
+provider "google-beta" {
+  version = "~> 3.6.0"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "random" {
+  version = "~> 2.2"
+}
+
+resource "random_string" "suffix" {
+  length  = 4
+  special = false
+  upper   = false
+}
+
+module "app-engine-project" {
+  source            = "../../"
+  name              = "appeng-${random_string.suffix.result}"
+  random_project_id = true
+  org_id            = var.org_id
+  folder_id         = var.folder_id
+  billing_account   = var.billing_account
+  activate_apis = [
+    "appengine.googleapis.com",
+  ]
 }
 
 module "app-engine" {
-  source           = "../../modules/app_engine"
-  location_id      = var.location_id
-  auth_domain      = var.auth_domain
-  serving_status   = var.serving_status
-  feature_settings = [{ enabled = true }]
-  project_id       = "example-project"
+  source      = "../../modules/app_engine"
+  project_id  = module.app-engine-project.project_id
+  location_id = "us-east4"
 }

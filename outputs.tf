@@ -33,7 +33,7 @@ output "domain" {
 
 output "group_email" {
   value       = module.gsuite_group.email
-  description = "The email of the GSuite group with group_name"
+  description = "The email of the G Suite group with group_name"
 }
 
 output "service_account_id" {
@@ -71,3 +71,7 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
+output "budget_name" {
+  value       = module.budget.name
+  description = "The name of the budget if created"
+}

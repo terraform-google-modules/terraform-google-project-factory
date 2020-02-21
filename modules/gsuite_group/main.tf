@@ -24,7 +24,7 @@ locals {
   Organization info retrieval
  *****************************************/
 data "google_organization" "org" {
-  count        = var.domain == "" ? 1 : 0
+  count        = var.domain == "" && var.name != "" ? 1 : 0
   organization = var.org_id
 }
 

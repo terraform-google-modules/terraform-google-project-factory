@@ -14,13 +14,23 @@
  * limitations under the License.
  */
 
-output "name" {
+output "project_id" {
+  description = "The project ID where app engine is created"
+  value       = module.app-engine-project.project_id
+}
+
+output "app_name" {
   description = "Unique name of the app, usually apps/{PROJECT_ID}."
   value       = module.app-engine.name
 }
 
-output "code_bucket" {
-  description = "The GCS bucket code is being stored in for this app."
-  value       = module.app-engine.code_bucket
+output "default_hostname" {
+  description = "The default hostname for this app."
+  value       = module.app-engine.default_hostname
+}
+
+output "location_id" {
+  description = "The location app engine is serving from"
+  value       = module.app-engine.location_id
 }
 

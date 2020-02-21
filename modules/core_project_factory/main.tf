@@ -27,8 +27,8 @@ resource "random_id" "random_project_id_suffix" {
 locals {
   group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
-  project_org_id    = var.folder_id != "" ? "" : var.org_id
-  project_folder_id = var.folder_id != "" ? var.folder_id : ""
+  project_org_id    = var.folder_id != "" ? null : var.org_id
+  project_folder_id = var.folder_id != "" ? var.folder_id : null
   temp_project_id = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
@@ -76,47 +76,17 @@ resource "null_resource" "preconditions" {
   }
 
   provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/preconditions.sh \
-    --credentials_path '${var.credentials_path}' \
-    --impersonate_service_account '${var.impersonate_service_account}' \
-    --billing_account '${var.billing_account}' \
-    --org_id '${var.org_id}' \
-    --folder_id '${var.folder_id}' \
-    --shared_vpc '${var.shared_vpc}'
-EOD
+    command     = local.pip_requirements_absolute_path
+    interpreter = [var.pip_executable_path, "install", "-r"]
+    on_failure  = continue
+  }
 
-
+  provisioner "local-exec" {
+    command    = local.preconditions_command
+    on_failure = continue
     environment = {
       GRACEFUL_IMPORTERROR = "true"
     }
-  }
-}
-
-/*******************************************
-  Shared VPC Subnets names validation
-*******************************************/
-
-resource "null_resource" "shared_vpc_subnet_invalid_name" {
-  count = length(var.shared_vpc_subnets)
-
-  triggers = {
-    name = replace(
-      var.shared_vpc_subnets[count.index],
-      "/(https://www.googleapis.com/compute/v1/)?projects/[a-z0-9-]+/regions/[a-z0-9-]+/subnetworks/[a-z0-9-]+/",
-      "",
-    )
-  }
-}
-
-resource "null_resource" "check_if_shared_vpc_subnets_contains_items_with_invalid_name" {
-  count = length(
-    compact(null_resource.shared_vpc_subnet_invalid_name.*.triggers.name),
-  ) == 0 ? 0 : 1
-
-  provisioner "local-exec" {
-    command     = "false"
-    interpreter = ["bash", "-c"]
   }
 }
 
@@ -186,55 +156,77 @@ data "null_data_source" "default_service_account" {
 /******************************************
   Default compute service account deletion
  *****************************************/
-resource "null_resource" "delete_default_compute_service_account" {
-  count = var.default_service_account == "delete" ? 1 : 0
+module "gcloud_delete" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.5.0"
 
-  provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/modify-service-account.sh \
-  --project_id='${google_project.main.project_id}' \
-  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-  --credentials_path='${var.credentials_path}' \
-  --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='delete'
-EOD
-  }
+  enabled = var.default_service_account == "delete"
 
-  triggers = {
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='delete'
+  EOT
+
+  create_cmd_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
   }
-
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /*********************************************
-  Default compute service account depriviledge
+  Default compute service account deprivilege
  ********************************************/
-resource "null_resource" "depriviledge_default_compute_service_account" {
-  count = var.default_service_account == "depriviledge" ? 1 : 0
+module "gcloud_deprivilege" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.5.0"
 
-  provisioner "local-exec" {
-    command = <<EOD
-${path.module}/scripts/modify-service-account.sh \
-  --project_id='${google_project.main.project_id}' \
-  --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-  --credentials_path='${var.credentials_path}' \
-  --impersonate-service-account='${var.impersonate_service_account}' \
-  --action='depriviledge'
-EOD
-  }
+  enabled = var.default_service_account == "deprivilege"
 
-  triggers = {
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='deprivilege'
+  EOT
+
+  create_cmd_triggers = {
     default_service_account = data.null_data_source.default_service_account.outputs["email"]
     activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
+  }
+}
+
+/******************************************
+  Default compute service account disable
+ *****************************************/
+module "gcloud_disable" {
+  source  = "terraform-google-modules/gcloud/google"
+  version = "~> 0.5.0"
+
+  enabled = var.default_service_account == "disable"
+
+  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
+  create_cmd_body       = <<-EOT
+    --project_id='${google_project.main.project_id}' \
+    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
+    --credentials_path='${var.credentials_path}' \
+    --impersonate-service-account='${var.impersonate_service_account}' \
+    --action='disable'
+  EOT
+
+  create_cmd_triggers = {
+    default_service_account = data.null_data_source.default_service_account.outputs["email"]
+    activated_apis          = join(",", local.activate_apis)
+    project_services        = module.project_services.project_id
   }
 
-  depends_on = [
-    module.project_services,
-  ]
 }
 
 /******************************************
@@ -285,7 +277,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   Account on shared VPC
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) == 0 ? local.shared_vpc_users_length : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) == 0 ? local.shared_vpc_users_length : 0
 
   project = var.shared_vpc
   role    = "roles/compute.networkUser"
@@ -301,7 +293,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
 
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
@@ -320,12 +312,12 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 }
 
 /*************************************************************************************
-  compute.networkUser role granted to GSuite group on vpc subnets
+  compute.networkUser role granted to G Suite group on vpc subnets
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -348,7 +340,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) > 0 ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -437,7 +429,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   provider = google-beta
-  count    = local.gke_shared_vpc_enabled && length(compact(var.shared_vpc_subnets)) != 0 ? length(var.shared_vpc_subnets) : 0
+  count    = local.gke_shared_vpc_enabled && length(var.shared_vpc_subnets) != 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -470,4 +462,3 @@ resource "google_project_iam_member" "gke_host_agent" {
     module.project_services,
   ]
 }
-
