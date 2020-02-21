@@ -29,6 +29,11 @@ output "service_project" {
   description = "The service project info"
 }
 
+output "service_project_b" {
+  value       = module.service-project-b
+  description = "The second service project"
+}
+
 output "vpc" {
   value       = module.vpc
   description = "The network info"
@@ -44,3 +49,7 @@ output "network_self_link" {
   description = "The URI of the VPC being created"
 }
 
+output "subnets" {
+  value       = module.vpc.subnets_self_links
+  description = "The shared VPC subets"
+}

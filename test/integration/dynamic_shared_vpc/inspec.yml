@@ -1,4 +1,8 @@
 name: dynamic_shared_vpc
+depends:
+  - name: inspec-gcp
+    git: https://github.com/inspec/inspec-gcp.git
+    tag: v0.10.0
 attributes:
   - name: service_project_name
     required: true
@@ -6,10 +10,16 @@ attributes:
   - name: service_project_id
     required: true
     type: string
+  - name: service_project_ids
+    required: true
+    type: array
   - name: service_project_number
     required: true
     type: string
   - name: service_account_email
+    required: true
+    type: string
+  - name: secondary_service_account_email
     required: true
     type: string
   - name: shared_vpc
