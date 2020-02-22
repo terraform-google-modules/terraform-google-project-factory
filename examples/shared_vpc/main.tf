@@ -138,7 +138,7 @@ module "service-project-b" {
   billing_account    = var.billing_account
   shared_vpc_enabled = true
 
-  shared_vpc         = module.vpc.project_id
+  shared_vpc = module.vpc.project_id
 
   activate_apis = [
     "compute.googleapis.com",

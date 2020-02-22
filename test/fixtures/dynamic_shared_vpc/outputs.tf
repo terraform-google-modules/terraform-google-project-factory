@@ -25,7 +25,7 @@ output "service_project_id" {
 }
 
 output "service_project_ids" {
-  value       = [
+  value = [
     module.example.service_project.project_id,
     module.example.service_project_b.project_id
   ]
