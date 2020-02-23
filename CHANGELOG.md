@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [7.0.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.1...v7.0.2) (2020-02-23)
+
+
+### Bug Fixes
+
+* Issue with empty subnet defaults and Shared VPC ([#382](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/382)) ([d31e068](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d31e06839866d226412f0b4d4b7709bef80d7666))
+
 ### [7.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.0...v7.0.1) (2020-02-10)
 
 
