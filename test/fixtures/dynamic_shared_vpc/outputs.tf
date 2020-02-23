@@ -24,6 +24,14 @@ output "service_project_id" {
   description = "The service project ID"
 }
 
+output "service_project_ids" {
+  value = [
+    module.example.service_project.project_id,
+    module.example.service_project_b.project_id
+  ]
+  description = "The service project IDs"
+}
+
 output "service_project_number" {
   value       = module.example.service_project.project_number
   description = "The service project number"
@@ -32,6 +40,11 @@ output "service_project_number" {
 output "service_account_email" {
   value       = module.example.service_project.service_account_email
   description = "The service account email"
+}
+
+output "secondary_service_account_email" {
+  value       = module.example.service_project_b.service_account_email
+  description = "The secondary service account email"
 }
 
 output "shared_vpc" {
