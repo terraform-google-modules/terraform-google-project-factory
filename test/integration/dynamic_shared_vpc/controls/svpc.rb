@@ -13,6 +13,7 @@
 # limitations under the License.
 
 service_project_id          = attribute('service_project_id')
+service_project_ids         = attribute('service_project_ids')
 service_project_number      = attribute('service_project_number')
 service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
@@ -21,13 +22,15 @@ shared_vpc_subnet_region_01 = attribute('shared_vpc_subnet_region_01')
 shared_vpc_subnet_name_02   = attribute('shared_vpc_subnet_name_02')
 shared_vpc_subnet_region_02 = attribute('shared_vpc_subnet_region_02')
 
-control 'project-factory-shared-vpc' do
+control 'svpc' do
   title "Project Factory shared VPC"
 
-  describe command("gcloud compute shared-vpc get-host-project #{service_project_id} --format='get(name)'") do
-    its('exit_status') { should eq 0 }
-    its('stderr') { should eq '' }
-    its('stdout.strip') { should eq shared_vpc }
+  service_project_ids.each do |project_id|
+    describe command("gcloud compute shared-vpc get-host-project #{project_id} --format='get(name)'") do
+      its('exit_status') { should eq 0 }
+      its('stderr') { should eq '' }
+      its('stdout.strip') { should eq shared_vpc }
+    end
   end
 
   describe command("gcloud projects get-iam-policy #{shared_vpc} --format=json") do

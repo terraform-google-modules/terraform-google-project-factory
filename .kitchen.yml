@@ -52,6 +52,19 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/dynamic_shared_vpc
+    verifier:
+      name: terraform
+      color: true
+      systems:
+        - name: inspec-gcp
+          backend: gcp
+          controls:
+          - secondary
+        - name: local
+          backend: local
+          controls:
+          - svpc
+
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
 #  - name: full

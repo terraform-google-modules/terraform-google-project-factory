@@ -102,7 +102,7 @@ variable "credentials_path" {
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
 variable "labels" {

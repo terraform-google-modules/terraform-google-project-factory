@@ -123,3 +123,27 @@ module "service-project" {
 
   disable_services_on_destroy = "false"
 }
+
+/******************************************
+  Second Service Project Creation
+ *****************************************/
+module "service-project-b" {
+  source = "../../modules/shared_vpc"
+
+  name              = "b-${var.service_project_name}"
+  random_project_id = "false"
+
+  org_id             = var.organization_id
+  folder_id          = var.folder_id
+  billing_account    = var.billing_account
+  shared_vpc_enabled = true
+
+  shared_vpc = module.vpc.project_id
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+  ]
+
+  disable_services_on_destroy = "false"
+}
