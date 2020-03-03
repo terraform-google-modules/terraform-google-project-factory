@@ -15,6 +15,7 @@
 | Name | Description |
 |------|-------------|
 | compute\_service\_account\_email |  |
+| container\_service\_account\_email |  |
 | group\_email |  |
 | project\_id |  |
 | project\_name |  |
