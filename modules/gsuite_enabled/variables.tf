@@ -194,3 +194,9 @@ variable "budget_alert_spent_percents" {
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
 }
+
+variable "use_tf_google_credentials_env_var" {
+  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
+  type        = bool
+  default     = false
+}
