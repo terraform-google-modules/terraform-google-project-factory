@@ -181,7 +181,7 @@ variable "pip_executable_path" {
 
 variable "use_tf_google_credentials_env_var" {
   description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = string
+  type        = bool
   default     = false
 }
 

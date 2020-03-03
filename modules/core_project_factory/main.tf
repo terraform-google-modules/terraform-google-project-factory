@@ -187,7 +187,7 @@ module "gcloud_deprivilege" {
   version = "~> 0.5.0"
 
   enabled                           = var.default_service_account == "deprivilege"
-  use_tf_google_credentials_env_var = use_tf_google_credentials_env_var
+  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
@@ -213,7 +213,7 @@ module "gcloud_disable" {
   version = "~> 0.5.0"
 
   enabled                           = var.default_service_account == "disable"
-  use_tf_google_credentials_env_var = use_tf_google_credentials_env_var
+  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
