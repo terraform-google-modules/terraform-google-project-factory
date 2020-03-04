@@ -12,11 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-project_id                    = attribute('project_id')
-service_account_email         = attribute('service_account_email')
-compute_service_account_email = attribute('compute_service_account_email')
-group_email                   = attribute('group_email')
-group_name                    = attribute('group_name')
+project_id                      = attribute('project_id')
+service_account_email           = attribute('service_account_email')
+compute_service_account_email   = attribute('compute_service_account_email')
+container_service_account_email = attribute('container_service_account_email')
+group_email                     = attribute('group_email')
+group_name                      = attribute('group_name')
 
 control 'project-factory-minimal' do
   title 'Project Factory minimal configuration'
@@ -84,6 +85,26 @@ control 'project-factory-minimal' do
     end
     it "should be empty when group_name is empty" do
       expect(group_email).to be_empty
+    end
+  end
+
+  describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
+    its('exit_status') { should eq 0 }
+    its('stderr') { should eq '' }
+
+    let(:bindings) do
+      if subject.exit_status == 0
+        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
+      else
+        []
+      end
+    end
+
+    it "container.developer role has been given to #{container_service_account_email}" do
+      expect(bindings).to include(
+        members: including("serviceAccount:#{container_service_account_email}"),
+        role: "roles/container.developer",
+      )
     end
   end
 end
