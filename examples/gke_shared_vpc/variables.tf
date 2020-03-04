@@ -33,6 +33,6 @@ variable "shared_vpc" {
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID)"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
