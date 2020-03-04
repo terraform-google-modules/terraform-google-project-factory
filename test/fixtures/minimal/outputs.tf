@@ -34,6 +34,10 @@ output "compute_service_account_email" {
   value = "${module.project-factory.project_number}-compute@developer.gserviceaccount.com"
 }
 
+output "container_service_account_email" {
+  value = "service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
+}
+
 output "group_email" {
   value = module.project-factory.group_email
 }

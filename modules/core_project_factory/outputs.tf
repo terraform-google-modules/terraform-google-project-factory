@@ -26,10 +26,12 @@ output "project_id" {
     ),
     0,
   )
+  depends_on = [module.project_services]
 }
 
 output "project_number" {
-  value = google_project.main.number
+  value      = google_project.main.number
+  depends_on = [module.project_services]
 }
 
 output "service_account_id" {

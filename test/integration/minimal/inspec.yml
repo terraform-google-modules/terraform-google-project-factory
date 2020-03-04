@@ -12,6 +12,9 @@ attributes:
   - name: compute_service_account_email
     required: true
 
+  - name: container_service_account_email
+    required: true
+
   - name: group_email
     required: true
 

@@ -47,3 +47,11 @@ module "project-factory" {
   default_service_account     = "disable"
   disable_services_on_destroy = "false"
 }
+
+// Add a binding to the container service robot account to test that the
+// dependency on that service is correctly sequenced.
+resource "google_project_iam_member" "iam-binding" {
+  project = module.project-factory.project_id
+  role    = "roles/container.developer"
+  member  = "serviceAccount:service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
+}
