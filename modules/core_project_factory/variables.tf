@@ -189,3 +189,9 @@ variable "use_tf_google_credentials_env_var" {
   type        = bool
   default     = false
 }
+
+variable "skip_gcloud_download" {
+  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
+  type        = bool
+  default     = false
+}

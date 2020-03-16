@@ -58,6 +58,7 @@ module "project-factory" {
   python_interpreter_path           = var.python_interpreter_path
   pip_executable_path               = var.pip_executable_path
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
+  skip_gcloud_download              = var.skip_gcloud_download
 }
 
 /******************************************
