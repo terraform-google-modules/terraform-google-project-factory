@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [7.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.2...v7.1.0) (2020-03-17)
+
+
+### Features
+
+* Add option for skipping the gcloud CLI download ([#393](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/393)) ([a534603](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/a5346030ef36e6982bac05e4e74f56154ab442d6))
+* Add use_tf_var_google_credentials_env_var variable ([#377](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/377)) ([64459de](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/64459de4409a64c5cd897cb5bc44eeacc4b67b96))
+
+
+### Bug Fixes
+
+* Add dependency on service enablement. ([#387](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/387)) ([d3bd3ee](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d3bd3ee2364d85bb8509b2f697c99f940419213c))
+
 ### [7.0.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.1...v7.0.2) (2020-02-23)
 
 
