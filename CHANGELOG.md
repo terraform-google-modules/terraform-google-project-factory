@@ -23,6 +23,8 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ## [Unreleased]
 
+- Added `skip_gcloud_download` option which can be used to skip downloading the gcloud CLI if it is already installed
+
 ## [7.0.0] - 2020-01-15
 
 ### Fixed

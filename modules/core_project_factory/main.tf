@@ -163,6 +163,8 @@ module "gcloud_delete" {
   enabled                           = var.default_service_account == "delete"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
 
+  skip_download = var.skip_gcloud_download
+
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
     --project_id='${google_project.main.project_id}' \
@@ -189,6 +191,8 @@ module "gcloud_deprivilege" {
   enabled                           = var.default_service_account == "deprivilege"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
 
+  skip_download = var.skip_gcloud_download
+
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
     --project_id='${google_project.main.project_id}' \
@@ -214,6 +218,8 @@ module "gcloud_disable" {
 
   enabled                           = var.default_service_account == "disable"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
+
+  skip_download = var.skip_gcloud_download
 
   create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
   create_cmd_body       = <<-EOT
