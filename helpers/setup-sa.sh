@@ -21,15 +21,17 @@ o=""
 p=""
 b=""
 f=""
+n=""
 
 usage() {
   echo
   echo " Usage:"
-  echo "     $0 -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>]"
+  echo "     $0 -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>] [-n <service account name>]"
   echo "         organization id        (required)"
   echo "         project id             (required)"
   echo "         billing accout id      (optional)"
   echo "         folder id              (optional)"
+  echo "         service account name   (optional)"
   echo
   echo " The billing account id is required if owned by a different organization"
   echo " than the Seed Project organization."
@@ -38,7 +40,7 @@ usage() {
 }
 
 # Check for input variables
-while getopts ":ho:p:b:f:" OPT; do
+while getopts ":ho:p:b:f:n:" OPT; do
   # shellcheck disable=SC2213
   case ${OPT} in
     o )
@@ -52,6 +54,9 @@ while getopts ":ho:p:b:f:" OPT; do
       ;;
     f )
       f=$OPTARG
+      ;;
+    n )
+      n=$OPTARG
       ;;
     : )
       echo
@@ -120,7 +125,11 @@ else
 fi
 
 # Seed Service Account creation
-SA_NAME="project-factory-${RANDOM}"
+if [-n "${n}"]; then
+    SA_NAME="project-factory-${RANDOM}"
+else  
+    SA_NAME="$n"
+fi
 SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
 KEY_FILE="${STAGING_DIR}/credentials.json"
