@@ -125,7 +125,7 @@ else
 fi
 
 # Seed Service Account creation
-if [-n "${n}"]; then
+if [ -n "${n}" ]; then
     SA_NAME="project-factory-${RANDOM}"
 else  
     SA_NAME="$n"
