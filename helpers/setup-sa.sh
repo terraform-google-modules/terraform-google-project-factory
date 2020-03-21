@@ -136,8 +136,8 @@ KEY_FILE="${STAGING_DIR}/credentials.json"
 
 echo "Creating Seed Service Account..."
 gcloud iam service-accounts \
-  --project "${SEED_PROJECT}" create ${SA_NAME} \
-  --display-name ${SA_NAME}
+  --project "${SEED_PROJECT}" create "${SA_NAME}" \
+  --display-name "${SA_NAME}"
 
 echo "Downloading key to credentials.json..."
 gcloud iam service-accounts keys create "${KEY_FILE}" \
