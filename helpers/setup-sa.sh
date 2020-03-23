@@ -127,7 +127,7 @@ fi
 # Seed Service Account creation
 if [ -n "${n}" ]; then
     SA_NAME="project-factory-${RANDOM}"
-else  
+else
     SA_NAME="$n"
 fi
 SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
