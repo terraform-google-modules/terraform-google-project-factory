@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [7.1.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.1.0...v7.1.1) (2020-04-16)
+
+
+### Bug Fixes
+
+* Bump version of terraform-google-gcloud module to 1.0.0 ([#399](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/399)) ([2889db1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/2889db19aeb3322d6edf41d7b4aa40f320679650))
+
 ## [7.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.2...v7.1.0) (2020-03-17)
 
 
