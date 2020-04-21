@@ -11,7 +11,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### ⚠ BREAKING CHANGES
 
-* Using the gcloud module now requires `curl` to be installed. See the upgrade guide for details.
+* Using the gcloud module now requires `curl` to be installed. See the [upgrade guide](./docs/upgrading_to_project_factory_v8.0.md) for details.
 
 ### Bug Fixes
 
