@@ -6,4 +6,4 @@ The v8.0 release of Project Factory updates the `gcloud` module to use the [1.0.
 If you are relying on the built-in gcloud module, you will need to make sure `curl`
 is available in your Terraform execution environment.
 
-If you have `skip_download` set to `true`, no change is necessary.
+If you have `skip_gcloud_download` set to `true`, no change is necessary.
