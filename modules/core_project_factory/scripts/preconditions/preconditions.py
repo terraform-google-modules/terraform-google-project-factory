@@ -239,7 +239,6 @@ class SeedProjectServices:
 
     REQUIRED_APIS = [
         "admin.googleapis.com",
-        "appengine.googleapis.com",
         "iam.googleapis.com",
         "cloudbilling.googleapis.com",
         "cloudresourcemanager.googleapis.com",
