@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [8.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.1.0...v8.0.0) (2020-04-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Using the gcloud module now requires `curl` to be installed. See the [upgrade guide](./docs/upgrading_to_project_factory_v8.0.md) for details.
+
+### Bug Fixes
+
+* Bump version of terraform-google-gcloud module to 1.0.0 ([#399](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/399)) ([2889db1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/2889db19aeb3322d6edf41d7b4aa40f320679650))
+
+
+### Miscellaneous Chores
+
+* Add upgrade guide for v8.0 ([#401](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/401)) ([dd1e204](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/dd1e204e219ef5f2f8ef14672d40d900036ef75e))
+
 ## [7.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.0.2...v7.1.0) (2020-03-17)
 
 

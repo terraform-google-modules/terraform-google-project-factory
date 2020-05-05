@@ -158,7 +158,7 @@ data "null_data_source" "default_service_account" {
  *****************************************/
 module "gcloud_delete" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.5.0"
+  version = "~> 1.0.0"
 
   enabled                           = var.default_service_account == "delete"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
@@ -186,7 +186,7 @@ module "gcloud_delete" {
  ********************************************/
 module "gcloud_deprivilege" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.5.0"
+  version = "~> 1.0.0"
 
   enabled                           = var.default_service_account == "deprivilege"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
@@ -214,7 +214,7 @@ module "gcloud_deprivilege" {
  *****************************************/
 module "gcloud_disable" {
   source  = "terraform-google-modules/gcloud/google"
-  version = "~> 0.5.0"
+  version = "~> 1.0.0"
 
   enabled                           = var.default_service_account == "disable"
   use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
