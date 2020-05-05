@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [8.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.0...v8.0.1) (2020-05-05)
+
+
+### Bug Fixes
+
+* Remove appengine.googleapis.com from required APIs ([#390](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/390)) ([b995924](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/b995924d7c33fde1fba029ee3682b7c6252cdd27))
+
 ## [8.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v7.1.0...v8.0.0) (2020-04-21)
 
 
