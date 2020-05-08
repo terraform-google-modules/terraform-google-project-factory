@@ -125,7 +125,7 @@ else
 fi
 
 # Seed Service Account creation
-if [ -n "${n}" ]; then
+if [ -z "${n}" ]; then
     SA_NAME="project-factory-${RANDOM}"
 else
     SA_NAME="$n"
@@ -134,7 +134,7 @@ SA_ID="${SA_NAME}@${SEED_PROJECT}.iam.gserviceaccount.com"
 STAGING_DIR="${PWD}"
 KEY_FILE="${STAGING_DIR}/credentials.json"
 
-echo "Creating Seed Service Account..."
+echo "Creating Seed Service Account named $SA_ID..."
 gcloud iam service-accounts \
   --project "${SEED_PROJECT}" create "${SA_NAME}" \
   --display-name "${SA_NAME}"
