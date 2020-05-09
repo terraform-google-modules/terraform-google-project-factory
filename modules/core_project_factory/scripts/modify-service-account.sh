@@ -77,7 +77,7 @@ deprivilege_sa() {
   EDITORS_LIST_COMMAND="gcloud projects get-iam-policy $PROJECT_ID \
   --flatten=bindings[].members \
   --format=table(bindings.role,bindings.members) \
-  --filter=bindings.role:editor $APPEND_IMPERSONATE"
+  --filter=bindings.role:roles/editor $APPEND_IMPERSONATE"
   EDITORS_LIST=$(${EDITORS_LIST_COMMAND} || exit 1)
 
   if [[ $EDITORS_LIST = *"$SA_ID"* ]]; then
