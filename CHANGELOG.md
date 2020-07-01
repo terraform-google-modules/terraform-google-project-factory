@@ -57,10 +57,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 * Allow 3.x provider version in fabric-project submodule. ([#361](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/361)) ([2b32b68](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/2b32b681a8c26be366a173e8d2095da5a66c7de2))
 * Allow users to supply dynamically generated list of subnets ([#362](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/362)) ([4f372dd](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/4f372dd5ca3029b39c293378fea6c1425b5384fc))
 
-## [Unreleased]
-
-- Added `skip_gcloud_download` option which can be used to skip downloading the gcloud CLI if it is already installed
-
 ## [7.0.0] - 2020-01-15
 
 ### Fixed
