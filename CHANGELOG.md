@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [8.0.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.1...v8.0.2) (2020-07-01)
+
+
+### Bug Fixes
+
+* Correct SA custom name flag check in setup, fixes [#416](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/416) ([#418](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/418)) ([9da8158](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/9da81586f218c13c69f13a4034f606203ac8187c))
+
 ### [8.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.0...v8.0.1) (2020-05-05)
 
 
