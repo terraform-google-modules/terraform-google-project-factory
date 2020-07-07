@@ -1,0 +1,95 @@
+# Copyright 2018 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+---
+provisioner:
+  name: terraform
+
+platforms:
+  - name: local
+
+verifier:
+  name: terraform
+  color: false
+  systems:
+    - name: system
+      backend: local
+
+suites:
+  - name: minimal
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/minimal
+  - name: vpc_sc_project
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/vpc_sc_project
+  - name: fabric_project
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/fabric_project
+  - name: app_engine
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/app_engine
+  - name: budget
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/budget
+  - name: dynamic_shared_vpc
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/dynamic_shared_vpc
+    verifier:
+      name: terraform
+      color: true
+      systems:
+        - name: inspec-gcp
+          backend: gcp
+          controls:
+          - secondary
+        - name: local
+          backend: local
+          controls:
+          - svpc
+
+# Disabled due to issue #275
+# (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)
+#  - name: full
+#    driver:
+#      name: terraform
+#      command_timeout: 1800
+#      root_module_directory: test/fixtures/full
+#  - name: "shared_vpc_no_subnets"
+#    driver:
+#      name: "terraform"
+#      command_timeout: 1800
+#      root_module_directory: test/fixtures/shared_vpc_no_subnets/
+#    verifier:
+#      name: terraform
+#      systems:
+#        - name: inspec-gcp
+#          backend: gcp
+#          controls:
+#            - gcp
+#        - name: local
+#          backend: local
+#          controls:
+#            - gcloud
