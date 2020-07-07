@@ -22,8 +22,8 @@ group_name                         = attribute('group_name')
 vpc_service_control_perimeter_name = attribute('vpc_service_control_perimeter_name')
 access_policy                      = attribute('access_policy')
 
-control 'project-factory-minimal' do
-  title 'Project Factory minimal configuration'
+control 'project-factory-vpc-sc-project' do
+  title 'Project Factory VPC service control perimeter project configuration'
 
   describe command("gcloud projects describe #{project_id} --format=json") do
     its('exit_status') { should be 0 }
