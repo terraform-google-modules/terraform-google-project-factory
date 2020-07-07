@@ -32,6 +32,11 @@ suites:
       name: terraform
       command_timeout: 1800
       root_module_directory: test/fixtures/minimal
+  - name: vpc_sc_project
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/vpc_sc_project
   - name: fabric_project
     driver:
       name: terraform
