@@ -1,0 +1,28 @@
+name: minimal
+attributes:
+  - name: project_id
+    required: true
+
+  - name: project_number
+    required: true
+
+  - name: service_account_email
+    required: true
+
+  - name: compute_service_account_email
+    required: true
+
+  - name: container_service_account_email
+    required: true
+
+  - name: group_email
+    required: true
+
+  - name: group_name
+    required: true
+
+  - name: vpc_service_control_perimeter_name
+    required: true
+
+  - name: access_policy
+    required: true
