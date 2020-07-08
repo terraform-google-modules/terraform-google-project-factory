@@ -37,4 +37,5 @@ variable "random_string_for_testing" {
 variable "vpc_service_control_perimeter_name" {
   type        = string
   description = "The name of an existing VPC Service Control Perimeter to add the created project to"
+  default     = null
 }
