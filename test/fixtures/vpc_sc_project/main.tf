@@ -33,7 +33,7 @@ provider "random" {
 module "project-factory" {
   source = "../../../"
 
-  name              = "pf-ci-test-vpc-sc-proj-${var.random_string_for_testing}"
+  name              = "test-vpc-sc-proj-${var.random_string_for_testing}"
   random_project_id = true
   org_id            = var.org_id
   folder_id         = var.folder_id
