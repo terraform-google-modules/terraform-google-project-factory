@@ -42,6 +42,7 @@ module "project-factory" {
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
+    "accesscontextmanager.googleapis.com",
   ]
 
   default_service_account            = "disable"
