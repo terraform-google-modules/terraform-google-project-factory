@@ -33,6 +33,11 @@ locals {
     "roles/billing.projectManager",
     "roles/compute.xpnAdmin"
   ]
+
+  int_required_org_roles = [
+    "roles/accesscontextmanager.policyEditor",
+    "roles/resourcemanager.organizationViewer",
+  ]
 }
 
 resource "google_service_account" "int_test" {
@@ -54,6 +59,14 @@ resource "google_folder_iam_member" "int_test_folder" {
 
   folder = google_folder.ci_pfactory_folder.name
   role   = local.int_required_folder_roles[count.index]
+  member = "serviceAccount:${google_service_account.int_test.email}"
+}
+
+resource "google_folder_org_member" "int_test_org" {
+  count = length(local.int_required_org_roles)
+
+  org_id = var.org_id
+  role   = local.int_required_org_roles[count.index]
   member = "serviceAccount:${google_service_account.int_test.email}"
 }
 
