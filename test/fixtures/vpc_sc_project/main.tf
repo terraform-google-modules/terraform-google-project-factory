@@ -30,6 +30,22 @@ provider "random" {
   version = "~> 2.2"
 }
 
+module "org_policy" {
+  source      = "terraform-google-modules/vpc-service-controls/google/modules/policy"
+  parent_id   = var.parent_id
+  policy_name = var.policy_name
+}
+
+module "regular_service_perimeter_1" {
+  source         = "terraform-google-modules/vpc-service-controls/google/modules/regular_service_perimeter"
+  policy         = module.org_policy.policy_id
+  perimeter_name = "regular_perimeter_1"
+  description    = "Some description"
+  resources      = ["828469014838"]
+
+  restricted_services = ["storage.googleapis.com"]
+}
+
 module "project-factory" {
   source = "../../../"
 
@@ -47,7 +63,7 @@ module "project-factory" {
 
   default_service_account            = "disable"
   disable_services_on_destroy        = "false"
-  vpc_service_control_perimeter_name = "accessPolicies/951626807928/servicePerimeters/vpc_sc_perimeter_test"
+  vpc_service_control_perimeter_name = "accessPolicies/${module.org_policy.policy_id}/servicePerimeters/${module.regular_service_parameter_1.perimeter_name}"
 }
 
 // Add a binding to the container service robot account to test that the

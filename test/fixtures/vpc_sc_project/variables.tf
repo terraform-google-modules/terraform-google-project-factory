@@ -14,6 +14,16 @@
  * limitations under the License.
  */
 
+variable "parent_id" {
+  type        = string
+  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organizations are accepted as parent."
+}
+
+variable "policy_name" {
+  type        = string
+  description = "The policy's name"
+}
+
 variable "org_id" {
   type        = string
   description = "The organization ID"
