@@ -51,3 +51,8 @@ variable "vpc_service_control_perimeter_name" {
   description = "The name of an existing VPC Service Control Perimeter to add the created project to"
   default     = null
 }
+
+variable "policy_id" {
+  type        = string
+  description = "The ID of the access context manager policy the perimeter lies in"
+}

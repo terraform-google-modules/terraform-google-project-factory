@@ -54,3 +54,7 @@ output "domain" {
 output "group_name" {
   value = "ci-pfactory-test-group-${random_id.folder_rand.hex}"
 }
+
+output "policy_id" {
+  value = module.access_context_manager_policy.policy_id
+}
