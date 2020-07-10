@@ -15,11 +15,11 @@
  */
 
 provider "google" {
-  version = "~> 3.8.0"
+  version = "~> 3.8"
 }
 
 provider "google-beta" {
-  version = "~> 3.8.0"
+  version = "~> 3.8"
 }
 
 provider "null" {
@@ -30,20 +30,36 @@ provider "random" {
   version = "~> 2.2"
 }
 
-module "org_policy" {
-  source      = "terraform-google-modules/vpc-service-controls/google/modules/policy"
-  parent_id   = var.parent_id
-  policy_name = var.policy_name
+module "access_context_manager_policy" {
+  source      = "terraform-google-modules/vpc-service-controls/google"
+  parent_id   = var.org_id
+  policy_name = "policy_test"
+  // parent_id   = var.parent_id
+  // policy_name = var.policy_name
 }
 
+// module "access_level_members" {
+//   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
+//   policy  = module.access_context_manager_policy.policy_id
+//   name    = "terraform_members"
+//   members = var.members
+// }
+
 module "regular_service_perimeter_1" {
-  source         = "terraform-google-modules/vpc-service-controls/google/modules/regular_service_perimeter"
-  policy         = module.org_policy.policy_id
+  source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  policy         = module.access_context_manager_policy.policy_id
   perimeter_name = "regular_perimeter_1"
-  description    = "Some description"
+  // perimeter_name = var.perimeter_name
+  description    = "New service perimeter"
   resources      = ["828469014838"]
+  // resources = [var.protected_project_ids["number"]]
+  // access_levels = [module.access_level_members.name]
 
   restricted_services = ["storage.googleapis.com"]
+
+  // shared_resources = {
+  //   all = [var.protected_project_ids["number"]]
+  // }
 }
 
 module "project-factory" {
@@ -57,19 +73,20 @@ module "project-factory" {
 
   activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com",
+    //"container.googleapis.com",
     "accesscontextmanager.googleapis.com",
+    "storage.googleapis.com"
   ]
 
   default_service_account            = "disable"
   disable_services_on_destroy        = "false"
-  vpc_service_control_perimeter_name = "accessPolicies/${module.org_policy.policy_id}/servicePerimeters/${module.regular_service_parameter_1.perimeter_name}"
+  vpc_service_control_perimeter_name = "accessPolicies/${module.access_context_manager_policy.policy_id}/servicePerimeters/regular_perimeter_1"
 }
 
 // Add a binding to the container service robot account to test that the
 // dependency on that service is correctly sequenced.
-resource "google_project_iam_member" "iam-binding" {
-  project = module.project-factory.project_id
-  role    = "roles/container.developer"
-  member  = "serviceAccount:service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
-}
+// resource "google_project_iam_member" "iam-binding" {
+//   project = module.project-factory.project_id
+//   role    = "roles/container.developer"
+//   member  = "serviceAccount:service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
+// }

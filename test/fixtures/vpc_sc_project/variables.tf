@@ -17,11 +17,13 @@
 variable "parent_id" {
   type        = string
   description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organizations are accepted as parent."
+  default     = "11111111"
 }
 
 variable "policy_name" {
   type        = string
   description = "The policy's name"
+  default     = "policy1"
 }
 
 variable "org_id" {
