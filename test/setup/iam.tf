@@ -37,7 +37,7 @@ locals {
   int_required_org_roles = [
     "roles/accesscontextmanager.policyEditor",
     "roles/resourcemanager.organizationViewer",
-    "roles/editor",
+    "roles/orgpolicy.policyAdmin",
   ]
 }
 
@@ -63,12 +63,12 @@ resource "google_folder_iam_member" "int_test_folder" {
   member = "serviceAccount:${google_service_account.int_test.email}"
 }
 
-resource "google_folder_org_member" "int_test_org" {
+resource "google_organization_iam_binding" "int_test_org" {
   count = length(local.int_required_org_roles)
 
-  org_id = var.org_id
-  role   = local.int_required_org_roles[count.index]
-  member = "serviceAccount:${google_service_account.int_test.email}"
+  org_id  = var.org_id
+  role    = local.int_required_org_roles[count.index]
+  members = ["serviceAccount:${google_service_account.int_test.email}"]
 }
 
 resource "google_service_account_key" "int_test" {

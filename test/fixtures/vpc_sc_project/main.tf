@@ -30,6 +30,13 @@ provider "random" {
   version = "~> 2.2"
 }
 
+locals {
+  org_roles = [
+    "roles/accesscontextmanager.policyEditor",
+    "roles/resourcemanager.organizationViewer",
+  ]
+}
+
 module "project-factory" {
   source = "../../../"
 
@@ -43,7 +50,7 @@ module "project-factory" {
     "compute.googleapis.com",
     //"container.googleapis.com",
     "accesscontextmanager.googleapis.com",
-    "storage.googleapis.com"
+    "storage-component.googleapis.com"
   ]
 
   default_service_account            = "disable"
@@ -54,7 +61,15 @@ module "project-factory" {
 resource "google_project_iam_member" "iam-binding" {
   project = module.project-factory.project_id
   role    = "roles/editor"
-  member  = "serviceAccount:${var.service_account_email}"
+  member  = "serviceAccount:${module.project-factory.service_account_email}"
+}
+
+resource "google_organization_iam_binding" "iam-org-binding" {
+  count = length(local.org_roles)
+  
+  org_id  = var.org_id
+  role    = local.org_roles[count.index]
+  members = ["serviceAccount:${module.project-factory.service_account_email}"]
 }
 
 // Add a binding to the container service robot account to test that the
