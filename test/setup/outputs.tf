@@ -58,3 +58,7 @@ output "group_name" {
 output "policy_id" {
   value = module.access_context_manager_policy.policy_id
 }
+
+output "service_account_email" {
+  value = google_service_account.int_test.email
+}

@@ -51,6 +51,12 @@ module "project-factory" {
   vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/regular_perimeter_1"
 }
 
+resource "google_project_iam_member" "iam-binding" {
+  project = module.project-factory.project_id
+  role    = "roles/editor"
+  member  = "serviceAccount:${var.service_account_email}"
+}
+
 // Add a binding to the container service robot account to test that the
 // dependency on that service is correctly sequenced.
 // resource "google_project_iam_member" "iam-binding" {

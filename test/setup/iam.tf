@@ -37,6 +37,7 @@ locals {
   int_required_org_roles = [
     "roles/accesscontextmanager.policyEditor",
     "roles/resourcemanager.organizationViewer",
+    "roles/editor",
   ]
 }
 
