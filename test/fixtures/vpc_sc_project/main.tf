@@ -48,7 +48,6 @@ module "project-factory" {
 
   activate_apis = [
     "compute.googleapis.com",
-    //"container.googleapis.com",
     "accesscontextmanager.googleapis.com",
     "storage-component.googleapis.com"
   ]
@@ -63,19 +62,3 @@ resource "google_project_iam_member" "iam-binding" {
   role    = "roles/editor"
   member  = "serviceAccount:${module.project-factory.service_account_email}"
 }
-
-resource "google_organization_iam_binding" "iam-org-binding" {
-  count = length(local.org_roles)
-
-  org_id  = var.org_id
-  role    = local.org_roles[count.index]
-  members = ["serviceAccount:${module.project-factory.service_account_email}"]
-}
-
-// Add a binding to the container service robot account to test that the
-// dependency on that service is correctly sequenced.
-// resource "google_project_iam_member" "iam-binding" {
-//   project = module.project-factory.project_id
-//   role    = "roles/container.developer"
-//   member  = "serviceAccount:service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
-// }
