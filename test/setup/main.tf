@@ -66,11 +66,11 @@ module "pfactory_project" {
 }
 
 // module "access_context_manager_policy" {
-  // source      = "terraform-google-modules/vpc-service-controls/google"
-  // parent_id   = var.org_id
-  // policy_name = "policy_test"
-  // parent_id   = var.parent_id
-  // policy_name = var.policy_name
+//   source      = "terraform-google-modules/vpc-service-controls/google"
+//   parent_id   = var.org_id
+//   policy_name = "policy_test"
+//   parent_id   = var.parent_id
+//   policy_name = var.policy_name
 // }
 
 // module "access_level_members" {
@@ -81,13 +81,13 @@ module "pfactory_project" {
 // }
 
 module "regular_service_perimeter_1" {
-  source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  source = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
   // policy         = module.access_context_manager_policy.policy_id
   policy         = "951626807928"
   perimeter_name = "regular_perimeter_1"
   // perimeter_name = var.perimeter_name
-  description    = "New service perimeter"
-  resources      = ["828469014838"]
+  description = "New service perimeter"
+  resources   = ["828469014838"]
   // resources = [var.protected_project_ids["number"]]
   // access_levels = [module.access_level_members.name]
 

@@ -66,7 +66,7 @@ resource "google_project_iam_member" "iam-binding" {
 
 resource "google_organization_iam_binding" "iam-org-binding" {
   count = length(local.org_roles)
-  
+
   org_id  = var.org_id
   role    = local.org_roles[count.index]
   members = ["serviceAccount:${module.project-factory.service_account_email}"]
