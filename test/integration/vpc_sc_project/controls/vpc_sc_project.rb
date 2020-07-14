@@ -16,11 +16,8 @@ project_id                         = attribute('project_id')
 project_number                     = attribute('project_number')
 service_account_email              = attribute('service_account_email')
 compute_service_account_email      = attribute('compute_service_account_email')
-container_service_account_email    = attribute('container_service_account_email')
 group_email                        = attribute('group_email')
 group_name                         = attribute('group_name')
-vpc_service_control_perimeter_name = attribute('vpc_service_control_perimeter_name')
-access_policy                      = attribute('access_policy')
 
 control 'project-factory-vpc-sc-project' do
   title 'Project Factory VPC service control perimeter project configuration'
@@ -46,7 +43,8 @@ control 'project-factory-vpc-sc-project' do
     its('stderr') { should eq '' }
 
     its('stdout') { should match(/compute\.googleapis\.com/) }
-    its('stdout') { should match(/container\.googleapis\.com/) }
+    its('stdout') { should match(/accesscontextmanager\.googleapis\.com/) }
+    its('stdout') { should match(/storage-component.googleapis.com/) }
   end
 
   describe command("gcloud iam service-accounts list --project #{project_id} --format='json(email,disabled)'") do
@@ -89,40 +87,5 @@ control 'project-factory-vpc-sc-project' do
     it "should be empty when group_name is empty" do
       expect(group_email).to be_empty
     end
-  end
-
-  describe command("gcloud projects get-iam-policy #{project_id} --format=json") do
-    its('exit_status') { should eq 0 }
-    its('stderr') { should eq '' }
-
-    let(:bindings) do
-      if subject.exit_status == 0
-        JSON.parse(subject.stdout, symbolize_names: true)[:bindings]
-      else
-        []
-      end
-    end
-
-    it "container.developer role has been given to #{container_service_account_email}" do
-      expect(bindings).to include(
-        members: including("serviceAccount:#{container_service_account_email}"),
-        role: "roles/container.developer",
-      )
-    end
-  end
-
-  describe command("gcloud access-context-manager perimeters describe #{vpc_service_control_perimeter_name} --policy #{access_policy} --format=json") do
-    its('exit_status') { should eq 0 }
-    its('stderr') { should eq '' }
-
-    let(:metadata) do
-      if subject.exit_status == 0
-        JSON.parse(subject.stdout, symbolize_names: true)
-      else
-        {}
-      end
-    end
-
-    it { expect(metadata[:status][:resources].to include("projects/#{project_number}") }
   end
 end
