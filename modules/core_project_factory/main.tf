@@ -482,3 +482,12 @@ resource "google_access_context_manager_service_perimeter_resource" "service_per
   perimeter_name = var.vpc_service_control_perimeter_name
   resource       = "projects/${google_project.main.number}"
 }
+
+/******************************************
+  Enable Access Context Manager API
+ *****************************************/
+resource "google_project_service" "enable_access_context_manager" {
+  count   = local.vpc_service_control_attach_enabled ? 1 : 0
+  project = google_project.main.number
+  service = "accesscontextmanager.googleapis.com"
+}
