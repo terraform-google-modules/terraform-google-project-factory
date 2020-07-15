@@ -23,11 +23,11 @@ locals {
   Provider configuration
  *****************************************/
 provider "google" {
-  version = "~> 3.8.0"
+  version = "~> 3.30"
 }
 
 provider "google-beta" {
-  version = "~> 3.8.0"
+  version = "~> 3.30"
 }
 
 provider "null" {
