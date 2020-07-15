@@ -64,8 +64,6 @@ locals {
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
   shared_vpc_users_length = local.gke_shared_vpc_enabled ? 4 : 3
-
-  vpc_service_control_attach_enabled = var.vpc_service_control_perimeter_name == null ? false : true
 }
 
 resource "null_resource" "preconditions" {
@@ -478,7 +476,7 @@ resource "google_project_iam_member" "gke_host_agent" {
   Attachment to VPC Service Control Perimeter
  *****************************************/
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_attachment" {
-  count          = local.vpc_service_control_attach_enabled ? 1 : 0
+  count          = var.vpc_service_control_attach_enabled ? 1 : 0
   perimeter_name = var.vpc_service_control_perimeter_name
   resource       = "projects/${google_project.main.number}"
 }
@@ -487,7 +485,7 @@ resource "google_access_context_manager_service_perimeter_resource" "service_per
   Enable Access Context Manager API
  *****************************************/
 resource "google_project_service" "enable_access_context_manager" {
-  count   = local.vpc_service_control_attach_enabled ? 1 : 0
+  count   = var.vpc_service_control_attach_enabled ? 1 : 0
   project = google_project.main.number
   service = "accesscontextmanager.googleapis.com"
 }
