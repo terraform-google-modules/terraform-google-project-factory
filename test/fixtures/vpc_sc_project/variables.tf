@@ -55,7 +55,6 @@ variable "vpc_service_control_perimeter_name" {
 variable "policy_id" {
   type        = string
   description = "The ID of the access context manager policy the perimeter lies in"
-  default     = "11111111"
 }
 
 variable "service_account_email" {

@@ -31,39 +31,17 @@ provider "random" {
 }
 
 locals {
-  perimeter_name = "regular_service_perimeter_1"
+  perimeter_name = "regular_service_perimeter_{var.random_string_for_testing}"
 }
-
-module "access_context_manager_policy" {
-  source      = "terraform-google-modules/vpc-service-controls/google"
-  parent_id   = var.org_id
-  policy_name = "policy_test"
-  // parent_id   = var.parent_id
-  // policy_name = var.policy_name
-}
-
-// module "access_level_members" {
-//   source  = "terraform-google-modules/vpc-service-controls/google//modules/access_level"
-//   policy  = module.access_context_manager_policy.policy_id
-//   name    = "terraform_members"
-//   members = var.members
-// }
 
 module "regular_service_perimeter_1" {
   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  policy         = module.access_context_manager_policy.policy_id
+  policy         = var.policy_id
   perimeter_name = local.perimeter_name
-  // perimeter_name = var.perimeter_name
-  description = "New service perimeter"
-  resources   = []
-  // resources = [var.protected_project_ids["number"]]
-  // access_levels = [module.access_level_members.name]
+  description    = "New service perimeter"
+  resources      = []
 
   restricted_services = ["storage.googleapis.com"]
-
-  // shared_resources = {
-  //   all = [var.protected_project_ids["number"]]
-  // }
 }
 
 module "project-factory" {
@@ -83,7 +61,7 @@ module "project-factory" {
 
   default_service_account            = "disable"
   disable_services_on_destroy        = "false"
-  vpc_service_control_perimeter_name = "accessPolicies/${module.access_context_manager_policy.policy_id}/servicePerimeters/${local.perimeter_name}"
+  vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/${local.perimeter_name}"
 }
 
 resource "google_project_iam_member" "iam-binding" {
