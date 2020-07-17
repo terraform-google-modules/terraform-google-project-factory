@@ -59,6 +59,7 @@ module "project-factory" {
   pip_executable_path                = var.pip_executable_path
   use_tf_google_credentials_env_var  = var.use_tf_google_credentials_env_var
   skip_gcloud_download               = var.skip_gcloud_download
+  vpc_service_control_attach_enabled = var.vpc_service_control_attach_enabled
   vpc_service_control_perimeter_name = var.vpc_service_control_perimeter_name
 }
 

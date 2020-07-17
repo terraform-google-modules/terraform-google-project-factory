@@ -46,6 +46,12 @@ variable "random_string_for_testing" {
   description = "A random string of characters to be appended to resource names to ensure uniqueness"
 }
 
+variable "vpc_service_control_attach_enabled" {
+  type        = bool
+  description = "Whether the project will be attached to a VPC Service Control Perimeter"
+  default     = false
+}
+
 variable "vpc_service_control_perimeter_name" {
   type        = string
   description = "The name of an existing VPC Service Control Perimeter to add the created project to"

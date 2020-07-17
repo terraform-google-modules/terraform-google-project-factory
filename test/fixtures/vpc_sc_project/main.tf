@@ -59,8 +59,10 @@ module "project-factory" {
     "storage-component.googleapis.com"
   ]
 
-  default_service_account            = "disable"
-  disable_services_on_destroy        = "false"
+  default_service_account     = "disable"
+  disable_services_on_destroy = "false"
+
+  vpc_service_control_attach_enabled = "true"
   vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/${local.perimeter_name}"
 }
 
