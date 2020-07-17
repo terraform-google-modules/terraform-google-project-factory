@@ -31,7 +31,7 @@ provider "random" {
 }
 
 locals {
-  perimeter_name = "regular_service_perimeter_{var.random_string_for_testing}"
+  perimeter_name = "regular_service_perimeter_${var.random_string_for_testing}"
 }
 
 module "regular_service_perimeter_1" {
