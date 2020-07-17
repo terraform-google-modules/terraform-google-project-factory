@@ -38,7 +38,7 @@ variable "folder_id" {
 
 variable "billing_account" {
   type        = string
-  description = "Billing account ID."
+  description = "Billing account ID"
 }
 
 variable "random_string_for_testing" {
