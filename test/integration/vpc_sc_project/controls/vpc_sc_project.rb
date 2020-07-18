@@ -18,74 +18,52 @@ service_account_email              = attribute('service_account_email')
 compute_service_account_email      = attribute('compute_service_account_email')
 group_email                        = attribute('group_email')
 group_name                         = attribute('group_name')
+perimeter_name                     = attribute('perimeter_name')
+policy_id                          = attribute('policy_id')
 
 control 'project-factory-vpc-sc-project' do
-  title 'Project Factory VPC service control perimeter project configuration'
+	title 'Project Factory VPC service control perimeter project configuration'
 
-  describe command("gcloud projects describe #{project_id} --format=json") do
-    its('exit_status') { should be 0 }
-    its('stderr') { should eq '' }
+	describe command("gcloud projects describe #{project_id} --format=json") do
+		its('exit_status') { should be 0 }
+		its('stderr') { should eq '' }
 
-    let(:metadata) do
-      if subject.exit_status == 0
-        JSON.parse(subject.stdout, symbolize_names: true)
-      else
-        {}
-      end
-    end
+		let(:metadata) do
+			if subject.exit_status == 0
+				JSON.parse(subject.stdout, symbolize_names: true)
+			else
+				{}
+			end
+		end
 
-    it { expect(metadata).to include(name: project_id[0...-5]) }
-    it { expect(metadata).to include(projectId: project_id) }
-  end
+		it { expect(metadata).to include(name: project_id[0...-5]) }
+		it { expect(metadata).to include(projectId: project_id) }
+	end
 
-  describe command("gcloud services list --project #{project_id}") do
-    its('exit_status') { should be 0 }
-    its('stderr') { should eq '' }
+	describe command("gcloud access-context-manager perimeters list --policy #{policy_id} --format=json") do
+		its('exit_status') { should be 0 }
+		its('stderr') { should eq '' }
 
-    its('stdout') { should match(/compute\.googleapis\.com/) }
-    its('stdout') { should match(/accesscontextmanager\.googleapis\.com/) }
-    its('stdout') { should match(/storage-component.googleapis.com/) }
-  end
-
-  describe command("gcloud iam service-accounts list --project #{project_id} --format='json(email,disabled)'") do
-    its('exit_status') { should be 0 }
-    its('stderr') { should eq '' }
-
-    let(:service_accounts) do
-      if subject.exit_status == 0
-        Hash[JSON.parse(subject.stdout, symbolize_names: true).map { |entry| [entry[:email], entry[:disabled]] }]
-      else
-        {}
-      end
-    end
-
-    it { expect(service_accounts).to include service_account_email => false }
-    it { expect(service_accounts).to include compute_service_account_email => true }
-  end
-
-  describe command("gcloud alpha resource-manager liens list --project #{project_id} --format=json") do
-    its('exit_status') { should be 0 }
-    its('stderr') { should eq '' }
-
-    let(:liens) do
-      if subject.exit_status == 0
-        JSON.parse(subject.stdout, symbolize_names: true)
-      else
-        []
-      end
-    end
-
-    it "has no liens" do
-      expect(liens).to be_empty
-    end
-  end
-
-  describe "group_email" do
-    it "group_name should be empty" do
-      expect(group_name).to be_empty
-    end
-    it "should be empty when group_name is empty" do
-      expect(group_email).to be_empty
-    end
-  end
+		let(:all_perimeters) do
+			if subject.exit_status == 0
+				JSON.parse(subject.stdout)
+			else
+				{}
+			end
+		end
+		describe "correct perimeter" do
+			let(:perimeter) { all_perimeters.select { |p| p['title'] == perimeter_name }.first }
+			it "exists" do
+				expect(perimeter).to include(
+					"description" =>  "New service perimeter",
+					"name" => "accessPolicies/#{policy_id}/servicePerimeters/#{perimeter_name}",
+					"status" => including(
+						"resources" => match_array(["projects/#{project_number}"]),
+						"restrictedServices" => match_array(["storage.googleapis.com"]),
+					),
+					"title" => perimeter_name,
+				)
+			end
+		end
+	end
 end

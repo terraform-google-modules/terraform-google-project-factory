@@ -21,8 +21,8 @@ attributes:
   - name: group_name
     required: true
 
-  - name: vpc_service_control_perimeter_name
+  - name: perimeter_name
     required: true
 
-  - name: access_policy
+  - name: policy_id
     required: true

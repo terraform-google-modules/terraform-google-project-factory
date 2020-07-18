@@ -47,26 +47,26 @@ resource "google_service_account" "int_test" {
 }
 
 resource "google_project_iam_member" "int_test_project" {
-  count = length(local.int_required_project_roles)
+  for_each = toset(local.int_required_project_roles)
 
   project = module.pfactory_project.project_id
-  role    = local.int_required_project_roles[count.index]
+  role    = each.value
   member  = "serviceAccount:${google_service_account.int_test.email}"
 }
 
 resource "google_folder_iam_member" "int_test_folder" {
-  count = length(local.int_required_folder_roles)
+  for_each = toset(local.int_required_folder_roles)
 
   folder = google_folder.ci_pfactory_folder.name
-  role   = local.int_required_folder_roles[count.index]
+  role   = each.value
   member = "serviceAccount:${google_service_account.int_test.email}"
 }
 
 resource "google_organization_iam_member" "int_test_org" {
-  count = length(local.int_required_org_roles)
+  for_each = toset(local.int_required_org_roles)
 
   org_id = var.org_id
-  role   = local.int_required_org_roles[count.index]
+  role   = each.value
   member = "serviceAccount:${google_service_account.int_test.email}"
 }
 

@@ -26,6 +26,14 @@ output "project_number" {
   value = module.project-factory.project_number
 }
 
+output "perimeter_name" {
+  value = local.perimeter_name
+}
+
+output "policy_id" {
+  value = var.policy_id
+}
+
 output "service_account_email" {
   value       = module.project-factory.service_account_email
   description = "The email of the default service account"
