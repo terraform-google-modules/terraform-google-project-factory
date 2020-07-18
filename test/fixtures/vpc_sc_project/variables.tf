@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-variable "parent_id" {
-  type        = string
-  description = "The parent of this AccessPolicy in the Cloud Resource Hierarchy. As of now, only organizations are accepted as parent."
-  default     = "11111111"
-}
-
 variable "policy_name" {
   type        = string
   description = "The policy's name"
-  default     = "policy1"
+  default     = ""
 }
 
 variable "org_id" {
@@ -46,25 +40,7 @@ variable "random_string_for_testing" {
   description = "A random string of characters to be appended to resource names to ensure uniqueness"
 }
 
-variable "vpc_service_control_attach_enabled" {
-  type        = bool
-  description = "Whether the project will be attached to a VPC Service Control Perimeter"
-  default     = false
-}
-
-variable "vpc_service_control_perimeter_name" {
-  type        = string
-  description = "The name of an existing VPC Service Control Perimeter to add the created project to"
-  default     = null
-}
-
 variable "policy_id" {
   type        = string
   description = "The ID of the access context manager policy the perimeter lies in"
-}
-
-variable "service_account_email" {
-  type        = string
-  description = "The email of the service account that provisions all resources"
-  default     = ""
 }
