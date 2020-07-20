@@ -15,11 +15,11 @@
  */
 
 provider "google" {
-  version = "~> 3.6.0"
+  version = "~> 3.8"
 }
 
 provider "google-beta" {
-  version = "~> 3.6.0"
+  version = "~> 3.8"
 }
 
 provider "null" {
@@ -41,7 +41,7 @@ resource "google_folder" "ci_pfactory_folder" {
 
 module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 7.0"
+  version = "~> 8.0"
 
   name              = "ci-pfactory-tests"
   random_project_id = true
@@ -61,6 +61,7 @@ module "pfactory_project" {
     "serviceusage.googleapis.com",
     "billingbudgets.googleapis.com",
     "pubsub.googleapis.com",
+    "accesscontextmanager.googleapis.com",
   ]
 }
 

@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-/******************************************
-  Provider configuration
- *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-module "project-services" {
-  source                      = "../../modules/project_services"
-  project_id                  = var.project_id
-  enable_apis                 = var.enable
-  disable_services_on_destroy = "true"
-
-  activate_apis = [
-    "sqladmin.googleapis.com",
-    "bigquery-json.googleapis.com",
-  ]
+terraform {
+  required_version = "~> 0.12.6"
 }

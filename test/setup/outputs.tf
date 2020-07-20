@@ -54,3 +54,7 @@ output "domain" {
 output "group_name" {
   value = "ci-pfactory-test-group-${random_id.folder_rand.hex}"
 }
+
+output "service_account_email" {
+  value = google_service_account.int_test.email
+}

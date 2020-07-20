@@ -201,3 +201,15 @@ variable "skip_gcloud_download" {
   type        = bool
   default     = false
 }
+
+variable "vpc_service_control_attach_enabled" {
+  description = "Whether the project will be attached to a VPC Service Control Perimeter"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_service_control_perimeter_name" {
+  description = "The name of a VPC Service Control Perimeter to add the created project to"
+  type        = string
+  default     = null
+}

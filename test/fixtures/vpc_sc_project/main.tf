@@ -30,10 +30,24 @@ provider "random" {
   version = "~> 2.2"
 }
 
+locals {
+  perimeter_name = "regular_service_perimeter_${var.random_string_for_testing}"
+}
+
+module "regular_service_perimeter_1" {
+  source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  policy         = var.policy_id
+  perimeter_name = local.perimeter_name
+  description    = "New service perimeter"
+  resources      = []
+
+  restricted_services = ["storage.googleapis.com"]
+}
+
 module "project-factory" {
   source = "../../../"
 
-  name              = "pf-ci-test-minimal-${var.random_string_for_testing}"
+  name              = "test-vpc-sc-proj-${var.random_string_for_testing}"
   random_project_id = true
   org_id            = var.org_id
   folder_id         = var.folder_id
@@ -41,17 +55,19 @@ module "project-factory" {
 
   activate_apis = [
     "compute.googleapis.com",
-    "container.googleapis.com",
+    "accesscontextmanager.googleapis.com",
+    "storage-component.googleapis.com"
   ]
 
   default_service_account     = "disable"
   disable_services_on_destroy = "false"
+
+  vpc_service_control_attach_enabled = "true"
+  vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/${local.perimeter_name}"
 }
 
-// Add a binding to the container service robot account to test that the
-// dependency on that service is correctly sequenced.
 resource "google_project_iam_member" "iam-binding" {
   project = module.project-factory.project_id
-  role    = "roles/container.developer"
-  member  = "serviceAccount:service-${module.project-factory.project_number}@container-engine-robot.iam.gserviceaccount.com"
+  role    = "roles/editor"
+  member  = "serviceAccount:${module.project-factory.service_account_email}"
 }
