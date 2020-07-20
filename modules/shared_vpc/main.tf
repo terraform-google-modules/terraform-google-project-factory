@@ -44,6 +44,7 @@ module "project-factory" {
   activate_apis                     = var.activate_apis
   usage_bucket_name                 = var.usage_bucket_name
   usage_bucket_prefix               = var.usage_bucket_prefix
+  bucket_versioning                 = var.bucket_versioning
   credentials_path                  = var.credentials_path
   shared_vpc_subnets                = var.shared_vpc_subnets
   labels                            = var.labels
