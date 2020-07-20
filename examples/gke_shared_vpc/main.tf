@@ -20,12 +20,12 @@ locals {
 
 provider "google" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 3.6.0"
+  version     = "~> 3.30"
 }
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 3.6.0"
+  version     = "~> 3.30"
 }
 
 provider "null" {
