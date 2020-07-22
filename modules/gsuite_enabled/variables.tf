@@ -137,6 +137,12 @@ variable "bucket_location" {
   default     = ""
 }
 
+variable "bucket_versioning" {
+  description = "Enable versioning for a GCS bucket to create (optional)"
+  type        = bool
+  default     = false
+}
+
 variable "api_sa_group" {
   description = "A G Suite group to place the Google APIs Service Account for the project in"
   default     = ""

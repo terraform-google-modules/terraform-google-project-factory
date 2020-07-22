@@ -129,6 +129,12 @@ variable "bucket_location" {
   default     = "US"
 }
 
+variable "bucket_versioning" {
+  description = "Enable versioning for a GCS bucket to create (optional)"
+  type        = bool
+  default     = false
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool

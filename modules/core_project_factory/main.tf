@@ -394,6 +394,10 @@ resource "google_storage_bucket" "project_bucket" {
   name     = local.project_bucket_name
   project  = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
   location = var.bucket_location
+
+  versioning {
+    enabled = var.bucket_versioning
+  }
 }
 
 /***********************************************
