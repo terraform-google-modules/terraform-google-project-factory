@@ -147,3 +147,15 @@ module "service-project-b" {
 
   disable_services_on_destroy = "false"
 }
+
+/******************************************
+  Example dependency on service-project
+ *****************************************/
+
+resource "google_compute_address" "example_address" {
+  project      = module.service-project.project_id
+  region       = "us-west1"
+  subnetwork   = module.vpc.subnets_self_links[0]
+  name         = "test-address"
+  address_type = "INTERNAL"
+}
