@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [8.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.2...v8.1.0) (2020-07-22)
+
+
+### Features
+
+* Add support for attaching projects to a VPC Service Controls perimeter ([#428](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/428)) ([7ec34ef](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/7ec34eff67152466cef1c0ff8f3b303d942bcdda))
+* Enable GCS bucket versioning ([#431](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/431)) ([7a0d746](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/7a0d746862199f9345282b831684776b3c77ec7e))
+
+
+### Bug Fixes
+
+* Add dependency on Shared VPC attachment ([#432](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/432)) ([c954990](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/c9549907429a524d669c6bd5a1b79050dd1e921e))
+
 ### [8.0.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.1...v8.0.2) (2020-07-01)
 
 
