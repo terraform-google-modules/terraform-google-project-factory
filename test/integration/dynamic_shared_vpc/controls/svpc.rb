@@ -69,6 +69,13 @@ control 'svpc' do
         role: "roles/container.hostServiceAgentUser",
       )
     end
+
+    it "includes the dataproc service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{service_project_number}@dataproc-accounts.iam.gserviceaccount.com"),
+        role: "roles/compute.networkUser",
+      )
+    end
   end
 
   describe command("gcloud beta compute networks subnets get-iam-policy #{shared_vpc_subnet_name_01} --region #{shared_vpc_subnet_region_01} --project #{shared_vpc} --format=json") do

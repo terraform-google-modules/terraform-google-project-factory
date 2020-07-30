@@ -49,6 +49,7 @@ See [examples/project_services](./examples/project_services) for a full example 
 
 | Name | Description |
 |------|-------------|
+| enabled\_apis | Enabled APIs in the project |
 | project\_id | The GCP project you want to enable APIs on |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

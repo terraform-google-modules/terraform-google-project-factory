@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-output "project_id" {
-  description = "The GCP project you want to enable APIs on"
-  value       = element(concat([for v in google_project_service.project_services : v.project], [var.project_id]), 0)
+output "active_api_service_accounts" {
+  description = "List of active API service accounts in the service project."
+  value       = local.active_api_s_accounts
 }
 
-output "enabled_apis" {
-  description = "Enabled APIs in the project"
-  value       = [for api in google_project_service.project_services : api.service]
+output "project_id" {
+  description = "Service project ID."
+  value       = var.service_project_id
+  depends_on = [
+    google_compute_subnetwork_iam_member.gke_shared_vpc_subnets,
+    google_project_iam_member.gke_host_agent,
+    google_project_iam_member.dataproc_shared_vpc_network_user,
+  ]
 }
