@@ -84,3 +84,8 @@ output "api_s_account_fmt" {
   value       = local.api_s_account_fmt
   description = "API service account email formatted for terraform use"
 }
+
+output "enabled_apis" {
+  description = "Enabled APIs in the project"
+  value       = module.project_services.enabled_apis
+}

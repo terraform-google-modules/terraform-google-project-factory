@@ -21,7 +21,7 @@ output "project_name" {
 
 output "project_id" {
   description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
-  value       = module.project-factory.project_id
+  value       = module.shared_vpc_access.project_id
 }
 
 output "project_number" {

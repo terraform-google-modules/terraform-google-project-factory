@@ -42,12 +42,13 @@ provider "random" {
   Host Project Creation
  *****************************************/
 module "host-project" {
-  source            = "../../"
-  random_project_id = true
-  name              = var.host_project_name
-  org_id            = var.organization_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
+  source               = "../../"
+  random_project_id    = true
+  name                 = var.host_project_name
+  org_id               = var.organization_id
+  folder_id            = var.folder_id
+  billing_account      = var.billing_account
+  skip_gcloud_download = true
 }
 
 /******************************************
@@ -119,9 +120,11 @@ module "service-project" {
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
+    "dataproc.googleapis.com",
   ]
 
   disable_services_on_destroy = "false"
+  skip_gcloud_download        = "true"
 }
 
 /******************************************
@@ -143,9 +146,11 @@ module "service-project-b" {
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
+    "dataproc.googleapis.com",
   ]
 
   disable_services_on_destroy = "false"
+  skip_gcloud_download        = "true"
 }
 
 /******************************************
