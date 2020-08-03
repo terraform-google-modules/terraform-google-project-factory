@@ -32,6 +32,6 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 | credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | string | n/a | yes |
 | org\_id | organization id | string | n/a | yes |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | n/a | yes |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT_ID/regions/$REGION/subnetworks/$SUBNET_ID) | list(string) | `<list>` | no |
+| shared\_vpc\_subnets | Map of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) and list of allowed API's. Example: projects/$project_id/regions/$region/subnetworks/$subnet_id = [] or projects/$project_id/regions/$region/subnetworks/$subnet_id = ["gke"]. Valid values for API list are: "", "gke", and "dataproc" | map(list(string)) | `<map>` | no |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

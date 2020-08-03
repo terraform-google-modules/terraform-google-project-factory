@@ -90,7 +90,7 @@ The roles granted are specifically:
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
 | shared\_vpc\_enabled | If shared VPC should be used | bool | `"false"` | no |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
+| shared\_vpc\_subnets | Map of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) and list of allowed API's. Example: projects/$project_id/regions/$region/subnetworks/$subnet_id = [] or projects/$project_id/regions/$region/subnetworks/$subnet_id = ["gke"]. Valid values for API list are: "", "gke", and "dataproc" | map(list(string)) | `<map>` | no |
 | skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"false"` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |

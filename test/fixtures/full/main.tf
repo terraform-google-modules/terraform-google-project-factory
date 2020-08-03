@@ -50,10 +50,12 @@ locals {
   shared_vpc_subnet_name_02   = module.vpc.subnets_names[1]
   shared_vpc_subnet_region_02 = module.vpc.subnets_regions[1]
 
-  shared_vpc_subnets = [
-    "projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_01}/subnetworks/${local.shared_vpc_subnet_name_01}",
-    "https://www.googleapis.com/compute/v1/projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_02}/subnetworks/${local.shared_vpc_subnet_name_02}",
-  ]
+  shared_vpc_subnets = {
+    "projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_01}/subnetworks/${local.shared_vpc_subnet_name_01}" = [
+      "gke"
+    ],
+    "https://www.googleapis.com/compute/v1/projects/${var.shared_vpc}/regions/${local.shared_vpc_subnet_region_02}/subnetworks/${local.shared_vpc_subnet_name_02}" = ["gke"],
+  }
 }
 
 module "vpc" {

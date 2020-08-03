@@ -114,8 +114,11 @@ module "service-project" {
   billing_account    = var.billing_account
   shared_vpc_enabled = true
 
-  shared_vpc         = module.vpc.project_id
-  shared_vpc_subnets = module.vpc.subnets_self_links
+  shared_vpc = module.vpc.project_id
+  shared_vpc_subnets = {
+    "${module.vpc.subnets_self_links[0]}" = ["gke"]
+    "${module.vpc.subnets_self_links[1]}" = ["dataproc"]
+  }
 
   activate_apis = [
     "compute.googleapis.com",

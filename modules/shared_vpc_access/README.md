@@ -29,7 +29,7 @@ module "shared_vpc_access" {
 | active\_apis | The list of active apis on the service project. If api is not active this module will not try to activate it | list(string) | `<list>` | no |
 | host\_project\_id | The ID of the host project which hosts the shared VPC | string | n/a | yes |
 | service\_project\_id | The ID of the service project | string | n/a | yes |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
+| shared\_vpc\_subnets | Map of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) and list of allowed API's. Example: projects/$project_id/regions/$region/subnetworks/$subnet_id = [] or projects/$project_id/regions/$region/subnetworks/$subnet_id = ["gke"]. Valid values for API list are: "", "gke", and "dataproc" | map(list(string)) | `<map>` | no |
 
 ## Outputs
 

@@ -46,7 +46,7 @@ locals {
   api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
   project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
   create_bucket       = var.bucket_project != "" ? "true" : "false"
-
+  shared_vpc_subnets  = distinct(keys(var.shared_vpc_subnets))
   shared_vpc_users = compact(
     [
       local.group_id,
@@ -278,7 +278,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   compute.networkUser role granted to G Suite group, APIs Service account, and Project Service Account
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) == 0 ? local.shared_vpc_users_length : 0
+  count = var.shared_vpc_enabled && length(local.shared_vpc_subnets) == 0 ? local.shared_vpc_users_length : 0
 
   project = var.shared_vpc
   role    = "roles/compute.networkUser"
@@ -294,19 +294,19 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.shared_vpc_enabled && length(local.shared_vpc_subnets) > 0 ? length(local.shared_vpc_subnets) : 0
 
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", local.shared_vpc_subnets[count.index]),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
+      split("/", local.shared_vpc_subnets[count.index]),
       "subnetworks",
     ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", local.shared_vpc_subnets[count.index]),
+    index(split("/", local.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
   member  = local.s_account_fmt
@@ -318,18 +318,18 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(local.shared_vpc_subnets) > 0 && var.manage_group ? length(local.shared_vpc_subnets) : 0
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", local.shared_vpc_subnets[count.index]),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
+      split("/", local.shared_vpc_subnets[count.index]),
       "subnetworks",
     ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", local.shared_vpc_subnets[count.index]),
+    index(split("/", local.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   member  = local.group_id
   project = var.shared_vpc
@@ -341,18 +341,18 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(local.shared_vpc_subnets) > 0 ? length(local.shared_vpc_subnets) : 0
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", local.shared_vpc_subnets[count.index]),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
+      split("/", local.shared_vpc_subnets[count.index]),
       "subnetworks",
     ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", local.shared_vpc_subnets[count.index]),
+    index(split("/", local.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.shared_vpc
   member  = local.api_s_account_fmt

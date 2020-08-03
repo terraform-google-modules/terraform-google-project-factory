@@ -108,9 +108,9 @@ variable "impersonate_service_account" {
 }
 
 variable "shared_vpc_subnets" {
-  description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
-  type        = list(string)
-  default     = []
+  description = "Map of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) and list of allowed API's. Example: projects/$project_id/regions/$region/subnetworks/$subnet_id = [] or projects/$project_id/regions/$region/subnetworks/$subnet_id = [\"gke\"]. Valid values for API list are: \"\", \"gke\", and \"dataproc\""
+  type        = map(list(string))
+  default     = {}
 }
 
 variable "labels" {
