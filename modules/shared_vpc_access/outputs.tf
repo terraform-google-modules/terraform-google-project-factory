@@ -16,7 +16,7 @@
 
 output "active_api_service_accounts" {
   description = "List of active API service accounts in the service project."
-  value       = local.active_api_s_accounts
+  value       = local.active_apis
 }
 
 output "project_id" {
