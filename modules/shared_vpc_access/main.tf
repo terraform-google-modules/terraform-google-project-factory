@@ -34,12 +34,13 @@ locals {
 }
 
 /******************************************
-  compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
+  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
+  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
-resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
+resource "google_compute_subnetwork_iam_member" "gke_dataproc_shared_vpc_subnets" {
   provider = google-beta
-  count    = local.gke_shared_vpc_enabled && length(local.active_api_s_accounts) != 0 ? length(local.subnetwork_api) : 0
+  count    = length(var.shared_vpc_subnets) != 0 && (local.gke_shared_vpc_enabled || local.dataproc_shared_vpc_enabled) ? length(local.subnetwork_api) : 0
   subnetwork = element(
     split("/", local.subnetwork_api[count.index][1]),
     index(
@@ -57,9 +58,10 @@ resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
 }
 
 /******************************************
-  compute.networkUser role granted to GKE service account for GKE and dataproc service account for dataproc on shared VPC Project if no subnets defined
+ if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
+ if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC Project if no subnets defined
  *****************************************/
-resource "google_project_iam_member" "gke_shared_vpc_network_user" {
+resource "google_project_iam_member" "gke_dataproc_shared_vpc_network_user" {
   count   = length(var.shared_vpc_subnets) == 0 && (local.gke_shared_vpc_enabled || local.dataproc_shared_vpc_enabled) ? length(local.active_api_s_accounts) : 0
   project = var.host_project_id
   role    = "roles/compute.networkUser"

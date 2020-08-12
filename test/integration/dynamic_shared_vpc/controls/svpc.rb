@@ -54,6 +54,21 @@ control 'svpc' do
         )
       end
 
+
+    it "service project with explicit subnets includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
+        role: "roles/container.hostServiceAgentUser",
+      )
+    end
+
+    it "service project b without explicit subnets includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{service_project_b_number}@container-engine-robot.iam.gserviceaccount.com"),
+        role: "roles/container.hostServiceAgentUser",
+      )
+    end
+
       it "service project with explicit subnets does not include the GKE service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).not_to include(
           members: including(
@@ -62,13 +77,6 @@ control 'svpc' do
           role: "roles/compute.networkUser",
         )
       end
-    end
-
-    it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
-      expect(bindings).to include(
-        members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
-        role: "roles/container.hostServiceAgentUser",
-      )
     end
 
     it "service project b without explicit subnets includes the GKE service account in the roles/compute.networkUser IAM binding" do

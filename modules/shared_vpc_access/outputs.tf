@@ -23,8 +23,8 @@ output "project_id" {
   description = "Service project ID."
   value       = var.service_project_id
   depends_on = [
-    google_compute_subnetwork_iam_member.gke_shared_vpc_subnets,
+    google_compute_subnetwork_iam_member.gke_dataproc_shared_vpc_subnets,
     google_project_iam_member.gke_host_agent,
-    google_project_iam_member.dataproc_shared_vpc_network_user,
+    google_project_iam_member.gke_dataproc_shared_vpc_network_user,
   ]
 }
