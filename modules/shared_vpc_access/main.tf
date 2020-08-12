@@ -33,7 +33,7 @@ locals {
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
-resource "google_compute_subnetwork_iam_member" "gke_dataproc_shared_vpc_subnets" {
+resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
   count    = length(local.subnetwork_api)
   subnetwork = element(
@@ -56,7 +56,7 @@ resource "google_compute_subnetwork_iam_member" "gke_dataproc_shared_vpc_subnets
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC Project if no subnets defined
  *****************************************/
-resource "google_project_iam_member" "gke_dataproc_shared_vpc_network_user" {
+resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = length(var.shared_vpc_subnets) == 0 ? local.active_apis : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
