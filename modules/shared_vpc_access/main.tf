@@ -23,9 +23,9 @@ locals {
     "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", data.google_project.service_project.number),
     "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", data.google_project.service_project.number),
   }
-  gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
-  active_apis                 = setintersection(keys(local.apis), var.active_apis)
-  subnetwork_api              = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
+  gke_shared_vpc_enabled = contains(var.active_apis, "container.googleapis.com")
+  active_apis            = setintersection(keys(local.apis), var.active_apis)
+  subnetwork_api         = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
 }
 
 /******************************************
