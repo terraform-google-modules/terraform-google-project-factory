@@ -37,6 +37,11 @@ output "service_project_number" {
   description = "The service project number"
 }
 
+output "service_project_b_number" {
+  value       = module.example.service_project_b.project_number
+  description = "The service project b number"
+}
+
 output "service_account_email" {
   value       = module.example.service_project.service_account_email
   description = "The service account email"

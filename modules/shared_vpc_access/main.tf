@@ -20,16 +20,17 @@ data "google_project" "service_project" {
 
 locals {
   gke_shared_vpc_enabled = contains(var.active_apis, "container.googleapis.com")
-  gke_s_account = local.gke_shared_vpc_enabled ? format(
+  gke_s_account = local.gke_shared_vpc_enabled ? [format(
     "service-%s@container-engine-robot.iam.gserviceaccount.com",
     data.google_project.service_project.number,
-  ) : ""
+  )] : []
   dataproc_shared_vpc_enabled = contains(var.active_apis, "dataproc.googleapis.com")
-  dataproc_s_account = local.dataproc_shared_vpc_enabled ? format(
+  dataproc_s_account = local.dataproc_shared_vpc_enabled ? [format(
     "service-%s@dataproc-accounts.iam.gserviceaccount.com",
     data.google_project.service_project.number
-  ) : ""
-  active_api_s_accounts = compact([local.gke_s_account, local.dataproc_s_account])
+  )] : []
+  active_api_s_accounts = flatten([local.gke_s_account, local.dataproc_s_account])
+  subnetwork_api        = length(var.shared_vpc_subnets) != 0 ? setproduct(local.active_api_s_accounts, var.shared_vpc_subnets) : []
 }
 
 /******************************************
@@ -38,21 +39,31 @@ locals {
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_shared_vpc_subnets" {
   provider = google-beta
-  count    = local.gke_shared_vpc_enabled && length(var.shared_vpc_subnets) != 0 ? length(var.shared_vpc_subnets) : 0
+  count    = local.gke_shared_vpc_enabled && length(local.active_api_s_accounts) != 0 ? length(local.subnetwork_api) : 0
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", local.subnetwork_api[count.index][1]),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
+      split("/", local.subnetwork_api[count.index][1]),
       "subnetworks",
     ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", local.subnetwork_api[count.index][1]),
+    index(split("/", local.subnetwork_api[count.index][1]), "regions") + 1,
   )
   project = var.host_project_id
-  member  = format("serviceAccount:%s", local.gke_s_account)
+  member  = format("serviceAccount:%s", local.subnetwork_api[count.index][0])
+}
+
+/******************************************
+  compute.networkUser role granted to GKE service account for GKE and dataproc service account for dataproc on shared VPC Project if no subnets defined
+ *****************************************/
+resource "google_project_iam_member" "gke_shared_vpc_network_user" {
+  count   = length(var.shared_vpc_subnets) == 0 && (local.gke_shared_vpc_enabled || local.dataproc_shared_vpc_enabled) ? length(local.active_api_s_accounts) : 0
+  project = var.host_project_id
+  role    = "roles/compute.networkUser"
+  member  = format("serviceAccount:%s", local.active_api_s_accounts[count.index])
 }
 
 /******************************************
@@ -63,16 +74,6 @@ resource "google_project_iam_member" "gke_host_agent" {
   count   = local.gke_shared_vpc_enabled ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
-  member  = format("serviceAccount:%s", local.gke_s_account)
+  member  = format("serviceAccount:%s", local.gke_s_account[0])
 }
 
-/******************************************
-  compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
-  See: https://cloud.google.com/dataproc/docs/concepts/configuring-clusters/network#creating_a_cluster_that_uses_a_vpc_network_in_another_project
- *****************************************/
-resource "google_project_iam_member" "dataproc_shared_vpc_network_user" {
-  count   = local.dataproc_shared_vpc_enabled ? 1 : 0
-  project = var.host_project_id
-  role    = "roles/compute.networkUser"
-  member  = format("serviceAccount:%s", local.dataproc_s_account)
-}
