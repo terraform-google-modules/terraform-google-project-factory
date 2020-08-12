@@ -24,7 +24,6 @@ locals {
     "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", data.google_project.service_project.number),
   }
   gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
-  dataproc_shared_vpc_enabled = contains(var.active_apis, "dataproc.googleapis.com")
   active_apis                 = setintersection(keys(local.apis), var.active_apis)
   subnetwork_api              = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
 }
@@ -36,7 +35,7 @@ locals {
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "gke_dataproc_shared_vpc_subnets" {
   provider = google-beta
-  count    = length(var.shared_vpc_subnets) != 0 && (local.gke_shared_vpc_enabled || local.dataproc_shared_vpc_enabled) ? length(local.subnetwork_api) : 0
+  count    = length(local.subnetwork_api)
   subnetwork = element(
     split("/", local.subnetwork_api[count.index][1]),
     index(
@@ -58,7 +57,7 @@ resource "google_compute_subnetwork_iam_member" "gke_dataproc_shared_vpc_subnets
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "gke_dataproc_shared_vpc_network_user" {
-  for_each = length(var.shared_vpc_subnets) == 0 && (local.gke_shared_vpc_enabled || local.dataproc_shared_vpc_enabled) ? local.active_apis : []
+  for_each = length(var.shared_vpc_subnets) == 0 ? local.active_apis : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
