@@ -11,7 +11,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### ⚠ BREAKING CHANGES
 
-* This change requires that you use the `shared_vpc` submodule to manage service account access. See the upgrade guide for details.
+* This change requires that you use the `shared_vpc` submodule to manage service account access. See the [upgrade guide](./docs/upgrading_to_project_factory_v9.0.md) for details.
 
 ### Features
 
