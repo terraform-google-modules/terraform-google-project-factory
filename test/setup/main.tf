@@ -43,11 +43,12 @@ module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 8.0"
 
-  name              = "ci-pfactory-tests"
-  random_project_id = true
-  org_id            = var.org_id
-  folder_id         = google_folder.ci_pfactory_folder.id
-  billing_account   = var.billing_account
+  name                 = "ci-pfactory-tests"
+  random_project_id    = true
+  org_id               = var.org_id
+  folder_id            = google_folder.ci_pfactory_folder.id
+  billing_account      = var.billing_account
+  skip_gcloud_download = true
 
   activate_apis = [
     "admin.googleapis.com",

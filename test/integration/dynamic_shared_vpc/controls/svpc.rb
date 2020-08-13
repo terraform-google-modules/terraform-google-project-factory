@@ -15,6 +15,7 @@
 service_project_id          = attribute('service_project_id')
 service_project_ids         = attribute('service_project_ids')
 service_project_number      = attribute('service_project_number')
+service_project_b_number    = attribute('service_project_b_number')
 service_account_email       = attribute('service_account_email')
 shared_vpc                  = attribute('shared_vpc')
 shared_vpc_subnet_name_01   = attribute('shared_vpc_subnet_name_01')
@@ -53,7 +54,22 @@ control 'svpc' do
         )
       end
 
-      it "does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+
+    it "service project with explicit subnets includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
+        role: "roles/container.hostServiceAgentUser",
+      )
+    end
+
+    it "service project b without explicit subnets includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
+      expect(bindings).to include(
+        members: including("serviceAccount:service-#{service_project_b_number}@container-engine-robot.iam.gserviceaccount.com"),
+        role: "roles/container.hostServiceAgentUser",
+      )
+    end
+
+      it "service project with explicit subnets does not include the GKE service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).not_to include(
           members: including(
             "serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"
@@ -63,20 +79,20 @@ control 'svpc' do
       end
     end
 
-    it "includes the GKE service account in the roles/container.hostServiceAgentUser IAM binding" do
+    it "service project b without explicit subnets includes the GKE service account in the roles/compute.networkUser IAM binding" do
       expect(bindings).to include(
-        members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
-        role: "roles/container.hostServiceAgentUser",
-      )
-    end
-
-    it "includes the dataproc service account in the roles/compute.networkUser IAM binding" do
-      expect(bindings).to include(
-        members: including("serviceAccount:service-#{service_project_number}@dataproc-accounts.iam.gserviceaccount.com"),
+        members: including("serviceAccount:service-#{service_project_b_number}@container-engine-robot.iam.gserviceaccount.com"),
         role: "roles/compute.networkUser",
       )
     end
+
+  it "service project b without explicit subnets includes the dataproc service account in the roles/compute.networkUser IAM binding" do
+    expect(bindings).to include(
+      members: including("serviceAccount:service-#{service_project_b_number}@dataproc-accounts.iam.gserviceaccount.com"),
+      role: "roles/compute.networkUser",
+    )
   end
+end
 
   describe command("gcloud beta compute networks subnets get-iam-policy #{shared_vpc_subnet_name_01} --region #{shared_vpc_subnet_region_01} --project #{shared_vpc} --format=json") do
     its('exit_status') { should eq 0 }
@@ -98,6 +114,16 @@ control 'svpc' do
         )
       end
     end
+
+    describe "roles/compute.networkUser" do
+      it "service project with explicit subnets includes the GKE service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).to include(
+          members: including("serviceAccount:service-#{service_project_number}@container-engine-robot.iam.gserviceaccount.com"),
+          role: "roles/compute.networkUser",
+        )
+      end
+    end
+
   end
 
   describe command("gcloud beta compute networks subnets get-iam-policy #{shared_vpc_subnet_name_02} --region #{shared_vpc_subnet_region_02} --project #{shared_vpc} --format=json") do
@@ -120,5 +146,15 @@ control 'svpc' do
         )
       end
     end
+
+    describe "roles/compute.networkUser" do
+      it "service project b without explicit subnets does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).not_to include(
+          members: including("serviceAccount:service-#{service_project_b_number}@container-engine-robot.iam.gserviceaccount.com"),
+          role: "roles/compute.networkUser",
+        )
+      end
+    end
+
   end
 end
