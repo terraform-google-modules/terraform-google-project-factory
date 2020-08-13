@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [9.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.1.0...v9.0.0) (2020-08-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* This change requires that you use the `shared_vpc` submodule to manage service account access. See the upgrade guide for details.
+
+### Features
+
+* Added shared_vpc_access submodule to enable GKE and Dataproc Service Account access. ([#434](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/434)) ([f16fd05](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f16fd05302179cd2a20485781f3f640a8d5d88ba))
+
+
+### Bug Fixes
+
+* Fix regression in shared VPC service account submodule ([#438](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/438)) ([dd2dd99](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/dd2dd997650ebea9df220bc750a21a6e813cc962))
+* relax version to allow 0.13 ([#437](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/437)) ([9eb64e2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/9eb64e2217bef8477ae07e1a834c4bfb3f64273f))
+
 ## [8.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.0.2...v8.1.0) (2020-07-22)
 
 
