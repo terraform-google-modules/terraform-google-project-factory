@@ -19,13 +19,7 @@ intended for Terraform 0.11.x is [2.4.1].
 
 ## Upgrading
 
-The current version is 6.X. The following guides are available to assist with upgrades:
-
-- [0.X -> 1.0](./docs/upgrading_to_project_factory_v1.0.md)
-- [1.X -> 2.0](./docs/upgrading_to_project_factory_v2.0.md)
-- [3.X -> 4.0](./docs/upgrading_to_project_factory_v4.0.md)
-- [4.X -> 5.0](./docs/upgrading_to_fabric_project_v5.0.md)
-- [5.X -> 6.0](./docs/upgrading_to_project_factory_v6.0.md)
+See the [docs](./docs) for detailed instructions on upgrading between major releases of the module.
 
 ## Usage
 
