@@ -65,6 +65,17 @@ module "project-factory" {
 }
 
 /******************************************
+  Setting API service accounts for shared VPC
+ *****************************************/
+module "shared_vpc_access" {
+  source             = "./modules/shared_vpc_access"
+  host_project_id    = var.shared_vpc
+  service_project_id = module.project-factory.project_id
+  active_apis        = module.project-factory.enabled_apis
+  shared_vpc_subnets = var.shared_vpc_subnets
+}
+
+/******************************************
   Billing budget to create if amount is set
  *****************************************/
 module "budget" {
