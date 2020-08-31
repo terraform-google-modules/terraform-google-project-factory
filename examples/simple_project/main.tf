@@ -47,4 +47,12 @@ module "project-factory" {
   billing_account         = var.billing_account
   credentials_path        = local.credentials_file_path
   default_service_account = "deprivilege"
+
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
 }

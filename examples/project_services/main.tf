@@ -31,4 +31,11 @@ module "project-services" {
     "sqladmin.googleapis.com",
     "bigquery-json.googleapis.com",
   ]
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
 }

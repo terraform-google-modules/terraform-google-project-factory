@@ -109,6 +109,7 @@ determining that location is as follows:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | auto\_create\_network | Create the default network | bool | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
