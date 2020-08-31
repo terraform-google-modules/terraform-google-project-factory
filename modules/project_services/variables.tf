@@ -26,6 +26,7 @@ variable "enable_apis" {
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = list(string)
+  default     = []
 }
 
 variable "disable_services_on_destroy" {
@@ -40,3 +41,11 @@ variable "disable_dependent_services" {
   type        = string
 }
 
+variable "activate_api_identities" {
+  description = "The list of apis to activate within the project"
+  type        = list(object({
+    api   = string
+    roles = list(string)
+  }))
+  default     = []
+}
