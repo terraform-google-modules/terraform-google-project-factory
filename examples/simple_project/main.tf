@@ -28,7 +28,7 @@ provider "google" {
 
 provider "google-beta" {
   credentials = file(local.credentials_file_path)
-  version     = "~> 3.30"
+  version     = "~> 3.38"
 }
 
 provider "null" {
