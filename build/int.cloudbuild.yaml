@@ -27,7 +27,7 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge minimal-local']
   env:
-  - 'GCLOUD_TF_DOWNLOAD=never'
+  - 'GCLOUD_TF_DOWNLOAD=always'
 - id: verify minimal-local
   waitFor:
       - converge minimal-local
@@ -39,7 +39,7 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy minimal-local']
   env:
-  - 'GCLOUD_TF_DOWNLOAD=never'
+  - 'GCLOUD_TF_DOWNLOAD=always'
 
 - id: create fabric-project-local
   waitFor:
@@ -160,4 +160,4 @@ options:
     - 'TF_VAR_gsuite_admin_email=project-factory-test-admin@test.infra.cft.tips'
     - 'TF_VAR_gsuite_domain=test.infra.cft.tips'
     - 'TF_VAR_domain=test.infra.cft.tips.'
-    - 'GCLOUD_TF_DOWNLOAD=always'
+    - 'GCLOUD_TF_DOWNLOAD=never'
