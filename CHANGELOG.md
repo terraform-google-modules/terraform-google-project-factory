@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [9.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.0.0...v9.0.1) (2020-09-11)
+
+
+### Bug Fixes
+
+* Restore shared VPC outputs ([#441](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/441)) ([1b558f3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/1b558f38f85a75f7cc70f0b89ad25d81cc9ac402)), closes [#438](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/438)
+* Upgrade gcloud module to 2.0.0 ([#449](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/449)) ([099cdcc](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/099cdcce28642b045337b4ca0a0c54a9949d9285))
+
 ## [9.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.1.0...v9.0.0) (2020-08-13)
 
 
