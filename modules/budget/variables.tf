@@ -64,3 +64,9 @@ variable "alert_pubsub_topic" {
   type        = string
   default     = null
 }
+
+variable "monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
+}
