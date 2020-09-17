@@ -1,7 +1,7 @@
 # Shared VPC Access
 
 This module grants IAM permissions on host project and subnets to appropriate API service accounts based on activated
-APIs. For now only GKE and Dataproc APIs are supported.
+APIs. For now only GKE, Dataproc and Dataflow APIs are supported.
 
 ## Example Usage
 ```hcl
@@ -13,6 +13,7 @@ module "shared_vpc_access" {
     "compute.googleapis.com",
     "container.googleapis.com",
     "dataproc.googleapis.com",
+    "dataflow.googleapis.com",
   ]
   shared_vpc_subnets  = [
     "projects/pf-ci-shared2/regions/us-west1/subnetworks/shared-network-subnet-01",

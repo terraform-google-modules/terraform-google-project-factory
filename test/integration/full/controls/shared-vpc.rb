@@ -74,6 +74,14 @@ control 'project-factory-shared-vpc' do
         )
       end
 
+      it "does not include the dataflow service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).not_to include(
+          members: including("serviceAccount:service-#{project_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
+          ),
+          role: "roles/compute.networkUser",
+        )
+      end
+
       it "does not overwrite the membership of roles/compute.networkUser" do
         expect(bindings).to include(
           members: including("serviceAccount:#{extra_service_account_email}"),

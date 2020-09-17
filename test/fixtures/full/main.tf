@@ -121,6 +121,7 @@ module "project-factory" {
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
+    "dataflow.googleapis.com",
   ]
 
   default_service_account     = "delete"
