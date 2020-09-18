@@ -124,6 +124,15 @@ end
       end
     end
 
+    describe "roles/compute.networkUser" do
+      it "service project with explicit subnets includes the dataflow service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).to include(
+          members: including("serviceAccount:service-#{service_project_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
+          ),
+          role: "roles/compute.networkUser",
+        )
+      end
+    end
   end
 
   describe command("gcloud beta compute networks subnets get-iam-policy #{shared_vpc_subnet_name_02} --region #{shared_vpc_subnet_region_02} --project #{shared_vpc} --format=json") do
