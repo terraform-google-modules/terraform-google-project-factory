@@ -26,6 +26,16 @@ variable "enable_apis" {
 variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = list(string)
+  default     = []
+}
+
+variable "activate_api_identities" {
+  description = "The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created)."
+  type = list(object({
+    api   = string
+    roles = list(string)
+  }))
+  default = []
 }
 
 variable "disable_services_on_destroy" {
@@ -39,4 +49,3 @@ variable "disable_dependent_services" {
   default     = "true"
   type        = string
 }
-
