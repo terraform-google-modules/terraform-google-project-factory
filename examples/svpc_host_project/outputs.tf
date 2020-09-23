@@ -24,6 +24,11 @@ output "host_project" {
   description = "The full host project info"
 }
 
+output "service_project" {
+  value       = module.service-project
+  description = "The first service project"
+}
+
 output "service_project_b" {
   value       = module.service-project-b
   description = "The second service project"
