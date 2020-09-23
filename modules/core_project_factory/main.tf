@@ -137,6 +137,12 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   ]
 }
 
+resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
+  count      = var.enable_shared_vpc_host ? 1 : 0
+  project    = google_project.main.project_id
+  depends_on = [google_project.main]
+}
+
 /******************************************
   Default compute service account retrieval
  *****************************************/
