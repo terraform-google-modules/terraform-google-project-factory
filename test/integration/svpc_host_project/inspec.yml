@@ -1,0 +1,42 @@
+name: svpc_host_project
+depends:
+  - name: inspec-gcp
+    git: https://github.com/inspec/inspec-gcp.git
+    tag: v0.10.0
+attributes:
+  - name: service_project_name
+    required: true
+    type: string
+  - name: service_project_id
+    required: true
+    type: string
+  - name: service_project_ids
+    required: true
+    type: array
+  - name: service_project_number
+    required: true
+    type: string
+  - name: service_project_b_number
+    required: true
+    type: string
+  - name: service_account_email
+    required: true
+    type: string
+  - name: secondary_service_account_email
+    required: true
+    type: string
+  - name: shared_vpc
+    required: false
+    default: null
+  - name: shared_vpc_subnet_name_01
+    type: string
+    required: true
+  - name: shared_vpc_subnet_region_01
+    type: string
+    required: true
+  - name: shared_vpc_subnet_name_02
+    type: string
+    required: true
+  - name: shared_vpc_subnet_region_02
+    type: string
+    required: true
