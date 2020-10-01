@@ -48,6 +48,12 @@ variable "shared_vpc" {
   default     = ""
 }
 
+variable "enable_shared_vpc_host_project" {
+  description = "If this project is a shared VPC host project. If true, you must set shared_vpc variable. Default is false for compatibility"
+  type        = bool
+  default     = false
+}
+
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
   type        = string
