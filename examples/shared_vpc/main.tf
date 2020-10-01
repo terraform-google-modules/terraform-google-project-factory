@@ -121,6 +121,7 @@ module "service-project" {
     "compute.googleapis.com",
     "container.googleapis.com",
     "dataproc.googleapis.com",
+    "dataflow.googleapis.com",
   ]
 
   disable_services_on_destroy = "false"
