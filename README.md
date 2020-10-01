@@ -109,6 +109,7 @@ determining that location is as follows:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | auto\_create\_network | Create the default network | bool | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
@@ -124,6 +125,7 @@ determining that location is as follows:
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
+| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must set shared_vpc variable. Default is false for compatibility | bool | `"false"` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
