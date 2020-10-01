@@ -15,9 +15,10 @@
  */
 
 locals {
-  project_name  = length(var.projects) == 0 ? "All Projects" : var.projects[0]
-  display_name  = var.display_name == null ? "Budget For ${local.project_name}" : var.display_name
-  pubsub_topics = var.alert_pubsub_topic == null ? [] : [var.alert_pubsub_topic]
+  project_name     = length(var.projects) == 0 ? "All Projects" : var.projects[0]
+  display_name     = var.display_name == null ? "Budget For ${local.project_name}" : var.display_name
+  all_updates_rule = var.alert_pubsub_topic == null && var.monitoring_notification_channels == null ? [] : ["1"]
+
   projects = length(var.projects) == 0 ? null : [
     for id in var.projects :
     "projects/${id}"
@@ -55,9 +56,10 @@ resource "google_billing_budget" "budget" {
   }
 
   dynamic "all_updates_rule" {
-    for_each = local.pubsub_topics
+    for_each = local.all_updates_rule
     content {
-      pubsub_topic = all_updates_rule.value
+      pubsub_topic                     = var.alert_pubsub_topic
+      monitoring_notification_channels = var.monitoring_notification_channels
     }
   }
 }

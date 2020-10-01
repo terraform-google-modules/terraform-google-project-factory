@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [9.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.0.0...v9.1.0) (2020-09-23)
+
+
+### Features
+
+* Add budget notification channel ([#456](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/456)) ([9bc317e](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/9bc317e763f767d5666f6876fdae91b3e9a6b200))
+* Add Dataflow to Shared VPC API service accounts ([#458](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/458)) ([0c5adf3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/0c5adf3d147233a41b3480d1b2bd178629e26fae))
+* Add service identity provisioning support ([#450](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/450)) ([3954a89](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/3954a898bbc2a9b90852d7c33e57565cb04f14d0))
+
+
+### Bug Fixes
+
+* Restore shared VPC outputs ([#441](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/441)) ([1b558f3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/1b558f38f85a75f7cc70f0b89ad25d81cc9ac402)), closes [#438](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/438)
+* Upgrade gcloud module to 2.0.0 ([#449](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/449)) ([099cdcc](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/099cdcce28642b045337b4ca0a0c54a9949d9285))
+
 ## [9.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v8.1.0...v9.0.0) (2020-08-13)
 
 
