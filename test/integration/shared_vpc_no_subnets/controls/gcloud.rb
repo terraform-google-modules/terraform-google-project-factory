@@ -62,6 +62,14 @@ control 'project-factory-shared-vpc' do
           role: "roles/compute.networkUser",
         )
       end
+
+      it "includes the Dataflow service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).to include(
+          members: including("serviceAccount:service-#{project_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
+          ),
+          role: "roles/compute.networkUser",
+        )
+      end
     end
   end
 end

@@ -39,7 +39,8 @@ See [examples/project_services](./examples/project_services) for a full example 
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| activate\_apis | The list of apis to activate within the project | list(string) | n/a | yes |
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
+| activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | string | `"true"` | no |
 | enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | string | `"true"` | no |
@@ -49,6 +50,7 @@ See [examples/project_services](./examples/project_services) for a full example 
 
 | Name | Description |
 |------|-------------|
+| enabled\_api\_identities | Enabled API identities in the project |
 | enabled\_apis | Enabled APIs in the project |
 | project\_id | The GCP project you want to enable APIs on |
 

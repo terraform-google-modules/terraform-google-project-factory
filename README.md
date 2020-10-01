@@ -28,7 +28,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 9.0"
+  version = "~> 9.1"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -109,6 +109,7 @@ determining that location is as follows:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
 | activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
 | auto\_create\_network | Create the default network | bool | `"false"` | no |
 | billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
@@ -119,6 +120,7 @@ determining that location is as follows:
 | budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
 | budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
+| budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | list(string) | `<list>` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |

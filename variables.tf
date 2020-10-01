@@ -83,6 +83,15 @@ variable "activate_apis" {
   default     = ["compute.googleapis.com"]
 }
 
+variable "activate_api_identities" {
+  description = "The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created)."
+  type = list(object({
+    api   = string
+    roles = list(string)
+  }))
+  default = []
+}
+
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
   type        = string
@@ -201,6 +210,12 @@ variable "budget_alert_pubsub_topic" {
   description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
   type        = string
   default     = null
+}
+
+variable "budget_monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
 }
 
 variable "budget_alert_spent_percents" {

@@ -116,9 +116,9 @@ resource "google_resource_manager_lien" "lien" {
 module "project_services" {
   source = "../project_services"
 
-  project_id    = google_project.main.project_id
-  activate_apis = local.activate_apis
-
+  project_id                  = google_project.main.project_id
+  activate_apis               = local.activate_apis
+  activate_api_identities     = var.activate_api_identities
   disable_services_on_destroy = var.disable_services_on_destroy
   disable_dependent_services  = var.disable_dependent_services
 }
