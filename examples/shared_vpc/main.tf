@@ -109,12 +109,12 @@ module "service-project" {
   name              = var.service_project_name
   random_project_id = "false"
 
-  org_id             = var.organization_id
-  folder_id          = var.folder_id
-  billing_account    = var.billing_account
-  shared_vpc_enabled = true
+  org_id                            = var.organization_id
+  folder_id                         = var.folder_id
+  billing_account                   = var.billing_account
+  enable_shared_vpc_service_project = true
 
-  shared_vpc         = module.vpc.project_id
+  shared_vpc         = module.host-project.project_id
   shared_vpc_subnets = module.vpc.subnets_self_links
 
   activate_apis = [
@@ -137,12 +137,12 @@ module "service-project-b" {
   name              = "b-${var.service_project_name}"
   random_project_id = "false"
 
-  org_id             = var.organization_id
-  folder_id          = var.folder_id
-  billing_account    = var.billing_account
-  shared_vpc_enabled = true
+  org_id                            = var.organization_id
+  folder_id                         = var.folder_id
+  billing_account                   = var.billing_account
+  enable_shared_vpc_service_project = true
 
-  shared_vpc = module.vpc.project_id
+  shared_vpc = module.host-project.project_id
 
   activate_apis = [
     "compute.googleapis.com",
