@@ -75,7 +75,6 @@ The roles granted are specifically:
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
-| enable\_shared\_vpc\_service\_project | If this project should be attached to a shared VPC. If true, you must set shared_vpc variable | bool | `"false"` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role - defaults to $${project_name}-editors | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
@@ -90,6 +89,7 @@ The roles granted are specifically:
 | sa\_group | A G Suite group to place the default Service Account for the project in | string | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
+| shared\_vpc | If this project should be attached to a shared VPC. If true, you must set shared_vpc variable | bool | `"false"` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
 | skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"false"` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |

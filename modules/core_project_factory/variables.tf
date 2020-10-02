@@ -183,12 +183,12 @@ variable "disable_dependent_services" {
 }
 
 variable "enable_shared_vpc_service_project" {
-  description = "If this project should be attached to a shared VPC. If true, you must set shared_vpc variable"
+  description = "If this project should be attached to a shared VPC. If true, you must set shared_vpc variable."
   type        = bool
 }
 
 variable "enable_shared_vpc_host_project" {
-  description = "If this project is a shared VPC host project. If true, you must set shared_vpc variable. Default is false for compatibility"
+  description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
   type        = bool
   default     = false
 }

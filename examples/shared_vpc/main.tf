@@ -49,7 +49,6 @@ module "host-project" {
   folder_id                      = var.folder_id
   billing_account                = var.billing_account
   skip_gcloud_download           = true
-  shared_vpc                     = var.host_project_name
   enable_shared_vpc_host_project = true
 }
 
