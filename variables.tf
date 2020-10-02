@@ -49,7 +49,7 @@ variable "shared_vpc" {
 }
 
 variable "enable_shared_vpc_host_project" {
-  description = "If this project is a shared VPC host project. If true, you must set shared_vpc variable. Default is false for compatibility"
+  description = "If this project is a shared VPC host project. If true, you must set *not* shared_vpc variable. Default is false."
   type        = bool
   default     = false
 }
