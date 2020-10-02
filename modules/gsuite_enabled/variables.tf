@@ -177,6 +177,12 @@ variable "shared_vpc_enabled" {
   default     = false
 }
 
+variable "enable_shared_vpc_host_project" {
+  description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
+  type        = bool
+  default     = false
+}
+
 variable "python_interpreter_path" {
   description = "Python interpreter path for precondition check script."
   type        = string
