@@ -42,13 +42,14 @@ provider "random" {
   Host Project Creation
  *****************************************/
 module "host-project" {
-  source               = "../../"
-  random_project_id    = true
-  name                 = var.host_project_name
-  org_id               = var.organization_id
-  folder_id            = var.folder_id
-  billing_account      = var.billing_account
-  skip_gcloud_download = true
+  source                         = "../../"
+  random_project_id              = true
+  name                           = var.host_project_name
+  org_id                         = var.organization_id
+  folder_id                      = var.folder_id
+  billing_account                = var.billing_account
+  skip_gcloud_download           = true
+  enable_shared_vpc_host_project = true
 }
 
 /******************************************
@@ -58,11 +59,9 @@ module "vpc" {
   source  = "terraform-google-modules/network/google"
   version = "~> 2.1.0"
 
-  project_id   = module.host-project.project_id
-  network_name = var.network_name
-
+  project_id                             = module.host-project.project_id
+  network_name                           = var.network_name
   delete_default_internet_gateway_routes = true
-  shared_vpc_host                        = true
 
   subnets = [
     {
@@ -114,7 +113,7 @@ module "service-project" {
   billing_account    = var.billing_account
   shared_vpc_enabled = true
 
-  shared_vpc         = module.vpc.project_id
+  shared_vpc         = module.host-project.project_id
   shared_vpc_subnets = module.vpc.subnets_self_links
 
   activate_apis = [
@@ -142,7 +141,7 @@ module "service-project-b" {
   billing_account    = var.billing_account
   shared_vpc_enabled = true
 
-  shared_vpc = module.vpc.project_id
+  shared_vpc = module.host-project.project_id
 
   activate_apis = [
     "compute.googleapis.com",
