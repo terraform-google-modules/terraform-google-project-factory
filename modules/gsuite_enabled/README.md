@@ -75,6 +75,7 @@ The roles granted are specifically:
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | string | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
 | domain | The domain name (optional). | string | `""` | no |
+| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false. | bool | `"false"` | no |
 | folder\_id | The ID of a folder to host this project | string | `""` | no |
 | group\_name | A group to control the project by being assigned group_role - defaults to $${project_name}-editors | string | `""` | no |
 | group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
