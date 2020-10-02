@@ -127,7 +127,7 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
-  count = var.enable_shared_vpc_service_project ? 1 : 0
+  count = var.shared_vpc_enabled ? 1 : 0
 
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
@@ -284,7 +284,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   compute.networkUser role granted to G Suite group, APIs Service account, and Project Service Account
  *****************************************************************************************************************/
 resource "google_project_iam_member" "controlling_group_vpc_membership" {
-  count = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) == 0 ? local.shared_vpc_users_length : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) == 0 ? local.shared_vpc_users_length : 0
 
   project = var.shared_vpc
   role    = "roles/compute.networkUser"
@@ -300,7 +300,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
 
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
@@ -324,7 +324,7 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -347,7 +347,7 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count = var.shared_vpc_enabled && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(

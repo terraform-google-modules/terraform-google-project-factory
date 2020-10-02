@@ -182,7 +182,7 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
-variable "enable_shared_vpc_service_project" {
+variable "shared_vpc" {
   description = "If this project should be attached to a shared VPC. If true, you must set shared_vpc variable."
   type        = bool
 }

@@ -44,18 +44,18 @@ provider "random" {
 module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
-  name                              = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
-  project_id                        = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
-  random_project_id                 = "false"
-  domain                            = var.domain
-  org_id                            = var.org_id
-  folder_id                         = var.folder_id
-  billing_account                   = var.billing_account
-  create_group                      = true
-  group_role                        = var.group_role
-  group_name                        = "pf-secondgroup-${var.random_string_for_testing}"
-  shared_vpc                        = var.shared_vpc
-  enable_shared_vpc_service_project = true
+  name               = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  project_id         = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
+  random_project_id  = "false"
+  domain             = var.domain
+  org_id             = var.org_id
+  folder_id          = var.folder_id
+  billing_account    = var.billing_account
+  create_group       = true
+  group_role         = var.group_role
+  group_name         = "pf-secondgroup-${var.random_string_for_testing}"
+  shared_vpc         = var.shared_vpc
+  shared_vpc_enabled = true
 
   activate_apis = [
     "compute.googleapis.com",
