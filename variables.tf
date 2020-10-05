@@ -241,3 +241,14 @@ variable "vpc_service_control_perimeter_name" {
   type        = string
   default     = null
 }
+
+variable "consumer_quotas" {
+  description = "The quotas configuration you want to override to the project."
+  type = list(object({
+    service = string,
+    metric  = string,
+    limit   = string,
+    value   = string,
+  }))
+  default = []
+}

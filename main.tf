@@ -79,3 +79,13 @@ module "budget" {
   alert_pubsub_topic               = var.budget_alert_pubsub_topic
   monitoring_notification_channels = var.budget_monitoring_notification_channels
 }
+
+/******************************************
+  Quota to override if metrics are set
+ *****************************************/
+module "quotas" {
+  source = "./modules/quota_manager"
+
+  project_id      = module.project-factory.project_id
+  consumer_quotas = var.consumer_quotas
+}
