@@ -61,7 +61,7 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
    if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
-  for_each = length(var.shared_vpc_subnets) == 0 ? local.active_apis : []
+  for_each = (length(var.shared_vpc_subnets) == 0) && (var.host_project_id != "") ? local.active_apis : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
@@ -72,7 +72,7 @@ resource "google_project_iam_member" "service_shared_vpc_user" {
   See:https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
-  count   = local.gke_shared_vpc_enabled ? 1 : 0
+  count   = local.gke_shared_vpc_enabled && (var.host_project_id != "") ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
