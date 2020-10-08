@@ -54,5 +54,5 @@ resource "google_project_iam_member" "project_service_identity_roles" {
 
   project = var.project_id
   role    = each.value.role
-  member  = "serviceAccount:${google_project_service_identity.project_service_identities["${each.value.api}"].email}"
+  member  = "serviceAccount:${google_project_service_identity.project_service_identities[each.value.api].email}"
 }
