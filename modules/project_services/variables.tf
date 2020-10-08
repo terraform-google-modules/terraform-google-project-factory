@@ -20,7 +20,7 @@ variable "project_id" {
 
 variable "enable_apis" {
   description = "Whether to actually enable the APIs. If false, this module is a no-op."
-  default     = "true"
+  default     = true
 }
 
 variable "activate_apis" {
