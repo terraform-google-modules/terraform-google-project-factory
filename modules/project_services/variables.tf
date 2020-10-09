@@ -30,7 +30,7 @@ variable "activate_apis" {
 }
 
 variable "activate_api_identities" {
-  description = <<<EOF
+  description = <<EOF
     The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
     APIs in this list will automatically be appended to `activate_apis`.
     Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
