@@ -46,6 +46,7 @@ module "project-factory" {
   usage_bucket_prefix               = var.usage_bucket_prefix
   bucket_versioning                 = var.bucket_versioning
   credentials_path                  = var.credentials_path
+  impersonate_service_account       = var.impersonate_service_account
   shared_vpc_subnets                = var.shared_vpc_subnets
   labels                            = var.labels
   bucket_project                    = var.bucket_project
