@@ -78,9 +78,10 @@ module "budget" {
   source        = "../budget"
   create_budget = var.budget_amount != null
 
-  projects             = [module.project-factory.project_id]
-  billing_account      = var.billing_account
-  amount               = var.budget_amount
-  alert_spent_percents = var.budget_alert_spent_percents
-  alert_pubsub_topic   = var.budget_alert_pubsub_topic
+  projects                         = [module.project-factory.project_id]
+  billing_account                  = var.billing_account
+  amount                           = var.budget_amount
+  alert_spent_percents             = var.budget_alert_spent_percents
+  alert_pubsub_topic               = var.budget_alert_pubsub_topic
+  monitoring_notification_channels = var.budget_monitoring_notification_channels
 }
