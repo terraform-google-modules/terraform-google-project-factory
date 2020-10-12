@@ -46,6 +46,7 @@ module "project-factory" {
   usage_bucket_prefix               = var.usage_bucket_prefix
   bucket_versioning                 = var.bucket_versioning
   credentials_path                  = var.credentials_path
+  impersonate_service_account       = var.impersonate_service_account
   shared_vpc_subnets                = var.shared_vpc_subnets
   labels                            = var.labels
   bucket_project                    = var.bucket_project
@@ -78,9 +79,10 @@ module "budget" {
   source        = "../budget"
   create_budget = var.budget_amount != null
 
-  projects             = [module.project-factory.project_id]
-  billing_account      = var.billing_account
-  amount               = var.budget_amount
-  alert_spent_percents = var.budget_alert_spent_percents
-  alert_pubsub_topic   = var.budget_alert_pubsub_topic
+  projects                         = [module.project-factory.project_id]
+  billing_account                  = var.billing_account
+  amount                           = var.budget_amount
+  alert_spent_percents             = var.budget_alert_spent_percents
+  alert_pubsub_topic               = var.budget_alert_pubsub_topic
+  monitoring_notification_channels = var.budget_monitoring_notification_channels
 }
