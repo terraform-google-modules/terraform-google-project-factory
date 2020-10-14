@@ -59,6 +59,30 @@ locals {
   shared_vpc_users_length = 3
 }
 
+resource "null_resource" "preconditions" {
+  triggers = {
+    credentials_path = var.credentials_path
+    billing_account  = var.billing_account
+    org_id           = var.org_id
+    folder_id        = var.folder_id
+    shared_vpc       = var.shared_vpc
+  }
+
+  provisioner "local-exec" {
+    command     = local.pip_requirements_absolute_path
+    interpreter = [var.pip_executable_path, "install", "-r"]
+    on_failure  = continue
+  }
+
+  provisioner "local-exec" {
+    command    = local.preconditions_command
+    on_failure = continue
+    environment = {
+      GRACEFUL_IMPORTERROR = "true"
+    }
+  }
+}
+
 /*******************************************
   Project creation
  *******************************************/
@@ -71,6 +95,8 @@ resource "google_project" "main" {
   auto_create_network = var.auto_create_network
 
   labels = var.labels
+
+  depends_on = [null_resource.preconditions]
 }
 
 /******************************************
