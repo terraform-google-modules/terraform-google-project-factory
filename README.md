@@ -322,7 +322,7 @@ The precondition checker script can be directly invoked before running the
 project factory:
 
 ```sh
-./modules/core_project_factory/scripts/preconditions/preconditions.py \
+./helpers/preconditions/preconditions.py \
   --credentials_path "./credentials.json" \
   --billing_account 000000-000000-000000 \
   --org_id 000000000000 \
@@ -353,7 +353,7 @@ binary here:
 - https://releases.hashicorp.com/terraform/
 
 [gsuite-enabled-module]: modules/gsuite_enabled/README.md
-[preconditions-checker-script]: modules/core_project_factory/scripts/preconditions/preconditions.py
+[preconditions-checker-script]: helpers/preconditions/preconditions.py
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite

@@ -76,3 +76,4 @@ Do the following steps in order to run preconditions script:
     Check #4 (Service account permissions on organization) => No permission required since we are creating the project under the folder instead of the organisation. If no folder is specified it would be step three and require projects.create permission.
 
     You can add one last check by setting --shared-vpc parameter.
+
