@@ -33,25 +33,25 @@ module "project_myproject" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| activate\_apis | Service APIs to enable. | list(string) | `<list>` | no |
-| auto\_create\_network | Whether to create the default network for the project | bool | `"false"` | no |
-| billing\_account | Billing account id. | string | `""` | no |
-| custom\_roles | Map of role name => comma-delimited list of permissions to create in this project. | map(string) | `<map>` | no |
-| editors | Optional list of IAM-format members to set as project editor. | list(string) | `<list>` | no |
-| extra\_bindings\_members | List of comma-delimited IAM-format members for additional IAM bindings, one item per role. | list(string) | `<list>` | no |
-| extra\_bindings\_roles | List of roles for additional IAM bindings, pair with members list below. | list(string) | `<list>` | no |
-| gce\_service\_account\_roles | List of project id=>role to assign to the default GCE service account. | list(string) | `<list>` | no |
-| labels | Resource labels. | map(string) | `<map>` | no |
-| lien\_reason | If non-empty, creates a project lien with this description. | string | `""` | no |
-| name | Project name and id suffix. | string | n/a | yes |
-| oslogin | Enable oslogin. | bool | `"false"` | no |
-| oslogin\_admins | List of IAM-format members that will get OS Login admin role. | list(string) | `<list>` | no |
-| oslogin\_users | List of IAM-format members that will get OS Login user role. | list(string) | `<list>` | no |
-| owners | Optional list of IAM-format members to set as project owners. | list(string) | `<list>` | no |
-| parent | The resource name of the parent Folder or Organization. Must be of the form folders/folder_id or organizations/org_id. | string | n/a | yes |
-| prefix | Prefix used to generate project id and name. | string | n/a | yes |
-| viewers | Optional list of IAM-format members to set as project viewers. | list(string) | `<list>` | no |
+|------|-------------|------|---------|:--------:|
+| activate\_apis | Service APIs to enable. | `list(string)` | `[]` | no |
+| auto\_create\_network | Whether to create the default network for the project | `bool` | `false` | no |
+| billing\_account | Billing account id. | `string` | `""` | no |
+| custom\_roles | Map of role name => comma-delimited list of permissions to create in this project. | `map(string)` | `{}` | no |
+| editors | Optional list of IAM-format members to set as project editor. | `list(string)` | `[]` | no |
+| extra\_bindings\_members | List of comma-delimited IAM-format members for additional IAM bindings, one item per role. | `list(string)` | `[]` | no |
+| extra\_bindings\_roles | List of roles for additional IAM bindings, pair with members list below. | `list(string)` | `[]` | no |
+| gce\_service\_account\_roles | List of project id=>role to assign to the default GCE service account. | `list(string)` | `[]` | no |
+| labels | Resource labels. | `map(string)` | `{}` | no |
+| lien\_reason | If non-empty, creates a project lien with this description. | `string` | `""` | no |
+| name | Project name and id suffix. | `string` | n/a | yes |
+| oslogin | Enable oslogin. | `bool` | `false` | no |
+| oslogin\_admins | List of IAM-format members that will get OS Login admin role. | `list(string)` | `[]` | no |
+| oslogin\_users | List of IAM-format members that will get OS Login user role. | `list(string)` | `[]` | no |
+| owners | Optional list of IAM-format members to set as project owners. | `list(string)` | `[]` | no |
+| parent | The resource name of the parent Folder or Organization. Must be of the form folders/folder\_id or organizations/org\_id. | `string` | n/a | yes |
+| prefix | Prefix used to generate project id and name. | `string` | n/a | yes |
+| viewers | Optional list of IAM-format members to set as project viewers. | `list(string)` | `[]` | no |
 
 ## Outputs
 

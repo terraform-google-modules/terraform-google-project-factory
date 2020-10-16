@@ -10,13 +10,13 @@ It then attaches two new service projects to the host project.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
-| folder\_id | The folder to create projects in | string | n/a | yes |
-| host\_project\_name | Name for Shared VPC host project | string | `"shared-vpc-host"` | no |
-| network\_name | Name for Shared VPC network | string | `"shared-network"` | no |
-| organization\_id | The organization id for the associated services | string | n/a | yes |
-| service\_project\_name | Name for Shared VPC service project | string | `"shared-vpc-service"` | no |
+|------|-------------|------|---------|:--------:|
+| billing\_account | The ID of the billing account to associate this project with | `any` | n/a | yes |
+| folder\_id | The folder to create projects in | `any` | n/a | yes |
+| host\_project\_name | Name for Shared VPC host project | `string` | `"shared-vpc-host"` | no |
+| network\_name | Name for Shared VPC network | `string` | `"shared-network"` | no |
+| organization\_id | The organization id for the associated services | `any` | n/a | yes |
+| service\_project\_name | Name for Shared VPC service project | `string` | `"shared-vpc-service"` | no |
 
 ## Outputs
 
