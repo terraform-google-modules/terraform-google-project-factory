@@ -198,18 +198,6 @@ variable "enable_shared_vpc_host_project" {
   default     = false
 }
 
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
-variable "pip_executable_path" {
-  description = "Pip executable path for precondition requirements.txt install."
-  type        = string
-  default     = "pip3"
-}
-
 variable "use_tf_google_credentials_env_var" {
   description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
   type        = bool

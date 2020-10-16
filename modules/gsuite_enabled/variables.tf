@@ -183,12 +183,6 @@ variable "enable_shared_vpc_host_project" {
   default     = false
 }
 
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
