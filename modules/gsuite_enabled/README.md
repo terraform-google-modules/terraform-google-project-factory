@@ -69,6 +69,7 @@ The roles granted are specifically:
 | budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | `string` | `null` | no |
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
+| budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
 | create\_group | Whether to create the group or not | `bool` | `false` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
@@ -85,7 +86,6 @@ The roles granted are specifically:
 | name | The name for the project | `any` | n/a | yes |
 | org\_id | The organization ID. | `any` | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
-| python\_interpreter\_path | Python interpreter path for precondition check script. | `string` | `"python3"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `string` | `"false"` | no |
 | sa\_group | A G Suite group to place the default Service Account for the project in | `string` | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |

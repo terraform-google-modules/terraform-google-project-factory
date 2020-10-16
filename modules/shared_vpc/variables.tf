@@ -99,6 +99,12 @@ variable "credentials_path" {
   default     = ""
 }
 
+variable "impersonate_service_account" {
+  description = "An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials."
+  type        = string
+  default     = ""
+}
+
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
   type        = list(string)
@@ -171,12 +177,6 @@ variable "shared_vpc_enabled" {
   default     = false
 }
 
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
@@ -187,6 +187,12 @@ variable "budget_alert_pubsub_topic" {
   description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
   type        = string
   default     = null
+}
+
+variable "budget_monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
 }
 
 variable "budget_alert_spent_percents" {
