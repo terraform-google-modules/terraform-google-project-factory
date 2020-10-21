@@ -183,12 +183,6 @@ variable "enable_shared_vpc_host_project" {
   default     = false
 }
 
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
@@ -199,6 +193,12 @@ variable "budget_alert_pubsub_topic" {
   description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
   type        = string
   default     = null
+}
+
+variable "budget_monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
 }
 
 variable "budget_alert_spent_percents" {

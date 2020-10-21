@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [9.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.1.0...v9.2.0) (2020-10-16)
+
+
+### Features
+
+* Add `enable_shared_vpc_host_project` to create project as shared VPC host project ([#465](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/465)) ([3b269be](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/3b269bee7bb7aeda53751fb4d3d5b49b8e41fd6a))
+* add apis related outputs to main module ([#470](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/470)) ([abc507f](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/abc507fdd0735ee655c350ce90c58d44816c5779))
+* Add budget_monitoring_notification_channels to modules including budgets ([#476](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/476)) ([d1665d1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d1665d10e7502eb382bc460a93a59439424c9c19))
+* Add impersonate_service_account to shared_vpc module to pass to core_project_factory ([#477](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/477)) ([e9f0c8f](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/e9f0c8fad2ccffac52a9733d91a53320c2d41643))
+* Removed preconditions script from Terraform execution ([#478](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/478)) ([79f7c95](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/79f7c953a5267b0d22c2e9396136e27319320ae0))
+
+
+### Bug Fixes
+
+* Fix Terraform 0.12+ warning on project_services ([#467](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/467)) ([e223f77](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/e223f77bd8510f5459ed4278f23c5b36f64836ee))
+* Restore usage of var.enable_apis variable for project services submodule ([#473](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/473)) ([05d1465](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/05d1465d03608310deebb6edde1657d2a50dd0cf))
+
 ## [9.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.0.0...v9.1.0) (2020-09-23)
 
 

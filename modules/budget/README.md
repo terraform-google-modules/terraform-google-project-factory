@@ -19,17 +19,17 @@ module "project_myproject" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
-| alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
-| amount | The amount to use as the budget | number | n/a | yes |
-| billing\_account | ID of the billing account to set a budget on | string | n/a | yes |
-| create\_budget | If the budget should be created | bool | `"true"` | no |
-| credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | string | `"INCLUDE_ALL_CREDITS"` | no |
-| display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | string | `"null"` | no |
-| monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | list(string) | `<list>` | no |
-| projects | The project ids to include in this budget. If empty budget will include all projects | list(string) | n/a | yes |
-| services | A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/ | list(string) | `"null"` | no |
+|------|-------------|------|---------|:--------:|
+| alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | `string` | `null` | no |
+| alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
+| amount | The amount to use as the budget | `number` | n/a | yes |
+| billing\_account | ID of the billing account to set a budget on | `string` | n/a | yes |
+| create\_budget | If the budget should be created | `bool` | `true` | no |
+| credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
+| display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
+| monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| projects | The project ids to include in this budget. If empty budget will include all projects | `list(string)` | n/a | yes |
+| services | A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/ | `list(string)` | `null` | no |
 
 ## Outputs
 

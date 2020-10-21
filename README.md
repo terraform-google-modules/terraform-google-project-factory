@@ -28,7 +28,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 9.1"
+  version = "~> 9.2"
 
   name                = "pf-test-1"
   random_project_id   = "true"
@@ -108,59 +108,60 @@ determining that location is as follows:
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
-| activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
-| auto\_create\_network | Create the default network | bool | `"false"` | no |
-| billing\_account | The ID of the billing account to associate this project with | string | n/a | yes |
-| bucket\_location | The location for a GCS bucket to create (optional) | string | `"US"` | no |
-| bucket\_name | A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional) | string | `""` | no |
-| bucket\_project | A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional) | string | `""` | no |
-| bucket\_versioning | Enable versioning for a GCS bucket to create (optional) | bool | `"false"` | no |
-| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | string | `"null"` | no |
-| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | list(number) | `<list>` | no |
-| budget\_amount | The amount to use for a budget alert | number | `"null"` | no |
-| budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | list(string) | `<list>` | no |
-| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | string | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | string | `"disable"` | no |
-| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | bool | `"true"` | no |
-| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | string | `"true"` | no |
-| domain | The domain name (optional). | string | `""` | no |
-| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false. | bool | `"false"` | no |
-| folder\_id | The ID of a folder to host this project | string | `""` | no |
-| group\_name | A group to control the project by being assigned group_role (defaults to project editor) | string | `""` | no |
-| group\_role | The role to give the controlling group (group_name) over the project (defaults to project editor) | string | `"roles/editor"` | no |
-| impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials. | string | `""` | no |
-| labels | Map of labels for project | map(string) | `<map>` | no |
-| lien | Add a lien on the project to prevent accidental deletion | bool | `"false"` | no |
-| name | The name for the project | string | n/a | yes |
-| org\_id | The organization ID. | string | n/a | yes |
-| pip\_executable\_path | Pip executable path for precondition requirements.txt install. | string | `"pip3"` | no |
-| project\_id | The ID to give the project. If not provided, the `name` will be used. | string | `""` | no |
-| python\_interpreter\_path | Python interpreter path for precondition check script. | string | `"python3"` | no |
-| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | bool | `"false"` | no |
-| sa\_role | A role to give the default Service Account for the project (defaults to none) | string | `""` | no |
-| shared\_vpc | The ID of the host project which hosts the shared VPC | string | `""` | no |
-| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id) | list(string) | `<list>` | no |
-| skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | bool | `"false"` | no |
-| usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
-| usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | string | `""` | no |
-| use\_tf\_google\_credentials\_env\_var | Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with. | bool | `"false"` | no |
-| vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | bool | `"false"` | no |
-| vpc\_service\_control\_perimeter\_name | The name of a VPC Service Control Perimeter to add the created project to | string | `"null"` | no |
+|------|-------------|------|---------|:--------:|
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).<br>    APIs in this list will automatically be appended to `activate_apis`.<br>    Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).<br>    Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles. | <pre>list(object({<br>    api   = string<br>    roles = list(string)<br>  }))</pre> | `[]` | no |
+| activate\_apis | The list of apis to activate within the project | `list(string)` | <pre>[<br>  "compute.googleapis.com"<br>]</pre> | no |
+| auto\_create\_network | Create the default network | `bool` | `false` | no |
+| billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
+| bucket\_location | The location for a GCS bucket to create (optional) | `string` | `"US"` | no |
+| bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
+| bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
+| bucket\_versioning | Enable versioning for a GCS bucket to create (optional) | `bool` | `false` | no |
+| budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | `string` | `null` | no |
+| budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
+| budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
+| budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
+| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
+| domain | The domain name (optional). | `string` | `""` | no |
+| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set shared\_vpc variable. Default is false. | `bool` | `false` | no |
+| folder\_id | The ID of a folder to host this project | `string` | `""` | no |
+| group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
+| group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
+| impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials\_path. If this service account is not specified and credentials\_path is absent, the module will use Application Default Credentials. | `string` | `""` | no |
+| labels | Map of labels for project | `map(string)` | `{}` | no |
+| lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
+| name | The name for the project | `string` | n/a | yes |
+| org\_id | The organization ID. | `string` | n/a | yes |
+| project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
+| sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
+| shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
+| shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
+| skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | `bool` | `false` | no |
+| usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
+| usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
+| use\_tf\_google\_credentials\_env\_var | Use GOOGLE\_CREDENTIALS environment variable to run gcloud auth activate-service-account with. | `bool` | `false` | no |
+| vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |
+| vpc\_service\_control\_perimeter\_name | The name of a VPC Service Control Perimeter to add the created project to | `string` | `null` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
+| api\_s\_account | API service account email |
+| api\_s\_account\_fmt | API service account email formatted for terraform use |
 | budget\_name | The name of the budget if created |
 | domain | The organization's domain |
-| group\_email | The email of the G Suite group with group_name |
+| enabled\_apis | Enabled APIs in the project |
+| group\_email | The email of the G Suite group with group\_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id |  |
-| project\_name |  |
-| project\_number |  |
+| project\_id | n/a |
+| project\_name | n/a |
+| project\_number | n/a |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |
@@ -319,7 +320,7 @@ The precondition checker script can be directly invoked before running the
 project factory:
 
 ```sh
-./modules/core_project_factory/scripts/preconditions/preconditions.py \
+./helpers/preconditions/preconditions.py \
   --credentials_path "./credentials.json" \
   --billing_account 000000-000000-000000 \
   --org_id 000000000000 \
@@ -350,7 +351,7 @@ binary here:
 - https://releases.hashicorp.com/terraform/
 
 [gsuite-enabled-module]: modules/gsuite_enabled/README.md
-[preconditions-checker-script]: modules/core_project_factory/scripts/preconditions/preconditions.py
+[preconditions-checker-script]: helpers/preconditions/preconditions.py
 [terraform-provider-google]: https://github.com/terraform-providers/terraform-provider-google
 [terraform-provider-google-beta]: https://github.com/terraform-providers/terraform-provider-google-beta
 [terraform-provider-gsuite]: https://github.com/DeviaVir/terraform-provider-gsuite
