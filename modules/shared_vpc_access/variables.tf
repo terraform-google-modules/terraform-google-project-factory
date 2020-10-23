@@ -35,3 +35,9 @@ variable "active_apis" {
   type        = list(string)
   default     = []
 }
+
+variable "gke_shared_vpc_security_admin_role_enabled" {
+  description = "Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules"
+  type        = bool
+  default     = false
+}
