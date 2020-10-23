@@ -68,12 +68,24 @@ resource "google_project_iam_member" "service_shared_vpc_user" {
 }
 
 /******************************************
-  container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC
-  See:https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
+  container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC host project
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
   count   = local.gke_shared_vpc_enabled ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
+  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+}
+
+/******************************************
+  roles/compute.securityAdmin role granted to GKE service account for GKE on shared VPC host project
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#enabling_and_granting_roles
+  and https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#creating_additional_firewall_rules
+ *****************************************/
+resource "google_project_iam_member" "gke_security_admin" {
+  count   = local.gke_shared_vpc_enabled && var.grant_services_security_admin_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.securityAdmin"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
 }

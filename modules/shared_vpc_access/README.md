@@ -28,6 +28,7 @@ module "shared_vpc_access" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | active\_apis | The list of active apis on the service project. If api is not active this module will not try to activate it | `list(string)` | `[]` | no |
+| grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | n/a | yes |
 | service\_project\_id | The ID of the service project | `string` | n/a | yes |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
