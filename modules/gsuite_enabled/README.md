@@ -8,6 +8,15 @@ This module performs the same functions as the
 There are multiple examples included in the [examples] folder but simple usage is as follows:
 
 ```hcl
+terraform {
+  required_providers {
+    gsuite = {
+      source = "DeviaVir/gsuite"
+      version = "0.1.54"
+    }
+  }
+}
+
 module "project-factory" {
   source = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
   version = "~> 1.0"
@@ -33,6 +42,9 @@ module "project-factory" {
   usage_bucket_prefix = "pf/test/1/integration"
 }
 ```
+
+The required_modules reference to DeviaVir/gsuite is needed because project-factory will use it
+to set up e.g. the GCP service account group.
 
 ## Features
 
