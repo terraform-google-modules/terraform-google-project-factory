@@ -181,6 +181,12 @@ variable "default_service_account" {
   type        = string
 }
 
+variable "default_sa_restore_policy" {
+  description = "The action to be performed in the default service accounts on the resource destroy. Valid values are NONE and REVERT. If set to REVERT it will attempt to restore all default SAs but in the DEPRIVILEGE action."
+  default     = "REVERT"
+  type        = string
+}
+
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
   default     = true
