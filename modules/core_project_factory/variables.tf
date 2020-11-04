@@ -176,8 +176,8 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
-  default     = "disable"
+  description = "Project default service account setting: can be one of `DELETE`, `DEPRIVILEGE`, `DISABLE`, or `KEEP`."
+  default     = "DISABLE"
   type        = string
 }
 
@@ -200,18 +200,6 @@ variable "enable_shared_vpc_service_project" {
 
 variable "enable_shared_vpc_host_project" {
   description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
-  type        = bool
-  default     = false
-}
-
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
   type        = bool
   default     = false
 }

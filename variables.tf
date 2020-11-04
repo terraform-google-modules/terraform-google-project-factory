@@ -182,8 +182,14 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
-  default     = "disable"
+  description = "Project default service account setting: can be one of `DELETE`, `DEPRIVILEGE`, `DISABLE`, or `KEEP`."
+  default     = "DISABLE"
+  type        = string
+}
+
+variable "default_sa_restore_policy" {
+  description = "The action to be performed in the default service accounts on the resource destroy. Valid values are NONE and REVERT. If set to REVERT it will attempt to restore all default SAs but in the DEPRIVILEGE action."
+  default     = "REVERT"
   type        = string
 }
 
@@ -191,12 +197,6 @@ variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
   default     = true
   type        = bool
-}
-
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
 }
 
 variable "budget_amount" {
@@ -221,12 +221,6 @@ variable "budget_alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
-  type        = bool
-  default     = false
 }
 
 variable "vpc_service_control_attach_enabled" {
