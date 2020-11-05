@@ -48,7 +48,6 @@ module "host-project" {
   org_id                         = var.organization_id
   folder_id                      = var.folder_id
   billing_account                = var.billing_account
-  skip_gcloud_download           = true
   enable_shared_vpc_host_project = true
 }
 
@@ -124,7 +123,6 @@ module "service-project" {
   ]
 
   disable_services_on_destroy = "false"
-  skip_gcloud_download        = "true"
 }
 
 /******************************************
@@ -150,7 +148,6 @@ module "service-project-b" {
   ]
 
   disable_services_on_destroy = "false"
-  skip_gcloud_download        = "true"
 }
 
 /******************************************

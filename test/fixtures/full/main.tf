@@ -124,7 +124,7 @@ module "project-factory" {
     "dataflow.googleapis.com",
   ]
 
-  default_service_account     = "delete"
+  default_service_account     = "DELETE"
   disable_services_on_destroy = "false"
 }
 
