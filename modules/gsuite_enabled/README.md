@@ -72,7 +72,8 @@ The roles granted are specifically:
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
 | create\_group | Whether to create the group or not | `bool` | `false` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
+| default\_sa\_restore\_policy | The action to be performed in the default service accounts on the resource destroy. Valid values are NONE and REVERT. If set to REVERT it will attempt to restore all default SAs but in the DEPRIVILEGE action. | `string` | `"REVERT"` | no |
+| default\_service\_account | Project default service account setting: can be one of `DELETE`, `DEPRIVILEGE`, `DISABLE`, or `KEEP`. | `string` | `"DISABLE"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `string` | `"true"` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
@@ -92,10 +93,8 @@ The roles granted are specifically:
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | shared\_vpc\_enabled | If shared VPC should be used | `bool` | `false` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
-| skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | `bool` | `false` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
-| use\_tf\_google\_credentials\_env\_var | Use GOOGLE\_CREDENTIALS environment variable to run gcloud auth activate-service-account with. | `bool` | `false` | no |
 
 ## Outputs
 
