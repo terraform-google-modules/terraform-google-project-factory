@@ -7,46 +7,12 @@ need of gcloud and local-execs.
 
 ## Migration Instructions
 
-1. Make sure you're in the desired state by running terraform plan. It should
-   return nothing to change.
-1. List all gcloud resources.
+1. Update variable default_service_account from down case to upper case if
+   you're not using the default value provided by the modules. Eg.: delete to
+   DELETE.
+   If you miss this step the provider returns an error when validating the value.
 
-   ```shell
-   terraform state list | grep project-factory.module.gcloud | sed 's/\[.*$//' | uniq
-   ```
-
-   You're going to see something similar to the following.
-
-   ```
-   module.project-factory.module.project-factory.module.gcloud_delete.random_id.cache
-   module.project-factory.module.project-factory.module.gcloud_deprivilege.random_id.cache
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.decompress
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.decompress_destroy
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.download_gcloud
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.download_jq
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.prepare_cache
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.run_command
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.upgrade
-   module.project-factory.module.project-factory.module.gcloud_disable.null_resource.upgrade_destroy
-   module.project-factory.module.project-factory.module.gcloud_disable.random_id.cache
-   ```
-
-1. Double check the items and when you're sure there's nothing else other than
-   project-factory module resources, remove them from the state.
-
-   ```shell
-   terraform state list | grep project-factory.module.gcloud | sed 's/\[.*$//' | uniq | xargs terraform state rm
-   ```
-
-   If you are not in a Unix system, you will have to delete line by line.
-
-1. Remove the last two items remaining in the state file.
-   ```sh
-   terraform state rm module.project-factory.module.project-factory.data.null_data_source.default_service_account
-   terraform state rm module.project-factory.module.project-factory.null_resource.preconditions
-   ```
-
-### Upgrade to provider 3.47
+## Upgrade provider version
 
 The new resource which replaces the gcloud commands is only available on version
 3.47 of Google's terraform provider. So, make sure you relax the version range
@@ -56,6 +22,7 @@ or set it to 3.47. Finally, run terraform apply.
 An execution plan has been generated and is shown below.
 Resource actions are indicated with the following symbols:
   + create
+  - destroy
 
 Terraform will perform the following actions:
 
@@ -63,12 +30,163 @@ Terraform will perform the following actions:
   + resource "google_project_default_service_accounts" "default_service_accounts" {
       + action           = "DISABLE"
       + id               = (known after apply)
-      + project          = "pf-test-1-2db9"
+      + project          = "pf-test-1-6331"
       + restore_policy   = "REVERT"
       + service_accounts = (known after apply)
     }
 
-Plan: 1 to add, 0 to change, 0 to destroy.
+  # module.project-factory.module.project-factory.null_resource.preconditions will be destroyed
+  - resource "null_resource" "preconditions" {
+      - id       = "8792279262642897492" -> null
+      - triggers = {
+          - "billing_account"  = "REDACTED"
+          - "credentials_path" = ""
+          - "folder_id"        = ""
+          - "org_id"           = "REDACTED"
+          - "shared_vpc"       = ""
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_delete.random_id.cache will be destroyed
+  - resource "random_id" "cache" {
+      - b64         = "s0C2TA" -> null
+      - b64_std     = "s0C2TA==" -> null
+      - b64_url     = "s0C2TA" -> null
+      - byte_length = 4 -> null
+      - dec         = "3007362636" -> null
+      - hex         = "b340b64c" -> null
+      - id          = "s0C2TA" -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_deprivilege.random_id.cache will be destroyed
+  - resource "random_id" "cache" {
+      - b64         = "hPQCIQ" -> null
+      - b64_std     = "hPQCIQ==" -> null
+      - b64_url     = "hPQCIQ" -> null
+      - byte_length = 4 -> null
+      - dec         = "2230583841" -> null
+      - hex         = "84f40221" -> null
+      - id          = "hPQCIQ" -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.decompress[0] will be destroyed
+  - resource "null_resource" "decompress" {
+      - id       = "4421481963953862822" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "decompress_command"      = "tar -xzf .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk.tar.gz -C .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a && cp .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk/bin/"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "download_gcloud_command" = "curl -sL -o .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-281.0.0-linux-x86_64.tar.gz"
+          - "download_jq_command"     = "curl -sL -o .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "project_services"        = "pf-test-1-6331"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.decompress_destroy[0] will be destroyed
+  - resource "null_resource" "decompress_destroy" {
+      - id       = "5873000014534982711" -> null
+      - triggers = {
+          - "decompress_command" = "tar -xzf .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk.tar.gz -C .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a && cp .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk/bin/"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.download_gcloud[0] will be destroyed
+  - resource "null_resource" "download_gcloud" {
+      - id       = "8730604705650342734" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "download_gcloud_command" = "curl -sL -o .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-281.0.0-linux-x86_64.tar.gz"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "project_services"        = "pf-test-1-6331"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.download_jq[0] will be destroyed
+  - resource "null_resource" "download_jq" {
+      - id       = "5384550100564211294" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "download_jq_command"     = "curl -sL -o .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && chmod +x .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/jq"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "project_services"        = "pf-test-1-6331"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.prepare_cache[0] will be destroyed
+  - resource "null_resource" "prepare_cache" {
+      - id       = "6650067270784592334" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "prepare_cache_command"   = "mkdir .terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a"
+          - "project_services"        = "pf-test-1-6331"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.run_command[0] will be destroyed
+  - resource "null_resource" "run_command" {
+      - id       = "4614340806538524817" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "create_cmd_body"         = <<~EOT
+                --project_id='pf-test-1-6331' \
+                --sa_id='769221705452-compute@developer.gserviceaccount.com' \
+                --credentials_path='' \
+                --impersonate-service-account='' \
+                --action='disable'
+            EOT
+          - "create_cmd_entrypoint"   = ".terraform/modules/project-factory/modules/core_project_factory/scripts/modify-service-account.sh"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "destroy_cmd_body"        = "info"
+          - "destroy_cmd_entrypoint"  = "gcloud"
+          - "gcloud_bin_abs_path"     = "/Users/thiagocarvalho/dev/thiagonache/community/pdsa/.terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk/bin"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "project_services"        = "pf-test-1-6331"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.upgrade[0] will be destroyed
+  - resource "null_resource" "upgrade" {
+      - id       = "3764618213551542611" -> null
+      - triggers = {
+          - "activated_apis"          = "compute.googleapis.com"
+          - "arguments"               = "bb0200e91aab415a1093a47a1cb2290c"
+          - "default_service_account" = "769221705452-compute@developer.gserviceaccount.com"
+          - "md5"                     = "8724d44955a417594c942e0101e4fe82"
+          - "project_services"        = "pf-test-1-6331"
+          - "upgrade_command"         = ".terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk/bin/gcloud components update --quiet"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.null_resource.upgrade_destroy[0] will be destroyed
+  - resource "null_resource" "upgrade_destroy" {
+      - id       = "1128888759850027996" -> null
+      - triggers = {
+          - "upgrade_command" = ".terraform/modules/project-factory.project-factory.gcloud_disable/cache/1613618a/google-cloud-sdk/bin/gcloud components update --quiet"
+        } -> null
+    }
+
+  # module.project-factory.module.project-factory.module.gcloud_disable.random_id.cache will be destroyed
+  - resource "random_id" "cache" {
+      - b64         = "FhNhig" -> null
+      - b64_std     = "FhNhig==" -> null
+      - b64_url     = "FhNhig" -> null
+      - byte_length = 4 -> null
+      - dec         = "370368906" -> null
+      - hex         = "1613618a" -> null
+      - id          = "FhNhig" -> null
+    }
+
+Plan: 1 to add, 0 to change, 12 to destroy.
 ```
 
 It is okay to create the resource since the API does not return error if you try
