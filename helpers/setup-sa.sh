@@ -223,6 +223,10 @@ gcloud services enable \
 gcloud services enable \
   cloudbilling.googleapis.com \
   --project "${SEED_PROJECT}"
+  
+gcloud services enable \
+  billingbudgets.googleapis.com \
+  --project "${SEED_PROJECT}"
 
 gcloud services enable \
   iam.googleapis.com \
