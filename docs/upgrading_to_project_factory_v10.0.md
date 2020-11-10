@@ -7,7 +7,9 @@ need of gcloud and local-execs.
 
 ## Migration Instructions
 
-### Upgrade provider version
+1. Remove any references of `skip_gcloud_download and use_tf_google_credentials_env_var` if applicable.
+
+## Upgrade provider version
 
 The new resource which replaces the gcloud commands is only available on version
 3.47 of Google's terraform provider. So, make sure you relax the version range
