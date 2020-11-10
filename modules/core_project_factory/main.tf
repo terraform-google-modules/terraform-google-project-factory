@@ -118,7 +118,7 @@ resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
 }
 
 resource "google_project_default_service_accounts" "default_service_accounts" {
-  action         = var.default_service_account
+  action         = upper(var.default_service_account)
   project        = google_project.main.project_id
   restore_policy = "REVERT"
   depends_on     = [module.project_services]

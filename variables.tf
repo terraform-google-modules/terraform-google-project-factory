@@ -182,8 +182,8 @@ variable "disable_services_on_destroy" {
 }
 
 variable "default_service_account" {
-  description = "Project default service account setting: can be one of `DELETE`, `DEPRIVILEGE`, `DISABLE`, or `KEEP`."
-  default     = "DISABLE"
+  description = "Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`."
+  default     = "disable"
   type        = string
 }
 

@@ -122,7 +122,7 @@ determining that location is as follows:
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
-| default\_service\_account | Project default service account setting: can be one of `DELETE`, `DEPRIVILEGE`, `DISABLE`, or `KEEP`. | `string` | `"DISABLE"` | no |
+| default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
