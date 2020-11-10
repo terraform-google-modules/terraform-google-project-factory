@@ -7,7 +7,7 @@ need of gcloud and local-execs.
 
 ## Migration Instructions
 
-1. Remove any references of `skip_gcloud_download and use_tf_google_credentials_env_var` if applicable.
+Remove any references to `skip_gcloud_download and use_tf_google_credentials_env_var` if applicable.
 
 ## Upgrade provider version
 
