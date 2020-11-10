@@ -140,10 +140,8 @@ determining that location is as follows:
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
-| skip\_gcloud\_download | Whether to skip downloading gcloud (assumes gcloud is already available outside the module) | `bool` | `false` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
-| use\_tf\_google\_credentials\_env\_var | Use GOOGLE\_CREDENTIALS environment variable to run gcloud auth activate-service-account with. | `bool` | `false` | no |
 | vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |
 | vpc\_service\_control\_perimeter\_name | The name of a VPC Service Control Perimeter to add the created project to | `string` | `null` | no |
 

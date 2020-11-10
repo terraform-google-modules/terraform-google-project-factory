@@ -44,7 +44,7 @@ module "project-factory" {
     "container.googleapis.com",
   ]
 
-  default_service_account     = "disable"
+  default_service_account     = "DISABLE"
   disable_services_on_destroy = "false"
 }
 

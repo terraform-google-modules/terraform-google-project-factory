@@ -99,8 +99,6 @@ module "project-factory" {
   disable_services_on_destroy       = var.disable_services_on_destroy
   default_service_account           = var.default_service_account
   disable_dependent_services        = var.disable_dependent_services
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-  skip_gcloud_download              = var.skip_gcloud_download
 }
 
 /******************************************

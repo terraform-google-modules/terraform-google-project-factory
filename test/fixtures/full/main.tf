@@ -58,7 +58,7 @@ locals {
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 1.1"
+  version = "~> 2.0"
 
   network_name = "pf-test-int-full-${var.random_string_for_testing}"
   project_id   = var.shared_vpc
@@ -124,7 +124,7 @@ module "project-factory" {
     "dataflow.googleapis.com",
   ]
 
-  default_service_account     = "delete"
+  default_service_account     = "DELETE"
   disable_services_on_destroy = "false"
 }
 
