@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [9.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.2.0...v9.2.1) (2020-11-09)
+
+
+### Bug Fixes
+
+* Add billingbudgets.googleapis.com to precondition script. ([#493](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/493)) ([f9b53c3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f9b53c34425790cf95d8912db113956f2d5406ec))
+* Remove whitespace in test/setup-sa ([#495](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/495)) ([6d90ff3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/6d90ff3869ab390fd3945c222db82c6abe44a456))
+
 ## [9.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.1.0...v9.2.0) (2020-10-16)
 
 
