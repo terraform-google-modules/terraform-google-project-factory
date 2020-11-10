@@ -117,98 +117,11 @@ resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
   depends_on = [module.project_services]
 }
 
-/******************************************
-  Default compute service account retrieval
- *****************************************/
-data "null_data_source" "default_service_account" {
-  inputs = {
-    email = "${google_project.main.number}-compute@developer.gserviceaccount.com"
-  }
-}
-
-/******************************************
-  Default compute service account deletion
- *****************************************/
-module "gcloud_delete" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "delete"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='delete'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-}
-
-/*********************************************
-  Default compute service account deprivilege
- ********************************************/
-module "gcloud_deprivilege" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "deprivilege"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='deprivilege'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-}
-
-/******************************************
-  Default compute service account disable
- *****************************************/
-module "gcloud_disable" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "disable"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='disable'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-
+resource "google_project_default_service_accounts" "default_service_accounts" {
+  action         = upper(var.default_service_account)
+  project        = google_project.main.project_id
+  restore_policy = "REVERT"
+  depends_on     = [module.project_services]
 }
 
 /******************************************
