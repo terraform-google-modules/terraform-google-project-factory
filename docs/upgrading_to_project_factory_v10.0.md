@@ -7,12 +7,7 @@ need of gcloud and local-execs.
 
 ## Migration Instructions
 
-1. Update variable default_service_account from down case to upper case if
-   you're not using the default value provided by the modules. Eg.: delete to
-   DELETE.
-   If you miss this step the provider returns an error when validating the value.
-
-## Upgrade provider version
+### Upgrade provider version
 
 The new resource which replaces the gcloud commands is only available on version
 3.47 of Google's terraform provider. So, make sure you relax the version range
