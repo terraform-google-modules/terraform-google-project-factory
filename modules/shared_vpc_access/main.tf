@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
+resource "null_resource" "module_depends_on" {
+  triggers = {
+    value = length(var.module_depends_on)
+  }
+}
+
 data "google_project" "service_project" {
   project_id = var.service_project_id
+  depends_on = [null_resource.module_depends_on]
 }
 
 locals {
