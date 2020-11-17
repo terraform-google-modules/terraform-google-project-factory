@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-resource "null_resource" "module_depends_on" {
-  triggers = {
-    value = length(var.module_depends_on)
-  }
-}
-
 data "google_project" "service_project" {
+  count      = var.lookup_service_project_number ? 1 : 0
   project_id = var.service_project_id
-  depends_on = [null_resource.module_depends_on]
 }
 
 locals {
+  service_project_number = var.lookup_service_project_number ? data.google_project.service_project[0].number : var.service_project_number
   apis = {
-    "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", data.google_project.service_project.number),
-    "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", data.google_project.service_project.number),
-    "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", data.google_project.service_project.number),
+    "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number),
+    "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
+    "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
   }
   gke_shared_vpc_enabled = contains(var.active_apis, "container.googleapis.com")
   active_apis            = setintersection(keys(local.apis), var.active_apis)
