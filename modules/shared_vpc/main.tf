@@ -68,7 +68,7 @@ module "shared_vpc_access" {
   active_apis            = module.project-factory.enabled_apis
   shared_vpc_subnets     = var.shared_vpc_subnets
   service_project_number = module.project-factory.project_number
-  lookup_project_number  = false
+  lookup_project_numbers = false
 }
 
 /******************************************
