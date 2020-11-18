@@ -30,8 +30,8 @@ variable "service_project_number" {
   default     = null
 }
 
-variable "lookup_service_project_number" {
-  description = "Whether to look up the project service number from a data source. If false, `service_project_number` will be used instead."
+variable "lookup_project_number" {
+  description = "Whether to look up the project number from a data source. If false, `service_project_number` will be used instead."
   type        = bool
   default     = true
 }

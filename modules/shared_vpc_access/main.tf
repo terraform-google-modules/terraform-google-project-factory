@@ -15,12 +15,12 @@
  */
 
 data "google_project" "service_project" {
-  count      = var.lookup_service_project_number ? 1 : 0
+  count      = var.lookup_project_number ? 1 : 0
   project_id = var.service_project_id
 }
 
 locals {
-  service_project_number = var.lookup_service_project_number ? data.google_project.service_project[0].number : var.service_project_number
+  service_project_number = var.lookup_project_number ? data.google_project.service_project[0].number : var.service_project_number
   apis = {
     "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number),
     "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
