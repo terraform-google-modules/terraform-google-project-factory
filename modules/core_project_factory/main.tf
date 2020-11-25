@@ -18,7 +18,7 @@
   Project random id suffix configuration
  *****************************************/
 resource "random_id" "random_project_id_suffix" {
-  byte_length = 2
+  byte_length = 4
 }
 
 /******************************************
