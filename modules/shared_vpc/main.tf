@@ -42,6 +42,7 @@ module "project-factory" {
   folder_id                         = var.folder_id
   sa_role                           = var.sa_role
   activate_apis                     = var.activate_apis
+  activate_api_identities           = var.activate_api_identities
   usage_bucket_name                 = var.usage_bucket_name
   usage_bucket_prefix               = var.usage_bucket_prefix
   bucket_versioning                 = var.bucket_versioning

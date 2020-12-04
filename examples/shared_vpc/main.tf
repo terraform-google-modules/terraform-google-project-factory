@@ -147,6 +147,14 @@ module "service-project-b" {
     "dataproc.googleapis.com",
   ]
 
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
+
   disable_services_on_destroy = "false"
 }
 
