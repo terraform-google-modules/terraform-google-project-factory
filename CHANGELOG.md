@@ -6,27 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
-## [10.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.2.0...v10.0.0) (2020-12-04)
-
-
-### ⚠ BREAKING CHANGES
-
-* All null_resources for executing gcloud scripts have been removed. See the upgrade guide for details.
-
-### Features
-
-* support activate_api_identities in shared_vpc submodule ([#509](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/509)) ([8c5698c](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/8c5698c164d9b03f86cb5ba25d0b3a28a5e1c520))
-* **terraform:** Add support Terraform 0.14 by bumping version constraint ([#505](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/505)) ([8c01c41](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/8c01c419849c172ff579a7f0f4b655a9055c9719))
-
-
-### Bug Fixes
-
-* Add billingbudgets.googleapis.com to precondition script. ([#493](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/493)) ([f9b53c3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f9b53c34425790cf95d8912db113956f2d5406ec))
-* Add count variable to does not create the resource when value is keep ([#498](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/498)) ([a3deaad](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/a3deaad77881a09e73104984124cdd0740a09e8f))
-* All dependencies on gcloud have been removed. ([#491](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/491)) ([5886a4e](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/5886a4e4430f551266710d6f635860963be6a4ec))
-* Remove whitespace in test/setup-sa ([#495](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/495)) ([6d90ff3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/6d90ff3869ab390fd3945c222db82c6abe44a456))
-* Support passing service project number to shared_vpc_access to be Terraform 0.13 compatible ([#500](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/500)) ([825d07b](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/825d07b19417827d6ad66f9a8dd437b53de32bbc))
-
 ## [9.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.1.0...v9.2.0) (2020-10-16)
 
 
