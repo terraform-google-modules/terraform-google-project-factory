@@ -2,7 +2,7 @@ name: dynamic_shared_vpc
 depends:
   - name: inspec-gcp
     git: https://github.com/inspec/inspec-gcp.git
-    tag: v0.10.0
+    tag: v1.8.2
 attributes:
   - name: service_project_name
     required: true
