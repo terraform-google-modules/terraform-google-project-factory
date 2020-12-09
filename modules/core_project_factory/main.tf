@@ -121,7 +121,7 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
   count          = upper(var.default_service_account) == "KEEP" ? 0 : 1
   action         = upper(var.default_service_account)
   project        = google_project.main.project_id
-  restore_policy = "REVERT"
+  restore_policy = "REVERT_AND_IGNORE_FAILURE"
   depends_on     = [module.project_services]
 }
 
