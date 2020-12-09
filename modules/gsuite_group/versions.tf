@@ -15,9 +15,12 @@
  */
 
 terraform {
-  required_version = ">=0.13.0"
+  required_version = ">= 0.13"
   required_providers {
-    google = ">= 3.43, <4.0"
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 3.43, <4.0"
+    }
   }
   provider_meta "google" {
     module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_group/v10.0.0"
