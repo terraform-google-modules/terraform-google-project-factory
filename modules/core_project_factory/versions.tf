@@ -15,12 +15,18 @@
  */
 
 terraform {
-  required_version = ">=0.12.6"
+  required_version = ">=0.13.0"
 
   required_providers {
     google      = ">= 3.50, < 4.0"
     google-beta = ">= 3.50, < 4.0"
     null        = "~> 2.1"
     random      = "~> 2.2"
+  }
+  provider_meta "google" {
+    module_name = "blueprints/terraform/terraform-google-project-factory:core_project_factory/v10.0.0"
+  }
+  provider_meta "google-beta" {
+    module_name = "blueprints/terraform/terraform-google-project-factory:core_project_factory/v10.0.0"
   }
 }
