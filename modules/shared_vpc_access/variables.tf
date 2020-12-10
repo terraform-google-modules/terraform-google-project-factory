@@ -19,6 +19,11 @@ variable "host_project_id" {
   type        = string
 }
 
+variable "shared_vpc_enabled" {
+  description = "Flag set if SVPC enabled"
+  type        = bool
+}
+
 variable "service_project_id" {
   description = "The ID of the service project"
   type        = string

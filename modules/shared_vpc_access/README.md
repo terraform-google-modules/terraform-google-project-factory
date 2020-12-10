@@ -33,6 +33,7 @@ module "shared_vpc_access" {
 | lookup\_project\_numbers | Whether to look up the project numbers from data sources. If false, `service_project_number` will be used instead. | `bool` | `true` | no |
 | service\_project\_id | The ID of the service project | `string` | n/a | yes |
 | service\_project\_number | Project number of the service project. Will be used if `lookup_service_project_number` is false. | `string` | `null` | no |
+| shared\_vpc\_enabled | Flag set if SVPC enabled | `bool` | n/a | yes |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 
 ## Outputs
