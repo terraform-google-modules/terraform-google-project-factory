@@ -42,6 +42,7 @@ module "project-factory" {
   folder_id                         = var.folder_id
   sa_role                           = var.sa_role
   activate_apis                     = var.activate_apis
+  activate_api_identities           = var.activate_api_identities
   usage_bucket_name                 = var.usage_bucket_name
   usage_bucket_prefix               = var.usage_bucket_prefix
   bucket_versioning                 = var.bucket_versioning
@@ -56,19 +57,19 @@ module "project-factory" {
   disable_services_on_destroy       = var.disable_services_on_destroy
   default_service_account           = var.default_service_account
   disable_dependent_services        = var.disable_dependent_services
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-  skip_gcloud_download              = var.skip_gcloud_download
 }
 
 /******************************************
   Setting API service accounts for shared VPC
  *****************************************/
 module "shared_vpc_access" {
-  source             = "../shared_vpc_access"
-  host_project_id    = var.shared_vpc
-  service_project_id = module.project-factory.project_id
-  active_apis        = module.project-factory.enabled_apis
-  shared_vpc_subnets = var.shared_vpc_subnets
+  source                 = "../shared_vpc_access"
+  host_project_id        = var.shared_vpc
+  service_project_id     = module.project-factory.project_id
+  active_apis            = module.project-factory.enabled_apis
+  shared_vpc_subnets     = var.shared_vpc_subnets
+  service_project_number = module.project-factory.project_number
+  lookup_project_numbers = false
 }
 
 /******************************************

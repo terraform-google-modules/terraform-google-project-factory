@@ -59,7 +59,7 @@ module "project-factory" {
     "storage-component.googleapis.com"
   ]
 
-  default_service_account     = "disable"
+  default_service_account     = "DISABLE"
   disable_services_on_destroy = "false"
 
   vpc_service_control_attach_enabled = "true"

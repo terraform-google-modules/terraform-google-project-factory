@@ -48,7 +48,6 @@ module "host-project" {
   org_id                         = var.organization_id
   folder_id                      = var.folder_id
   billing_account                = var.billing_account
-  skip_gcloud_download           = true
   enable_shared_vpc_host_project = true
 }
 
@@ -57,7 +56,7 @@ module "host-project" {
  *****************************************/
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 2.1.0"
+  version = "~> 2.5.0"
 
   project_id                             = module.host-project.project_id
   network_name                           = var.network_name
@@ -124,7 +123,6 @@ module "service-project" {
   ]
 
   disable_services_on_destroy = "false"
-  skip_gcloud_download        = "true"
 }
 
 /******************************************
@@ -149,8 +147,15 @@ module "service-project-b" {
     "dataproc.googleapis.com",
   ]
 
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
+
   disable_services_on_destroy = "false"
-  skip_gcloud_download        = "true"
 }
 
 /******************************************

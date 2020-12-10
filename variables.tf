@@ -193,12 +193,6 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
@@ -221,12 +215,6 @@ variable "budget_alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
-  type        = bool
-  default     = false
 }
 
 variable "vpc_service_control_attach_enabled" {
