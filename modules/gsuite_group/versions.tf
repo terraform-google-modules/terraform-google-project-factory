@@ -22,10 +22,4 @@ terraform {
       version = ">= 3.43, <4.0"
     }
   }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_group/v10.0.0"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_group/v10.0.0"
-  }
 }

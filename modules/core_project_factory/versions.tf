@@ -35,10 +35,4 @@ terraform {
       version = "~> 2.2"
     }
   }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:core_project_factory/v10.0.0"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:core_project_factory/v10.0.0"
-  }
 }
