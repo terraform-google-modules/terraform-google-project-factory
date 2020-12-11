@@ -34,7 +34,7 @@ output "number" {
 
 output "cloudsvc_service_account" {
   description = "Cloud services service account (depends on services)."
-  value       = "${local.cloudsvc_service_account}"
+  value       = local.cloudsvc_service_account
   depends_on  = [google_project_service.project_services]
 }
 

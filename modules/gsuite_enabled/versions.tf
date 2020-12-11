@@ -15,9 +15,18 @@
  */
 
 terraform {
-  required_version = ">=0.12.6"
+  required_version = ">= 0.13"
 
   required_providers {
-    gsuite = "~> 0.1"
+    gsuite = {
+      source  = "DeviaVir/gsuite"
+      version = "~> 0.1"
+    }
+  }
+  provider_meta "google" {
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.0.0"
+  }
+  provider_meta "google-beta" {
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.0.0"
   }
 }
