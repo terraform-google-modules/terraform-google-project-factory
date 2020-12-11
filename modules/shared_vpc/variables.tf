@@ -185,12 +185,6 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
-variable "shared_vpc_enabled" {
-  description = "If shared VPC should be used"
-  type        = bool
-  default     = false
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
