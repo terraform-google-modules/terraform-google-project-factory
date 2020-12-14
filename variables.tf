@@ -42,14 +42,14 @@ variable "project_id" {
   default     = ""
 }
 
-variable "shared_vpc" {
+variable "svpc_host_project_id" {
   description = "The ID of the host project which hosts the shared VPC"
   type        = string
   default     = ""
 }
 
 variable "enable_shared_vpc_host_project" {
-  description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
+  description = "If this project is a shared VPC host project. If true, you must *not* set svpc_host_project_id variable. Default is false."
   type        = bool
   default     = false
 }
