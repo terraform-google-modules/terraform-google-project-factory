@@ -30,13 +30,13 @@ module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 9.2"
 
-  name                = "pf-test-1"
-  random_project_id   = "true"
-  org_id              = "1234567890"
-  usage_bucket_name   = "pf-test-1-usage-report-bucket"
-  usage_bucket_prefix = "pf/test/1/integration"
-  billing_account     = "ABCDEF-ABCDEF-ABCDEF"
-  shared_vpc          = "shared_vpc_host_name"
+  name                 = "pf-test-1"
+  random_project_id    = "true"
+  org_id               = "1234567890"
+  usage_bucket_name    = "pf-test-1-usage-report-bucket"
+  usage_bucket_prefix  = "pf/test/1/integration"
+  billing_account      = "ABCDEF-ABCDEF-ABCDEF"
+  svpc_host_project_id = "shared_vpc_host_name"
 
   shared_vpc_subnets = [
     "projects/base-project-196723/regions/us-east1/subnetworks/default",
@@ -52,7 +52,7 @@ The Project Factory module will take the following actions:
 
 1. Create a new GCP project using the `project_name`.
 1. If a shared VPC is specified, attach the new project to the
-   `shared_vpc`.
+   `svpc_host_project_id`.
 
    It will also give the following users network access on the specified subnets:
 
@@ -100,9 +100,9 @@ is assigned to individual subnetworks, then the service project will have
 access to only the subnetworks on which that role was assigned. The logic for
 determining that location is as follows:
 
-1. If `var.shared_vpc` and `var.shared_vpc_subnets` are not set then the `compute.networkUser` role is not assigned
-1. If `var.shared_vpc` is set but no subnetworks are provided via `var.shared_vpc_subnets` then the `compute.networkUser` role is assigned at the host project and the service project will have access to all shared VPC subnetworks
-1. If `var.shared_vpc` is set and `var.shared_vpc_subnets` contains an array of subnetworks then the `compute.networkUser` role is assigned to each subnetwork in the array
+1. If `var.svpc_host_project_id` and `var.shared_vpc_subnets` are not set then the `compute.networkUser` role is not assigned
+1. If `var.svpc_host_project_id` is set but no subnetworks are provided via `var.shared_vpc_subnets` then the `compute.networkUser` role is assigned at the host project and the service project will have access to all shared VPC subnetworks
+1. If `var.svpc_host_project_id` is set and `var.shared_vpc_subnets` contains an array of subnetworks then the `compute.networkUser` role is assigned to each subnetwork in the array
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Inputs
@@ -126,7 +126,7 @@ determining that location is as follows:
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
-| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set shared\_vpc variable. Default is false. | `bool` | `false` | no |
+| enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set svpc\_host\_project\_id variable. Default is false. | `bool` | `false` | no |
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
@@ -138,8 +138,8 @@ determining that location is as follows:
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
-| shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
+| svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |

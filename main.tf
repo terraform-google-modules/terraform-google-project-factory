@@ -36,8 +36,8 @@ module "project-factory" {
   org_id                             = var.org_id
   name                               = var.name
   project_id                         = var.project_id
-  shared_vpc                         = var.shared_vpc
-  enable_shared_vpc_service_project  = var.shared_vpc != ""
+  shared_vpc                         = var.svpc_host_project_id
+  enable_shared_vpc_service_project  = var.svpc_host_project_id != ""
   enable_shared_vpc_host_project     = var.enable_shared_vpc_host_project
   billing_account                    = var.billing_account
   folder_id                          = var.folder_id
@@ -67,8 +67,8 @@ module "project-factory" {
  *****************************************/
 module "shared_vpc_access" {
   source             = "./modules/shared_vpc_access"
-  shared_vpc_enabled = var.shared_vpc != "" ? true : false
-  host_project_id    = var.shared_vpc
+  shared_vpc_enabled = var.svpc_host_project_id != "" ? true : false
+  host_project_id    = var.svpc_host_project_id
   service_project_id = module.project-factory.project_id
   active_apis        = module.project-factory.enabled_apis
   shared_vpc_subnets = var.shared_vpc_subnets
