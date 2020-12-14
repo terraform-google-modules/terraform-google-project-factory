@@ -6,7 +6,7 @@ The advantage of using this module over the root module, is being able to provis
 ## Example Usage
 ```hcl
 module "service-project" {
-  source  = "terraform-google-modules/project-factory/google//modules/shared_vpc"
+  source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
   version = "~> 9.2"
 
   name                = "pf-test-1"
