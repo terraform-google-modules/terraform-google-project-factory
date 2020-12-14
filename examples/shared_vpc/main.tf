@@ -102,7 +102,7 @@ module "vpc" {
   Service Project Creation
  *****************************************/
 module "service-project" {
-  source = "../../modules/shared_vpc"
+  source = "../../modules/svpc_service_project"
 
   name              = var.service_project_name
   random_project_id = "false"
@@ -128,7 +128,7 @@ module "service-project" {
   Second Service Project Creation
  *****************************************/
 module "service-project-b" {
-  source = "../../modules/shared_vpc"
+  source = "../../modules/svpc_service_project"
 
   name              = "b-${var.service_project_name}"
   random_project_id = "false"
