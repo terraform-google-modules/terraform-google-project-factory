@@ -79,7 +79,7 @@ module "project-factory" {
   name                              = var.name
   project_id                        = var.project_id
   shared_vpc                        = var.shared_vpc
-  enable_shared_vpc_service_project = var.shared_vpc_enabled
+  enable_shared_vpc_service_project = var.enable_shared_vpc_service_project
   enable_shared_vpc_host_project    = var.enable_shared_vpc_host_project
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id

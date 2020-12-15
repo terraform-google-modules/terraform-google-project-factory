@@ -37,13 +37,13 @@ provider "random" {
 }
 
 module "project-factory" {
-  source             = "../../"
-  random_project_id  = true
-  name               = "sample-gke-shared-project"
-  org_id             = var.org_id
-  billing_account    = var.billing_account
+  source               = "../../"
+  random_project_id    = true
+  name                 = "sample-gke-shared-project"
+  org_id               = var.org_id
+  billing_account      = var.billing_account
   svpc_host_project_id = var.shared_vpc
-  activate_apis      = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
-  credentials_path   = local.credentials_file_path
-  shared_vpc_subnets = var.shared_vpc_subnets
+  activate_apis        = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
+  credentials_path     = local.credentials_file_path
+  shared_vpc_subnets   = var.shared_vpc_subnets
 }
