@@ -9,6 +9,35 @@ need of gcloud and local-execs.
 
 Remove any references to `skip_gcloud_download and use_tf_google_credentials_env_var` if applicable.
 
+### Shared VPC Host Project variable
+Previously, the [Project Factory module](../README.md) had an input `var.shared_vpc` that took the ID of the host project which hosts the shared VPC. This variable has now been renamed to `var.svpc_host_project_id` in v10.0 of Project Factory for clarity.
+
+```diff
+ module "project-factory" {
+   source  = "terraform-google-modules/project-factory/google"
+-  version = "~> 9.2"
++  version = "~> 10.0"
+
+   name                 = "pf-test-1"
+   random_project_id    = "true"
+   org_id               = "1234567890"
+   usage_bucket_name    = "pf-test-1-usage-report-bucket"
+   usage_bucket_prefix  = "pf/test/1/integration"
+   billing_account      = "ABCDEF-ABCDEF-ABCDEF"
+-  shared_vpc           = "shared_vpc_host_name"
++  svpc_host_project_id = "shared_vpc_host_name"
+
+   shared_vpc_subnets = [
+     "projects/base-project-196723/regions/us-east1/subnetworks/default",
+     "projects/base-project-196723/regions/us-central1/subnetworks/default",
+     "projects/base-project-196723/regions/us-central1/subnetworks/subnet-1",
+   ]
+ }
+```
+
+### Shared VPC Service Project submodule
+The [`svpc_service_project`](../modules/svpc_service_project) submodule performs the same functions as the root module with the addition of assigning the project as a Shared VPC service project. Note that this submodule was previously an internal submodule named `shared_vpc` and has been externalized and renamed in the v10.0 release of Project Factory. See the [submodule documentation](../modules/svpc_service_project) for usage information and [../examples/shared_vpc](../examples/shared_vpc) for a full example.
+
 ## Upgrade provider version
 
 The new resource which replaces the gcloud commands is only available on version
