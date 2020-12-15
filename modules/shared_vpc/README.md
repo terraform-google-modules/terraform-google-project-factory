@@ -1,7 +1,7 @@
 # Shared VPC
 This module performs the same functions as the root module with the addition of assigning the project as a Shared VPC service project associated with a given host project and granting IAM permissions on host project and subnets to appropriate API service accounts based on activated APIs.
 
-The advantage of using this module over the root module, is being able to provision both the host project and service projects within a single configuration. See [examples/shared_vpc](./examples/shared_vpc) for a full example.
+The advantage of using this module over the root module, is being able to provision both the host project and service projects within a single configuration. See [examples/shared_vpc](../../examples/shared_vpc) for a full example.
 
 ## Example Usage
 ```hcl
