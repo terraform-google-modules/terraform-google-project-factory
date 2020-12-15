@@ -19,7 +19,7 @@ variable "host_project_id" {
   type        = string
 }
 
-variable "shared_vpc_enabled" {
+variable "enable_shared_vpc_service_project" {
   description = "Flag set if SVPC enabled"
   type        = bool
 }
