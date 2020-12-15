@@ -173,7 +173,7 @@ variable "disable_dependent_services" {
   type        = string
 }
 
-variable "shared_vpc_enabled" {
+variable "enable_shared_vpc_service_project" {
   description = "If shared VPC should be used"
   type        = bool
   default     = false
