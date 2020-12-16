@@ -6,13 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
-## [10.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.2.0...v10.0.0) (2020-12-16)
+## [10.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.2.0...v10.0.0) (2020-12-15)
+
 
 
 ### ⚠ BREAKING CHANGES
 
 * Minimum Terraform version increased to 0.13.
-* All null_resources for executing gcloud scripts have been removed. See the upgrade guide for details.
+* All null_resources for executing gcloud scripts have been removed. See the [upgrade guide](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/upgrading_to_project_factory_v10.0.md) for details.
+* Renamed the shared_vpc submodule to `svpc_service_project`. [#517](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/517)) ([86819d7](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/86819d74284afa9e13ccf1bad3d18e521a472ff1))
+
 
 ### Features
 
@@ -29,7 +32,6 @@ Extending the adopted spec, each change should have a link to its corresponding 
 * All dependencies on gcloud have been removed. ([#491](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/491)) ([5886a4e](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/5886a4e4430f551266710d6f635860963be6a4ec))
 * readme link to svpc example ([#515](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/515)) ([ce1d46e](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/ce1d46e8ab9d9b895254c3c86b89437045875121))
 * Remove whitespace in test/setup-sa ([#495](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/495)) ([6d90ff3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/6d90ff3869ab390fd3945c222db82c6abe44a456))
-* rename shared_vpc submodule to `svpc_service_project`([#517](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/517)) ([86819d7](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/86819d74284afa9e13ccf1bad3d18e521a472ff1))
 * Support passing service project number to shared_vpc_access to be Terraform 0.13 compatible ([#500](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/500)) ([825d07b](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/825d07b19417827d6ad66f9a8dd437b53de32bbc))
 
 ## [9.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.1.0...v9.2.0) (2020-10-16)
