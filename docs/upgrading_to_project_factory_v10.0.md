@@ -7,7 +7,7 @@ need of gcloud and local-execs.
 
 ## Migration Instructions
 
-Remove any references to `skip_gcloud_download and use_tf_google_credentials_env_var` if applicable.
+Remove any references to `skip_gcloud_download` and `use_tf_google_credentials_env_var` if applicable.
 
 ### Shared VPC Host Project variable
 Previously, the [Project Factory module](../README.md) had an input `var.shared_vpc` that took the ID of the host project which hosts the shared VPC. This variable has now been renamed to `var.svpc_host_project_id` in v10.0 of Project Factory for clarity.
