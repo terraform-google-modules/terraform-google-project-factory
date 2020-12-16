@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.0...v10.0.1) (2020-12-16)
+
+
+### Bug Fixes
+
+* Pass service project number for root module ([#496](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/496)) ([#520](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/520)) ([29ff90f](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/29ff90f83c0b1825d0588afe242b25cb7cfb65e8))
+
 ## [10.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v9.2.0...v10.0.0) (2020-12-15)
 
 
