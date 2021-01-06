@@ -37,27 +37,27 @@ output "project_number" {
 }
 
 output "service_account_id" {
-  value       = google_service_account.default_service_account.account_id
+  value       = var.create_project_sa ? google_service_account.default_service_account.account_id : ""
   description = "The id of the default service account"
 }
 
 output "service_account_display_name" {
-  value       = google_service_account.default_service_account.display_name
+  value       = var.create_project_sa ? google_service_account.default_service_account.display_name : ""
   description = "The display name of the default service account"
 }
 
 output "service_account_email" {
-  value       = google_service_account.default_service_account.email
+  value       = var.create_project_sa ? google_service_account.default_service_account.email : ""
   description = "The email of the default service account"
 }
 
 output "service_account_name" {
-  value       = google_service_account.default_service_account.name
+  value       = var.create_project_sa ? google_service_account.default_service_account.name : ""
   description = "The fully-qualified name of the default service account"
 }
 
 output "service_account_unique_id" {
-  value       = google_service_account.default_service_account.unique_id
+  value       = var.create_project_sa ? google_service_account.default_service_account.unique_id : ""
   description = "The unique id of the default service account"
 }
 
