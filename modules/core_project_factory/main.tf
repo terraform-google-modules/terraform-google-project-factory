@@ -36,7 +36,7 @@ locals {
   ) : local.base_project_id
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
-    google_service_account.default_service_account.email,
+    google_service_account.default_service_account[0].email,
   ) : ""
   api_s_account = format(
     "%s@cloudservices.gserviceaccount.com",
@@ -166,7 +166,7 @@ resource "google_service_account_iam_member" "service_account_grant_to_group" {
   member = local.group_id
   role   = "roles/iam.serviceAccountUser"
 
-  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
+  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account[0].email}"
 }
 
 /******************************************************************************************************************

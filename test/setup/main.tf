@@ -69,3 +69,8 @@ module "pfactory_project" {
 resource "random_id" "random_string_for_testing" {
   byte_length = 3
 }
+
+resource "google_access_context_manager_access_policy" "test_access_policy" {
+  parent = "organizations/${var.org_id}"
+  title  = "ci-pfactory-tests-${random_id.random_string_for_testing.hex}"
+}
