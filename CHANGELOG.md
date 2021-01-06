@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.0.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.1...v10.0.2) (2021-01-06)
+
+
+### Bug Fixes
+
+* Make project service account creation optional ([#528](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/528)) ([4350c5d](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/4350c5d25a5c5bdb4fa09e346e63cc4cf8e9f48f))
+
 ### [10.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.0...v10.0.1) (2020-12-16)
 
 
