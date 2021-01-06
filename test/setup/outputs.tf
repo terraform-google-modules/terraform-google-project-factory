@@ -58,7 +58,3 @@ output "group_name" {
 output "service_account_email" {
   value = google_service_account.int_test.email
 }
-
-output "policy_id" {
-  value = google_access_context_manager_access_policy.test_access_policy.id
-}
