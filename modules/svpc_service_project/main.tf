@@ -40,7 +40,12 @@ module "project-factory" {
   enable_shared_vpc_service_project = true
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id
+<<<<<<< HEAD
   sa_roles                          = var.sa_roles
+=======
+  create_project_sa                 = var.create_project_sa
+  sa_role                           = var.sa_role
+>>>>>>> b34f1e952aef73a1e6020db379291fd279c890b5
   activate_apis                     = var.activate_apis
   activate_api_identities           = var.activate_api_identities
   usage_bucket_name                 = var.usage_bucket_name

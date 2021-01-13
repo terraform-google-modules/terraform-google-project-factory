@@ -34,10 +34,10 @@ locals {
     local.base_project_id,
     random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
-  s_account_fmt = format(
+  s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
-    google_service_account.default_service_account.email,
-  )
+    google_service_account.default_service_account[0].email,
+  ) : ""
   api_s_account = format(
     "%s@cloudservices.gserviceaccount.com",
     google_project.main.number,
@@ -56,7 +56,7 @@ locals {
   )
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
-  shared_vpc_users_length = 3
+  shared_vpc_users_length = var.create_project_sa ? 3 : 2
 }
 
 /*******************************************
@@ -129,6 +129,7 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
+  count        = var.create_project_sa ? 1 : 0
   account_id   = "project-service-account"
   display_name = "${var.name} Project Service Account"
   project      = google_project.main.project_id
@@ -160,12 +161,12 @@ resource "google_project_iam_member" "gsuite_group_role" {
   Granting serviceAccountUser to group
  *****************************************/
 resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  count = var.manage_group ? 1 : 0
+  count = var.manage_group && var.create_project_sa ? 1 : 0
 
   member = local.group_id
   role   = "roles/iam.serviceAccountUser"
 
-  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
+  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account[0].email}"
 }
 
 /******************************************************************************************************************
@@ -188,7 +189,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa ? length(var.shared_vpc_subnets) : 0
 
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
@@ -301,7 +302,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
   Project's bucket storage.admin granting to default compute service account
  ***********************************************/
 resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_bucket" {
-  count = local.create_bucket ? 1 : 0
+  count = local.create_bucket && var.create_project_sa ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
   role   = "roles/storage.admin"

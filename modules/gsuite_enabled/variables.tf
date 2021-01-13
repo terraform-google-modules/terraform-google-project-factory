@@ -78,7 +78,17 @@ variable "sa_group" {
   default     = ""
 }
 
+<<<<<<< HEAD
 variable "sa_roles" {
+=======
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
+variable "sa_role" {
+>>>>>>> b34f1e952aef73a1e6020db379291fd279c890b5
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = []
 }
