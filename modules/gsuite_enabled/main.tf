@@ -83,7 +83,7 @@ module "project-factory" {
   enable_shared_vpc_host_project    = var.enable_shared_vpc_host_project
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id
-  sa_role                           = var.sa_role
+  sa_roles                          = var.sa_roles
   activate_apis                     = var.activate_apis
   usage_bucket_name                 = var.usage_bucket_name
   usage_bucket_prefix               = var.usage_bucket_prefix

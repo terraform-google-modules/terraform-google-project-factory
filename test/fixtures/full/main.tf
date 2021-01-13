@@ -114,7 +114,7 @@ module "project-factory" {
   shared_vpc                        = var.shared_vpc
   enable_shared_vpc_service_project = true
   shared_vpc_subnets                = local.shared_vpc_subnets
-  sa_role                           = var.sa_role
+  sa_roles                          = var.sa_roles
   sa_group                          = var.sa_group
   lien                              = "true"
 
@@ -134,10 +134,10 @@ resource "google_service_account" "extra_service_account" {
 }
 
 resource "google_project_iam_member" "additive_sa_role" {
-  count   = var.sa_role != "" ? 1 : 0
-  project = module.project-factory.project_id
-  role    = var.sa_role
-  member  = "serviceAccount:${google_service_account.extra_service_account.email}"
+  for_each = var.sa_roles
+  project  = module.project-factory.project_id
+  role     = each.key
+  member   = "serviceAccount:${google_service_account.extra_service_account.email}"
 }
 
 resource "google_project_iam_member" "additive_shared_vpc_role" {

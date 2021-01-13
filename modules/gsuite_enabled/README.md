@@ -89,7 +89,7 @@ The roles granted are specifically:
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `string` | `"false"` | no |
 | sa\_group | A G Suite group to place the default Service Account for the project in | `string` | `""` | no |
-| sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
+| sa\_roles | A role to give the default Service Account for the project (defaults to none) | `list` | `[]` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |

@@ -139,8 +139,8 @@ resource "google_service_account" "default_service_account" {
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
   for_each = toset(var.sa_roles)
-  project = google_project.main.project_id
-  role    = each.key
+  project  = google_project.main.project_id
+  role     = each.key
 
   member = local.s_account_fmt
 }

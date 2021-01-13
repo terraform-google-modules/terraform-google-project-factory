@@ -78,9 +78,9 @@ variable "sa_group" {
   default     = ""
 }
 
-variable "sa_role" {
+variable "sa_roles" {
   description = "A role to give the default Service Account for the project (defaults to none)"
-  default     = ""
+  default     = []
 }
 
 variable "activate_apis" {

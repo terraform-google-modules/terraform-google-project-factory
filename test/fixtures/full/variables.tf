@@ -54,9 +54,9 @@ variable "group_role" {
   type    = string
 }
 
-variable "sa_role" {
-  default = "roles/editor"
-  type    = string
+variable "sa_roles" {
+  default = ["roles/editor"]
+  type    = list(string)
 }
 
 variable "sa_group" {

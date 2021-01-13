@@ -71,9 +71,9 @@ variable "group_role" {
   default     = "roles/editor"
 }
 
-variable "sa_role" {
-  description = "A role to give the default Service Account for the project (defaults to none)"
-  default     = ""
+variable "sa_roles" {
+  description = "A list of roles to give the default Service Account for the project (defaults to none)"
+  default     = []
 }
 
 variable "activate_apis" {

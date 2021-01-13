@@ -15,7 +15,7 @@
 | random\_string\_for\_testing | A random string of characters to be appended to resource names to ensure uniqueness | `string` | n/a | yes |
 | region | n/a | `string` | `"us-east4"` | no |
 | sa\_group | n/a | `string` | n/a | yes |
-| sa\_role | n/a | `string` | `"roles/editor"` | no |
+| sa\_roles | n/a | `list(string)` | <pre>[<br>  "roles/editor"<br>]</pre> | no |
 | shared\_vpc | n/a | `string` | n/a | yes |
 | usage\_bucket\_name | n/a | `string` | n/a | yes |
 | usage\_bucket\_prefix | n/a | `string` | n/a | yes |
@@ -34,7 +34,7 @@
 | project\_name | n/a |
 | project\_number | n/a |
 | region | n/a |
-| sa\_role | n/a |
+| sa\_roles | n/a |
 | service\_account\_email | n/a |
 | shared\_vpc | n/a |
 | shared\_vpc\_subnet\_name\_01 | n/a |

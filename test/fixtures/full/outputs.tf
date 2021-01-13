@@ -74,8 +74,8 @@ output "region" {
   value = var.region
 }
 
-output "sa_role" {
-  value = var.sa_role
+output "sa_roles" {
+  value = var.sa_roles
 }
 
 output "shared_vpc" {
