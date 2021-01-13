@@ -77,10 +77,10 @@ variable "folder_id" {
   default     = ""
 }
 
-variable "sa_role" {
+variable "sa_roles" {
   description = "A role to give the default Service Account for the project (defaults to none)"
-  type        = string
-  default     = ""
+  type        = list(string)
+  default     = []
 }
 
 variable "activate_apis" {

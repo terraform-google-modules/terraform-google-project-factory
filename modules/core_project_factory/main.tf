@@ -138,9 +138,9 @@ resource "google_service_account" "default_service_account" {
   Policy to operate instances in shared subnetwork
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
-  count   = var.sa_role != "" ? 1 : 0
+  for_each = toset(var.sa_roles)
   project = google_project.main.project_id
-  role    = var.sa_role
+  role    = each.key
 
   member = local.s_account_fmt
 }
