@@ -42,6 +42,7 @@ module "project-factory" {
   billing_account                    = var.billing_account
   folder_id                          = var.folder_id
   sa_roles                           = var.sa_roles
+  create_project_sa                  = var.create_project_sa
   activate_apis                      = var.activate_apis
   activate_api_identities            = var.activate_api_identities
   usage_bucket_name                  = var.usage_bucket_name
