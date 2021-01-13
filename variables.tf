@@ -81,6 +81,7 @@ variable "sa_roles" {
   description = "A list of roles to give the default Service Account for the project (defaults to none)"
   type        = list(string)
   default     = []
+}
 
 variable "create_project_sa" {
   description = "Whether the default service account for the project shall be created"
