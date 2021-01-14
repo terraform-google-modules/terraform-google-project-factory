@@ -169,6 +169,12 @@ variable "bucket_versioning" {
   default     = false
 }
 
+variable "bucket_labels" {
+  description = " A map of key/value label pairs to assign to the bucket (optional)"
+  type        = map
+  default     = {}
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
