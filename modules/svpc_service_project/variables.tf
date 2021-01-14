@@ -214,3 +214,9 @@ variable "budget_alert_spent_percents" {
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
 }
+
+variable "grant_services_security_admin_role" {
+  description = "Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules"
+  type        = bool
+  default     = false
+}

@@ -50,6 +50,7 @@ module "service-project" {
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |
+| grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
 | impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials\_path. If this service account is not specified and credentials\_path is absent, the module will use Application Default Credentials. | `string` | `""` | no |
