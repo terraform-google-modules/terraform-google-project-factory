@@ -7,7 +7,7 @@ The advantage of using this module over the root module, is being able to provis
 ```hcl
 module "service-project" {
   source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
-  version = "~> 10.0"
+  version = "~> 10.1"
 
   name                = "pf-test-1"
   random_project_id   = "true"

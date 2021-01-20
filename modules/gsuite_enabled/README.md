@@ -10,7 +10,7 @@ There are multiple examples included in the [examples] folder but simple usage i
 ```hcl
 module "project-factory" {
   source = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
-  version = "~> 1.0"
+  version = "~> 10.1"
 
   billing_account   = "ABCDEF-ABCDEF-ABCDEF"
   create_group      = "true"

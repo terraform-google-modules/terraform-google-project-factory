@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [10.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.1...v10.1.0) (2021-01-20)
+
+
+### Features
+
+* Add labels support to projects bucket ([#534](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/534)) ([67a0b04](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/67a0b045ae013f4c5f410f0103a857789ee5b63a))
+* expose grant_services_security_admin_role var ([#536](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/536)) ([c41ba36](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/c41ba360a6bc6800a30d284b8fa23eb3ef5a8d7f))
+
+
+### Bug Fixes
+
+* Make project service account creation optional ([#528](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/528)) ([4350c5d](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/4350c5d25a5c5bdb4fa09e346e63cc4cf8e9f48f))
+
 ### [10.0.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.0...v10.0.1) (2020-12-16)
 
 
