@@ -56,6 +56,7 @@ module "project-factory" {
   bucket_location                    = var.bucket_location
   bucket_versioning                  = var.bucket_versioning
   bucket_labels                      = var.bucket_labels
+  bucket_force_destroy               = var.bucket_force_destroy
   auto_create_network                = var.auto_create_network
   disable_services_on_destroy        = var.disable_services_on_destroy
   default_service_account            = var.default_service_account

@@ -175,6 +175,12 @@ variable "bucket_labels" {
   default     = {}
 }
 
+variable "bucket_force_destroy" {
+  description = "Enable to detele all objects within the GCS bucket. If you try to delete a bucket that contains objects, Terraform will fail that run. (optional)"
+  type        = bool
+  default     = false
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
