@@ -156,6 +156,7 @@ determining that location is as follows:
 | api\_s\_account\_fmt | API service account email formatted for terraform use |
 | budget\_name | The name of the budget if created |
 | domain | The organization's domain |
+| enabled\_api\_identities | Enabled API identities in the project |
 | enabled\_apis | Enabled APIs in the project |
 | group\_email | The email of the G Suite group with group\_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |

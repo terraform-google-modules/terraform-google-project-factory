@@ -86,6 +86,11 @@ output "enabled_apis" {
   value       = module.project-factory.enabled_apis
 }
 
+output "enabled_api_identities" {
+  description = "Enabled API identities in the project"
+  value       = module.project-factory.enabled_api_identities
+}
+
 output "budget_name" {
   value       = module.budget.name
   description = "The name of the budget if created"
