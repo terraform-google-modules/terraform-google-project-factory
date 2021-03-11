@@ -30,7 +30,7 @@ locals {
 }
 
 data "google_project" "project" {
-  depends_on = [ var.projects ]
+  depends_on = [var.projects]
   count      = length(var.projects)
   project_id = element(var.projects, count.index)
 }
