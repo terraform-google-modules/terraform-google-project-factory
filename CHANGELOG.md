@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.0...v10.2.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* Add explicit depends_on for budget project data source ([#556](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/556)) ([454076a](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/454076ab4f4476f9f53d80eb57922eb9d467f400))
+
 ## [10.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.1.1...v10.2.0) (2021-03-04)
 
 
