@@ -6,9 +6,9 @@ This example illustrates how to use the project_services submodule to activate A
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| enable | Actually enable the APIs listed | string | `"true"` | no |
-| project\_id | The GCP project you want to enable APIs on | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| enable | Actually enable the APIs listed | `bool` | `true` | no |
+| project\_id | The GCP project you want to enable APIs on | `any` | n/a | yes |
 
 ## Outputs
 

@@ -34,10 +34,10 @@ locals {
     local.base_project_id,
     random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
-  s_account_fmt = format(
+  s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
-    google_service_account.default_service_account.email,
-  )
+    google_service_account.default_service_account[0].email,
+  ) : ""
   api_s_account = format(
     "%s@cloudservices.gserviceaccount.com",
     google_project.main.number,
@@ -56,31 +56,7 @@ locals {
   )
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
-  shared_vpc_users_length = 3
-}
-
-resource "null_resource" "preconditions" {
-  triggers = {
-    credentials_path = var.credentials_path
-    billing_account  = var.billing_account
-    org_id           = var.org_id
-    folder_id        = var.folder_id
-    shared_vpc       = var.shared_vpc
-  }
-
-  provisioner "local-exec" {
-    command     = local.pip_requirements_absolute_path
-    interpreter = [var.pip_executable_path, "install", "-r"]
-    on_failure  = continue
-  }
-
-  provisioner "local-exec" {
-    command    = local.preconditions_command
-    on_failure = continue
-    environment = {
-      GRACEFUL_IMPORTERROR = "true"
-    }
-  }
+  shared_vpc_users_length = var.create_project_sa ? 3 : 2
 }
 
 /*******************************************
@@ -95,8 +71,6 @@ resource "google_project" "main" {
   auto_create_network = var.auto_create_network
 
   labels = var.labels
-
-  depends_on = [null_resource.preconditions]
 }
 
 /******************************************
@@ -143,104 +117,19 @@ resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
   depends_on = [module.project_services]
 }
 
-/******************************************
-  Default compute service account retrieval
- *****************************************/
-data "null_data_source" "default_service_account" {
-  inputs = {
-    email = "${google_project.main.number}-compute@developer.gserviceaccount.com"
-  }
-}
-
-/******************************************
-  Default compute service account deletion
- *****************************************/
-module "gcloud_delete" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "delete"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='delete'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-}
-
-/*********************************************
-  Default compute service account deprivilege
- ********************************************/
-module "gcloud_deprivilege" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "deprivilege"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='deprivilege'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-}
-
-/******************************************
-  Default compute service account disable
- *****************************************/
-module "gcloud_disable" {
-  source  = "terraform-google-modules/gcloud/google"
-  version = "~> 2.0.0"
-
-  enabled                           = var.default_service_account == "disable"
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-
-  skip_download = var.skip_gcloud_download
-
-  create_cmd_entrypoint = "${path.module}/scripts/modify-service-account.sh"
-  create_cmd_body       = <<-EOT
-    --project_id='${google_project.main.project_id}' \
-    --sa_id='${data.null_data_source.default_service_account.outputs["email"]}' \
-    --credentials_path='${var.credentials_path}' \
-    --impersonate-service-account='${var.impersonate_service_account}' \
-    --action='disable'
-  EOT
-
-  create_cmd_triggers = {
-    default_service_account = data.null_data_source.default_service_account.outputs["email"]
-    activated_apis          = join(",", local.activate_apis)
-    project_services        = module.project_services.project_id
-  }
-
+resource "google_project_default_service_accounts" "default_service_accounts" {
+  count          = upper(var.default_service_account) == "KEEP" ? 0 : 1
+  action         = upper(var.default_service_account)
+  project        = google_project.main.project_id
+  restore_policy = "REVERT_AND_IGNORE_FAILURE"
+  depends_on     = [module.project_services]
 }
 
 /******************************************
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
+  count        = var.create_project_sa ? 1 : 0
   account_id   = "project-service-account"
   display_name = "${var.name} Project Service Account"
   project      = google_project.main.project_id
@@ -250,7 +139,7 @@ resource "google_service_account" "default_service_account" {
   Policy to operate instances in shared subnetwork
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
-  count   = var.sa_role != "" ? 1 : 0
+  count   = var.sa_role != "" && var.create_project_sa ? 1 : 0
   project = google_project.main.project_id
   role    = var.sa_role
 
@@ -272,12 +161,12 @@ resource "google_project_iam_member" "gsuite_group_role" {
   Granting serviceAccountUser to group
  *****************************************/
 resource "google_service_account_iam_member" "service_account_grant_to_group" {
-  count = var.manage_group ? 1 : 0
+  count = var.manage_group && var.create_project_sa ? 1 : 0
 
   member = local.group_id
   role   = "roles/iam.serviceAccountUser"
 
-  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account.email}"
+  service_account_id = "projects/${google_project.main.project_id}/serviceAccounts/${google_service_account.default_service_account[0].email}"
 }
 
 /******************************************************************************************************************
@@ -300,7 +189,7 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  count    = var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa ? length(var.shared_vpc_subnets) : 0
 
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
@@ -392,6 +281,7 @@ resource "google_storage_bucket" "project_bucket" {
   name     = local.project_bucket_name
   project  = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
   location = var.bucket_location
+  labels   = var.bucket_labels
 
   versioning {
     enabled = var.bucket_versioning
@@ -413,7 +303,7 @@ resource "google_storage_bucket_iam_member" "group_storage_admin_on_project_buck
   Project's bucket storage.admin granting to default compute service account
  ***********************************************/
 resource "google_storage_bucket_iam_member" "s_account_storage_admin_on_project_bucket" {
-  count = local.create_bucket ? 1 : 0
+  count = local.create_bucket && var.create_project_sa ? 1 : 0
 
   bucket = google_storage_bucket.project_bucket[0].name
   role   = "roles/storage.admin"

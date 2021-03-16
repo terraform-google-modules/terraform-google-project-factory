@@ -41,7 +41,7 @@ resource "google_folder" "ci_pfactory_folder" {
 
 module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 8.0"
+  version = "~> 9.2"
 
   name                 = "ci-pfactory-tests"
   random_project_id    = true

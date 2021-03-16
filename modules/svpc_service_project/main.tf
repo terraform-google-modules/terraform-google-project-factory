@@ -40,12 +40,15 @@ module "project-factory" {
   enable_shared_vpc_service_project = true
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id
+  create_project_sa                 = var.create_project_sa
   sa_role                           = var.sa_role
   activate_apis                     = var.activate_apis
+  activate_api_identities           = var.activate_api_identities
   usage_bucket_name                 = var.usage_bucket_name
   usage_bucket_prefix               = var.usage_bucket_prefix
   bucket_versioning                 = var.bucket_versioning
   credentials_path                  = var.credentials_path
+  impersonate_service_account       = var.impersonate_service_account
   shared_vpc_subnets                = var.shared_vpc_subnets
   labels                            = var.labels
   bucket_project                    = var.bucket_project
@@ -55,20 +58,21 @@ module "project-factory" {
   disable_services_on_destroy       = var.disable_services_on_destroy
   default_service_account           = var.default_service_account
   disable_dependent_services        = var.disable_dependent_services
-  python_interpreter_path           = var.python_interpreter_path
-  use_tf_google_credentials_env_var = var.use_tf_google_credentials_env_var
-  skip_gcloud_download              = var.skip_gcloud_download
 }
 
 /******************************************
   Setting API service accounts for shared VPC
  *****************************************/
 module "shared_vpc_access" {
-  source             = "../shared_vpc_access"
-  host_project_id    = var.shared_vpc
-  service_project_id = module.project-factory.project_id
-  active_apis        = module.project-factory.enabled_apis
-  shared_vpc_subnets = var.shared_vpc_subnets
+  source                             = "../shared_vpc_access"
+  host_project_id                    = var.shared_vpc
+  enable_shared_vpc_service_project  = true
+  service_project_id                 = module.project-factory.project_id
+  active_apis                        = module.project-factory.enabled_apis
+  shared_vpc_subnets                 = var.shared_vpc_subnets
+  service_project_number             = module.project-factory.project_number
+  lookup_project_numbers             = false
+  grant_services_security_admin_role = var.grant_services_security_admin_role
 }
 
 /******************************************
@@ -78,9 +82,10 @@ module "budget" {
   source        = "../budget"
   create_budget = var.budget_amount != null
 
-  projects             = [module.project-factory.project_id]
-  billing_account      = var.billing_account
-  amount               = var.budget_amount
-  alert_spent_percents = var.budget_alert_spent_percents
-  alert_pubsub_topic   = var.budget_alert_pubsub_topic
+  projects                         = [module.project-factory.project_id]
+  billing_account                  = var.billing_account
+  amount                           = var.budget_amount
+  alert_spent_percents             = var.budget_alert_spent_percents
+  alert_pubsub_topic               = var.budget_alert_pubsub_topic
+  monitoring_notification_channels = var.budget_monitoring_notification_channels
 }

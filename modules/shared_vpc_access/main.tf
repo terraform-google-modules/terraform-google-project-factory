@@ -15,14 +15,16 @@
  */
 
 data "google_project" "service_project" {
+  count      = var.lookup_project_numbers ? 1 : 0
   project_id = var.service_project_id
 }
 
 locals {
+  service_project_number = var.lookup_project_numbers ? data.google_project.service_project[0].number : var.service_project_number
   apis = {
-    "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", data.google_project.service_project.number),
-    "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", data.google_project.service_project.number),
-    "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", data.google_project.service_project.number),
+    "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number),
+    "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
+    "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
   }
   gke_shared_vpc_enabled = contains(var.active_apis, "container.googleapis.com")
   active_apis            = setintersection(keys(local.apis), var.active_apis)
@@ -57,23 +59,35 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
 
 /******************************************
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
- if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC Project if no subnets defined
-   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC Project if no subnets defined
+ if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
+ if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
-  for_each = length(var.shared_vpc_subnets) == 0 ? local.active_apis : []
+  for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project ? local.active_apis : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
 }
 
 /******************************************
-  container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC
-  See:https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
+  container.hostServiceAgentUser role granted to GKE service account for GKE on shared VPC host project
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
-  count   = local.gke_shared_vpc_enabled ? 1 : 0
+  count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
+  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+}
+
+/******************************************
+  roles/compute.securityAdmin role granted to GKE service account for GKE on shared VPC host project
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#enabling_and_granting_roles
+  and https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#creating_additional_firewall_rules
+ *****************************************/
+resource "google_project_iam_member" "gke_security_admin" {
+  count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_security_admin_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.securityAdmin"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
 }

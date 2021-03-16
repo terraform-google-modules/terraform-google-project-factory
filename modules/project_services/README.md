@@ -21,7 +21,7 @@ APIs without knowing it. Therefore, it is recommended to avoid using
 ```
 module "project-services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "4.0.0"
+  version = "10.1.1"
 
   project_id                  = "my-project-id"
 
@@ -38,13 +38,13 @@ See [examples/project_services](./examples/project_services) for a full example 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created). | object | `<list>` | no |
-| activate\_apis | The list of apis to activate within the project | list(string) | `<list>` | no |
-| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services | string | `"true"` | no |
-| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | string | `"true"` | no |
-| enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | string | `"true"` | no |
-| project\_id | The GCP project you want to enable APIs on | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| activate\_api\_identities | The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).<br>    APIs in this list will automatically be appended to `activate_apis`.<br>    Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).<br>    Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles. | <pre>list(object({<br>    api   = string<br>    roles = list(string)<br>  }))</pre> | `[]` | no |
+| activate\_apis | The list of apis to activate within the project | `list(string)` | `[]` | no |
+| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services | `string` | `"true"` | no |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | `string` | `"true"` | no |
+| enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | `bool` | `true` | no |
+| project\_id | The GCP project you want to enable APIs on | `any` | n/a | yes |
 
 ## Outputs
 

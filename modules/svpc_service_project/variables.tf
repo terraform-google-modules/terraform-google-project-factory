@@ -71,6 +71,12 @@ variable "group_role" {
   default     = "roles/editor"
 }
 
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
@@ -80,6 +86,20 @@ variable "activate_apis" {
   description = "The list of apis to activate within the project"
   type        = list(string)
   default     = ["compute.googleapis.com"]
+}
+
+variable "activate_api_identities" {
+  description = <<EOF
+    The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
+    APIs in this list will automatically be appended to `activate_apis`.
+    Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
+    Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
+  EOF
+  type = list(object({
+    api   = string
+    roles = list(string)
+  }))
+  default = []
 }
 
 variable "usage_bucket_name" {
@@ -96,6 +116,12 @@ variable "usage_bucket_prefix" {
 
 variable "credentials_path" {
   description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
+  default     = ""
+}
+
+variable "impersonate_service_account" {
+  description = "An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials."
+  type        = string
   default     = ""
 }
 
@@ -165,18 +191,6 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
-variable "shared_vpc_enabled" {
-  description = "If shared VPC should be used"
-  type        = bool
-  default     = false
-}
-
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
@@ -189,20 +203,20 @@ variable "budget_alert_pubsub_topic" {
   default     = null
 }
 
+variable "budget_monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
+}
+
 variable "budget_alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
 }
 
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
+variable "grant_services_security_admin_role" {
+  description = "Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules"
   type        = bool
   default     = false
 }

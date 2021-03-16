@@ -15,10 +15,23 @@
  */
 
 terraform {
-  required_version = ">=0.12.6, <0.14"
+  required_version = ">= 0.13"
   required_providers {
     google = {
-      version = "3.40.0"
+      source = "hashicorp/google"
+    }
+    google-beta = {
+      source = "hashicorp/google-beta"
+    }
+    gsuite = {
+      source  = "DeviaVir/gsuite"
+      version = "~> 0.1"
+    }
+    null = {
+      source = "hashicorp/null"
+    }
+    random = {
+      source = "hashicorp/random"
     }
   }
 }

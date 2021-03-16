@@ -42,14 +42,14 @@ variable "project_id" {
   default     = ""
 }
 
-variable "shared_vpc" {
+variable "svpc_host_project_id" {
   description = "The ID of the host project which hosts the shared VPC"
   type        = string
   default     = ""
 }
 
 variable "enable_shared_vpc_host_project" {
-  description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
+  description = "If this project is a shared VPC host project. If true, you must *not* set svpc_host_project_id variable. Default is false."
   type        = bool
   default     = false
 }
@@ -77,6 +77,12 @@ variable "group_role" {
   default     = "roles/editor"
 }
 
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   type        = string
@@ -90,7 +96,12 @@ variable "activate_apis" {
 }
 
 variable "activate_api_identities" {
-  description = "The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created)."
+  description = <<EOF
+    The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
+    APIs in this list will automatically be appended to `activate_apis`.
+    Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
+    Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
+  EOF
   type = list(object({
     api   = string
     roles = list(string)
@@ -158,6 +169,12 @@ variable "bucket_versioning" {
   default     = false
 }
 
+variable "bucket_labels" {
+  description = " A map of key/value label pairs to assign to the bucket (optional)"
+  type        = map
+  default     = {}
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
@@ -188,24 +205,6 @@ variable "disable_dependent_services" {
   type        = bool
 }
 
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
-variable "pip_executable_path" {
-  description = "Pip executable path for precondition requirements.txt install."
-  type        = string
-  default     = "pip3"
-}
-
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
 variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
@@ -230,12 +229,6 @@ variable "budget_alert_spent_percents" {
   default     = [0.5, 0.7, 1.0]
 }
 
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
-  type        = bool
-  default     = false
-}
-
 variable "vpc_service_control_attach_enabled" {
   description = "Whether the project will be attached to a VPC Service Control Perimeter"
   type        = bool
@@ -246,6 +239,12 @@ variable "vpc_service_control_perimeter_name" {
   description = "The name of a VPC Service Control Perimeter to add the created project to"
   type        = string
   default     = null
+}
+
+variable "grant_services_security_admin_role" {
+  description = "Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules"
+  type        = bool
+  default     = false
 }
 
 variable "consumer_quotas" {

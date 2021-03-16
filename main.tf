@@ -36,11 +36,12 @@ module "project-factory" {
   org_id                             = var.org_id
   name                               = var.name
   project_id                         = var.project_id
-  shared_vpc                         = var.shared_vpc
-  enable_shared_vpc_service_project  = var.shared_vpc != ""
+  shared_vpc                         = var.svpc_host_project_id
+  enable_shared_vpc_service_project  = var.svpc_host_project_id != ""
   enable_shared_vpc_host_project     = var.enable_shared_vpc_host_project
   billing_account                    = var.billing_account
   folder_id                          = var.folder_id
+  create_project_sa                  = var.create_project_sa
   sa_role                            = var.sa_role
   activate_apis                      = var.activate_apis
   activate_api_identities            = var.activate_api_identities
@@ -54,16 +55,28 @@ module "project-factory" {
   bucket_name                        = var.bucket_name
   bucket_location                    = var.bucket_location
   bucket_versioning                  = var.bucket_versioning
+  bucket_labels                      = var.bucket_labels
   auto_create_network                = var.auto_create_network
   disable_services_on_destroy        = var.disable_services_on_destroy
   default_service_account            = var.default_service_account
   disable_dependent_services         = var.disable_dependent_services
-  python_interpreter_path            = var.python_interpreter_path
-  pip_executable_path                = var.pip_executable_path
-  use_tf_google_credentials_env_var  = var.use_tf_google_credentials_env_var
-  skip_gcloud_download               = var.skip_gcloud_download
   vpc_service_control_attach_enabled = var.vpc_service_control_attach_enabled
   vpc_service_control_perimeter_name = var.vpc_service_control_perimeter_name
+}
+
+/******************************************
+  Setting API service accounts for shared VPC
+ *****************************************/
+module "shared_vpc_access" {
+  source                             = "./modules/shared_vpc_access"
+  enable_shared_vpc_service_project  = var.svpc_host_project_id != "" ? true : false
+  host_project_id                    = var.svpc_host_project_id
+  service_project_id                 = module.project-factory.project_id
+  active_apis                        = module.project-factory.enabled_apis
+  shared_vpc_subnets                 = var.shared_vpc_subnets
+  service_project_number             = module.project-factory.project_number
+  lookup_project_numbers             = false
+  grant_services_security_admin_role = var.grant_services_security_admin_role
 }
 
 /******************************************

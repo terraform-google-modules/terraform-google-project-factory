@@ -71,6 +71,26 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
+output "api_s_account" {
+  value       = module.project-factory.api_s_account
+  description = "API service account email"
+}
+
+output "api_s_account_fmt" {
+  value       = module.project-factory.api_s_account_fmt
+  description = "API service account email formatted for terraform use"
+}
+
+output "enabled_apis" {
+  description = "Enabled APIs in the project"
+  value       = module.project-factory.enabled_apis
+}
+
+output "enabled_api_identities" {
+  description = "Enabled API identities in the project"
+  value       = module.project-factory.enabled_api_identities
+}
+
 output "budget_name" {
   value       = module.budget.name
   description = "The name of the budget if created"

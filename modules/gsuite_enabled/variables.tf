@@ -78,6 +78,12 @@ variable "sa_group" {
   default     = ""
 }
 
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
@@ -165,13 +171,15 @@ variable "default_service_account" {
   type        = string
 }
 
+
+
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
   default     = "true"
   type        = string
 }
 
-variable "shared_vpc_enabled" {
+variable "enable_shared_vpc_service_project" {
   description = "If shared VPC should be used"
   type        = bool
   default     = false
@@ -181,12 +189,6 @@ variable "enable_shared_vpc_host_project" {
   description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
   type        = bool
   default     = false
-}
-
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
 }
 
 variable "budget_amount" {
@@ -201,20 +203,14 @@ variable "budget_alert_pubsub_topic" {
   default     = null
 }
 
+variable "budget_monitoring_notification_channels" {
+  description = "A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed."
+  type        = list(string)
+  default     = []
+}
+
 variable "budget_alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)
   default     = [0.5, 0.7, 1.0]
-}
-
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
-  type        = bool
-  default     = false
 }

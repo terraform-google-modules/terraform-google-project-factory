@@ -52,16 +52,30 @@ The general strategy for these tests is to verify the behaviour of the
 submodules, and example modules are all functionally correct.
 
 ### Test Environment
-The easiest way to test the module is in an isolated test project. The setup for such a project is defined in [test/setup](./test/setup/) directory.
 
-To use this setup, you need a service account with Project Creator access on a folder. Export the Service Account credentials to your environment like so:
+The easiest way to test the module is in an isolated test project and folder.
+The setup for such a project and folder is defined in [test/setup](./test/setup/) directory.
+This setup will create a dedicated folder, a project within the folder to hold a service
+account that will be used to run the integration tests. It will assign all needed roles
+to the service account and will also create a access context manager policy needed for test execution.
 
-```
+To use and execute this setup, you need a service account with the following roles:
+
+- Project Creator access on the folder (if you want to delete the setup later ProjectDeleter is also needed).
+- Folder Admin on the folder.
+- Access Context Manager Editor or Admin on the organization.
+- Billing Account Administrator on the billing account or on the organization.
+- Organization Administrator on the organization in order to grant the created service account permissions on organization level.
+
+Export the Service Account credentials to your environment like so:
+
+```bash
 export SERVICE_ACCOUNT_JSON=$(< credentials.json)
 ```
 
 You will also need to set a few environment variables:
-```
+
+```bash
 export TF_VAR_org_id="your_org_id"
 export TF_VAR_folder_id="your_folder_id"
 export TF_VAR_billing_account="your_billing_account_id"
@@ -69,9 +83,9 @@ export TF_VAR_gsuite_admin_email="your_gsuite_admin_email"
 export TF_VAR_gsuite_domain="your_gsuite_domain"
 ```
 
-With these settings in place, you can prepare a test project using Docker:
+With these settings in place, you can prepare the test setup using Docker:
 
-```
+```bash
 make docker_test_prepare
 ```
 
@@ -109,7 +123,7 @@ Run `make docker_test_lint`.
 New versions can be released by pushing tags to this repository's origin on
 GitHub. There is a Make target to facilitate the process:
 
-```
+```bash
 make release-new-version
 ```
 
@@ -140,14 +154,14 @@ Two test-kitchen instances are defined:
 - `full-local` - Test coverage for all project-factory features.
 - `full-minimal` - Test coverage for a minimal set of project-factory features.
 
-#### Setup
+### Setup
 
 1. Configure the [test fixtures](#test-configuration).
 2. Download a Service Account key with the necessary [permissions](#permissions)
    and put it in the module's root directory with the name `credentials.json`.
 3. Add appropriate variables to your environment
 
-   ```
+   ```bash
    export BILLING_ACCOUNT_ID="YOUR_BILLUNG_ACCOUNT"
    export DOMAIN="YOUR_DOMAIN"
    export FOLDER_ID="YOUR_FOLDER_ID"
@@ -160,7 +174,8 @@ Two test-kitchen instances are defined:
    ```
 
 4. Run the testing container in interactive mode.
-    ```
+
+    ```bash
     make docker_run
     ```
 

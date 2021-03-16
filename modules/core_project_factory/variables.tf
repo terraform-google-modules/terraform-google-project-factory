@@ -77,6 +77,12 @@ variable "folder_id" {
   default     = ""
 }
 
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   type        = string
@@ -90,7 +96,12 @@ variable "activate_apis" {
 }
 
 variable "activate_api_identities" {
-  description = "The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles). APIs in this list will automatically be appended to `activate_apis`. Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created)."
+  description = <<EOF
+    The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
+    APIs in this list will automatically be appended to `activate_apis`.
+    Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
+    Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
+  EOF
   type = list(object({
     api   = string
     roles = list(string)
@@ -158,6 +169,12 @@ variable "bucket_versioning" {
   default     = false
 }
 
+variable "bucket_labels" {
+  description = " A map of key/value label pairs to assign to the bucket (optional)"
+  type        = map
+  default     = {}
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
@@ -189,30 +206,6 @@ variable "enable_shared_vpc_service_project" {
 
 variable "enable_shared_vpc_host_project" {
   description = "If this project is a shared VPC host project. If true, you must *not* set shared_vpc variable. Default is false."
-  type        = bool
-  default     = false
-}
-
-variable "python_interpreter_path" {
-  description = "Python interpreter path for precondition check script."
-  type        = string
-  default     = "python3"
-}
-
-variable "pip_executable_path" {
-  description = "Pip executable path for precondition requirements.txt install."
-  type        = string
-  default     = "pip3"
-}
-
-variable "use_tf_google_credentials_env_var" {
-  description = "Use GOOGLE_CREDENTIALS environment variable to run gcloud auth activate-service-account with."
-  type        = bool
-  default     = false
-}
-
-variable "skip_gcloud_download" {
-  description = "Whether to skip downloading gcloud (assumes gcloud is already available outside the module)"
   type        = bool
   default     = false
 }
