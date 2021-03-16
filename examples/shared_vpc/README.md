@@ -12,6 +12,7 @@ It then attaches two new service projects to the host project.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | billing\_account | The ID of the billing account to associate this project with | `any` | n/a | yes |
+| consumer\_quotas | The quotas configuration you want to override to the project. | <pre>list(object({<br>    service = string,<br>    metric  = string,<br>    limit   = string,<br>    value   = string,<br>  }))</pre> | `[]` | no |
 | folder\_id | The folder to create projects in | `any` | n/a | yes |
 | host\_project\_name | Name for Shared VPC host project | `string` | `"shared-vpc-host"` | no |
 | network\_name | Name for Shared VPC network | `string` | `"shared-network"` | no |

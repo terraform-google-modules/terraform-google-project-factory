@@ -70,6 +70,7 @@ The roles granted are specifically:
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| consumer\_quotas | The quotas configuration you want to override to the project. | <pre>list(object({<br>    service = string,<br>    metric  = string,<br>    limit   = string,<br>    value   = string,<br>  }))</pre> | `[]` | no |
 | create\_group | Whether to create the group or not | `bool` | `false` | no |
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |

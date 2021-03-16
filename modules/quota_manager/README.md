@@ -17,6 +17,7 @@ module "project_quota_manager" {
         limit          = "%2F100s%2Fproject"
         value = "19"
     },{
+        service        = "servicemanagement.googleapis.com"
         metric         = "servicemanagement.googleapis.com%2Fdefault_requests"
         limit          = "%2Fmin%2Fproject"
         value = "95"
@@ -29,9 +30,9 @@ module "project_quota_manager" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|:----:|:-----:|:-----:|
-| consumer\_quotas | The quotas configuration you want to override to the project. | object | `<list>` | no |
-| project\_id | The GCP project where you want to manage the consumer quotas | string | n/a | yes |
+|------|-------------|------|---------|:--------:|
+| consumer\_quotas | The quotas configuration you want to override to the project. | <pre>list(object({<br>    service = string,<br>    metric  = string,<br>    limit   = string,<br>    value   = string,<br>  }))</pre> | n/a | yes |
+| project\_id | The GCP project where you want to manage the consumer quotas | `string` | n/a | yes |
 
 ## Outputs
 

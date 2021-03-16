@@ -27,5 +27,4 @@ variable "consumer_quotas" {
     limit   = string,
     value   = string,
   }))
-  default = []
 }
