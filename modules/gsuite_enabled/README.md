@@ -13,13 +13,13 @@ module "project-factory" {
   version = "~> 10.1"
 
   billing_account   = "ABCDEF-ABCDEF-ABCDEF"
-  create_group      = "true"
+  create_group      = true
   credentials_path  = "${local.credentials_file_path}"
   group_name        = "test_sa_group"
   group_role        = "roles/editor"
   name              = "pf-test-1"
   org_id            = "1234567890"
-  random_project_id = "true"
+  random_project_id = true
   sa_group          = "test_sa_group@yourdomain.com"
   shared_vpc        = "shared_vpc_host_name"
 
@@ -40,7 +40,7 @@ The G Suite Enabled module will perform the following actions in
 addition to those of the root module:
 
 1. Create a new Google group for the project using `group_name` if
-   `create_group` is `"true"`.
+   `create_group` is `true`.
 1. Add the new default service account for the project to the
    `sa_group` in Google Groups, if specified.
 1. Add the Google APIs service account to the `api_sa_group`,
@@ -60,7 +60,7 @@ The roles granted are specifically:
 |------|-------------|------|---------|:--------:|
 | activate\_apis | The list of apis to activate within the project | `list(string)` | <pre>[<br>  "compute.googleapis.com"<br>]</pre> | no |
 | api\_sa\_group | A G Suite group to place the Google APIs Service Account for the project in | `string` | `""` | no |
-| auto\_create\_network | Create the default network | `string` | `"false"` | no |
+| auto\_create\_network | Create the default network | `bool` | `false` | no |
 | billing\_account | The ID of the billing account to associate this project with | `any` | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `""` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
@@ -75,8 +75,8 @@ The roles granted are specifically:
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
-| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `string` | `"true"` | no |
-| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
+| disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
 | enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set shared\_vpc variable. Default is false. | `bool` | `false` | no |
 | enable\_shared\_vpc\_service\_project | If shared VPC should be used | `bool` | `false` | no |
@@ -85,12 +85,12 @@ The roles granted are specifically:
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
 | impersonate\_service\_account | An optional service account to impersonate. If this service account is not specified, Terraform will fall back to credential file or Application Default Credentials. | `string` | `""` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
-| lien | Add a lien on the project to prevent accidental deletion | `string` | `"false"` | no |
+| lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `any` | n/a | yes |
 | org\_id | The organization ID. | `any` | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
-| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `string` | `"false"` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
 | sa\_group | A G Suite group to place the default Service Account for the project in | `string` | `""` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |

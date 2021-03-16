@@ -60,9 +60,9 @@ module "project-factory" {
   ]
 
   default_service_account     = "DISABLE"
-  disable_services_on_destroy = "false"
+  disable_services_on_destroy = false
 
-  vpc_service_control_attach_enabled = "true"
+  vpc_service_control_attach_enabled = true
   vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/${local.perimeter_name}"
 }
 

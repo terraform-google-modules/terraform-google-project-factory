@@ -29,7 +29,7 @@ module "project-services" {
   source                      = "../../modules/project_services"
   project_id                  = var.project_id
   enable_apis                 = var.enable
-  disable_services_on_destroy = "true"
+  disable_services_on_destroy = true
 
   activate_apis = [
     "sqladmin.googleapis.com",

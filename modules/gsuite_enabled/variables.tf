@@ -16,13 +16,14 @@
 
 variable "lien" {
   description = "Add a lien on the project to prevent accidental deletion"
-  default     = "false"
-  type        = string
+  default     = false
+  type        = bool
 }
 
 variable "random_project_id" {
   description = "Adds a suffix of 4 random characters to the `project_id`"
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "org_id" {
@@ -162,13 +163,14 @@ variable "api_sa_group" {
 
 variable "auto_create_network" {
   description = "Create the default network"
-  default     = "false"
+  type        = bool
+  default     = false
 }
 
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
-  default     = "true"
-  type        = string
+  type        = bool
+  default     = true
 }
 
 variable "default_service_account" {
@@ -177,12 +179,10 @@ variable "default_service_account" {
   type        = string
 }
 
-
-
 variable "disable_dependent_services" {
   description = "Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed."
-  default     = "true"
-  type        = string
+  default     = true
+  type        = bool
 }
 
 variable "enable_shared_vpc_service_project" {

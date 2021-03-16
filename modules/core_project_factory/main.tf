@@ -45,7 +45,7 @@ locals {
   activate_apis       = var.impersonate_service_account != "" ? concat(var.activate_apis, ["iamcredentials.googleapis.com"]) : var.activate_apis
   api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
   project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
-  create_bucket       = var.bucket_project != "" ? "true" : "false"
+  create_bucket       = var.bucket_project != "" ? true : false
 
   shared_vpc_users = compact(
     [
