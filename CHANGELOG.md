@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.1...v10.2.2) (2021-03-17)
+
+
+### Bug Fixes
+
+* Enable configuring shared_vpc resources at folder level ([#560](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/560)) ([d3fa559](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d3fa559e2eab9f53bb0d4eff876ba1a7bbe8fe2f))
+
 ### [10.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.0...v10.2.1) (2021-03-11)
 
 
