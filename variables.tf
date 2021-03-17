@@ -171,7 +171,7 @@ variable "bucket_versioning" {
 
 variable "bucket_labels" {
   description = " A map of key/value label pairs to assign to the bucket (optional)"
-  type        = map
+  type        = map(any)
   default     = {}
 }
 
