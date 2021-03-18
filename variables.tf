@@ -246,3 +246,14 @@ variable "grant_services_security_admin_role" {
   type        = bool
   default     = false
 }
+
+variable "consumer_quotas" {
+  description = "The quotas configuration you want to override for the project."
+  type = list(object({
+    service = string,
+    metric  = string,
+    limit   = string,
+    value   = string,
+  }))
+  default = []
+}

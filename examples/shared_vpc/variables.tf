@@ -40,4 +40,3 @@ variable "network_name" {
   description = "Name for Shared VPC network"
   default     = "shared-network"
 }
-
