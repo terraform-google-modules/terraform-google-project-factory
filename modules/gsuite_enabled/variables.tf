@@ -216,7 +216,7 @@ variable "budget_alert_spent_percents" {
 }
 
 variable "consumer_quotas" {
-  description = "The quotas configuration you want to override to the project."
+  description = "The quotas configuration you want to override for the project."
   type = list(object({
     service = string,
     metric  = string,

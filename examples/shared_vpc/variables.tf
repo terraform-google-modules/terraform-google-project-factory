@@ -40,14 +40,3 @@ variable "network_name" {
   description = "Name for Shared VPC network"
   default     = "shared-network"
 }
-
-variable "consumer_quotas" {
-  description = "The quotas configuration you want to override to the project."
-  type = list(object({
-    service = string,
-    metric  = string,
-    limit   = string,
-    value   = string,
-  }))
-  default = []
-}

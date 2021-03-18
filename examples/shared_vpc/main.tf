@@ -167,12 +167,3 @@ resource "google_compute_address" "example_address" {
   name         = "test-address"
   address_type = "INTERNAL"
 }
-
-/******************************************
-  Consumer Quota
- *****************************************/
-module "project_quota_manager" {
-  source          = "../../modules/quota_manager"
-  project_id      = module.host-project.project_id
-  consumer_quotas = var.consumer_quotas
-}

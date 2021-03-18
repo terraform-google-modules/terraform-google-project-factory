@@ -248,7 +248,7 @@ variable "grant_services_security_admin_role" {
 }
 
 variable "consumer_quotas" {
-  description = "The quotas configuration you want to override to the project."
+  description = "The quotas configuration you want to override for the project."
   type = list(object({
     service = string,
     metric  = string,

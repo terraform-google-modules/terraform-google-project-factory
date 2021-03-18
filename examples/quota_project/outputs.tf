@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-locals {
-  consumer_quotas = { for index, quota in var.consumer_quotas : "${quota.service}-${quota.metric}" => quota }
-}
-
-resource "google_service_usage_consumer_quota_override" "override" {
-  provider = google-beta
-  for_each = local.consumer_quotas
-
-  project        = var.project_id
-  service        = each.value.service
-  metric         = each.value.metric
-  limit          = each.value.limit
-  override_value = each.value.value
-  force          = true
+output "quota_overrides" {
+  description = "The server-generated names of the quota override in the provided project."
+  value       = module.project_quota_manager.quota_overrides
 }
