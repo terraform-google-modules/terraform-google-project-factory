@@ -130,7 +130,7 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
  *****************************************/
 resource "google_service_account" "default_service_account" {
   count        = var.create_project_sa ? 1 : 0
-  account_id   = "project-service-account"
+  account_id   = var.project_sa_name
   display_name = "${var.name} Project Service Account"
   project      = google_project.main.project_id
 }
