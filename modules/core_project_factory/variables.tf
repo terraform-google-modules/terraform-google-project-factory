@@ -176,7 +176,7 @@ variable "bucket_labels" {
 }
 
 variable "bucket_force_destroy" {
-  description = "Enable to detele all objects within the GCS bucket. If you try to delete a bucket that contains objects, Terraform will fail that run. (optional)"
+  description = "Force the deletion of all objects within the GCS bucket when deleting the bucket (optional)"
   type        = bool
   default     = false
 }
