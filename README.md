@@ -113,7 +113,7 @@ determining that location is as follows:
 | activate\_apis | The list of apis to activate within the project | `list(string)` | <pre>[<br>  "compute.googleapis.com"<br>]</pre> | no |
 | auto\_create\_network | Create the default network | `bool` | `false` | no |
 | billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
-| bucket\_force\_destroy | Enable to detele all objects within the GCS bucket. If you try to delete a bucket that contains objects, Terraform will fail that run. (optional) | `bool` | `false` | no |
+| bucket\_force\_destroy | Force the deletion of all objects within the GCS bucket when deleting the bucket (optional) | `bool` | `false` | no |
 | bucket\_labels | A map of key/value label pairs to assign to the bucket (optional) | `map` | `{}` | no |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
