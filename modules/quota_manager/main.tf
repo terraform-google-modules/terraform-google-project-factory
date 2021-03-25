@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
+locals {
+  consumer_quotas = { for index, quota in var.consumer_quotas : "${quota.service}-${quota.metric}" => quota }
+}
 
-  required_providers {
-    gsuite = {
-      source  = "DeviaVir/gsuite"
-      version = "~> 0.1"
-    }
-  }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
+resource "google_service_usage_consumer_quota_override" "override" {
+  provider = google-beta
+  for_each = local.consumer_quotas
+
+  project        = var.project_id
+  service        = each.value.service
+  metric         = each.value.metric
+  limit          = each.value.limit
+  override_value = each.value.value
+  force          = true
 }

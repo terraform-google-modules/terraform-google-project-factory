@@ -25,10 +25,12 @@ locals {
     "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number),
     "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
     "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
+    "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
   }
-  gke_shared_vpc_enabled = contains(var.active_apis, "container.googleapis.com")
-  active_apis            = setintersection(keys(local.apis), var.active_apis)
-  subnetwork_api         = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
+  gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
+  composer_shared_vpc_enabled = contains(var.active_apis, "composer.googleapis.com")
+  active_apis                 = setintersection(keys(local.apis), var.active_apis)
+  subnetwork_api              = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
 }
 
 /******************************************
@@ -67,6 +69,17 @@ resource "google_project_iam_member" "service_shared_vpc_user" {
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
+}
+
+/******************************************
+  composer.sharedVpcAgent role granted to Composer service account for Composer on shared VPC host project
+  See: https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
+ *****************************************/
+resource "google_project_iam_member" "composer_host_agent" {
+  count   = local.composer_shared_vpc_enabled && var.enable_shared_vpc_service_project ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/composer.sharedVpcAgent"
+  member  = format("serviceAccount:%s", local.apis["composer.googleapis.com"])
 }
 
 /******************************************

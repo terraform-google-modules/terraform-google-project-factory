@@ -83,6 +83,12 @@ variable "create_project_sa" {
   default     = true
 }
 
+variable "project_sa_name" {
+  description = "Default service account name for the project."
+  type        = string
+  default     = "project-service-account"
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   type        = string
@@ -251,4 +257,15 @@ variable "grant_services_security_admin_role" {
   description = "Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules"
   type        = bool
   default     = false
+}
+
+variable "consumer_quotas" {
+  description = "The quotas configuration you want to override for the project."
+  type = list(object({
+    service = string,
+    metric  = string,
+    limit   = string,
+    value   = string,
+  }))
+  default = []
 }

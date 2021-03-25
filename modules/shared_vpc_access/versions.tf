@@ -27,9 +27,9 @@ terraform {
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:shared_vpc_access/v10.0.0"
+    module_name = "blueprints/terraform/terraform-google-project-factory:shared_vpc_access/v10.2.2"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:shared_vpc_access/v10.0.0"
+    module_name = "blueprints/terraform/terraform-google-project-factory:shared_vpc_access/v10.2.2"
   }
 }

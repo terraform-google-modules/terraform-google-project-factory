@@ -123,6 +123,7 @@ determining that location is as follows:
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| consumer\_quotas | The quotas configuration you want to override for the project. | <pre>list(object({<br>    service = string,<br>    metric  = string,<br>    limit   = string,<br>    value   = string,<br>  }))</pre> | `[]` | no |
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
@@ -140,6 +141,7 @@ determining that location is as follows:
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
+| project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
@@ -157,6 +159,7 @@ determining that location is as follows:
 | api\_s\_account\_fmt | API service account email formatted for terraform use |
 | budget\_name | The name of the budget if created |
 | domain | The organization's domain |
+| enabled\_api\_identities | Enabled API identities in the project |
 | enabled\_apis | Enabled APIs in the project |
 | group\_email | The email of the G Suite group with group\_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |

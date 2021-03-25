@@ -6,6 +6,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.1...v10.2.2) (2021-03-17)
+
+
+### Bug Fixes
+
+* Enable configuring shared_vpc resources at folder level ([#560](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/560)) ([d3fa559](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d3fa559e2eab9f53bb0d4eff876ba1a7bbe8fe2f))
+
+### [10.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.0...v10.2.1) (2021-03-11)
+
+
+### Bug Fixes
+
+* Add explicit depends_on for budget project data source ([#556](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/556)) ([454076a](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/454076ab4f4476f9f53d80eb57922eb9d467f400))
+
+## [10.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.1.1...v10.2.0) (2021-03-04)
+
+
+### Features
+
+* Expose service identity Service Account emails ([#548](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/548)) ([62c168d](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/62c168dd7cd54a8935462448aa8becd5372a1726))
+
+
+### Bug Fixes
+
+* Change budget module to pass project numbers ([#550](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/550)) ([5c715d8](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/5c715d8d944ff77a53263e1674ab346f92145f39))
+
+### [10.1.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.1.0...v10.1.1) (2021-01-27)
+
+
+### Bug Fixes
+
+* Additional roles should only granted for Shared VPC when attaching to a service project ([#542](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/542)) ([99093de](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/99093dece468cde277e8a5e812d634cf94cb92d2))
+
 ## [10.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.0.1...v10.1.0) (2021-01-20)
 
 

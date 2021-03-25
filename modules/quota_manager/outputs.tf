@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
-
-  required_providers {
-    gsuite = {
-      source  = "DeviaVir/gsuite"
-      version = "~> 0.1"
-    }
-  }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
+output "quota_overrides" {
+  description = "The server-generated names of the quota override."
+  value       = google_service_usage_consumer_quota_override.override
 }

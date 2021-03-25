@@ -83,6 +83,12 @@ variable "create_project_sa" {
   default     = true
 }
 
+variable "project_sa_name" {
+  description = "Default service account name for the project."
+  type        = string
+  default     = "project-service-account"
+}
+
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   type        = string

@@ -84,6 +84,7 @@ module "project-factory" {
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id
   create_project_sa                 = var.create_project_sa
+  project_sa_name                   = var.project_sa_name
   sa_role                           = var.sa_role
   activate_apis                     = var.activate_apis
   usage_bucket_name                 = var.usage_bucket_name
@@ -115,4 +116,13 @@ module "budget" {
   alert_spent_percents             = var.budget_alert_spent_percents
   alert_pubsub_topic               = var.budget_alert_pubsub_topic
   monitoring_notification_channels = var.budget_monitoring_notification_channels
+}
+
+/******************************************
+  Consumer Quota
+ *****************************************/
+module "project_quota_manager" {
+  source          = "../../modules/quota_manager"
+  project_id      = module.project-factory.project_id
+  consumer_quotas = var.consumer_quotas
 }

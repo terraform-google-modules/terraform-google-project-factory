@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
+variable "project_id" {
+  description = "The GCP project where you want to manage the consumer quotas"
+  type        = string
+}
 
-  required_providers {
-    gsuite = {
-      source  = "DeviaVir/gsuite"
-      version = "~> 0.1"
-    }
-  }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v10.2.2"
-  }
+variable "consumer_quotas" {
+  description = "The quotas configuration you want to override for the project."
+  type = list(object({
+    service = string,
+    metric  = string,
+    limit   = string,
+    value   = string,
+  }))
 }

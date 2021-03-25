@@ -90,3 +90,8 @@ output "enabled_apis" {
   description = "Enabled APIs in the project"
   value       = module.project_services.enabled_apis
 }
+
+output "enabled_api_identities" {
+  description = "Enabled API identities in the project"
+  value       = module.project_services.enabled_api_identities
+}

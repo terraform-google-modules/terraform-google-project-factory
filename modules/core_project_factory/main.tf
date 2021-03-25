@@ -101,17 +101,17 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
-  count = var.enable_shared_vpc_service_project ? 1 : 0
+  provider = google-beta
 
+  count           = var.enable_shared_vpc_service_project ? 1 : 0
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
-
-  depends_on = [
-    module.project_services,
-  ]
+  depends_on      = [module.project_services]
 }
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
+  provider = google-beta
+
   count      = var.enable_shared_vpc_host_project ? 1 : 0
   project    = google_project.main.project_id
   depends_on = [module.project_services]
@@ -130,7 +130,7 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
  *****************************************/
 resource "google_service_account" "default_service_account" {
   count        = var.create_project_sa ? 1 : 0
-  account_id   = "project-service-account"
+  account_id   = var.project_sa_name
   display_name = "${var.name} Project Service Account"
   project      = google_project.main.project_id
 }
