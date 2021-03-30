@@ -181,6 +181,12 @@ variable "bucket_labels" {
   default     = {}
 }
 
+variable "bucket_force_destroy" {
+  description = "Force the deletion of all objects within the GCS bucket when deleting the bucket (optional)"
+  type        = bool
+  default     = false
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
