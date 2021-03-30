@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [10.3.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.2...v10.3.0) (2021-03-24)
+
+
+### Features
+
+* Allow Cloud Composer environment on the shared vpc. ([#566](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/566)) ([0b8509f](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/0b8509fb509e7500bbe3f4d9d33fd677a7960ff5))
+* Allow customizing default service account name ([#565](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/565)) ([020e308](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/020e308a55442f94e36be9a7b6702017c94e436e))
+* Allow override of quotas on projects ([#468](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/468)) ([045923d](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/045923d8ec3b2592f219ff43d7782f8274a7d12b))
+
+
+### Bug Fixes
+
+* Provide correct Cloud Composer roles for Shared VPC acces ([#567](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/567)) ([1f3130f](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/1f3130fcff8e3c30af0da67cbec6acebbbcaf33c))
+
 ### [10.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.1...v10.2.2) (2021-03-17)
 
 
