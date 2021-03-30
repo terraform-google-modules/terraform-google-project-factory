@@ -46,7 +46,7 @@ module "project-factory" {
 
   name                              = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
   project_id                        = "pf-ci-test-nosubnets-${var.random_string_for_testing}"
-  random_project_id                 = "false"
+  random_project_id                 = false
   domain                            = var.domain
   org_id                            = var.org_id
   folder_id                         = var.folder_id
@@ -63,5 +63,5 @@ module "project-factory" {
     "dataflow.googleapis.com",
   ]
 
-  disable_services_on_destroy = "false"
+  disable_services_on_destroy = false
 }

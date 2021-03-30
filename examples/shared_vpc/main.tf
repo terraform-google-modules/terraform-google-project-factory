@@ -105,7 +105,7 @@ module "service-project" {
   source = "../../modules/svpc_service_project"
 
   name              = var.service_project_name
-  random_project_id = "false"
+  random_project_id = false
 
   org_id          = var.organization_id
   folder_id       = var.folder_id
@@ -121,7 +121,7 @@ module "service-project" {
     "dataflow.googleapis.com",
   ]
 
-  disable_services_on_destroy = "false"
+  disable_services_on_destroy = false
 }
 
 /******************************************
@@ -131,7 +131,7 @@ module "service-project-b" {
   source = "../../modules/svpc_service_project"
 
   name              = "b-${var.service_project_name}"
-  random_project_id = "false"
+  random_project_id = false
 
   org_id          = var.organization_id
   folder_id       = var.folder_id
@@ -153,7 +153,7 @@ module "service-project-b" {
     ]
   }]
 
-  disable_services_on_destroy = "false"
+  disable_services_on_destroy = false
 }
 
 /******************************************

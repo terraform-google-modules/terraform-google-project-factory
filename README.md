@@ -31,7 +31,7 @@ module "project-factory" {
   version = "~> 10.1"
 
   name                 = "pf-test-1"
-  random_project_id    = "true"
+  random_project_id    = true
   org_id               = "1234567890"
   usage_bucket_name    = "pf-test-1-usage-report-bucket"
   usage_bucket_prefix  = "pf/test/1/integration"
@@ -128,7 +128,7 @@ determining that location is as follows:
 | credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
-| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `string` | `"true"` | no |
+| disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
 | enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set svpc\_host\_project\_id variable. Default is false. | `bool` | `false` | no |
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |

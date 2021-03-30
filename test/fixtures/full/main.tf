@@ -64,7 +64,7 @@ module "vpc" {
   project_id   = var.shared_vpc
 
   # The provided project must already be a Shared VPC host
-  shared_vpc_host = "false"
+  shared_vpc_host = false
 
   subnets = [
     {
@@ -99,7 +99,7 @@ module "project-factory" {
   source = "../../../modules/gsuite_enabled"
 
   name              = "pf-ci-test-full-name-${var.random_string_for_testing}"
-  random_project_id = "false"
+  random_project_id = false
   project_id        = "pf-ci-test-full-id-${var.random_string_for_testing}"
 
   domain                            = var.domain
@@ -116,7 +116,7 @@ module "project-factory" {
   shared_vpc_subnets                = local.shared_vpc_subnets
   sa_role                           = var.sa_role
   sa_group                          = var.sa_group
-  lien                              = "true"
+  lien                              = true
 
   activate_apis = [
     "compute.googleapis.com",
@@ -125,7 +125,7 @@ module "project-factory" {
   ]
 
   default_service_account     = "DELETE"
-  disable_services_on_destroy = "false"
+  disable_services_on_destroy = false
 }
 
 resource "google_service_account" "extra_service_account" {
