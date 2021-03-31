@@ -12,7 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### Bug Fixes
 
 * Add force_destroy option for included GCS bucket ([#545](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/545)) ([1774999](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/1774999a9c70c853d8921c5df665487b30c75e22))
-* Change Quota Manager Terraofmr Required Version ([#569](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/569)) ([448456c](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/448456c151617194359c952e9a671a37e726ff49))
+* Change quota manager submodule required versions to allow 0.14 ([#569](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/569)) ([448456c](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/448456c151617194359c952e9a671a37e726ff49))
 * Replace "true"/"false" strings with bool values ([#559](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/559)) ([2d082f3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/2d082f3197fd66331e75f25e48a8f97e1679cba8))
 
 ## [10.3.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.2.2...v10.3.0) (2021-03-24)
