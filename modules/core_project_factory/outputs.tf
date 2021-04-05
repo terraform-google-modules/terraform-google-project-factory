@@ -19,16 +19,13 @@ output "project_name" {
 }
 
 output "project_id" {
-  value = element(
-    concat(
-      [module.project_services.project_id],
-      [google_project.main.project_id],
-      [var.enable_shared_vpc_service_project ? google_compute_shared_vpc_service_project.shared_vpc_attachment[0].id : ""],
-      [var.enable_shared_vpc_host_project ? google_compute_shared_vpc_host_project.shared_vpc_host[0].id : ""],
-    ),
-    0,
-  )
-  depends_on = [module.project_services]
+  value = module.project_services.project_id
+  depends_on = [
+    module.project_services,
+    google_project.main,
+    google_compute_shared_vpc_service_project.shared_vpc_attachment,
+    google_compute_shared_vpc_host_project.shared_vpc_host,
+  ]
 }
 
 output "project_number" {
