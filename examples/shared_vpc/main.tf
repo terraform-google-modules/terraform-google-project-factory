@@ -41,6 +41,7 @@ provider "random" {
 /******************************************
   Host Project Creation
  *****************************************/
+# [START vpc_shared_vpc_host_project_create]
 module "host-project" {
   source                         = "../../"
   random_project_id              = true
@@ -50,6 +51,7 @@ module "host-project" {
   billing_account                = var.billing_account
   enable_shared_vpc_host_project = true
 }
+# [END vpc_shared_vpc_host_project_create]
 
 /******************************************
   Network Creation
@@ -101,6 +103,7 @@ module "vpc" {
 /******************************************
   Service Project Creation
  *****************************************/
+# [START vpc_shared_vpc_service_project_create]
 module "service-project" {
   source = "../../modules/svpc_service_project"
 
@@ -123,6 +126,7 @@ module "service-project" {
 
   disable_services_on_destroy = false
 }
+# [END vpc_shared_vpc_service_project_create]
 
 /******************************************
   Second Service Project Creation
