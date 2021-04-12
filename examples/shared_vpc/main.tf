@@ -43,7 +43,8 @@ provider "random" {
  *****************************************/
 # [START vpc_shared_vpc_host_project_create]
 module "host-project" {
-  source                         = "../../"
+  source                         = "terraform-google-modules/terraform-google-project-factory/google//modules/shared_vpc_access"
+  version                        = "~> 10.3.1"
   random_project_id              = true
   name                           = var.host_project_name
   org_id                         = var.organization_id
@@ -105,8 +106,8 @@ module "vpc" {
  *****************************************/
 # [START vpc_shared_vpc_service_project_create]
 module "service-project" {
-  source = "../../modules/svpc_service_project"
-
+  source            = "terraform-google-modules/terraform-google-project-factory/google///modules/svpc_service_project"
+  version           = "~> 10.3.1"
   name              = var.service_project_name
   random_project_id = false
 
@@ -132,7 +133,7 @@ module "service-project" {
   Second Service Project Creation
  *****************************************/
 module "service-project-b" {
-  source = "../../modules/svpc_service_project"
+  source = "terraform-google-modules/terraform-google-project-factory/google//modules/svpc_service_project"
 
   name              = "b-${var.service_project_name}"
   random_project_id = false
