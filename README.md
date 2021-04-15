@@ -1,5 +1,7 @@
 # Google Cloud Project Factory Terraform Module
 
+trigger-ci
+
 [FAQ](./docs/FAQ.md) | [Troubleshooting Guide](./docs/TROUBLESHOOTING.md) |
 [Glossary][glossary].
 
