@@ -17,9 +17,9 @@
 terraform {
   required_version = ">=0.13.0"
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v10.3.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v10.3.2"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v10.3.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v10.3.2"
   }
 }
