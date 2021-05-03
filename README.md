@@ -226,7 +226,7 @@ grant the necessary roles to the [Seed Service Account](https://github.com/terra
 and enable the necessary API's in the Seed Project.  Run it as follows:
 
 ```sh
-./helpers/setup-sa.sh <ORGANIZATION_ID> <SEED_PROJECT_NAME> [BILLING_ACCOUNT]
+./helpers/setup-sa.sh -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>] [-n <service account name>]
 ```
 
 In order to execute this script, you must have an account with the following list of
