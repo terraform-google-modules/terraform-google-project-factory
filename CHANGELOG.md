@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [10.3.3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.3.2...v10.3.3) (2021-05-27)
+
+
+### Bug Fixes
+
+* Increasing versions of null & random providers to support arm ([#583](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/583)) ([28547ed](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/28547edf3b9fbd5d89aa2ddb1dc50a409d556826))
+
 ### [10.3.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.3.1...v10.3.2) (2021-04-05)
 
 
