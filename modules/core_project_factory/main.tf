@@ -278,11 +278,12 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
 resource "google_storage_bucket" "project_bucket" {
   count = local.create_bucket ? 1 : 0
 
-  name          = local.project_bucket_name
-  project       = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
-  location      = var.bucket_location
-  labels        = var.bucket_labels
-  force_destroy = var.bucket_force_destroy
+  name                        = local.project_bucket_name
+  project                     = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
+  location                    = var.bucket_location
+  labels                      = var.bucket_labels
+  force_destroy               = var.bucket_force_destroy
+  uniform_bucket_level_access = var.bucket_ula
 
   versioning {
     enabled = var.bucket_versioning
