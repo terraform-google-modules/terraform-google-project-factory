@@ -190,7 +190,7 @@ variable "bucket_force_destroy" {
 variable "bucket_ula" {
   description = "Enable Uniform Bucket Level Access"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "auto_create_network" {
