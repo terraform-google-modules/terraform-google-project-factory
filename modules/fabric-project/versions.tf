@@ -24,9 +24,9 @@ terraform {
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:fabric-project/v10.3.2"
+    module_name = "blueprints/terraform/terraform-google-project-factory:fabric-project/v10.4.0"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:fabric-project/v10.3.2"
+    module_name = "blueprints/terraform/terraform-google-project-factory:fabric-project/v10.4.0"
   }
 }
