@@ -19,6 +19,11 @@ output "project_id" {
   value       = module.budget.project_id
 }
 
+output "billing_account" {
+  description = "The billing account where budgets are created"
+  value       = var.billing_account
+}
+
 output "parent_project_id" {
   description = "The project_id of the parent project to add as an additional project for the budget"
   value       = module.budget.parent_project_id
