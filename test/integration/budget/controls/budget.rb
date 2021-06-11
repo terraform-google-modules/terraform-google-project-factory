@@ -13,6 +13,7 @@
 # limitations under the License.
 
 project_id                    = attribute("project_id")
+billing_account               = attribute("billing_account")
 parent_project_id             = attribute("parent_project_id")
 pubsub_topic                  = attribute("pubsub_topic")
 main_budget_name              = attribute("main_budget_name")
@@ -45,8 +46,7 @@ end
 control "project-factory-budget-main" do
   title "Main Budget"
 
-  # Budgets is only available via rest api currently
-  describe command("curl -s -X GET -H \"Authorization: Bearer \"`gcloud auth print-access-token` https://billingbudgets.googleapis.com/v1beta1/#{main_budget_name}") do
+  describe command("gcloud alpha billing budgets describe #{main_budget_name} --billing-account=#{billing_account} --format=json") do
     its("exit_status") { should be 0 }
     its("stderr") { should eq "" }
 
@@ -60,7 +60,7 @@ control "project-factory-budget-main" do
 
     it "has expected structure" do
       expect(metadata).to match(hash_including({
-        name: main_budget_name,
+        name: "billingAccounts/#{billing_account}/budgets/#{main_budget_name}",
         displayName: "Budget For #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: "INCLUDE_ALL_CREDITS"}),
         amount: hash_including({specifiedAmount: hash_including({units: "#{budget_amount}"})}),
@@ -78,8 +78,7 @@ end
 control "project-factory-budget-additional" do
   title "Additional Budget"
 
-  # Budgets is only available via rest api currently
-  describe command("curl -s -X GET -H \"Authorization: Bearer \"`gcloud auth print-access-token` https://billingbudgets.googleapis.com/v1beta1/#{additional_budget_name}") do
+  describe command("gcloud alpha billing budgets describe #{additional_budget_name} --billing-account=#{billing_account} --format=json") do
     its("exit_status") { should be 0 }
     its("stderr") { should eq "" }
 
@@ -93,7 +92,7 @@ control "project-factory-budget-additional" do
 
     it "has expected structure" do
       expect(metadata).to match(hash_including({
-        name: additional_budget_name,
+        name: "billingAccounts/#{billing_account}/budgets/#{additional_budget_name}",
         displayName: "CI/CD Budget for #{project_id}",
         budgetFilter: hash_including({creditTypesTreatment: budget_credit_types_treatment}),
         amount: hash_including({specifiedAmount: hash_including({units: "#{budget_amount}"})}),

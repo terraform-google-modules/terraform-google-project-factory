@@ -3,6 +3,9 @@ attributes:
   - name: project_id
     required: true
 
+  - name: billing_account
+    required: true
+
   - name: parent_project_id
     required: true
 
