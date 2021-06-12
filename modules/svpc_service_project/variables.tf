@@ -120,17 +120,6 @@ variable "usage_bucket_prefix" {
   default     = ""
 }
 
-variable "credentials_path" {
-  description = "Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials."
-  default     = ""
-}
-
-variable "impersonate_service_account" {
-  description = "An optional service account to impersonate. This cannot be used with credentials_path. If this service account is not specified and credentials_path is absent, the module will use Application Default Credentials."
-  type        = string
-  default     = ""
-}
-
 variable "shared_vpc_subnets" {
   description = "List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)"
   type        = list(string)

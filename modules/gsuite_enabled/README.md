@@ -14,7 +14,6 @@ module "project-factory" {
 
   billing_account   = "ABCDEF-ABCDEF-ABCDEF"
   create_group      = true
-  credentials_path  = "${local.credentials_file_path}"
   group_name        = "test_sa_group"
   group_role        = "roles/editor"
   name              = "pf-test-1"
@@ -73,7 +72,6 @@ The roles granted are specifically:
 | consumer\_quotas | The quotas configuration you want to override for the project. | <pre>list(object({<br>    service = string,<br>    metric  = string,<br>    limit   = string,<br>    value   = string,<br>  }))</pre> | `[]` | no |
 | create\_group | Whether to create the group or not | `bool` | `false` | no |
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
-| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
@@ -83,7 +81,6 @@ The roles granted are specifically:
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |
 | group\_name | A group to control the project by being assigned group\_role - defaults to ${project\_name}-editors | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
-| impersonate\_service\_account | An optional service account to impersonate. If this service account is not specified, Terraform will fall back to credential file or Application Default Credentials. | `string` | `""` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `any` | n/a | yes |

@@ -18,10 +18,6 @@ variable "admin_email" {
   description = "Admin user email on Gsuite. This should be a user account, not a service account."
 }
 
-variable "credentials_file_path" {
-  description = "Service account json auth path"
-}
-
 variable "organization_id" {
   description = "The organization id for the associated services"
 }

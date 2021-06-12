@@ -29,7 +29,6 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | billing\_account | billing account | `any` | n/a | yes |
-| credentials\_path | Path to a Service Account credentials file with permissions documented in the readme | `any` | n/a | yes |
 | org\_id | organization id | `any` | n/a | yes |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `any` | n/a | yes |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT\_ID/regions/$REGION/subnetworks/$SUBNET\_ID) | `list(string)` | `[]` | no |

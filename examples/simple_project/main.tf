@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = var.credentials_path
-}
-
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.30"
+  version = "~> 3.30"
 }
 
 provider "google-beta" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.38"
+  version = "~> 3.38"
 }
 
 provider "null" {
@@ -45,7 +39,6 @@ module "project-factory" {
   name                    = "simple-sample-project"
   org_id                  = var.organization_id
   billing_account         = var.billing_account
-  credentials_path        = local.credentials_file_path
   default_service_account = "deprivilege"
 
   activate_api_identities = [{

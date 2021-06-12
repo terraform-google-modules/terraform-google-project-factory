@@ -44,7 +44,6 @@ module "service-project" {
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
-| credentials\_path | Path to a service account credentials file with rights to run the Project Factory. If this file is absent Terraform will fall back to Application Default Credentials. | `string` | `""` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`. | `string` | `"disable"` | no |
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. | `bool` | `true` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
@@ -53,7 +52,6 @@ module "service-project" {
 | grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
-| impersonate\_service\_account | An optional service account to impersonate. This cannot be used with credentials\_path. If this service account is not specified and credentials\_path is absent, the module will use Application Default Credentials. | `string` | `""` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |

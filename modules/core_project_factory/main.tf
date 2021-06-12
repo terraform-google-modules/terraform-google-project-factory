@@ -42,7 +42,7 @@ locals {
     "%s@cloudservices.gserviceaccount.com",
     google_project.main.number,
   )
-  activate_apis       = var.impersonate_service_account != "" ? concat(var.activate_apis, ["iamcredentials.googleapis.com"]) : var.activate_apis
+  activate_apis       = var.activate_apis
   api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
   project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
   create_bucket       = var.bucket_project != "" ? true : false
