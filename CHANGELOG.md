@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [11.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.3.2...v11.0.0) (2021-06-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Buckets now enable uniform bucket-level access by default. See the upgrade guide for details.
+
+### Features
+
+* Add support for enforcing uniform IAM access to project GCS bucket ([#585](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/585)) ([d9bd377](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/d9bd377fbbac4fc4511470dde324b7048d78118c))
+
+
+### Bug Fixes
+
+* billing budget tests ([#594](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/594)) ([64461a2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/64461a22b225960357ef866bdef8c1d2693733f7))
+* Increasing versions of null & random providers to support arm ([#583](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/583)) ([28547ed](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/28547edf3b9fbd5d89aa2ddb1dc50a409d556826))
+* remove unused vars, add upgrade guide ([#596](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/596)) ([e4c9b03](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/e4c9b0362166ebb2ce6cab1a54d55fc3014f00f3))
+
 ### [10.3.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.3.1...v10.3.2) (2021-04-05)
 
 
