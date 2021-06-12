@@ -14,25 +14,18 @@
  * limitations under the License.
  */
 
-locals {
-  credentials_file_path = var.credentials_path
-}
-
 /******************************************
   Provider configuration
  *****************************************/
 provider "google" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.30"
+  version = "~> 3.30"
 }
 
 provider "google-beta" {
-  credentials = file(local.credentials_file_path)
-  version     = "~> 3.30"
+  version = "~> 3.30"
 }
 
 provider "gsuite" {
-  credentials             = file(local.credentials_file_path)
   impersonated_user_email = var.admin_email
 
   oauth_scopes = [
@@ -63,7 +56,6 @@ module "project-prod-gke" {
   org_id            = var.organization_id
   billing_account   = var.billing_account
   folder_id         = google_folder.prod.id
-  credentials_path  = local.credentials_file_path
 }
 
 module "project-factory" {
@@ -73,5 +65,4 @@ module "project-factory" {
   org_id            = var.organization_id
   billing_account   = var.billing_account
   folder_id         = google_folder.prod.id
-  credentials_path  = local.credentials_file_path
 }
