@@ -6,7 +6,7 @@ The v11.0 release of Project Factory is a backwards incompatible release.
 
 ### Unused variables have been removed
 
-Variables `credentials_path` and `impersonate_service_account` have been removed as we have removed the need for gcloud and local-execs in [v10.0](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/upgrading_to_project_factory_v10.0.md).
+Variables `credentials_path` and `impersonate_service_account` have been removed as we have removed the need for gcloud and local-execs in [v10.0](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/upgrading_to_project_factory_v10.0.md). This change should be no-op.
 
 ```diff
  module "project-factory" {
@@ -26,5 +26,7 @@ Variables `credentials_path` and `impersonate_service_account` have been removed
 ```
 
 ### Uniform Bucket Level Access is enabled by default
+
 Uniform Bucket Level Access is enabled by default and controlled by the `bucket_ula` variable.
+
 If you want to keep Uniform Bucket Level Access disabled, this variable should be set to false.
