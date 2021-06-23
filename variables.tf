@@ -217,6 +217,12 @@ variable "budget_amount" {
   default     = null
 }
 
+variable "budget_display_name" {
+  description = "The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` "
+  type        = string
+  default     = null
+}
+
 variable "budget_alert_pubsub_topic" {
   description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
   type        = string
