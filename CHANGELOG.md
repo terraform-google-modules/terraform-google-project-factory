@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [11.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.0.0...v11.1.0) (2021-07-01)
+
+
+### Features
+
+* allow budget display name customization ([#599](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/599)) ([f54adbf](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f54adbfb86201069f94e28c14b20a693e3595329))
+
+
+### Bug Fixes
+
+* Using project_id output is not forcing to wait for the fabric-project creation ([#601](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/601)) ([551833a](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/551833abbafdc24dbf0bb7b61812c36d3f2896e7))
+
 ## [11.0.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v10.3.2...v11.0.0) (2021-06-12)
 
 
