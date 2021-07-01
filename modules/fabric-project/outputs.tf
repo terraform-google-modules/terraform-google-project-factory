@@ -16,7 +16,7 @@
 
 output "project_id" {
   description = "Project id (depends on services)."
-  value       = google_project.project.project_id
+  value       = trimprefix(google_project.project.id, "projects/")
   depends_on  = [google_project_service.project_services]
 }
 
