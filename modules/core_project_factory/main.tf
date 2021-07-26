@@ -101,7 +101,7 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "time_sleep" "wait_5_seconds" {
-  depends_on = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0],google_project_service.enable_access_context_manager]
+  depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager]
   create_duration = "5s"
 }
 
