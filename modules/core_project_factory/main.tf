@@ -100,13 +100,18 @@ module "project_services" {
 /******************************************
   Shared VPC configuration
  *****************************************/
+resource "time_sleep" "wait_5_seconds" {
+  depends_on = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0],google_project_service.enable_access_context_manager]
+  create_duration = "5s"
+}
+
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   provider = google-beta
 
   count           = var.enable_shared_vpc_service_project ? 1 : 0
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
-  depends_on      = [module.project_services]
+  depends_on      = [time_sleep.wait_5_seconds, module.project_services]
 }
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
