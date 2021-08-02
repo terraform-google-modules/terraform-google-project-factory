@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [11.1.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.1.0...v11.1.1) (2021-07-29)
+
+
+### Bug Fixes
+
+* Added dependancies on Shared VPC attachment to work with VPC service controls ([#608](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/608)) ([59b7b96](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/59b7b96c847ceae205da1bf04e9f4965cfee67b3))
+
 ## [11.1.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.0.0...v11.1.0) (2021-07-01)
 
 
