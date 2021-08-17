@@ -343,6 +343,14 @@ the root of the organization into a folder. The bug and workaround is described
 but as a general best practice it is easier to create all projects within
 folders to start. Moving projects between different folders *is* supported.
 
+### Deleting default service accounts
+
+[Default SAs](https://cloud.google.com/iam/docs/service-accounts#default) can be removed by setting `default_service_account` input varibale to `delete`, but there can be certain scenarios where the default SAs are required. Hence some considerations to be aware of:
+1. [Using App Engine SA](https://cloud.google.com/appengine/docs/flexible/python/default-service-account).
+1. Cloud Scheduler dependency on AppEngine(default SA). Default SA is required to be able to setup [Cloud scheduler](https://cloud.google.com/scheduler/docs/setup#use_gcloud_to_create_a_project_with_an_app_engine_app), please refer to the [document](https://cloud.google.com/scheduler/docs/setup#use_gcloud_to_create_a_project_with_an_app_engine_app) for more upto date information.
+
+With a combination of project-factory's default behavior, [disable](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/variables.tf#L202-L206), and setting [constraints/iam.automaticIamGrantsForDefaultServiceAccounts](https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints) org constraint will address removing the default editor IAM role on the SAs and limits the SA usage. However, when the `default_service_account` is set to `delete` please be aware of the default SA dependency for AppEngine/CloudScheduler services. Accounts deleted within 30days can be [restored](https://cloud.google.com/iam/docs/creating-managing-service-accounts#undeleting).
+
 ## G Suite
 
 The core Project Factory solely deals with GCP APIs and does not integrate G Suite functionality. If you would like certain group-management functionality which was previously included in the Project Factory, see the [G Suite module][gsuite-enabled-module].
