@@ -345,7 +345,7 @@ folders to start. Moving projects between different folders *is* supported.
 
 ### Deleting default service accounts
 
-[Default SAs](https://cloud.google.com/iam/docs/service-accounts#default) can be removed by setting `default_service_account` input varibale to `delete`, but there can be certain scenarios where the default SAs are required. Hence some considerations to be aware of:
+[Default SAs](https://cloud.google.com/iam/docs/service-accounts#default) can be removed by setting `default_service_account` input variable to `delete`, but there can be certain scenarios where the default SAs are required. Hence some considerations to be aware of:
 1. [Using App Engine SA](https://cloud.google.com/appengine/docs/flexible/python/default-service-account).
 1. Cloud Scheduler dependency on AppEngine(default SA). Default SA is required to be able to setup [Cloud scheduler](https://cloud.google.com/scheduler/docs/setup#use_gcloud_to_create_a_project_with_an_app_engine_app), please refer to the [document](https://cloud.google.com/scheduler/docs/setup#use_gcloud_to_create_a_project_with_an_app_engine_app) for more upto date information.
 
