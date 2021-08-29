@@ -12,7 +12,8 @@ To include G Suite integration for creating groups and adding Service Accounts i
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.13. If you haven't
+This module is meant for use with Terraform 0.13+ and tested using Terraform 1.0+. If you find incompatibilities using Terraform >=0.13, please open an issue.
+ If you haven't
 [upgraded][terraform-0.13-upgrade] and need a Terraform
 0.12.x-compatible version of this module, the last released version
 intended for Terraform 0.12.x is [9.2.0].
@@ -114,7 +115,7 @@ determining that location is as follows:
 | auto\_create\_network | Create the default network | `bool` | `false` | no |
 | billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
 | bucket\_force\_destroy | Force the deletion of all objects within the GCS bucket when deleting the bucket (optional) | `bool` | `false` | no |
-| bucket\_labels | A map of key/value label pairs to assign to the bucket (optional) | `map` | `{}` | no |
+| bucket\_labels | A map of key/value label pairs to assign to the bucket (optional) | `map(any)` | `{}` | no |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
