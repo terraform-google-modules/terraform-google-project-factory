@@ -26,6 +26,7 @@ locals {
     "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
     "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
     "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
+    "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
   }
   gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled = contains(var.active_apis, "composer.googleapis.com")
@@ -37,6 +38,7 @@ locals {
   if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
+  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
        https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
  *****************************************/
