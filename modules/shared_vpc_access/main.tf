@@ -38,9 +38,10 @@ locals {
   if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
-  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
        https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
+  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
+  See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
