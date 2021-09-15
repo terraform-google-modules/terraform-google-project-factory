@@ -14,30 +14,17 @@
  * limitations under the License.
  */
 
-locals {
-  essential_contacts = flatten([
-    for config in var.essential_contacts_config : [
-      for contact in config.contacts : {
-        email = contact, 
-        notification_category_subscriptions = config.notification_category_subscriptions, 
-        language_tag = config.language 
-      }
-    ]
-  ])
-}
+
 
 /******************************************
   Essential Contact configuration
  *****************************************/
 
 resource "google_essential_contacts_contact" "contact" {
-  for_each = {
-    for contact in local.essential_contacts :
-    "${contact.notification_category_subscriptions}.${language_tag}.${contact.user}" => contact
-  }
-  
-  parent                              = data.google_project.project.id
-  email                               = each.value.email
-  language_tag                        = each.value.language_tag
-  notification_category_subscriptions = each.value.notification_category_subscriptions
+  for_each = var.essential_contacts
+
+  parent                              = "projects/${var.project_id}"
+  email                               = each.key
+  language_tag                        = var.language_tag
+  notification_category_subscriptions = each.value
 }

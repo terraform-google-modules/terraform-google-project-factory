@@ -57,6 +57,11 @@ suites:
       verify_version: false
       command_timeout: 1800
       root_module_directory: test/fixtures/budget
+  - name: essential_contacts
+    driver:
+      name: terraform
+      command_timeout: 1800
+      root_module_directory: test/fixtures/essential_contacts
   - name: dynamic_shared_vpc
     driver:
       name: terraform
@@ -75,6 +80,7 @@ suites:
           backend: local
           controls:
           - svpc
+
 
 # Disabled due to issue #275
 # (https://github.com/terraform-google-modules/terraform-google-project-factory/issues/275)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,15 +26,14 @@ provider "google-beta" {
 }
 
 module "essential-contacts" {
-  source                      = "../../modules/essential_contacts"
-  project_id                  = var.project_id
+  source     = "../../modules/essential_contacts"
+  project_id = var.project_id
 
-  essential_contacts_config = [{
-    notification_category_subscriptions = ["ALL"]
-    language              = "en-US"
-    contacts = [
-      "user@foo.com",
-      "group@foo.com"
-      ]  
-  }]
+  essential_contacts = {
+    "user1@foo.com"    = ["ALL"],
+    "security@foo.com" = ["SECURITY", "TECHNICAL"],
+    "app@foo.com"      = ["TECHNICAL"]
+  }
+
+  language_tag = "en-US"
 }

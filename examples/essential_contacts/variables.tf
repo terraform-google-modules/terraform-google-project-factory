@@ -17,8 +17,3 @@
 variable "project_id" {
   description = "The GCP project you want to enable APIs on"
 }
-
-variable "enable" {
-  description = "Actually enable the APIs listed"
-  default     = true
-}
