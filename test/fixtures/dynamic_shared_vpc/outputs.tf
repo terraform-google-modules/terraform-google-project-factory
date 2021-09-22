@@ -27,7 +27,8 @@ output "service_project_id" {
 output "service_project_ids" {
   value = [
     module.example.service_project.project_id,
-    module.example.service_project_b.project_id
+    module.example.service_project_b.project_id,
+    module.example.service_project_c.project_id
   ]
   description = "The service project IDs"
 }
@@ -40,6 +41,11 @@ output "service_project_number" {
 output "service_project_b_number" {
   value       = module.example.service_project_b.project_number
   description = "The service project b number"
+}
+
+output "service_project_c_number" {
+  value       = module.example.service_project_c.project_number
+  description = "The service project c number"
 }
 
 output "service_account_email" {

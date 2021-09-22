@@ -28,6 +28,7 @@ It then attaches two new service projects to the host project.
 | network\_self\_link | The URI of the VPC being created |
 | service\_project | The service project info |
 | service\_project\_b | The second service project |
+| service\_project\_c | The third service project |
 | subnets | The shared VPC subets |
 | vpc | The network info |
 

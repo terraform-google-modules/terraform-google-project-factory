@@ -58,3 +58,9 @@ variable "grant_services_security_admin_role" {
   type        = bool
   default     = false
 }
+
+variable "grant_services_network_role" {
+  description = "Whether or not to grant the service accounts the network roles on the host project so they can manage firewall rules"
+  type        = bool
+  default     = true
+}
