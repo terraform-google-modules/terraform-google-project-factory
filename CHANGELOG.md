@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [11.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.1.1...v11.2.0) (2021-09-23)
+
+
+### Features
+
+* added the grant_services_network_role flag to control network IAM ([#618](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/618)) ([f116dd5](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f116dd5456ddd5453bf958b90d71ddcd4e898cd7))
+* Give VPC Access Agent Service Account for Cloud Run permissions on Shared VPC ([#615](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/615)) ([87d2df0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/87d2df092daa2ea5efd36a98fbbd946ce5722bf7))
+
 ### [11.1.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.1.0...v11.1.1) (2021-07-29)
 
 
