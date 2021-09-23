@@ -45,7 +45,7 @@ locals {
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
-  count    = length(local.subnetwork_api)
+  count    = var.grant_services_network_role ? length(local.subnetwork_api) : 0
   subnetwork = element(
     split("/", local.subnetwork_api[count.index][1]),
     index(
@@ -68,7 +68,7 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
-  for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project ? local.active_apis : []
+  for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_services_network_role ? local.active_apis : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
@@ -79,7 +79,7 @@ resource "google_project_iam_member" "service_shared_vpc_user" {
   See: https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
  *****************************************/
 resource "google_project_iam_member" "composer_host_agent" {
-  count   = local.composer_shared_vpc_enabled && var.enable_shared_vpc_service_project ? 1 : 0
+  count   = local.composer_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_network_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/composer.sharedVpcAgent"
   member  = format("serviceAccount:%s", local.apis["composer.googleapis.com"])
@@ -90,7 +90,7 @@ resource "google_project_iam_member" "composer_host_agent" {
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
  *****************************************/
 resource "google_project_iam_member" "gke_host_agent" {
-  count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project ? 1 : 0
+  count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_network_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])

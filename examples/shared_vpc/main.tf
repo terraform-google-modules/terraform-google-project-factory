@@ -157,6 +157,40 @@ module "service-project-b" {
 }
 
 /******************************************
+  Third Service Project Creation
+  To test the grant_services_network_role
+ *****************************************/
+module "service-project-c" {
+  source = "../../modules/svpc_service_project"
+
+  name              = "c-${var.service_project_name}"
+  random_project_id = false
+
+  org_id          = var.organization_id
+  folder_id       = var.folder_id
+  billing_account = var.billing_account
+
+  shared_vpc = module.host-project.project_id
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    "dataproc.googleapis.com",
+  ]
+
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
+
+  disable_services_on_destroy = false
+  grant_services_network_role = false
+}
+
+/******************************************
   Example dependency on service-project
  *****************************************/
 
