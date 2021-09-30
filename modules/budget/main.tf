@@ -45,6 +45,7 @@ resource "google_billing_budget" "budget" {
     projects               = local.projects
     credit_types_treatment = var.credit_types_treatment
     services               = local.services
+    labels                 = var.labels
   }
 
   amount {
