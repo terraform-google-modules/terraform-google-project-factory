@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [11.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.1...v11.2.2) (2021-10-13)
+
+
+### Bug Fixes
+
+* Allow explicit provider configuration in module ([#624](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/624)) ([621c527](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/621c5275527a0d392a842bd71e7ad88e2eba1835))
+* billing_budget resource should use GA provider ([#626](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/626)) ([b6d7bf1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/b6d7bf1af2062e557b3fb2c883879554e10d7702))
+* Don't attempt to activate service identity for compute.googleapis.com ([#628](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/628)) ([777092c](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/777092c279ef3f4f5115a04c8d195a778e94514a))
+
 ### [11.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.0...v11.2.1) (2021-09-23)
 
 
