@@ -36,8 +36,7 @@ data "google_project" "project" {
 }
 
 resource "google_billing_budget" "budget" {
-  provider = google-beta
-  count    = var.create_budget ? 1 : 0
+  count = var.create_budget ? 1 : 0
 
   billing_account = var.billing_account
   display_name    = local.display_name
