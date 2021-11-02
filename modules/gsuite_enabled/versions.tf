@@ -31,9 +31,9 @@ terraform {
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.2"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.3"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.2"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.3"
   }
 }

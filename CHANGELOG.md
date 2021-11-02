@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [11.2.3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.2...v11.2.3) (2021-10-20)
+
+
+### Bug Fixes
+
+* Update required_providers in budget submodule ([#631](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/631)) ([de67066](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/de670668331e3154dd2a6d30f35bab5aa6ab7c92))
+
 ### [11.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.1...v11.2.2) (2021-10-13)
 
 
