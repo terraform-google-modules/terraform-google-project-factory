@@ -17,14 +17,6 @@
 /******************************************
   Provider configuration
  *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "google-beta" {
-  version = "~> 3.30"
-}
-
 provider "gsuite" {
   impersonated_user_email = var.admin_email
 
@@ -33,15 +25,12 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
 
-  version = "~> 0.1.12"
 }
 
 provider "null" {
-  version = "~> 2.1"
 }
 
 provider "random" {
-  version = "~> 2.2"
 }
 
 module "project-factory" {
