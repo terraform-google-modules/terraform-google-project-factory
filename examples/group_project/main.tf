@@ -27,12 +27,6 @@ provider "gsuite" {
 
 }
 
-provider "null" {
-}
-
-provider "random" {
-}
-
 module "project-factory" {
   source            = "../../modules/gsuite_enabled"
   random_project_id = true

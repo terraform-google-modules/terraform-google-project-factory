@@ -24,13 +24,6 @@ provider "gsuite" {
     "https://www.googleapis.com/auth/admin.directory.group",
     "https://www.googleapis.com/auth/admin.directory.group.member",
   ]
-
-}
-
-provider "null" {
-}
-
-provider "random" {
 }
 
 resource "google_folder" "prod" {
