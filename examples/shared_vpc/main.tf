@@ -20,25 +20,6 @@ locals {
 }
 
 /******************************************
-  Provider configuration
- *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "google-beta" {
-  version = "~> 3.30"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
-/******************************************
   Host Project Creation
  *****************************************/
 module "host-project" {
@@ -78,7 +59,7 @@ module "vpc" {
   ]
 
   secondary_ranges = {
-    "${local.subnet_01}" = [
+    (local.subnet_01) = [
       {
         range_name    = "${local.subnet_01}-01"
         ip_cidr_range = "192.168.64.0/24"
@@ -89,7 +70,7 @@ module "vpc" {
       },
     ]
 
-    "${local.subnet_02}" = [
+    (local.subnet_02) = [
       {
         range_name    = "${local.subnet_02}-01"
         ip_cidr_range = "192.168.66.0/24"
