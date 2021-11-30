@@ -350,3 +350,12 @@ resource "google_project_service" "enable_access_context_manager" {
   project = google_project.main.number
   service = "accesscontextmanager.googleapis.com"
 }
+
+/******************************************
+  Configure default Network Service Tier
+ *****************************************/
+resource "google_compute_project_default_network_tier" "default" {
+  count        = var.default_network_tier != "" ? 1 : 0
+  project      = google_project.main.number
+  network_tier = var.default_network_tier
+}
