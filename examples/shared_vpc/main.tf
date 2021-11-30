@@ -30,6 +30,7 @@ module "host-project" {
   folder_id                      = var.folder_id
   billing_account                = var.billing_account
   enable_shared_vpc_host_project = true
+  default_network_tier = var.default_network_tier
 }
 
 /******************************************
