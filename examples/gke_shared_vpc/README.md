@@ -29,6 +29,7 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | billing\_account | billing account | `any` | n/a | yes |
+| default\_network\_tier | Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers. | `string` | `""` | no |
 | org\_id | organization id | `any` | n/a | yes |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `any` | n/a | yes |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$PROJECT\_ID/regions/$REGION/subnetworks/$SUBNET\_ID) | `list(string)` | `[]` | no |
