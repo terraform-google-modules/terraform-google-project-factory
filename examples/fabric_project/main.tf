@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
 locals {
   prefix = var.prefix == "" ? random_string.prefix.result : var.prefix
 }

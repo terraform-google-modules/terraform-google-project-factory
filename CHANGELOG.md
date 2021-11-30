@@ -6,6 +6,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [11.2.3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.2...v11.2.3) (2021-10-20)
+
+
+### Bug Fixes
+
+* Update required_providers in budget submodule ([#631](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/631)) ([de67066](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/de670668331e3154dd2a6d30f35bab5aa6ab7c92))
+
+### [11.2.2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.1...v11.2.2) (2021-10-13)
+
+
+### Bug Fixes
+
+* Allow explicit provider configuration in module ([#624](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/624)) ([621c527](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/621c5275527a0d392a842bd71e7ad88e2eba1835))
+* billing_budget resource should use GA provider ([#626](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/626)) ([b6d7bf1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/b6d7bf1af2062e557b3fb2c883879554e10d7702))
+* Don't attempt to activate service identity for compute.googleapis.com ([#628](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/628)) ([777092c](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/777092c279ef3f4f5115a04c8d195a778e94514a))
+
+### [11.2.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.0...v11.2.1) (2021-09-23)
+
+
+### Bug Fixes
+
+* plumb grant_services_network_role for root module ([#619](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/619)) ([560396d](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/560396d5ed61392344da3fddbbf0d3b2760b9206))
+
+## [11.2.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.1.1...v11.2.0) (2021-09-23)
+
+
+### Features
+
+* added the grant_services_network_role flag to control network IAM ([#618](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/618)) ([f116dd5](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f116dd5456ddd5453bf958b90d71ddcd4e898cd7))
+* Give VPC Access Agent Service Account for Cloud Run permissions on Shared VPC ([#615](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/615)) ([87d2df0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/87d2df092daa2ea5efd36a98fbbd946ce5722bf7))
+
 ### [11.1.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.1.0...v11.1.1) (2021-07-29)
 
 

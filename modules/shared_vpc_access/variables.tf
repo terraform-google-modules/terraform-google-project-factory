@@ -58,3 +58,9 @@ variable "grant_services_security_admin_role" {
   type        = bool
   default     = false
 }
+
+variable "grant_services_network_role" {
+  description = "Whether or not to grant service agents the network roles on the host project"
+  type        = bool
+  default     = true
+}

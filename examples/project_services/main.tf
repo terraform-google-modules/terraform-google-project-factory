@@ -17,14 +17,6 @@
 /******************************************
   Provider configuration
  *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "google-beta" {
-  version = "~> 3.38"
-}
-
 module "project-services" {
   source                      = "../../modules/project_services"
   project_id                  = var.project_id

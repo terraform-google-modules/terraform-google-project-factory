@@ -20,25 +20,6 @@ locals {
 }
 
 /******************************************
-  Provider configuration
- *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "google-beta" {
-  version = "~> 3.30"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
-/******************************************
   Host Project Creation
  *****************************************/
 module "host-project" {
@@ -78,7 +59,7 @@ module "vpc" {
   ]
 
   secondary_ranges = {
-    "${local.subnet_01}" = [
+    (local.subnet_01) = [
       {
         range_name    = "${local.subnet_01}-01"
         ip_cidr_range = "192.168.64.0/24"
@@ -89,7 +70,7 @@ module "vpc" {
       },
     ]
 
-    "${local.subnet_02}" = [
+    (local.subnet_02) = [
       {
         range_name    = "${local.subnet_02}-01"
         ip_cidr_range = "192.168.66.0/24"
@@ -154,6 +135,40 @@ module "service-project-b" {
   }]
 
   disable_services_on_destroy = false
+}
+
+/******************************************
+  Third Service Project Creation
+  To test the grant_services_network_role
+ *****************************************/
+module "service-project-c" {
+  source = "../../modules/svpc_service_project"
+
+  name              = "c-${var.service_project_name}"
+  random_project_id = false
+
+  org_id          = var.organization_id
+  folder_id       = var.folder_id
+  billing_account = var.billing_account
+
+  shared_vpc = module.host-project.project_id
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    "dataproc.googleapis.com",
+  ]
+
+  activate_api_identities = [{
+    api = "healthcare.googleapis.com"
+    roles = [
+      "roles/healthcare.serviceAgent",
+      "roles/bigquery.jobUser",
+    ]
+  }]
+
+  disable_services_on_destroy = false
+  grant_services_network_role = false
 }
 
 /******************************************

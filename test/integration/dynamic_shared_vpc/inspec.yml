@@ -33,6 +33,9 @@ attributes:
   - name: service_project_b_number
     required: true
     type: string
+  - name: service_project_c_number
+    required: true
+    type: string
   - name: service_account_email
     required: true
     type: string

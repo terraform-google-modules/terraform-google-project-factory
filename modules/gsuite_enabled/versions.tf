@@ -16,17 +16,24 @@
 
 terraform {
   required_version = ">= 0.13"
-
   required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = ">= 3.50, < 5.0"
+    }
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = ">= 3.50, < 5.0"
+    }
     gsuite = {
       source  = "DeviaVir/gsuite"
       version = "~> 0.1"
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.1.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.3"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.1.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v11.2.3"
   }
 }

@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-provider "google" {
-  version = "~> 3.8"
-}
-
-provider "google-beta" {
-  version = "~> 3.8"
-}
-
-provider "null" {
-  version = "~> 2.1"
-}
-
-provider "random" {
-  version = "~> 2.2"
-}
-
 resource "random_id" "folder_rand" {
   byte_length = 2
 }
