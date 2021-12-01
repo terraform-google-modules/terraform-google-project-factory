@@ -23,4 +23,5 @@ module "project-factory" {
   svpc_host_project_id = var.shared_vpc
   activate_apis        = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
   shared_vpc_subnets   = var.shared_vpc_subnets
+  default_network_tier = var.default_network_tier
 }

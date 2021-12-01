@@ -165,7 +165,7 @@ variable "bucket_versioning" {
 
 variable "bucket_labels" {
   description = " A map of key/value label pairs to assign to the bucket (optional)"
-  type        = map
+  type        = map(string)
   default     = {}
 }
 
@@ -226,4 +226,10 @@ variable "vpc_service_control_perimeter_name" {
   description = "The name of a VPC Service Control Perimeter to add the created project to"
   type        = string
   default     = null
+}
+
+variable "default_network_tier" {
+  description = "Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers."
+  type        = string
+  default     = ""
 }
