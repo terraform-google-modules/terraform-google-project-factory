@@ -53,6 +53,12 @@ variable "services" {
   default     = null
 }
 
+variable "labels" {
+  description = "Budget by label to include in this budget. If empty will apply the projects and services only"
+  type        = map(string)
+  default     = null
+}
+
 variable "alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)
