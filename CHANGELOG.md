@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [11.3.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.3...v11.3.0) (2021-12-01)
+
+
+### Features
+
+* add network service tier setting ([#640](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/640)) ([f5cce9e](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/f5cce9e6851031065aa7afdc9ff1bf424352ccef))
+* update TPG version constraints to allow 4.0 ([#636](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/636)) ([dd9beb3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/dd9beb3da1bcc0ab2ac2a95c6ad7e238031ef33a))
+
 ### [11.2.3](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.2...v11.2.3) (2021-10-20)
 
 
