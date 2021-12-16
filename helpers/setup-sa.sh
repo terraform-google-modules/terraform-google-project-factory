@@ -182,6 +182,14 @@ gcloud organizations add-iam-policy-binding \
   --role="roles/billing.user" \
   --user-output-enabled false
 
+# Grant roles/billing.viewer to the service account on the organization
+echo "Adding role roles/billing.viewer..."
+gcloud organizations add-iam-policy-binding \
+  "${ORG_ID}" \
+  --member="serviceAccount:${SA_ID}" \
+  --role="roles/billing.viewer" \
+  --user-output-enabled false
+
 # Grant roles/compute.xpnAdmin to the service account on the organization
 echo "Adding role roles/compute.xpnAdmin..."
 gcloud organizations add-iam-policy-binding \
