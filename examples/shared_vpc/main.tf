@@ -17,8 +17,6 @@
 locals {
   subnet_01 = "${var.network_name}-subnet-01"
   subnet_02 = "${var.network_name}-subnet-02"
-  subnets = [local.subnet_01, local.subnet_02]
-  subnet_self_links = [for i, v in local.subnets: module.vpc.subnet_self_links[i]]
 }
 
 /******************************************
@@ -96,7 +94,7 @@ module "service-project" {
   billing_account = var.billing_account
 
   shared_vpc         = module.host-project.project_id
-  shared_vpc_subnets = local.subnet_self_links
+  shared_vpc_subnets = module.vpc.subnets_self_links
 
   activate_apis = [
     "compute.googleapis.com",
