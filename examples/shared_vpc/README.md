@@ -12,6 +12,7 @@ It then attaches two new service projects to the host project.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | billing\_account | The ID of the billing account to associate this project with | `any` | n/a | yes |
+| default\_network\_tier | Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers. | `string` | `""` | no |
 | folder\_id | The folder to create projects in | `any` | n/a | yes |
 | host\_project\_name | Name for Shared VPC host project | `string` | `"shared-vpc-host"` | no |
 | network\_name | Name for Shared VPC network | `string` | `"shared-network"` | no |

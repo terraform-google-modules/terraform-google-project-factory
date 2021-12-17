@@ -221,3 +221,9 @@ variable "grant_services_network_role" {
   type        = bool
   default     = true
 }
+
+variable "default_network_tier" {
+  description = "Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers."
+  type        = string
+  default     = ""
+}
