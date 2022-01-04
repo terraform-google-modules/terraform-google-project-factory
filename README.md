@@ -253,44 +253,19 @@ permissions:
 
 #### Specifying credentials
 
-The Project Factory uses external scripts to perform a few tasks that are not implemented
-by Terraform providers. Because of this the Project Factory needs a copy of service account
-credentials to pass to these scripts. Credentials can be provided via two mechanisms:
+The Project Factory module uses the [Google Terraform provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#authentication)
+to authenticate all GCP API calls.
+To configure credentials, you should configure the `google` and `google-beta` providers.
 
-1. Explicitly passed to the Project Factory with the `credentials_path` variable. This approach
-   typically uses the same credentials for the `google` provider and the Project Factory:
-    ```terraform
-    provider "google" {
-      credentials = "${file(var.credentials_path)}"
-      version = "~> 3.3"
-    }
+```terraform
+provider "google" {
+  credentials = "${file(var.credentials_path)}"
+}
 
-    module "project-factory" {
-      source = "terraform-google-modules/project-factory/google"
-
-      name             = "explicit-credentials"
-      credentials_path = "${var.credentials_path}"
-      # other variables follow ...
-    }
-    ```
-2. Implicitly provided by the [Application Default Credentials][application-default-credentials]
-   flow, which typically uses the `GOOGLE_APPLICATION_CREDENTIALS` environment variable:
-   ```terraform
-   # `GOOGLE_APPLICATION_CREDENTIALS` must be set in the environment before Terraform is run.
-   provider "google" {
-     # Terraform will check the `GOOGLE_APPLICATION_CREDENTIALS` variable, so no `credentials`
-     # value is needed here.
-      version = "~> 3.3"
-   }
-
-   module "project-factory" {
-      source = "terraform-google-modules/project-factory/google"
-
-      name = "adc-credentials"
-      # Project Factory will also check the `GOOGLE_APPLICATION_CREDENTIALS` environment variable.
-      # other variables follow ...
-   }
-   ```
+provider "google-beta" {
+  credentials = "${file(var.credentials_path)}"
+}
+```
 
 ### APIs
 
