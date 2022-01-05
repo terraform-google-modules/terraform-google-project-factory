@@ -15,11 +15,11 @@
  */
 
 provider "google" {
-  version = "~> 3.30"
+  version = "~> 4.5"
 }
 
 provider "google-beta" {
-  version = "~> 3.30"
+  version = "~> 4.5"
 }
 
 provider "null" {
@@ -36,6 +36,7 @@ locals {
 
 module "regular_service_perimeter_1" {
   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
+  version        = "~> 3.2"
   policy         = var.policy_id
   perimeter_name = local.perimeter_name
   description    = "New service perimeter"
