@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+### [11.3.1](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.3.0...v11.3.1) (2022-01-05)
+
+
+### Bug Fixes
+
+* grant roles/billing.viewer to the seed service account in helper. ([#666](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/666)) ([e444e2a](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/e444e2ae47632bfc7f1c060be6db1ab15e1cfb9d))
+* Wrap budget_name output with length check ([#673](https://www.github.com/terraform-google-modules/terraform-google-project-factory/issues/673)) ([21871b2](https://www.github.com/terraform-google-modules/terraform-google-project-factory/commit/21871b2a147d654f6d59f868fd1a3fd5ad33c84b))
+
 ## [11.3.0](https://www.github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.2.3...v11.3.0) (2021-12-01)
 
 
