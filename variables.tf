@@ -241,6 +241,12 @@ variable "budget_alert_spent_percents" {
   default     = [0.5, 0.7, 1.0]
 }
 
+variable "budget_alert_spend_basis" {
+  description = "The type of basis used to determine if spend has passed the threshold."
+  type        = string
+  default     = "CURRENT_SPEND"
+}
+
 variable "vpc_service_control_attach_enabled" {
   description = "Whether the project will be attached to a VPC Service Control Perimeter"
   type        = bool
