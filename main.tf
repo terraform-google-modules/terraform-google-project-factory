@@ -96,6 +96,7 @@ module "budget" {
   alert_pubsub_topic               = var.budget_alert_pubsub_topic
   monitoring_notification_channels = var.budget_monitoring_notification_channels
   display_name                     = var.budget_display_name != null ? var.budget_display_name : null
+  labels                           = var.budget_labels
 }
 
 /******************************************
