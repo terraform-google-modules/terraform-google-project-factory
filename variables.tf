@@ -242,7 +242,7 @@ variable "budget_alert_spent_percents" {
 }
 
 variable "budget_alert_spend_basis" {
-  description = "The type of basis used to determine if spend has passed the threshold."
+  description = "The type of basis used to determine if spend has passed the threshold"
   type        = string
   default     = "CURRENT_SPEND"
 }
