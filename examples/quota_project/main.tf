@@ -23,15 +23,17 @@ module "project_quota_manager" {
   project_id = var.project_id
   consumer_quotas = [
     {
-      service = "compute.googleapis.com"
-      metric  = "SimulateMaintenanceEventGroup"
-      limit   = "%2F100s%2Fproject"
-      value   = "19"
+      service    = "compute.googleapis.com"
+      metric     = "SimulateMaintenanceEventGroup"
+      dimensions = { region = "us-central1" }
+      limit      = "%2F100s%2Fproject"
+      value      = "19"
       }, {
-      service = "servicemanagement.googleapis.com"
-      metric  = "servicemanagement.googleapis.com%2Fdefault_requests"
-      limit   = "%2Fmin%2Fproject"
-      value   = "95"
+      service    = "servicemanagement.googleapis.com"
+      metric     = "servicemanagement.googleapis.com%2Fdefault_requests"
+      dimensions = {}
+      limit      = "%2Fmin%2Fproject"
+      value      = "95"
     }
   ]
 }
