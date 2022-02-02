@@ -12,7 +12,8 @@ To include G Suite integration for creating groups and adding Service Accounts i
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.13. If you haven't
+This module is meant for use with Terraform 0.13+ and tested using Terraform 1.0+. If you find incompatibilities using Terraform >=0.13, please open an issue.
+ If you haven't
 [upgraded][terraform-0.13-upgrade] and need a Terraform
 0.12.x-compatible version of this module, the last released version
 intended for Terraform 0.12.x is [9.2.0].

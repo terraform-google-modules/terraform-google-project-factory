@@ -30,8 +30,11 @@ locals {
   }
   gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled = contains(var.active_apis, "composer.googleapis.com")
-  active_apis                 = setintersection(keys(local.apis), var.active_apis)
-  subnetwork_api              = length(var.shared_vpc_subnets) != 0 ? tolist(setproduct(local.active_apis, var.shared_vpc_subnets)) : []
+  active_apis                 = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
+  # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
+  subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
+    for i, api in local.active_apis : [for i, subnet in var.shared_vpc_subnets : "${api},${subnet}"]
+  ]) : []
 }
 
 /******************************************
@@ -47,19 +50,19 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
   provider = google-beta
   count    = var.grant_services_network_role ? length(local.subnetwork_api) : 0
   subnetwork = element(
-    split("/", local.subnetwork_api[count.index][1]),
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
     index(
-      split("/", local.subnetwork_api[count.index][1]),
+      split("/", split(",", local.subnetwork_api[count.index])[1]),
       "subnetworks",
     ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", local.subnetwork_api[count.index][1]),
-    index(split("/", local.subnetwork_api[count.index][1]), "regions") + 1,
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
   )
   project = var.host_project_id
-  member  = format("serviceAccount:%s", local.apis[local.subnetwork_api[count.index][0]])
+  member  = format("serviceAccount:%s", local.apis[split(",", local.subnetwork_api[count.index])[0]])
 }
 
 /******************************************
@@ -68,7 +71,7 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
-  for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_services_network_role ? local.active_apis : []
+  for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_services_network_role ? toset(local.active_apis) : []
   project  = var.host_project_id
   role     = "roles/compute.networkUser"
   member   = format("serviceAccount:%s", local.apis[each.value])
