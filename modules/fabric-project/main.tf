@@ -28,8 +28,8 @@ locals {
 }
 
 resource "google_project" "project" {
-  org_id              = local.parent_type == "organizations" ? local.parent_id : ""
-  folder_id           = local.parent_type == "folders" ? local.parent_id : ""
+  org_id              = local.parent_type == "organizations" ? local.parent_id : null
+  folder_id           = local.parent_type == "folders" ? local.parent_id : null
   project_id          = "${var.prefix}-${var.name}"
   name                = "${var.prefix}-${var.name}"
   billing_account     = var.billing_account
