@@ -1,4 +1,4 @@
-# Budget Project
+# Quota Project
 
 This example illustrates how to use quota_manager submodule to override customer quotas.
 

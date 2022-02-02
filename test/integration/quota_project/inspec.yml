@@ -1,0 +1,4 @@
+name: quota_project
+attributes:
+  - name: project_id
+    required: true
