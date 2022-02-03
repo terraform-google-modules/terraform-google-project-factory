@@ -48,3 +48,6 @@ credentials.json
 env/
 test/fixtures/shared/terraform.tfvars
 .envrc
+
+# tf lock file
+.terraform.lock.hcl
