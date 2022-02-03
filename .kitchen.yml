@@ -60,6 +60,7 @@ suites:
   - name: essential_contacts
     driver:
       name: terraform
+      verify_version: false
       command_timeout: 1800
       root_module_directory: test/fixtures/essential_contacts
   - name: dynamic_shared_vpc
