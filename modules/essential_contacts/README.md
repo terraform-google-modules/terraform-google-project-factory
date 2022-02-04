@@ -1,35 +1,27 @@
 # Essential Contacts configuration
 
-This optional module is used to enable project APIs in your project. The list of
-APIs to be enabled is specified using the `essential_contacts_config` variable.
-
 This module uses the [`google_essential_contacts_contact`](https://www.terraform.io/docs/providers/google/r/google_project_service.html)
 resource to add contact emails which will receive notification types from Google Cloud, using specified subcription types.
-
 
 ## Prerequisites
 
 1. Service account used to run Terraform has permission to administer Essential Contacts:
 [`roles/essentialcontacts.admin`](https://cloud.google.com/iam/docs/understanding-roles#other-roles).
+2. The target project has the Essential Contacts API enabled `essentialcontacts.googleapis.com `
 
 ## Example Usage
 ```
-module "essential-contacts" {
-  source  = "terraform-google-modules/project-factory/google//modules/essential_contacts"
-  version = "10.1.1"
+module "essential_contacts" {
+  source     = "../../modules/essential_contacts"
+  project_id = var.project_id
 
-  project_id                  = "my-project-id"
+  essential_contacts = {
+    "user1@foo.com"    = ["ALL"],
+    "security@foo.com" = ["SECURITY", "TECHNICAL"],
+    "app@foo.com"      = ["TECHNICAL"]
+  }
 
-  essential_contacts_config = [
-    {
-      notification_category_subscriptions = ["ALL"]
-      language_tag              = "en-US"
-      contacts = [
-        "user1@foo.com",
-        "group1@foo.com"
-      ]
-    }
-  ]
+  language_tag = "en-US"
 }
 ```
 
@@ -48,6 +40,7 @@ See [examples/essential_contacts](./examples/essential_contacts) for a full exam
 
 | Name | Description |
 |------|-------------|
+| essential\_contacts | Essential Contact resources created |
 | project\_id | The GCP project you want to enable APIs on |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-/******************************************
-  Provider configuration
- *****************************************/
-provider "google" {
-  version = "~> 3.30"
-}
-
-provider "google-beta" {
-  version = "~> 3.38"
-}
-
-module "essential-contacts" {
+module "essential_contacts" {
   source     = "../../modules/essential_contacts"
   project_id = var.project_id
 

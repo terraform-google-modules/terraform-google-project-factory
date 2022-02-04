@@ -15,6 +15,6 @@
  */
 
 output "project_id" {
-  value       = module.essential-contacts.project_id
+  value       = module.essential_contacts.project_id
   description = "The GCP project you want to enable APIs on"
 }
