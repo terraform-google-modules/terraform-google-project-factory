@@ -105,26 +105,26 @@ steps:
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy budget-local']
 
 # essential contacts
-- id: go-init-essential-contacts-example
+- id: init-essential-contacts-example
   waitFor:
     - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && cd test/integration && RUN_STAGE=init go test -v -run TestEssentialContacsExample ./... -p 1']
-- id: go-apply-essential-contacts-example
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage init --verbose']
+- id: apply-essential-contacts-example
   waitFor:
-    - go-init-essential-contacts-example
+    - init-essential-contacts-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && cd test/integration && RUN_STAGE=apply go test -v -run TestEssentialContacsExample ./... -p 1']
-- id: go-verify-essential-contacts-example
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage apply --verbose']
+- id: verify-essential-contacts-example
   waitFor:
-    - go-apply-essential-contacts-example
+    - apply-essential-contacts-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && cd test/integration && RUN_STAGE=verify go test -v -run TestEssentialContacsExample ./... -p 1']
-- id: go-destroy-essential-contacts-example
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage verify --verbose']
+- id: destroy-essential-contacts-example
   waitFor:
-    - go-verify-essential-contacts-example
+    - verify-essential-contacts-example
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && source_test_env && init_credentials && cd test/integration && RUN_STAGE=teardown go test -v -run TestEssentialContacsExample ./... -p 1']
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage destroy --verbose']
 
 - id: create dynamic-shared-vpc-local
   waitFor:
