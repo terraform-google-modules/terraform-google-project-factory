@@ -28,7 +28,7 @@ import (
 )
 
 // name the function as Test*
-func TestEssentialContacsExample(t *testing.T) {
+func TestEssentialContactsExample(t *testing.T) {
 
 	// initialize Terraform test from the Blueprints test framework
 	essentialContactsT := tft.NewTFBlueprintTest(t)
