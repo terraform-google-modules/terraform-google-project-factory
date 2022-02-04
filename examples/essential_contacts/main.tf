@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
-module "essential_contacts" {
-  source     = "../../modules/essential_contacts"
-  project_id = var.project_id
+module "project-factory" {
+  source = "../../../"
+
+  name              = "pf-ci-test-ec-${var.random_string_for_testing}"
+  random_project_id = true
+  org_id            = var.org_id
+  folder_id         = var.folder_id
+  billing_account   = var.billing_account
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "container.googleapis.com",
+    "essentialcontacts.googleapis.com"
+  ]
 
   essential_contacts = {
     "user1@foo.com"    = ["ALL"],
@@ -25,4 +36,7 @@ module "essential_contacts" {
   }
 
   language_tag = "en-US"
+
+  default_service_account     = "DISABLE"
+  disable_services_on_destroy = false
 }

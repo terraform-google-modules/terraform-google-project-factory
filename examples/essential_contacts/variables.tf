@@ -17,3 +17,21 @@
 variable "project_id" {
   description = "The GCP project you want to enable APIs on"
 }
+
+variable "org_id" {
+  type = string
+}
+
+variable "folder_id" {
+  type = string
+}
+
+variable "billing_account" {
+  type        = string
+  description = "Billing account ID."
+}
+
+variable "random_string_for_testing" {
+  type        = string
+  description = "A random string of characters to be appended to resource names to ensure uniqueness"
+}
