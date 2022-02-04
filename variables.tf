@@ -289,7 +289,7 @@ variable "essential_contacts" {
 }
 
 variable "language_tag" {
-  description = "Language code to be used for essential contacts notifiactions"
+  description = "Language code to be used for essential contacts notifications"
   type        = string
   default     = "en-US"
 }
