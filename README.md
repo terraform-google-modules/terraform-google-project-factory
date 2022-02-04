@@ -141,7 +141,7 @@ determining that location is as follows:
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
-| language\_tag | Language code to be used for essential contacts notifiactions | `string` | `"en-US"` | no |
+| language\_tag | Language code to be used for essential contacts notifications | `string` | `"en-US"` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | n/a | yes |
