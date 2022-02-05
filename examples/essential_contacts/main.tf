@@ -15,7 +15,7 @@
  */
 
 module "project-factory" {
-  source = "../../../"
+  source = "../../"
 
   name              = "pf-ci-test-ec-${var.random_string_for_testing}"
   random_project_id = true
