@@ -7,7 +7,11 @@ This example illustrates how to use the essential_contacts submodule to assign e
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| billing\_account | Billing account ID. | `string` | n/a | yes |
+| folder\_id | n/a | `string` | n/a | yes |
+| org\_id | n/a | `string` | n/a | yes |
 | project\_id | The GCP project you want to enable APIs on | `any` | n/a | yes |
+| random\_string\_for\_testing | A random string of characters to be appended to resource names to ensure uniqueness | `string` | n/a | yes |
 
 ## Outputs
 
