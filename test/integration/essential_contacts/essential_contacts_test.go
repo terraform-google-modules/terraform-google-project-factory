@@ -47,15 +47,20 @@ func TestEssentialContactsExample(t *testing.T) {
 		apis := gcloud.Run(t, fmt.Sprintf("services list --project %s", projectID))
 		assert.Equal("ENABLED", apis.Get("#(config.name==\"essentialcontacts.googleapis.com\").state").String(), "Essential Contacts API is enabled")
 
-		essentialContacts := gcloud.Run(t, fmt.Sprintf("essential-contacts list --project %s", projectID))
-		assert.Equal(essentialContacts.Get("#(email==\"app@foo.com\").languageTag").String(), "en-US")
-		assert.Contains(essentialContacts.Get("#(email==\"app@foo.com\").notificationCategorySubscriptions").String(), "TECHNICAL")
-		assert.Equal(essentialContacts.Get("#(email==\"security@foo.com\").languageTag").String(), "en-US")
-		assert.Contains(essentialContacts.Get("#(email==\"security@foo.com\").notificationCategorySubscriptions").String(), "SECURITY")
-		assert.Contains(essentialContacts.Get("#(email==\"security@foo.com\").notificationCategorySubscriptions").String(), "TECHNICAL")
-		assert.Equal(essentialContacts.Get("#(email==\"user1@foo.com\").languageTag").String(), "en-US")
-		assert.Contains(essentialContacts.Get("#(email==\"user1@foo.com\").notificationCategorySubscriptions").String(), "ALL")
 
+		essentialContacts := gcloud.Run(t, fmt.Sprintf("essential-contacts list --project %s", projectID)).Array()
+		for _, contact := range essentialContacts{
+		assert.Equal("en-US", contact.Get("languageTag").String(), "has correct language tag")
+		email := contact.Get("email").String()
+		switch email {
+			case "app@foo.com":
+				assert.ElementsMatch([]string{"TECHNICAL"}, utils.GetResultStrSlice(contact.Get("notificationCategorySubscriptions").Array()))
+			case "security@foo.com":
+				assert.ElementsMatch([]string{"SECURITY", "TECHNICAL"}, utils.GetResultStrSlice(contact.Get("notificationCategorySubscriptions").Array()))
+			case "user1@foo.com":
+				assert.ElementsMatch([]string{"ALL"}, utils.GetResultStrSlice(contact.Get("notificationCategorySubscriptions").Array()))
+		}
+		}
 	})
 	// call the test function to execute the integration test
 	essentialContactsT.Test()
