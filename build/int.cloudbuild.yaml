@@ -104,6 +104,28 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy budget-local']
 
+# essential contacts
+- id: init-essential-contacts-example
+  waitFor:
+    - prepare
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage init --verbose']
+- id: apply-essential-contacts-example
+  waitFor:
+    - init-essential-contacts-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage apply --verbose']
+- id: verify-essential-contacts-example
+  waitFor:
+    - apply-essential-contacts-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage verify --verbose']
+- id: destroy-essential-contacts-example
+  waitFor:
+    - verify-essential-contacts-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage destroy --verbose']
+
 - id: create dynamic-shared-vpc-local
   waitFor:
       - prepare
