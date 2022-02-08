@@ -15,15 +15,18 @@
  */
 
 variable "project_id" {
-  description = "The GCP project you want to enable APIs on"
+  type        = string
+  description = "The GCP project to create Essential Contacts in"
 }
 
 variable "org_id" {
-  type = string
+  type        = string
+  description = "The organization ID."
 }
 
 variable "folder_id" {
   type = string
+  description = "The ID of a folder to host this project."
 }
 
 variable "billing_account" {
