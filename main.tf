@@ -108,3 +108,14 @@ module "quotas" {
   project_id      = module.project-factory.project_id
   consumer_quotas = var.consumer_quotas
 }
+
+/******************************************
+  Essential Contacts to create if set
+ *****************************************/
+module "essential_contacts" {
+  source = "./modules/essential_contacts"
+
+  project_id         = module.project-factory.project_id
+  essential_contacts = var.essential_contacts
+  language_tag       = var.language_tag
+}

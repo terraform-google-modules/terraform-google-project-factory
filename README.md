@@ -12,7 +12,8 @@ To include G Suite integration for creating groups and adding Service Accounts i
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.13. If you haven't
+This module is meant for use with Terraform 0.13+ and tested using Terraform 1.0+. If you find incompatibilities using Terraform >=0.13, please open an issue.
+ If you haven't
 [upgraded][terraform-0.13-upgrade] and need a Terraform
 0.12.x-compatible version of this module, the last released version
 intended for Terraform 0.12.x is [9.2.0].
@@ -134,12 +135,14 @@ determining that location is as follows:
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed | `bool` | `true` | no |
 | domain | The domain name (optional). | `string` | `""` | no |
 | enable\_shared\_vpc\_host\_project | If this project is a shared VPC host project. If true, you must *not* set svpc\_host\_project\_id variable. Default is false. | `bool` | `false` | no |
+| essential\_contacts | A mapping of users or groups to be assigned as Essential Contacts to the project, specifying a notification category | `map(list(string))` | `{}` | no |
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |
 | grant\_services\_network\_role | Whether or not to grant service agents the network roles on the host project | `bool` | `true` | no |
 | grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
+| language\_tag | Language code to be used for essential contacts notifications | `string` | `"en-US"` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | n/a | yes |
