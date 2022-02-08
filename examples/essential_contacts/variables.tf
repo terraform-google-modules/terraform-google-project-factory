@@ -25,7 +25,7 @@ variable "org_id" {
 }
 
 variable "folder_id" {
-  type = string
+  type        = string
   description = "The ID of a folder to host this project."
 }
 
