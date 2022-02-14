@@ -167,6 +167,28 @@ steps:
     - verify vpc-sc-project-local
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && export TF_VAR_policy_id=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id:?}" --format="value(name)") && kitchen_do destroy vpc-sc-project-local']
+
+- id: init-quota-project
+  waitFor:
+    - prepare
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage init --verbose']
+- id: apply-quota-project
+  waitFor:
+    - init-quota-project-example
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage apply --verbose']
+- id: verify-quota-project
+  waitFor:
+    - apply-quota-project
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage verify --verbose']
+- id: destroy-quota-project-example
+  waitFor:
+    - verify-quota-project
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage destroy --verbose']
+
 tags:
 - 'ci'
 - 'integration'
