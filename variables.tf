@@ -282,3 +282,15 @@ variable "default_network_tier" {
   type        = string
   default     = ""
 }
+
+variable "essential_contacts" {
+  description = "A mapping of users or groups to be assigned as Essential Contacts to the project, specifying a notification category"
+  type        = map(list(string))
+  default     = {}
+}
+
+variable "language_tag" {
+  description = "Language code to be used for essential contacts notifications"
+  type        = string
+  default     = "en-US"
+}
