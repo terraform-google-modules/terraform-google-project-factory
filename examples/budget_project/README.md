@@ -18,7 +18,6 @@ It will do the following:
 | budget\_credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"EXCLUDE_ALL_CREDITS"` | no |
 | budget\_services | A list of services to be included in the budget | `list(string)` | <pre>[<br>  "6F81-5844-456A",<br>  "A1E8-BE35-7EBC"<br>]</pre> | no |
 | folder\_id | The ID of a folder to host this project. | `string` | `""` | no |
-| location\_id | The location to serve the app from. | `string` | `"us-east4"` | no |
 | org\_id | The organization ID. | `string` | n/a | yes |
 | parent\_project\_id | The project\_id of the parent project to add as an additional project for the budget | `string` | n/a | yes |
 

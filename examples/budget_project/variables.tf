@@ -35,11 +35,6 @@ variable "billing_account" {
   type        = string
 }
 
-variable "location_id" {
-  description = "The location to serve the app from."
-  default     = "us-east4"
-}
-
 variable "budget_amount" {
   description = "The amount to use for the budget"
   default     = 10

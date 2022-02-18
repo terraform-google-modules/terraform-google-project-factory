@@ -48,4 +48,7 @@ module "additional_budget" {
   services               = var.budget_services
   alert_spent_percents   = var.budget_alert_spent_percents
   alert_pubsub_topic     = "projects/${module.budget_project.project_id}/topics/${google_pubsub_topic.budget.name}"
+  labels = {
+    "cost-center" : "dept-x"
+  }
 }
