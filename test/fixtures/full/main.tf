@@ -40,7 +40,7 @@ locals {
 
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 2.0"
+  version = ">= 4.0.1, < 5.0"
 
   network_name = "pf-test-int-full-${var.random_string_for_testing}"
   project_id   = var.shared_vpc

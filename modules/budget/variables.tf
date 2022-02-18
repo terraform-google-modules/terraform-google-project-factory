@@ -70,3 +70,13 @@ variable "monitoring_notification_channels" {
   type        = list(string)
   default     = []
 }
+
+variable "labels" {
+  description = "A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget."
+  type        = map(string)
+  default     = {}
+  validation {
+    condition     = length(var.labels) <= 1
+    error_message = "Only 0 or 1 labels may be supplied for the budget filter."
+  }
+}
