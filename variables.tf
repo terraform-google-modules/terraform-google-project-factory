@@ -241,6 +241,16 @@ variable "budget_alert_spent_percents" {
   default     = [0.5, 0.7, 1.0]
 }
 
+variable "budget_labels" {
+  description = "A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget."
+  type        = map(string)
+  default     = {}
+  validation {
+    condition     = length(var.budget_labels) <= 1
+    error_message = "Only 0 or 1 labels may be supplied for the budget filter."
+  }
+}
+
 variable "vpc_service_control_attach_enabled" {
   description = "Whether the project will be attached to a VPC Service Control Perimeter"
   type        = bool

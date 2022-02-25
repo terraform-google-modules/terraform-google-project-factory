@@ -16,18 +16,16 @@ steps:
 - id: prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'mkdir -p ~/.terraform.d && ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && prepare_environment']
-- id: create minimal-local
+- id: create-all
   waitFor:
       - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create minimal-local']
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create']
 - id: converge minimal-local
   waitFor:
-      - create minimal-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge minimal-local']
-  env:
-  - 'GCLOUD_TF_DOWNLOAD=always'
 - id: verify minimal-local
   waitFor:
       - converge minimal-local
@@ -38,17 +36,10 @@ steps:
     - verify minimal-local
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy minimal-local']
-  env:
-  - 'GCLOUD_TF_DOWNLOAD=always'
 
-- id: create fabric-project-local
-  waitFor:
-      - prepare
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create fabric-project-local']
 - id: converge fabric-project-local
   waitFor:
-      - create fabric-project-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge fabric-project-local']
 - id: verify fabric-project-local
@@ -62,14 +53,9 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy fabric-project-local']
 
-- id: create app-engine-local
-  waitFor:
-      - prepare
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create app-engine-local']
 - id: converge app-engine-local
   waitFor:
-      - create app-engine-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge app-engine-local']
 - id: verify app-engine-local
@@ -83,14 +69,9 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy app-engine-local']
 
-- id: create budget-local
-  waitFor:
-      - prepare
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create budget-local']
 - id: converge budget-local
   waitFor:
-      - create budget-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge budget-local']
 - id: verify budget-local
@@ -126,14 +107,9 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage destroy --verbose']
 
-- id: create dynamic-shared-vpc-local
-  waitFor:
-      - prepare
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create dynamic-shared-vpc-local']
 - id: converge dynamic-shared-vpc-local
   waitFor:
-      - create dynamic-shared-vpc-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge dynamic-shared-vpc-local']
 - id: verify dynamic-shared-vpc-local
@@ -147,14 +123,9 @@ steps:
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy dynamic-shared-vpc-local']
 
-- id: create vpc-sc-project-local
-  waitFor:
-      - prepare
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create vpc-sc-project-local']
 - id: converge vpc-sc-project-local
   waitFor:
-      - create vpc-sc-project-local
+      - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && export TF_VAR_policy_id=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id:?}" --format="value(name)") && kitchen_do converge vpc-sc-project-local']
 - id: verify vpc-sc-project-local
@@ -204,4 +175,3 @@ options:
     - 'TF_VAR_gsuite_admin_email=project-factory-test-admin@test.infra.cft.tips'
     - 'TF_VAR_gsuite_domain=test.infra.cft.tips'
     - 'TF_VAR_domain=test.infra.cft.tips.'
-    - 'GCLOUD_TF_DOWNLOAD=never'
