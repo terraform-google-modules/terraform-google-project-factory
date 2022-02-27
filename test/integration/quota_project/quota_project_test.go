@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
-	"github.com/gruntwork-io/terratest/modules/shell"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -45,17 +45,9 @@ func TestQuotaProject(t *testing.T) {
 		quotaProjectT.DefaultVerify(assert)
 
 		projectID := quotaProjectT.GetStringOutput("project_id")
-		computeAPI := "compute.googleapis.com"
 
-		gcurlCmd := shell.Command{
-			Command: "gcurl",
-			Args:    []string{fmt.Sprintf("https://serviceconsumermanagement.googleapis.com/v1beta1/services/%s/projects/%s/consumerQuotaMetrics", computeAPI, projectID)},
-		}
-		op, err := shell.RunCommandAndGetStdOutE(t, gcurlCmd)
-		if err != nil {
-			t.Fatal(err)
-		}
-		assert.Equal("a", op, "has metrics array")
+		apis := gcloud.Run(t, fmt.Sprintf("services list --project %s", projectID))
+		assert.Equal("ENABLED", apis.Get("#(config.name==\"servicemanagement.googleapis.com\").state").String(), "Service Management API is enabled")
 	})
 	quotaProjectT.Test()
 }

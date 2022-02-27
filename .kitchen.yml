@@ -63,11 +63,6 @@ suites:
       verify_version: false
       command_timeout: 1800
       root_module_directory: test/fixtures/dynamic_shared_vpc
-  - name: quota_project
-    driver:
-      name: terraform
-      command_timeout: 1800
-      root_module_directory: test/fixtures/quota_project
     verifier:
       name: terraform
       color: true
