@@ -15,30 +15,19 @@
 package quota_project
 
 import (
+	"context"
 	"fmt"
+	"io"
 	"testing"
 
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
 	"github.com/stretchr/testify/assert"
+
+	"golang.org/x/oauth2/google"
 )
 
 func TestQuotaProject(t *testing.T) {
-	// const consumerQuota = [
-	// 	{
-	// 	  service    = "compute.googleapis.com"
-	// 	  metric     = "SimulateMaintenanceEventGroup"
-	// 	  dimensions = { region = "us-central1" }
-	// 	  limit      = "%2F100s%2Fproject"
-	// 	  value      = "19"
-	// 	  }, {
-	// 	  service    = "servicemanagement.googleapis.com"
-	// 	  metric     = "servicemanagement.googleapis.com%2Fdefault_requests"
-	// 	  dimensions = {}
-	// 	  limit      = "%2Fmin%2Fproject"
-	// 	  value      = "95"
-	// 	}
-	// ]
 	quotaProjectT := tft.NewTFBlueprintTest(t)
 
 	quotaProjectT.DefineVerify(func(assert *assert.Assertions) {
@@ -47,7 +36,15 @@ func TestQuotaProject(t *testing.T) {
 		projectID := quotaProjectT.GetStringOutput("project_id")
 
 		apis := gcloud.Run(t, fmt.Sprintf("services list --project %s", projectID))
-		assert.Equal("ENABLED", apis.Get("#(config.name==\"servicemanagement.googleapis.com\").state").String(), "Service Management API is enabled")
+		assert.Equal("ENABLED", apis.Get("#(config.name==\"serviceconsumermanagement.googleapis.com\").state").String(), "Service Consumer Management API is enabled")
+
+		// Use Service Consumer Management API to get consumer quota
+		ctx := context.Background()
+		httpClient, _ := google.DefaultClient(ctx, "https://www.googleapis.com/auth/cloud-platform")
+		resp, _ := httpClient.Get(fmt.Sprintf("https://serviceconsumermanagement.googleapis.com/v1beta1/services/compute.googleapis.com/projects/%s/consumerQuotaMetrics", projectID))
+		defer resp.Body.Close()
+		body, _ := io.ReadAll(resp.Body)
+		assert.Equal("test", string(body), "has correct consumer quota override")
 	})
 	quotaProjectT.Test()
 }

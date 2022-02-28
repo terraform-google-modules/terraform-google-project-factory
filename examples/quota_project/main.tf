@@ -26,25 +26,29 @@ resource "random_string" "suffix" {
 
 module "quota-project" {
   source            = "../../"
-  name              = "quota-${random_string.suffix.result}"
+  name              = "pf-ci-test-quota-${random_string.suffix.result}"
   random_project_id = true
   org_id            = var.org_id
   folder_id         = var.folder_id
   billing_account   = var.billing_account
+
   activate_apis = [
-    "appengine.googleapis.com",
+    "serviceconsumermanagement.googleapis.com"
   ]
-}
+  activate_api_identities = [{
+    api = "serviceconsumermanagement.googleapis.com"
+    roles = [
+      "roles/serviceconsumermanagement.tenancyUnitsAdmin"
+    ]
+  }]
 
-module "quota-manager" {
-  source = "../../modules/quota_manager"
-
-  project_id = module.quota-project.project_id
   consumer_quotas = [
     {
       service    = "compute.googleapis.com"
       metric     = "SimulateMaintenanceEventGroup"
-      dimensions = { region = "us-central1" }
+      dimensions = {
+        region = "us-central1"
+      }
       limit      = "%2F100s%2Fproject"
       value      = "19"
       }, {
