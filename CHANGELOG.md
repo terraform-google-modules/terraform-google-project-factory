@@ -12,6 +12,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 ### ⚠ BREAKING CHANGES
 
 * Budget module should support filtering on labels (#627)
+* Minimum provider version increased to v4.5 (#627)
 
 ### Features
 
