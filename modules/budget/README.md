@@ -21,6 +21,7 @@ module "project_myproject" {
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | `string` | `null` | no |
+| alert\_spend\_basis | The type of basis used to determine if spend has passed the threshold | `string` | `"CURRENT_SPEND"` | no |
 | alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | amount | The amount to use as the budget | `number` | n/a | yes |
 | billing\_account | ID of the billing account to set a budget on | `string` | n/a | yes |

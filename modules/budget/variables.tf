@@ -59,6 +59,12 @@ variable "alert_spent_percents" {
   default     = [0.5, 0.7, 1.0]
 }
 
+variable "alert_spend_basis" {
+  description = "The type of basis used to determine if spend has passed the threshold"
+  type        = string
+  default     = "CURRENT_SPEND"
+}
+
 variable "alert_pubsub_topic" {
   description = "The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`"
   type        = string
