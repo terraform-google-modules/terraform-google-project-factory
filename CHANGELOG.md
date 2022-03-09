@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [12.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.3.1...v12.0.0) (2022-03-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* Budget module should support filtering on labels (#627)
+* Minimum provider version increased to v4.5 (#627)
+
+### Features
+
+* Add Essential Contacts support ([#617](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/617)) ([f89e1a0](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/f89e1a0ad8485d9e14716116c65e0f911ce01d0f))
+* Budget module should support filtering on labels ([#627](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/627)) ([44a9fec](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/44a9feca98daf719f091fb8eeac2cc9e292cfc0d))
+* expose spend_basis for budget alerts  ([#681](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/681)) ([ea3961c](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/ea3961ce9b81c37e52577c70c781892eec260c03))
+
 ### [11.3.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.3.0...v11.3.1) (2022-01-11)
 
 
