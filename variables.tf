@@ -286,7 +286,7 @@ variable "consumer_quotas" {
   type = list(object({
     service    = string,
     metric     = string,
-    dimensions = object({}),
+    dimensions = any,
     limit      = string,
     value      = string,
   }))

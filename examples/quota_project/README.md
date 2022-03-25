@@ -16,6 +16,5 @@ This example illustrates how to use quota_manager submodule to override customer
 | Name | Description |
 |------|-------------|
 | project\_id | The project ID in which to override quota |
-| quota\_overrides | The server-generated names of the quota override in the provided project. |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

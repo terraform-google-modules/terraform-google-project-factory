@@ -18,12 +18,13 @@ import (
 	"context"
 	"fmt"
 	"io"
+	"net/url"
 	"testing"
 
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/gcloud"
 	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/tft"
+	"github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test/pkg/utils"
 	"github.com/stretchr/testify/assert"
-
 	"golang.org/x/oauth2/google"
 )
 
@@ -36,15 +37,50 @@ func TestQuotaProject(t *testing.T) {
 		projectID := quotaProjectT.GetStringOutput("project_id")
 
 		apis := gcloud.Run(t, fmt.Sprintf("services list --project %s", projectID))
-		assert.Equal("ENABLED", apis.Get("#(config.name==\"serviceconsumermanagement.googleapis.com\").state").String(), "Service Consumer Management API is enabled")
+		assert.Equal("ENABLED", apis.Get("#(config.name==\"serviceusage.googleapis.com\").state").String(), "Service Usage API is enabled")
+		assert.Equal("ENABLED", apis.Get("#(config.name==\"compute.googleapis.com\").state").String(), "Compute Engine API is enabled")
+		assert.Equal("ENABLED", apis.Get("#(config.name==\"servicemanagement.googleapis.com\").state").String(), "Service Management API is enabled")
 
-		// Use Service Consumer Management API to get consumer quota
-		ctx := context.Background()
-		httpClient, _ := google.DefaultClient(ctx, "https://www.googleapis.com/auth/cloud-platform")
-		resp, _ := httpClient.Get(fmt.Sprintf("https://serviceconsumermanagement.googleapis.com/v1beta1/services/compute.googleapis.com/projects/%s/consumerQuotaMetrics", projectID))
-		defer resp.Body.Close()
-		body, _ := io.ReadAll(resp.Body)
-		assert.Equal("test", string(body), "has correct consumer quota override")
+		// Use Service Usage API to get display consumer quota information
+		httpClient, err := google.DefaultClient(context.Background(), "https://www.googleapis.com/auth/cloud-platform")
+		if err != nil {
+			t.Fatalf("%s", err)
+		}
+		serviceUsageEndpoint := fmt.Sprintf(
+			"https://serviceusage.googleapis.com/v1beta1/projects/%s/services/%s/consumerQuotaMetrics/%s/limits/%s/consumerOverrides",
+			projectID,
+			"compute.googleapis.com",
+			url.QueryEscape("compute.googleapis.com/n2_cpus"),
+			url.QueryEscape("/project/region"))
+		resp, err := httpClient.Get(serviceUsageEndpoint)
+		if err != nil {
+			t.Fatalf("%s", err)
+		}
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatalf("%s", err)
+		}
+		result := utils.ParseJSONResult(t, string(body))
+		assert.Equal("10", result.Get("overrides.0.overrideValue").String(), "has correct consumer quota override value")
+		assert.Equal("us-central1", result.Get("overrides.0.dimensions.region").String(), "has correct consumer quota override dimensions")
+
+		serviceUsageEndpoint = fmt.Sprintf(
+			"https://serviceusage.googleapis.com/v1beta1/projects/%s/services/%s/consumerQuotaMetrics/%s/limits/%s/consumerOverrides",
+			projectID,
+			"servicemanagement.googleapis.com",
+			url.QueryEscape("servicemanagement.googleapis.com/default_requests"),
+			url.QueryEscape("/min/project"))
+		resp, err = httpClient.Get(serviceUsageEndpoint)
+		if err != nil {
+			t.Fatalf("%s", err)
+		}
+		body, err = io.ReadAll(resp.Body)
+		if err != nil {
+			t.Fatalf("%s", err)
+		}
+		result = utils.ParseJSONResult(t, string(body))
+		assert.Equal("95", result.Get("overrides.0.overrideValue").String(), "has correct consumer quota override value")
+		assert.True(!result.Get("overrides.0.dimensions").Exists(), "has correct consumer quota override dimensions")
 	})
 	quotaProjectT.Test()
 }

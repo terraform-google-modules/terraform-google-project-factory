@@ -33,29 +33,26 @@ module "quota-project" {
   billing_account   = var.billing_account
 
   activate_apis = [
-    "serviceconsumermanagement.googleapis.com"
+    "serviceusage.googleapis.com",
+    "compute.googleapis.com",
+    "servicemanagement.googleapis.com"
   ]
-  activate_api_identities = [{
-    api = "serviceconsumermanagement.googleapis.com"
-    roles = [
-      "roles/serviceconsumermanagement.tenancyUnitsAdmin"
-    ]
-  }]
 
   consumer_quotas = [
     {
-      service    = "compute.googleapis.com"
-      metric     = "SimulateMaintenanceEventGroup"
+      service = "compute.googleapis.com"
+      metric  = urlencode("compute.googleapis.com/n2_cpus")
+      limit   = urlencode("/project/region")
       dimensions = {
         region = "us-central1"
       }
-      limit      = "%2F100s%2Fproject"
-      value      = "19"
-      }, {
+      value = "10"
+    },
+    {
       service    = "servicemanagement.googleapis.com"
-      metric     = "servicemanagement.googleapis.com%2Fdefault_requests"
+      metric     = urlencode("servicemanagement.googleapis.com/default_requests")
+      limit      = urlencode("/min/project")
       dimensions = {}
-      limit      = "%2Fmin%2Fproject"
       value      = "95"
     }
   ]
