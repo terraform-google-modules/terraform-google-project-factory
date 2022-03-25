@@ -338,6 +338,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
  *****************************************/
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_attachment" {
   count          = var.vpc_service_control_attach_enabled ? 1 : 0
+  depends_on     = [google_service_account.default_service_account]
   perimeter_name = var.vpc_service_control_perimeter_name
   resource       = "projects/${google_project.main.number}"
 }
