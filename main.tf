@@ -39,6 +39,7 @@ module "project-factory" {
   shared_vpc                         = var.svpc_host_project_id
   enable_shared_vpc_service_project  = var.svpc_host_project_id != ""
   enable_shared_vpc_host_project     = var.enable_shared_vpc_host_project
+  grant_services_network_role        = var.grant_services_network_role
   billing_account                    = var.billing_account
   folder_id                          = var.folder_id
   create_project_sa                  = var.create_project_sa
