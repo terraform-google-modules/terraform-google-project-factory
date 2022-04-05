@@ -233,3 +233,9 @@ variable "default_network_tier" {
   type        = string
   default     = ""
 }
+
+variable "grant_services_network_role" {
+  description = "Whether or not to grant networkUser role on the host project/subnets"
+  type        = bool
+  default     = true
+}
