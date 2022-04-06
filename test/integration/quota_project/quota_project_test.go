@@ -36,16 +36,14 @@ func TestQuotaProject(t *testing.T) {
 
 		projectID := quotaProjectT.GetStringOutput("project_id")
 
-		apis := gcloud.Run(t, fmt.Sprintf("services list --project %s", projectID))
+		apis := gcloud.Runf(t, "services list --project %s", projectID)
 		assert.Equal("ENABLED", apis.Get("#(config.name==\"serviceusage.googleapis.com\").state").String(), "Service Usage API is enabled")
 		assert.Equal("ENABLED", apis.Get("#(config.name==\"compute.googleapis.com\").state").String(), "Compute Engine API is enabled")
 		assert.Equal("ENABLED", apis.Get("#(config.name==\"servicemanagement.googleapis.com\").state").String(), "Service Management API is enabled")
 
 		// Use Service Usage API to get display consumer quota information
 		httpClient, err := google.DefaultClient(context.Background(), "https://www.googleapis.com/auth/cloud-platform")
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
+		assert.NoError(err)
 		serviceUsageEndpoint := fmt.Sprintf(
 			"https://serviceusage.googleapis.com/v1beta1/projects/%s/services/%s/consumerQuotaMetrics/%s/limits/%s/consumerOverrides",
 			projectID,
@@ -53,13 +51,12 @@ func TestQuotaProject(t *testing.T) {
 			url.QueryEscape("compute.googleapis.com/n2_cpus"),
 			url.QueryEscape("/project/region"))
 		resp, err := httpClient.Get(serviceUsageEndpoint)
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
+		assert.NoError(err)
+
+		defer resp.Body.Close()
+
 		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
+		assert.NoError(err)
 		result := utils.ParseJSONResult(t, string(body))
 		assert.Equal("10", result.Get("overrides.0.overrideValue").String(), "has correct consumer quota override value")
 		assert.Equal("us-central1", result.Get("overrides.0.dimensions.region").String(), "has correct consumer quota override dimensions")
@@ -71,16 +68,12 @@ func TestQuotaProject(t *testing.T) {
 			url.QueryEscape("servicemanagement.googleapis.com/default_requests"),
 			url.QueryEscape("/min/project"))
 		resp, err = httpClient.Get(serviceUsageEndpoint)
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
+		assert.NoError(err)
 		body, err = io.ReadAll(resp.Body)
-		if err != nil {
-			t.Fatalf("%s", err)
-		}
+		assert.NoError(err)
 		result = utils.ParseJSONResult(t, string(body))
 		assert.Equal("95", result.Get("overrides.0.overrideValue").String(), "has correct consumer quota override value")
-		assert.True(!result.Get("overrides.0.dimensions").Exists(), "has correct consumer quota override dimensions")
+		assert.False(result.Get("overrides.0.dimensions").Exists(), "has empty dimensions")
 	})
 	quotaProjectT.Test()
 }
