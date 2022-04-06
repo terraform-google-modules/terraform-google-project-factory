@@ -309,3 +309,9 @@ variable "language_tag" {
   type        = string
   default     = "en-US"
 }
+
+variable "grant_network_role" {
+  description = "Whether or not to grant networkUser role on the host project/subnets"
+  type        = bool
+  default     = true
+}
