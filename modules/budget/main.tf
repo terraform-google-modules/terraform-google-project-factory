@@ -58,6 +58,7 @@ resource "google_billing_budget" "budget" {
     for_each = var.alert_spent_percents
     content {
       threshold_percent = threshold_rules.value
+      spend_basis       = var.alert_spend_basis
     }
   }
 

@@ -241,6 +241,12 @@ variable "budget_alert_spent_percents" {
   default     = [0.5, 0.7, 1.0]
 }
 
+variable "budget_alert_spend_basis" {
+  description = "The type of basis used to determine if spend has passed the threshold"
+  type        = string
+  default     = "CURRENT_SPEND"
+}
+
 variable "budget_labels" {
   description = "A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget."
   type        = map(string)
