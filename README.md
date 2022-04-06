@@ -189,9 +189,15 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin >= 3.1, < 4.0
--   [terraform-provider-google-beta] plugin >= 3.1, < 4.0
+-   [terraform-provider-google] plugin ~> 4.5
+-   [terraform-provider-google-beta] plugin ~> 4.5
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+
+#### `terraform-provider-google` version 3.x
+
+Starting with version `12.0.0` of this module, `google_billing_budget` supports filtering on labels. This increases the minimum `terraform-provider-google` version to `4.5`
+
+To continue to use a version `>= 3.1, < 4.0` of the google provider pin this module to `11.3.1`.
 
 #### `terraform-provider-google` version 2.x
 
