@@ -1,12 +1,12 @@
-# Upgrading to Project Factory v11.0
+# Upgrading to Project Factory v13.0
 
-The v11.0 release of Project Factory is a backwards incompatible release.
+The v13.0 release of Project Factory is a backwards incompatible release.
 
 ## Migration Instructions
 
 ### Unused variables have been removed
 
-Variable `grant_services_network_role` is renamed to `grant_network_role` to provide the ability to not manage networkUser role through project factory module [v13.0](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/upgrading_to_project_factory_v13.0.md).
+Variable `grant_services_network_role` is renamed to `grant_network_role` to provide the ability to not manage networkUser role through project factory module v13.0
 
 ```diff
  module "project-factory" {
@@ -30,3 +30,7 @@ Service accounts principles on which networkUser can be managed through `grant_n
 - [Google APIs service agent](https://cloud.google.com/compute/docs/access/service-accounts#google_apis_service_agent)
 - group_email
 - dataflow, dataproc, composer, container, and vpcaccess API [agent accounts](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/616ede9456cc8f86ef7995192af3473d17ee7946/modules/shared_vpc_access/main.tf#L24-L30).
+
+Additional roles that are managed through `grant_network_role` variable.
+- roles/container.hostServiceAgentUser on "serviceAccount:service-{PROJECT-NUMBER}@container-engine-robot.iam.gserviceaccount.com
+- roles/composer.sharedVpcAgent on "service-{PROJECT-NUMBER}@cloudcomposer-accounts.iam.gserviceaccount.com"
