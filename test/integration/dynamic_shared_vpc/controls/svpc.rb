@@ -96,7 +96,7 @@ control 'svpc' do
       )
     end
 
-    it "service project c without explicit subnets and grant_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
       expect(bindings).not_to include(
         members: including("serviceAccount:service-#{service_project_c_number}@container-engine-robot.iam.gserviceaccount.com"),
         role: "roles/compute.networkUser",
@@ -110,7 +110,7 @@ control 'svpc' do
     )
   end
 
-  it "service project c without explicit subnets and grant_network_role flag set to false does not include the dataproc service account in the roles/compute.networkUser IAM binding" do
+  it "service project c with explicit subnets and grant_network_role flag set to false does not include the dataproc service account in the roles/compute.networkUser IAM binding" do
     expect(bindings).not_to include(
       members: including("serviceAccount:service-#{service_project_c_number}@dataproc-accounts.iam.gserviceaccount.com"),
       role: "roles/compute.networkUser",
