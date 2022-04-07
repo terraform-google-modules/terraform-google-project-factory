@@ -80,7 +80,7 @@ module "shared_vpc_access" {
   service_project_number             = module.project-factory.project_number
   lookup_project_numbers             = false
   grant_services_security_admin_role = var.grant_services_security_admin_role
-  grant_services_network_role        = var.grant_services_network_role
+  grant_network_role                 = var.grant_network_role
 }
 
 /******************************************

@@ -139,7 +139,6 @@ determining that location is as follows:
 | essential\_contacts | A mapping of users or groups to be assigned as Essential Contacts to the project, specifying a notification category | `map(list(string))` | `{}` | no |
 | folder\_id | The ID of a folder to host this project | `string` | `""` | no |
 | grant\_network\_role | Whether or not to grant networkUser role on the host project/subnets | `bool` | `true` | no |
-| grant\_services\_network\_role | Whether or not to grant service agents the network roles on the host project | `bool` | `true` | no |
 | grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | group\_name | A group to control the project by being assigned group\_role (defaults to project editor) | `string` | `""` | no |
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
