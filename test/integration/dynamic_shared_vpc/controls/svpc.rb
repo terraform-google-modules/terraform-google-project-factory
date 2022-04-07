@@ -158,6 +158,15 @@ end
       end
     end
 
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include project default service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).not_to include(
+        members: including(
+          "serviceAccount:project-service-account@#{service_project_ids[2]}.iam.gserviceaccount.com"
+        ),
+        role: "roles/compute.networkUser",
+      )
+    end
+
     it "service project c with explicit subnets and grant_network_role flag set to false does not include the GCP Compute agent service account in the roles/compute.networkUser IAM binding" do
       expect(bindings).not_to include(
         members: including(
