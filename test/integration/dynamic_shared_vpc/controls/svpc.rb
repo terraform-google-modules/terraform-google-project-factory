@@ -149,6 +149,15 @@ end
     end
 
     describe "roles/compute.networkUser" do
+      it "service project with explicit subnets includes the GKE service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).to include(
+          members: including("serviceAccount:project-service-account@#{service_project_ids[0]}.iam.gserviceaccount.com"),
+          role: "roles/compute.networkUser",
+        )
+      end
+    end
+
+    describe "roles/compute.networkUser" do
       it "service project with explicit subnets includes the dataflow service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).to include(
           members: including("serviceAccount:service-#{service_project_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
