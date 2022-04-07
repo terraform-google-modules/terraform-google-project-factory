@@ -29,7 +29,7 @@ usage() {
   echo "     $0 -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>] [-n <service account name>]"
   echo "         organization id        (required)"
   echo "         project id             (required)"
-  echo "         billing accout id      (optional)"
+  echo "         billing account id     (optional)"
   echo "         folder id              (optional)"
   echo "         service account name   (optional)"
   echo
@@ -251,19 +251,10 @@ gcloud services enable \
 # enable the billing account
 if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
   echo "Enabling the billing account..."
-  gcloud beta billing accounts get-iam-policy "$BILLING_ACCOUNT" > policy-tmp-$$.yml
-  unamestr=$(uname)
-  if [ "$unamestr" = 'Darwin' ] || [ "$unamestr" = 'Linux' ]; then
-    sed -i.bak -e "/^etag:.*/i \\
-- members:\\
-\ \ - serviceAccount:${SA_ID}\\
-\ \ role: roles/billing.user" policy-tmp-$$.yml && rm policy-tmp-$$.yml.bak
-    gcloud beta billing accounts set-iam-policy "$BILLING_ACCOUNT" policy-tmp-$$.yml
-  else
-    echo "Could not set roles/billing.user on service account $SERVICE_ACCOUNT.\
-    Please perform this manually."
-  fi
-  rm -f policy-tmp-$$.yml
+  gcloud beta billing accounts add-iam-policy-binding "$BILLING_ACCOUNT" \
+    --member="serviceAccount:${SA_ID}" \
+    --role="roles/billing.user" \
+    --user-output-enabled false
 fi
 
 echo "All done."
