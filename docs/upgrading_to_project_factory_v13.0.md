@@ -4,7 +4,7 @@ The v13.0 release of Project Factory is a backwards incompatible release.
 
 ## Migration Instructions
 
-### Unused variables have been removed
+### `grant_services_network_role` renamed to `grant_network_role`
 
 Variable `grant_services_network_role` is renamed to `grant_network_role` to provide the ability to not manage networkUser role through project factory module v13.0
 
