@@ -140,7 +140,7 @@ module "service-project-b" {
 
 /******************************************
   Third Service Project Creation
-  To test the grant_services_network_role
+  To test the grant_network_role
  *****************************************/
 module "service-project-c" {
   source = "../../modules/svpc_service_project"
@@ -152,12 +152,15 @@ module "service-project-c" {
   folder_id       = var.folder_id
   billing_account = var.billing_account
 
-  shared_vpc = module.host-project.project_id
+  shared_vpc         = module.host-project.project_id
+  shared_vpc_subnets = module.vpc.subnets_self_links
 
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
     "dataproc.googleapis.com",
+    "composer.googleapis.com",
+    "dataflow.googleapis.com"
   ]
 
   activate_api_identities = [{
@@ -169,7 +172,7 @@ module "service-project-c" {
   }]
 
   disable_services_on_destroy = false
-  grant_services_network_role = false
+  grant_network_role          = false
 }
 
 /******************************************

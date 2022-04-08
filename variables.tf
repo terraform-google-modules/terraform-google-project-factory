@@ -275,8 +275,8 @@ variable "grant_services_security_admin_role" {
   default     = false
 }
 
-variable "grant_services_network_role" {
-  description = "Whether or not to grant service agents the network roles on the host project"
+variable "grant_network_role" {
+  description = "Whether or not to grant networkUser role on the host project/subnets"
   type        = bool
   default     = true
 }
