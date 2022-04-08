@@ -79,7 +79,7 @@ control 'svpc' do
         )
       end
 
-      it "service project c with explicit subnets and grant_services_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+      it "service project c with explicit subnets and grant_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).not_to include(
           members: including(
             "serviceAccount:service-#{service_project_c_number}@container-engine-robot.iam.gserviceaccount.com"
@@ -96,7 +96,7 @@ control 'svpc' do
       )
     end
 
-    it "service project c without explicit subnets and grant_services_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include the GKE service account in the roles/compute.networkUser IAM binding" do
       expect(bindings).not_to include(
         members: including("serviceAccount:service-#{service_project_c_number}@container-engine-robot.iam.gserviceaccount.com"),
         role: "roles/compute.networkUser",
@@ -110,7 +110,7 @@ control 'svpc' do
     )
   end
 
-  it "service project c without explicit subnets and grant_services_network_role flag set to false does not include the dataproc service account in the roles/compute.networkUser IAM binding" do
+  it "service project c with explicit subnets and grant_network_role flag set to false does not include the dataproc service account in the roles/compute.networkUser IAM binding" do
     expect(bindings).not_to include(
       members: including("serviceAccount:service-#{service_project_c_number}@dataproc-accounts.iam.gserviceaccount.com"),
       role: "roles/compute.networkUser",
@@ -149,6 +149,15 @@ end
     end
 
     describe "roles/compute.networkUser" do
+      it "service project with explicit subnets includes project default service account in the roles/compute.networkUser IAM binding" do
+        expect(bindings).to include(
+          members: including("serviceAccount:project-service-account@#{service_project_ids[0]}.iam.gserviceaccount.com"),
+          role: "roles/compute.networkUser",
+        )
+      end
+    end
+
+    describe "roles/compute.networkUser" do
       it "service project with explicit subnets includes the dataflow service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).to include(
           members: including("serviceAccount:service-#{service_project_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
@@ -156,6 +165,42 @@ end
           role: "roles/compute.networkUser",
         )
       end
+    end
+
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include project default service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).not_to include(
+        members: including(
+          "serviceAccount:project-service-account@#{service_project_ids[2]}.iam.gserviceaccount.com"
+        ),
+        role: "roles/compute.networkUser",
+      )
+    end
+
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include the GCP Compute agent service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).not_to include(
+        members: including(
+          "serviceAccount:#{service_project_c_number}@cloudservices.gserviceaccount.com"
+        ),
+        role: "roles/compute.networkUser",
+      )
+    end
+
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include the GCP Dataflow agent service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).not_to include(
+        members: including(
+          "serviceAccount:service-#{service_project_c_number}@dataflow-service-producer-prod.iam.gserviceaccount.com"
+        ),
+        role: "roles/compute.networkUser",
+      )
+    end
+
+    it "service project c with explicit subnets and grant_network_role flag set to false does not include the GCP Dataproc agent service account in the roles/compute.networkUser IAM binding" do
+      expect(bindings).not_to include(
+        members: including(
+          "serviceAccount:service-#{service_project_c_number}@dataproc-accounts.iam.gserviceaccount.com"
+        ),
+        role: "roles/compute.networkUser",
+      )
     end
   end
 
