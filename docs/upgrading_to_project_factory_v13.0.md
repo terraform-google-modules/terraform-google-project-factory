@@ -34,3 +34,36 @@ Service accounts principles on which networkUser can be managed through `grant_n
 Additional roles that are managed through `grant_network_role` variable.
 - roles/container.hostServiceAgentUser on "serviceAccount:service-{PROJECT-NUMBER}@container-engine-robot.iam.gserviceaccount.com
 - roles/composer.sharedVpcAgent on "service-{PROJECT-NUMBER}@cloudcomposer-accounts.iam.gserviceaccount.com"
+
+### Add `dimensions` field to `consumer_quota` object
+
+The `dimensions` field was added to the `consumer_quota` object.
+
+```diff
+ module "project-factory" {
+   source  = "terraform-google-modules/project-factory/google"
+-  version = "~> 12.0"
++  version = "~> 13.0"
+
+  name                = "pf-test-1"
+  random_project_id   = "true"
+  org_id              = "1234567890"
+  usage_bucket_name   = "pf-test-1-usage-report-bucket"
+  usage_bucket_prefix = "pf/test/1/integration"
+  billing_account     = "ABCDEF-ABCDEF-ABCDEF"
+  consumer_quotas = [
+    {
+      service    = "servicemanagement.googleapis.com"
+      metric     = urlencode("servicemanagement.googleapis.com/default_requests")
+      limit      = urlencode("/min/project")
++     dimensions = {}
+      value      = "95"
+    }
+  ]
+}
+```
+
+### Google Cloud Platform Provider upgrade
+
+The Project Factory module now requires version 4.11 or higher of the Google Cloud Platform Provider and 4.11 or higher of
+the Google Cloud Platform Beta Provider.
