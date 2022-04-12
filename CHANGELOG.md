@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [13.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v12.0.0...v13.0.0) (2022-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* add upgrade guide, update provider constraints (#705)
+* Add dimensions argument to consumer quota override (#683)
+* replace grant_services_network_role with grant_network_role for networkUser role management (#697)
+
+### Features
+
+* Add dimensions argument to consumer quota override ([#683](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/683)) ([d1d7624](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/d1d7624bc5379f33a2b23ba7da9deb41b61a97f6))
+* replace grant_services_network_role with grant_network_role for networkUser role management ([#697](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/697)) ([d309270](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/d309270a6c6ace6e2b5bc792073bfee9a07c365d))
+* setup-sa.sh use add-iam-policy-binding ([#689](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/689)) ([616ede9](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/616ede9456cc8f86ef7995192af3473d17ee7946))
+
+
+### Bug Fixes
+
+* add upgrade guide, update provider constraints ([#705](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/705)) ([644f596](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/644f596cbf7a8bcd2fe963e5e696b74d7b469141))
+* update TPG version constraints to allow 4.0 and TF v0.13+ format ([#700](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/700)) ([b66a080](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/b66a080fc3d72938d8110958588aaf5dfe749e99))
+* use module release rather than repo head ([#704](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/704)) ([522f3cc](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/522f3cc1183aad85d21b3a4ade58fc501684086b))
+* VPC-SC SA destroy sequence with default SA ([#691](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/691)) ([0e5420b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/0e5420b5b45288e4af8a8bc9a8490c91240ada13))
+
 ## [12.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v11.3.1...v12.0.0) (2022-03-02)
 
 
