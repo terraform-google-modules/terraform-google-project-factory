@@ -22,9 +22,10 @@ variable "project_id" {
 variable "consumer_quotas" {
   description = "The quotas configuration you want to override for the project."
   type = list(object({
-    service = string,
-    metric  = string,
-    limit   = string,
-    value   = string,
+    service    = string,
+    metric     = string,
+    dimensions = map(string),
+    limit      = string,
+    value      = string,
   }))
 }

@@ -17,21 +17,43 @@
 /******************************************
   Consumer Quota
  *****************************************/
-module "project_quota_manager" {
-  source = "../../modules/quota_manager"
 
-  project_id = var.project_id
+resource "random_string" "suffix" {
+  length  = 4
+  special = false
+  upper   = false
+}
+
+module "quota-project" {
+  source            = "../../"
+  name              = "pf-ci-test-quota-${random_string.suffix.result}"
+  random_project_id = true
+  org_id            = var.org_id
+  folder_id         = var.folder_id
+  billing_account   = var.billing_account
+
+  activate_apis = [
+    "serviceusage.googleapis.com",
+    "compute.googleapis.com",
+    "servicemanagement.googleapis.com"
+  ]
+
   consumer_quotas = [
     {
       service = "compute.googleapis.com"
-      metric  = "SimulateMaintenanceEventGroup"
-      limit   = "%2F100s%2Fproject"
-      value   = "19"
-      }, {
-      service = "servicemanagement.googleapis.com"
-      metric  = "servicemanagement.googleapis.com%2Fdefault_requests"
-      limit   = "%2Fmin%2Fproject"
-      value   = "95"
+      metric  = urlencode("compute.googleapis.com/n2_cpus")
+      limit   = urlencode("/project/region")
+      dimensions = {
+        region = "us-central1"
+      }
+      value = "10"
+    },
+    {
+      service    = "servicemanagement.googleapis.com"
+      metric     = urlencode("servicemanagement.googleapis.com/default_requests")
+      limit      = urlencode("/min/project")
+      dimensions = {}
+      value      = "95"
     }
   ]
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-output "quota_overrides" {
-  description = "The server-generated names of the quota override in the provided project."
-  value       = module.project_quota_manager.quota_overrides
+output "project_id" {
+  description = "The project ID in which to override quota"
+  value       = module.quota-project.project_id
 }

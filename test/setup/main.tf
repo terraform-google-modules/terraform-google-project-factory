@@ -46,7 +46,8 @@ module "pfactory_project" {
     "billingbudgets.googleapis.com",
     "pubsub.googleapis.com",
     "accesscontextmanager.googleapis.com",
-    "essentialcontacts.googleapis.com"
+    "essentialcontacts.googleapis.com",
+    "serviceconsumermanagement.googleapis.com"
   ]
 }
 
