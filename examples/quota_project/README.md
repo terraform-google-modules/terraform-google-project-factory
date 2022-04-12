@@ -1,4 +1,4 @@
-# Budget Project
+# Quota Project
 
 This example illustrates how to use quota_manager submodule to override customer quotas.
 
@@ -7,12 +7,14 @@ This example illustrates how to use quota_manager submodule to override customer
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| project\_id | The GCP project you want to override the consumer quotas. | `string` | n/a | yes |
+| billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
+| folder\_id | The ID of a folder to host this project. | `string` | `""` | no |
+| org\_id | The organization ID. | `string` | n/a | yes |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| quota\_overrides | The server-generated names of the quota override in the provided project. |
+| project\_id | The project ID in which to override quota |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

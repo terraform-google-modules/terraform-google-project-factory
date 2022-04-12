@@ -26,6 +26,7 @@ resource "google_service_usage_consumer_quota_override" "override" {
   service        = each.value.service
   metric         = each.value.metric
   limit          = each.value.limit
+  dimensions     = each.value.dimensions
   override_value = each.value.value
   force          = true
 }
