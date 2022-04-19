@@ -25,7 +25,7 @@ resource "google_folder" "ci_pfactory_folder" {
 
 module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 11.0"
+  version = "~> 13.0"
 
   name              = "ci-pfactory-tests"
   random_project_id = true
@@ -53,4 +53,11 @@ module "pfactory_project" {
 
 resource "random_id" "random_string_for_testing" {
   byte_length = 3
+}
+
+# propagation time
+resource "time_sleep" "wait_180_seconds" {
+  depends_on = [module.pfactory_project.enabled_apis]
+
+  create_duration = "180s"
 }
