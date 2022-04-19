@@ -17,7 +17,7 @@
 variable "activate_apis" {
   description = "Service APIs to enable."
   type        = list(string)
-  default     = ["compute.googleapis.com"]
+  default     = ["serviceusage.googleapis.com", "compute.googleapis.com"]
 }
 
 variable "billing_account" {

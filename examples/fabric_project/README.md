@@ -7,7 +7,7 @@ This example illustrates how to create a simple project using the `fabric-projec
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| activate\_apis | Service APIs to enable. | `list(string)` | <pre>[<br>  "compute.googleapis.com"<br>]</pre> | no |
+| activate\_apis | Service APIs to enable. | `list(string)` | <pre>[<br>  "serviceusage.googleapis.com",<br>  "compute.googleapis.com"<br>]</pre> | no |
 | billing\_account | Billing account id. | `string` | n/a | yes |
 | name | Project name, joined with prefix. | `string` | `"fabric-project"` | no |
 | owners | Optional list of IAM-format members to set as project owners. | `list(string)` | `[]` | no |
