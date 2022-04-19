@@ -28,7 +28,7 @@ output "sa_key" {
 }
 
 output "folder_id" {
-  value = google_folder.ci_pfactory_folder.id
+  value = google_folder.ci_pfactory_folder.folder_id
 }
 
 output "org_id" {
