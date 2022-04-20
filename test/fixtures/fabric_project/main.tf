@@ -18,7 +18,7 @@ module "fabric-project" {
   source = "../../../examples/fabric_project"
 
   name            = "fabric-project"
-  parent          = var.folder_id
+  parent          = "folders/${var.folder_id}"
   billing_account = var.billing_account
   activate_apis = [
     "compute.googleapis.com",

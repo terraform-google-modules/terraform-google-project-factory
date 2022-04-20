@@ -30,7 +30,7 @@ module "pfactory_project" {
   name              = "ci-pfactory-tests"
   random_project_id = true
   org_id            = var.org_id
-  folder_id         = google_folder.ci_pfactory_folder.id
+  folder_id         = google_folder.ci_pfactory_folder.folder_id
   billing_account   = var.billing_account
 
   activate_apis = [
