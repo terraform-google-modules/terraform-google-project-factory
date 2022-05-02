@@ -31,6 +31,12 @@ module "host-project" {
   billing_account                = var.billing_account
   enable_shared_vpc_host_project = true
   default_network_tier           = var.default_network_tier
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
+  ]
+
 }
 
 /******************************************

@@ -28,6 +28,12 @@ module "budget_project" {
   folder_id         = var.folder_id
   billing_account   = var.billing_account
   budget_amount     = var.budget_amount
+
+  activate_apis = [
+    "compute.googleapis.com",
+    "cloudresourcemanager.googleapis.com"
+  ]
+
 }
 
 
