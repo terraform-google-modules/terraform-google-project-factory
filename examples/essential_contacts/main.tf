@@ -26,7 +26,8 @@ module "project-factory" {
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
-    "essentialcontacts.googleapis.com"
+    "essentialcontacts.googleapis.com",
+    "serviceusage.googleapis.com"
   ]
 
   essential_contacts = {
