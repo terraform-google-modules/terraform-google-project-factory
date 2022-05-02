@@ -31,7 +31,8 @@ module "budget_project" {
 
   activate_apis = [
     "compute.googleapis.com",
-    "cloudresourcemanager.googleapis.com"
+    "cloudresourcemanager.googleapis.com",
+    "billingbudgets.googleapis.com"
   ]
 
 }
