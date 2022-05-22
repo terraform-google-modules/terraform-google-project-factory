@@ -16,8 +16,8 @@
 
 variable "random_project_id" {
   description = <<EOF
-  Adds a suffix of 4 random characters to the `project_id`. Once you delete a project you can't use the same `project_id` for 30 days.
-  It is useful for testing since it allows you to create and shut down projects without worrying about conflicts. 
+  Adds a suffix of 4 random characters to the `project_id`. It is important to note that once you delete a project you can't use the same `project_id` for 30 days.
+  random_project_id comes in handy in such situations (specially during testing) since it allows you to create and shut down projects without worrying about conflicts.
   EOF
   type        = bool
   default     = false
