@@ -27,6 +27,7 @@ locals {
     "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
     "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
     "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
+    "deploymentmanager.googleapis.com" : format("%s@cloudservices.gserviceaccount.com", local.service_project_number)
   }
   gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled = contains(var.active_apis, "composer.googleapis.com")
