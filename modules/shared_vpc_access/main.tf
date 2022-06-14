@@ -41,8 +41,10 @@ locals {
   if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
+  if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
        https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
+       https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
   if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
  *****************************************/
@@ -69,6 +71,7 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
+ if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.active_apis) : []
