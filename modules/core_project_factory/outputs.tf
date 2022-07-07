@@ -19,10 +19,9 @@ output "project_name" {
 }
 
 output "project_id" {
-  value = module.project_services.project_id
+  value = google_project.main.project_id
   depends_on = [
     module.project_services,
-    google_project.main,
     google_compute_shared_vpc_service_project.shared_vpc_attachment,
     google_compute_shared_vpc_host_project.shared_vpc_host,
   ]
