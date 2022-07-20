@@ -29,6 +29,12 @@ variable "amount" {
   type        = number
 }
 
+variable "currency_code" {
+  description = "The currency to use for the budget"
+  type        = string
+  default     = "USD"
+}
+
 variable "create_budget" {
   description = "If the budget should be created"
   type        = bool

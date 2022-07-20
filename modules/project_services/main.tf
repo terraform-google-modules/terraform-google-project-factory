@@ -29,7 +29,8 @@ locals {
   APIs configuration
  *****************************************/
 resource "google_project_service" "project_services" {
-  for_each                   = local.services
+  for_each = local.services
+
   project                    = var.project_id
   service                    = each.value
   disable_on_destroy         = var.disable_services_on_destroy
@@ -51,7 +52,8 @@ resource "google_project_service_identity" "project_service_identities" {
 
 # Process the compute.googleapis.com identity separately, if present in the inputs.
 data "google_compute_default_service_account" "default" {
-  count   = local.activate_compute_identity ? 1 : 0
+  count = local.activate_compute_identity ? 1 : 0
+
   project = var.project_id
 }
 

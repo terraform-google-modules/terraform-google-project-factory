@@ -24,7 +24,6 @@ module "gsuite_group" {
   name   = var.group_name
   org_id = var.org_id
 }
-
 module "project-factory" {
   source = "./modules/core_project_factory"
 
@@ -71,7 +70,8 @@ module "project-factory" {
   Setting API service accounts for shared VPC
  *****************************************/
 module "shared_vpc_access" {
-  source                             = "./modules/shared_vpc_access"
+  source = "./modules/shared_vpc_access"
+
   enable_shared_vpc_service_project  = var.svpc_host_project_id != "" ? true : false
   host_project_id                    = var.svpc_host_project_id
   service_project_id                 = module.project-factory.project_id
@@ -93,6 +93,7 @@ module "budget" {
   projects                         = [module.project-factory.project_id]
   billing_account                  = var.billing_account
   amount                           = var.budget_amount
+  currency_code                    = var.budget_currency_code
   alert_spent_percents             = var.budget_alert_spent_percents
   alert_spend_basis                = var.budget_alert_spend_basis
   alert_pubsub_topic               = var.budget_alert_pubsub_topic

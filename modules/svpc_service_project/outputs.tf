@@ -15,18 +15,18 @@
  */
 
 output "project_name" {
-  description = "The name for the project"
   value       = module.project-factory.project_name
+  description = "The name of the project"
 }
 
 output "project_id" {
-  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
   value       = module.shared_vpc_access.project_id
+  description = "If provided, the project uses the given project ID. Mutually exclusive with random_project_id being true."
 }
 
 output "project_number" {
-  description = "The number for the project"
   value       = module.project-factory.project_number
+  description = "The number for the project"
 }
 
 output "domain" {
@@ -73,4 +73,3 @@ output "project_bucket_url" {
   value       = module.project-factory.project_bucket_url
   description = "Project's bucket url"
 }
-

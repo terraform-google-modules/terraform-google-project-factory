@@ -38,7 +38,8 @@ resource "google_project" "project" {
 }
 
 resource "google_project_service" "project_services" {
-  for_each                   = toset(var.activate_apis)
+  for_each = toset(var.activate_apis)
+
   project                    = google_project.project.project_id
   service                    = each.value
   disable_on_destroy         = true
@@ -48,28 +49,32 @@ resource "google_project_service" "project_services" {
 # this will fail for external users, who need to be manually added so they
 # can accept the email invitation to join the project
 resource "google_project_iam_member" "owners" {
-  count   = length(var.owners)
+  count = length(var.owners)
+
   project = google_project.project.project_id
   role    = "roles/owner"
   member  = element(var.owners, count.index)
 }
 
 resource "google_project_iam_member" "editors" {
-  count   = length(var.editors)
+  count = length(var.editors)
+
   project = google_project.project.project_id
   role    = "roles/editor"
   member  = element(var.editors, count.index)
 }
 
 resource "google_project_iam_member" "viewers" {
-  count   = length(var.viewers)
+  count = length(var.viewers)
+
   project = google_project.project.project_id
   role    = "roles/viewer"
   member  = element(var.viewers, count.index)
 }
 
 resource "google_compute_project_metadata_item" "oslogin_meta" {
-  count   = var.oslogin ? 1 : 0
+  count = var.oslogin ? 1 : 0
+
   project = google_project.project.project_id
   key     = "enable-oslogin"
   value   = "TRUE"
@@ -79,21 +84,24 @@ resource "google_compute_project_metadata_item" "oslogin_meta" {
 }
 
 resource "google_project_iam_member" "oslogin_admins" {
-  count   = var.oslogin ? length(var.oslogin_admins) : 0
+  count = var.oslogin ? length(var.oslogin_admins) : 0
+
   project = google_project.project.project_id
   role    = "roles/compute.osAdminLogin"
   member  = element(var.oslogin_admins, count.index)
 }
 
 resource "google_project_iam_member" "oslogin_users" {
-  count   = var.oslogin ? length(var.oslogin_users) : 0
+  count = var.oslogin ? length(var.oslogin_users) : 0
+
   project = google_project.project.project_id
   role    = "roles/compute.osLogin"
   member  = element(var.oslogin_users, count.index)
 }
 
 resource "google_project_iam_member" "oslogin_sa_users" {
-  count   = var.oslogin ? local.num_oslogin_users : 0
+  count = var.oslogin ? local.num_oslogin_users : 0
+
   project = google_project.project.project_id
   role    = "roles/iam.serviceAccountUser"
   member  = element(local.all_oslogin_users, count.index)
@@ -102,32 +110,38 @@ resource "google_project_iam_member" "oslogin_sa_users" {
 # this grants the project viewer role to OS Login users, so that they can
 # use the CLI to get the list of instances
 resource "google_project_iam_member" "oslogin_viewers" {
-  count   = var.oslogin ? local.num_oslogin_users : 0
+  count = var.oslogin ? local.num_oslogin_users : 0
+
   project = google_project.project.project_id
   role    = "roles/viewer"
   member  = element(local.all_oslogin_users, count.index)
 }
 
 resource "google_project_iam_custom_role" "roles" {
-  count       = length(var.custom_roles)
+  count = length(var.custom_roles)
+
   project     = google_project.project.project_id
   role_id     = element(keys(var.custom_roles), count.index)
   title       = "Custom role ${element(keys(var.custom_roles), count.index)}"
   description = "Terraform-managed"
-
   permissions = split(",", element(values(var.custom_roles), count.index))
 }
 
 resource "google_project_iam_binding" "extra" {
-  count      = length(var.extra_bindings_roles)
-  project    = google_project.project.project_id
-  role       = element(var.extra_bindings_roles, count.index)
-  members    = split(",", element(var.extra_bindings_members, count.index))
-  depends_on = [google_project_iam_custom_role.roles]
+  count = length(var.extra_bindings_roles)
+
+  project = google_project.project.project_id
+  role    = element(var.extra_bindings_roles, count.index)
+  members = split(",", element(var.extra_bindings_members, count.index))
+
+  depends_on = [
+    google_project_iam_custom_role.roles
+  ]
 }
 
 resource "google_resource_manager_lien" "lien" {
-  count        = var.lien_reason != "" ? 1 : 0
+  count = var.lien_reason != "" ? 1 : 0
+
   parent       = "projects/${google_project.project.number}"
   restrictions = ["resourcemanager.projects.delete"]
   origin       = "created-by-terraform"
@@ -136,6 +150,7 @@ resource "google_resource_manager_lien" "lien" {
 
 resource "google_project_iam_member" "gce_service_account" {
   count = length(var.gce_service_account_roles)
+
   project = element(
     split("=>", element(var.gce_service_account_roles, count.index)),
     0,

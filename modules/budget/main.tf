@@ -30,9 +30,13 @@ locals {
 }
 
 data "google_project" "project" {
-  depends_on = [var.projects]
-  count      = length(var.projects)
+  count = length(var.projects)
+
   project_id = element(var.projects, count.index)
+
+  depends_on = [
+    var.projects
+  ]
 }
 
 resource "google_billing_budget" "budget" {
@@ -50,7 +54,8 @@ resource "google_billing_budget" "budget" {
 
   amount {
     specified_amount {
-      units = tostring(var.amount)
+      currency_code = var.currency_code
+      units         = tostring(var.amount)
     }
   }
 

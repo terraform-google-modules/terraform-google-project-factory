@@ -20,12 +20,12 @@ output "domain" {
 }
 
 output "email" {
-  description = "The email address of the group."
   value       = local.email
+  description = "The email address of the group."
 }
 
 output "name" {
-  description = "The username portion of the email address of the group."
   value       = var.name
+  description = "The username portion of the email address of the group."
 }
 

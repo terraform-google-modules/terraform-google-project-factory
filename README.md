@@ -120,11 +120,13 @@ determining that location is as follows:
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_ula | Enable Uniform Bucket Level Access | `bool` | `true` | no |
+| bucket\_storage\_class | Set the storage class of the bucket | `string` | `STANDARD` | no |
 | bucket\_versioning | Enable versioning for a GCS bucket to create (optional) | `bool` | `false` | no |
 | budget\_alert\_pubsub\_topic | The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}` | `string` | `null` | no |
 | budget\_alert\_spend\_basis | The type of basis used to determine if spend has passed the threshold | `string` | `"CURRENT_SPEND"` | no |
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
+| budget\_currency\_code | The currency to use for the budget | `string` | `USD` | no |
 | budget\_display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | budget\_labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
@@ -171,9 +173,10 @@ determining that location is as follows:
 | group\_email | The email of the G Suite group with group\_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id | n/a |
-| project\_name | n/a |
-| project\_number | n/a |
+| project\_bucket\_name | Project's bucket name without gs:// prefix |
+| project\_id | Identifier of the project |
+| project\_name | Name of the project |
+| project\_number | Numeric identifier of the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |
@@ -189,8 +192,8 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin ~> 4.11
--   [terraform-provider-google-beta] plugin ~> 4.11
+-   [terraform-provider-google] plugin >= 4.11.0, < 5.0.0
+-   [terraform-provider-google-beta] plugin >= 4.11.0, < 5.0.0
 -   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
 
 ### Permissions

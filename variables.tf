@@ -181,6 +181,12 @@ variable "bucket_ula" {
   default     = true
 }
 
+variable "bucket_storage_class" {
+  description = "Set the storage class of the bucket"
+  type        = string
+  default     = "STANDARD"
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
@@ -215,6 +221,12 @@ variable "budget_amount" {
   description = "The amount to use for a budget alert"
   type        = number
   default     = null
+}
+
+variable "budget_currency_code" {
+  description = "The currency to use for the budget"
+  type        = string
+  default     = "USD"
 }
 
 variable "budget_display_name" {

@@ -65,7 +65,8 @@ module "project-factory" {
   Setting API service accounts for shared VPC
  *****************************************/
 module "shared_vpc_access" {
-  source                             = "../shared_vpc_access"
+  source = "../shared_vpc_access"
+
   host_project_id                    = var.shared_vpc
   enable_shared_vpc_service_project  = true
   service_project_id                 = module.project-factory.project_id
@@ -81,9 +82,9 @@ module "shared_vpc_access" {
   Billing budget to create if amount is set
  *****************************************/
 module "budget" {
-  source        = "../budget"
-  create_budget = var.budget_amount != null
+  source = "../budget"
 
+  create_budget                    = var.budget_amount != null
   projects                         = [module.project-factory.project_id]
   billing_account                  = var.billing_account
   amount                           = var.budget_amount

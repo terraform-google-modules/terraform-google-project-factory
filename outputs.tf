@@ -16,14 +16,17 @@
 
 output "project_name" {
   value = module.project-factory.project_name
+  description = "Name of the project"
 }
 
 output "project_id" {
   value = module.project-factory.project_id
+  description = "Identifier of the project"
 }
 
 output "project_number" {
   value = module.project-factory.project_number
+  description = "Numerical identifier of the project"
 }
 
 output "domain" {
@@ -71,6 +74,11 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
+output "project_bucket_name" {
+  value       = module.project-factory.project_bucket_name
+  description = "Project's bucket name"
+}
+
 output "api_s_account" {
   value       = module.project-factory.api_s_account
   description = "API service account email"
@@ -82,13 +90,13 @@ output "api_s_account_fmt" {
 }
 
 output "enabled_apis" {
-  description = "Enabled APIs in the project"
   value       = module.project-factory.enabled_apis
+  description = "Enabled APIs in the project"
 }
 
 output "enabled_api_identities" {
-  description = "Enabled API identities in the project"
   value       = module.project-factory.enabled_api_identities
+  description = "Enabled API identities in the project"
 }
 
 output "budget_name" {

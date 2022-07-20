@@ -15,11 +15,13 @@
  */
 
 output "project_name" {
-  value = google_project.main.name
+  value       = google_project.main.name
+  description = "Name of the project"
 }
 
 output "project_id" {
-  value = module.project_services.project_id
+  value       = module.project_services.project_id
+  description = "Identifier of the project"
   depends_on = [
     module.project_services,
     google_project.main,
@@ -29,8 +31,11 @@ output "project_id" {
 }
 
 output "project_number" {
-  value      = google_project.main.number
-  depends_on = [module.project_services]
+  value       = google_project.main.number
+  description = "Numerical identifier of the project"
+  depends_on = [
+    module.project_services
+  ]
 }
 
 output "service_account_id" {
@@ -59,8 +64,8 @@ output "service_account_unique_id" {
 }
 
 output "project_bucket_name" {
-  description = "The name of the projec's bucket"
   value       = google_storage_bucket.project_bucket.*.name
+  description = "The name of the projec's bucket"
 }
 
 output "project_bucket_self_link" {
@@ -71,6 +76,11 @@ output "project_bucket_self_link" {
 output "project_bucket_url" {
   value       = google_storage_bucket.project_bucket.*.url
   description = "Project's bucket url"
+}
+
+output "project_bucket_name" {
+  value       = local.project_bucket_name
+  description = "Project's bucket name"
 }
 
 output "api_s_account" {
@@ -84,11 +94,11 @@ output "api_s_account_fmt" {
 }
 
 output "enabled_apis" {
-  description = "Enabled APIs in the project"
   value       = module.project_services.enabled_apis
+  description = "Enabled APIs in the project"
 }
 
 output "enabled_api_identities" {
-  description = "Enabled API identities in the project"
   value       = module.project_services.enabled_api_identities
+  description = "Enabled API identities in the project"
 }

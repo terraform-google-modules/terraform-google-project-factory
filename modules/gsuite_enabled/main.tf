@@ -106,9 +106,9 @@ module "project-factory" {
   Billing budget to create if amount is set
  *****************************************/
 module "budget" {
-  source        = "../budget"
-  create_budget = var.budget_amount != null
+  source = "../budget"
 
+  create_budget                    = var.budget_amount != null
   projects                         = [module.project-factory.project_id]
   billing_account                  = var.billing_account
   amount                           = var.budget_amount
@@ -121,7 +121,8 @@ module "budget" {
   Consumer Quota
  *****************************************/
 module "project_quota_manager" {
-  source          = "../../modules/quota_manager"
+  source = "../../modules/quota_manager"
+
   project_id      = module.project-factory.project_id
   consumer_quotas = var.consumer_quotas
 }
