@@ -171,7 +171,7 @@ determining that location is as follows:
 | enabled\_api\_identities | Enabled API identities in the project |
 | enabled\_apis | Enabled APIs in the project |
 | group\_email | The email of the G Suite group with group\_name |
-| project\_bucket\_name | Project's bucket name |
+| project\_bucket\_name | Project's bucket name without gs:// |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id | Identifier of the project |

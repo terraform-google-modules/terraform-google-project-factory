@@ -65,7 +65,7 @@ output "service_account_unique_id" {
 
 output "project_bucket_name" {
   value       = google_storage_bucket.project_bucket.*.name
-  description = "The name of the projec's bucket"
+  description = "The name of the project's bucket"
 }
 
 output "project_bucket_self_link" {
@@ -78,9 +78,9 @@ output "project_bucket_url" {
   description = "Project's bucket url"
 }
 
-output "project_bucket_name" {
+output "project_bucket_id" {
   value       = local.project_bucket_name
-  description = "Project's bucket name"
+  description = "Project's bucket name without gs://"
 }
 
 output "api_s_account" {

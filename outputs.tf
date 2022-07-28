@@ -75,8 +75,8 @@ output "project_bucket_url" {
 }
 
 output "project_bucket_name" {
-  value       = module.project-factory.project_bucket_name
-  description = "Project's bucket name"
+  value       = module.project-factory.project_bucket_id
+  description = "Project's bucket name without gs://"
 }
 
 output "api_s_account" {
