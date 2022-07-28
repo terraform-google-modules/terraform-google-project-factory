@@ -19,6 +19,7 @@ locals {
 }
 
 resource "google_service_usage_consumer_quota_override" "override" {
+  provider = google-beta
   for_each = local.consumer_quotas
 
   project        = var.project_id
