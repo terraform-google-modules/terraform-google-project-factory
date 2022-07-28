@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [13.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.0.0...v13.1.0) (2022-07-28)
+
+
+### Features
+
+* update test/setup to pfactory 13.0 ([321bed2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/321bed29ba0a36d2bfc5860144f70e73adba7267))
+
+
+### Bug Fixes
+
+* add propagation to test/setup ([#708](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/708)) ([321bed2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/321bed29ba0a36d2bfc5860144f70e73adba7267))
+* ensure test/setup/outputs.folder_id returns proper ID ([#712](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/712)) ([8f72474](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/8f7247441cefd42500b40be6fae3c8ca4d54965f))
+
 ## [13.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v12.0.0...v13.0.0) (2022-04-12)
 
 
