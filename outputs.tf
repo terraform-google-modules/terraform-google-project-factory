@@ -15,17 +15,17 @@
  */
 
 output "project_name" {
-  value = module.project-factory.project_name
+  value       = module.project-factory.project_name
   description = "Name of the project"
 }
 
 output "project_id" {
-  value = module.project-factory.project_id
+  value       = module.project-factory.project_id
   description = "Identifier of the project"
 }
 
 output "project_number" {
-  value = module.project-factory.project_number
+  value       = module.project-factory.project_number
   description = "Numerical identifier of the project"
 }
 

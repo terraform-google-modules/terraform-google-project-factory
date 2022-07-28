@@ -27,6 +27,7 @@ module "project_myproject" {
 | billing\_account | ID of the billing account to set a budget on | `string` | n/a | yes |
 | create\_budget | If the budget should be created | `bool` | `true` | no |
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
+| currency\_code | The currency to use for the budget | `string` | `"USD"` | no |
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |

@@ -76,7 +76,7 @@ module "service-project" {
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
 | project\_id | If provided, the project uses the given project ID. Mutually exclusive with random\_project\_id being true. |
-| project\_name | The name for the project |
+| project\_name | The name of the project |
 | project\_number | The number for the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
