@@ -112,6 +112,7 @@ resource "time_sleep" "wait_5_seconds" {
 }
 
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
+  provider = google-beta
   count = var.enable_shared_vpc_service_project ? 1 : 0
 
   host_project    = var.shared_vpc
@@ -124,6 +125,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
 }
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
+  provider = google-beta
   count = var.enable_shared_vpc_host_project ? 1 : 0
 
   project = google_project.main.project_id
