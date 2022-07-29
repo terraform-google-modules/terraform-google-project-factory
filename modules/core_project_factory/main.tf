@@ -21,10 +21,18 @@ resource "random_id" "random_project_id_suffix" {
   byte_length = 2
 }
 
+resource "random_string" "random_project_id_suffix" {
+  count   = local.use_random_string ? 1 : 0
+  length  = var.random_project_id_length
+  special = false
+  upper   = false
+}
+
 /******************************************
   Locals configuration
  *****************************************/
 locals {
+  use_random_string = try(var.random_project_id_length > 0, false)
   group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
   project_org_id    = var.folder_id != "" ? null : var.org_id
@@ -32,7 +40,7 @@ locals {
   temp_project_id = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
-    random_id.random_project_id_suffix.hex,
+    local.use_random_string ? random_string.random_project_id_suffix[0].result : random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
