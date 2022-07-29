@@ -24,6 +24,7 @@ module "gsuite_group" {
   name   = var.group_name
   org_id = var.org_id
 }
+
 module "project-factory" {
   source = "./modules/core_project_factory"
 

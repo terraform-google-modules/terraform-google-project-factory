@@ -105,9 +105,9 @@ The roles granted are specifically:
 | group\_name | The group\_name of the G Suite group |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id | n/a |
-| project\_name | n/a |
-| project\_number | n/a |
+| project\_id | Identifier of the project |
+| project\_name | Name of the project |
+| project\_number | Numerical identifier of the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |

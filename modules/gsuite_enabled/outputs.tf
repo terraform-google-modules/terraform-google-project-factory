@@ -16,14 +16,17 @@
 
 output "project_name" {
   value = module.project-factory.project_name
+  description = "Name of the project"
 }
 
 output "project_id" {
   value = module.project-factory.project_id
+  description = "Identifier of the project"
 }
 
 output "project_number" {
   value = module.project-factory.project_number
+  description = "Numerical identifier of the project"
 }
 
 output "domain" {
@@ -75,4 +78,3 @@ output "project_bucket_url" {
   value       = module.project-factory.project_bucket_url
   description = "Project's bucket url"
 }
-
