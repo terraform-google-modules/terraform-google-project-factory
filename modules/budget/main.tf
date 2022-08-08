@@ -50,25 +50,25 @@ resource "google_billing_budget" "budget" {
 
     dynamic "custom_period" {
 
-    for_each = var.calendar_period == "CUSTOM" ? [1] : []
-    content {
-   
+      for_each = var.calendar_period == "CUSTOM" ? [1] : []
+      content {
+
         start_date {
-          year = var.custom_period_start_date.year
+          year  = var.custom_period_start_date.year
           month = var.custom_period_start_date.month
-          day = var.custom_period_start_date.day
+          day   = var.custom_period_start_date.day
         }
         end_date {
-          year = var.custom_period_end_date.year
+          year  = var.custom_period_end_date.year
           month = var.custom_period_end_date.month
-          day = var.custom_period_end_date.day
+          day   = var.custom_period_end_date.day
         }
-      
-    }
+
+      }
 
     }
-    
-    
+
+
   }
 
   amount {
