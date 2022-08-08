@@ -56,6 +56,7 @@ variable "services" {
 variable "calendar_period" {
   description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR_PERIOD_UNSPECIFIED"
   type        = string
+  default     = null
 }
 
 variable "custom_period_start_date" {
