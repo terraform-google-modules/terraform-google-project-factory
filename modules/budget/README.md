@@ -25,8 +25,11 @@ module "project_myproject" {
 | alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | amount | The amount to use as the budget | `number` | n/a | yes |
 | billing\_account | ID of the billing account to set a budget on | `string` | n/a | yes |
+| calendar\_period | Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR\_PERIOD\_UNSPECIFIED | `string` | n/a | yes |
 | create\_budget | If the budget should be created | `bool` | `true` | no |
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
+| custom\_period\_end\_date | Specifies the end date for the calendar\_period CUSTOM | <pre>object(<br>    {<br>      year    = number<br>      month   = number<br>      day     = number<br>    }<br>  )</pre> | <pre>{<br>  "day": 1,<br>  "month": 1,<br>  "year": 1<br>}</pre> | no |
+| custom\_period\_start\_date | Specifies the start date for the calendar\_period CUSTOM | <pre>object(<br>    {<br>      year    = number<br>      month   = number<br>      day     = number<br>    }<br>  )</pre> | <pre>{<br>  "day": 1,<br>  "month": 1,<br>  "year": 1<br>}</pre> | no |
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
