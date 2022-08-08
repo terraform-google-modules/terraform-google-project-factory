@@ -53,6 +53,43 @@ variable "services" {
   default     = null
 }
 
+variable "calendar_period" {
+  description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR_PERIOD_UNSPECIFIED"
+  type        = string
+}
+
+variable "custom_period_start_date" {
+  description = "Specifies the start date for the calendar_period CUSTOM"
+  type = object(
+    {
+      year    = number
+      month   = number
+      day     = number
+    }
+  )
+  default = {
+    day =   1
+    month = 1
+    year =  1
+  }
+}
+
+variable "custom_period_end_date" {
+  description = "Specifies the end date for the calendar_period CUSTOM"
+  type = object(
+    {
+      year    = number
+      month   = number
+      day     = number
+    }
+  )
+  default = {
+    day =   1
+    month = 1
+    year =  1
+  }
+}
+
 variable "alert_spent_percents" {
   description = "A list of percentages of the budget to alert on when threshold is exceeded"
   type        = list(number)

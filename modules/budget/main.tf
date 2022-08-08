@@ -46,6 +46,29 @@ resource "google_billing_budget" "budget" {
     credit_types_treatment = var.credit_types_treatment
     services               = local.services
     labels                 = var.labels
+    calendar_period        = var.calendar_period != "CUSTOM" ? var.calendar_period : null
+
+    dynamic "custom_period" {
+
+    for_each = var.calendar_period == "CUSTOM" ? [1] : []
+    content {
+   
+        start_date {
+          year = var.custom_period_start_date.year
+          month = var.custom_period_start_date.month
+          day = var.custom_period_start_date.day
+        }
+        end_date {
+          year = var.custom_period_end_date.year
+          month = var.custom_period_end_date.month
+          day = var.custom_period_end_date.day
+        }
+      
+    }
+
+    }
+    
+    
   }
 
   amount {
