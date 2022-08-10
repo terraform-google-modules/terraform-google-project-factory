@@ -60,35 +60,15 @@ variable "calendar_period" {
 }
 
 variable "custom_period_start_date" {
-  description = "Specifies the start date for the calendar_period CUSTOM"
-  type = object(
-    {
-      year  = number
-      month = number
-      day   = number
-    }
-  )
-  default = {
-    day   = 1
-    month = 1
-    year  = 1
-  }
+  description = "Specifies the start date (DD-MM-YYYY) for the calendar_period CUSTOM"
+  type        = string
+  default     = "1-1-2017"
 }
 
 variable "custom_period_end_date" {
-  description = "Specifies the end date for the calendar_period CUSTOM"
-  type = object(
-    {
-      year  = number
-      month = number
-      day   = number
-    }
-  )
-  default = {
-    day   = 1
-    month = 1
-    year  = 1
-  }
+  description = "Specifies the end date (DD-MM-YYYY) for the calendar_period CUSTOM"
+  type        = string
+  default     = "30-12-2023"
 }
 
 variable "alert_spent_percents" {

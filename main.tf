@@ -99,6 +99,10 @@ module "budget" {
   monitoring_notification_channels = var.budget_monitoring_notification_channels
   display_name                     = var.budget_display_name != null ? var.budget_display_name : null
   labels                           = var.budget_labels
+  calendar_period                  = var.calendar_period
+  custom_period_start_date         = var.custom_period_start_date
+  custom_period_end_date           = var.custom_period_end_date
+
 }
 
 /******************************************

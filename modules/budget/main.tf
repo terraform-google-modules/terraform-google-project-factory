@@ -18,6 +18,9 @@ locals {
   project_name     = length(var.projects) == 0 ? "All Projects" : var.projects[0]
   display_name     = var.display_name == null ? "Budget For ${local.project_name}" : var.display_name
   all_updates_rule = var.alert_pubsub_topic == null && length(var.monitoring_notification_channels) == 0 ? [] : ["1"]
+  custom_period    = var.calendar_period == "CUSTOM" ? [1] : []
+  start_date       = split("-", var.custom_period_start_date)
+  end_date         = split("-", var.custom_period_end_date)
 
   projects = length(var.projects) == 0 ? null : [
     for project in data.google_project.project :
@@ -46,29 +49,23 @@ resource "google_billing_budget" "budget" {
     credit_types_treatment = var.credit_types_treatment
     services               = local.services
     labels                 = var.labels
-    calendar_period        = var.calendar_period != "CUSTOM" ? var.calendar_period : null
+    calendar_period        = length(local.custom_period) == 0 ? var.calendar_period : null
 
     dynamic "custom_period" {
-
-      for_each = var.calendar_period == "CUSTOM" ? [1] : []
+      for_each = local.custom_period
       content {
-
         start_date {
-          year  = var.custom_period_start_date.year
-          month = var.custom_period_start_date.month
-          day   = var.custom_period_start_date.day
+          day   = local.start_date[0]
+          month = local.start_date[1]
+          year  = local.start_date[2]
         }
         end_date {
-          year  = var.custom_period_end_date.year
-          month = var.custom_period_end_date.month
-          day   = var.custom_period_end_date.day
+          day   = local.end_date[0]
+          month = local.end_date[1]
+          year  = local.end_date[2]
         }
-
       }
-
     }
-
-
   }
 
   amount {

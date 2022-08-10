@@ -28,8 +28,8 @@ module "project_myproject" {
 | calendar\_period | Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR\_PERIOD\_UNSPECIFIED | `string` | `null` | no |
 | create\_budget | If the budget should be created | `bool` | `true` | no |
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
-| custom\_period\_end\_date | Specifies the end date for the calendar\_period CUSTOM | <pre>object(<br>    {<br>      year  = number<br>      month = number<br>      day   = number<br>    }<br>  )</pre> | <pre>{<br>  "day": 1,<br>  "month": 1,<br>  "year": 1<br>}</pre> | no |
-| custom\_period\_start\_date | Specifies the start date for the calendar\_period CUSTOM | <pre>object(<br>    {<br>      year  = number<br>      month = number<br>      day   = number<br>    }<br>  )</pre> | <pre>{<br>  "day": 1,<br>  "month": 1,<br>  "year": 1<br>}</pre> | no |
+| custom\_period\_end\_date | Specifies the end date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `"30-12-2023"` | no |
+| custom\_period\_start\_date | Specifies the start date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `"1-1-2017"` | no |
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
