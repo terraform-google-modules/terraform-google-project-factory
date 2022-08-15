@@ -282,6 +282,8 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
   Project's bucket creation
  ***********************************************/
 resource "google_storage_bucket" "project_bucket" {
+  provider = google-beta
+
   count = local.create_bucket ? 1 : 0
 
   name                        = local.project_bucket_name
@@ -290,6 +292,7 @@ resource "google_storage_bucket" "project_bucket" {
   labels                      = var.bucket_labels
   force_destroy               = var.bucket_force_destroy
   uniform_bucket_level_access = var.bucket_ula
+  public_access_prevention    = var.bucket_pap
 
   versioning {
     enabled = var.bucket_versioning
