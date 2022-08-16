@@ -59,24 +59,6 @@ variable "billing_account" {
   type        = string
 }
 
-variable "calendar_period" {
-  description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR_PERIOD_UNSPECIFIED"
-  type        = string
-  default     = null
-}
-
-variable "custom_period_start_date" {
-  description = "Specifies the start date (DD-MM-YYYY) for the calendar_period CUSTOM"
-  type        = string
-  default     = "1-1-2017"
-}
-
-variable "custom_period_end_date" {
-  description = "Specifies the end date (DD-MM-YYYY) for the calendar_period CUSTOM"
-  type        = string
-  default     = "30-12-2023"
-}
-
 variable "folder_id" {
   description = "The ID of a folder to host this project"
   type        = string
@@ -273,6 +255,24 @@ variable "budget_labels" {
     condition     = length(var.budget_labels) <= 1
     error_message = "Only 0 or 1 labels may be supplied for the budget filter."
   }
+}
+
+variable "budget_calendar_period" {
+  description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR_PERIOD_UNSPECIFIED, CUSTOM. custom_period_start_date and custom_period_end_date must be set if CUSTOM"
+  type        = string
+  default     = null
+}
+
+variable "budget_custom_period_start_date" {
+  description = "Specifies the start date (DD-MM-YYYY) for the calendar_period CUSTOM"
+  type        = string
+  default     = null
+}
+
+variable "budget_custom_period_end_date" {
+  description = "Specifies the end date (DD-MM-YYYY) for the calendar_period CUSTOM"
+  type        = string
+  default     = null
 }
 
 variable "vpc_service_control_attach_enabled" {

@@ -19,8 +19,8 @@ locals {
   display_name     = var.display_name == null ? "Budget For ${local.project_name}" : var.display_name
   all_updates_rule = var.alert_pubsub_topic == null && length(var.monitoring_notification_channels) == 0 ? [] : ["1"]
   custom_period    = var.calendar_period == "CUSTOM" ? [1] : []
-  start_date       = split("-", var.custom_period_start_date)
-  end_date         = split("-", var.custom_period_end_date)
+  start_date       = length(local.custom_period) != 0 ? split("-", var.custom_period_start_date) : null
+  end_date         = length(local.custom_period) != 0 ? split("-", var.custom_period_end_date) : null
 
   projects = length(var.projects) == 0 ? null : [
     for project in data.google_project.project :

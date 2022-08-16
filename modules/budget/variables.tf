@@ -54,7 +54,7 @@ variable "services" {
 }
 
 variable "calendar_period" {
-  description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CUSTOM, CALENDAR_PERIOD_UNSPECIFIED"
+  description = "Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR_PERIOD_UNSPECIFIED, CUSTOM. custom_period_start_date and custom_period_end_date must be set if CUSTOM"
   type        = string
   default     = null
 }
@@ -62,13 +62,13 @@ variable "calendar_period" {
 variable "custom_period_start_date" {
   description = "Specifies the start date (DD-MM-YYYY) for the calendar_period CUSTOM"
   type        = string
-  default     = "1-1-2017"
+  default     = null
 }
 
 variable "custom_period_end_date" {
   description = "Specifies the end date (DD-MM-YYYY) for the calendar_period CUSTOM"
   type        = string
-  default     = "30-12-2023"
+  default     = null
 }
 
 variable "alert_spent_percents" {
