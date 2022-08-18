@@ -118,6 +118,7 @@ determining that location is as follows:
 | bucket\_labels | A map of key/value label pairs to assign to the bucket (optional) | `map(string)` | `{}` | no |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
+| bucket\_pap | Enable Public Access Prevention. Possible values are "enforced" or "inherited". | `string` | `"inherited"` | no |
 | bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_ula | Enable Uniform Bucket Level Access | `bool` | `true` | no |
 | bucket\_versioning | Enable versioning for a GCS bucket to create (optional) | `bool` | `false` | no |

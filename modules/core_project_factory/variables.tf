@@ -181,6 +181,12 @@ variable "bucket_ula" {
   default     = true
 }
 
+variable "bucket_pap" {
+  description = "Enable Public Access Prevention. Possible values are \"enforced\" or \"inherited\"."
+  type        = string
+  default     = "inherited"
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
