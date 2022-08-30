@@ -38,7 +38,7 @@ control "project-factory-budget-project" do
       end
     end
 
-    it { expect(metadata).to include(name: project_id[0...-5]) }
+    it { expect(metadata).to include(name: project_id[0...-7]) }
     it { expect(metadata).to include(projectId: project_id) }
   end
 end
