@@ -33,6 +33,7 @@ module "project-factory" {
   lien                               = var.lien
   manage_group                       = var.group_name != "" ? true : false
   random_project_id                  = var.random_project_id
+  random_project_id_length           = var.random_project_id_length
   org_id                             = var.org_id
   name                               = var.name
   project_id                         = var.project_id
