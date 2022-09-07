@@ -306,6 +306,15 @@ project factory:
   --shared_vpc 'shared-vpc-host-ed64'
 ```
 
+When using OAuth Short-lived Access Token please export it as environment variable `GOOGLE_OAUTH_ACCESS_TOKEN` and omit `--credentials_path` parameter
+
+```sh
+./helpers/preconditions/preconditions.py \  
+  --billing_account 000000-000000-000000 \
+  --org_id 000000000000 \
+  --folder_id 000000000000 \
+  --shared_vpc 'shared-vpc-host-ed64'
+```
 ## Caveats
 
 ### Moving projects from org into a folder

@@ -29,12 +29,15 @@ import logging
 import re
 import sys
 import os
+import requests
 
 try:
     import google.auth
     from google.auth import impersonated_credentials
     from google.oauth2 import service_account
+    from google.oauth2 import credentials as oauth_access_token
     from googleapiclient import discovery
+    
 except ImportError as e:
     if os.environ.get('GRACEFUL_IMPORTERROR', '') != '':
         sys.stderr.write("Unable to import Google API dependencies, skipping "
@@ -353,6 +356,18 @@ def get_credentials(credentials_path, impersonate_service_account):
         svc_credentials = service_account.Credentials\
             .from_service_account_file(credentials_path)
         credentials = (svc_credentials, svc_credentials.project_id)
+    elif os.environ.get("GOOGLE_OAUTH_ACCESS_TOKEN") is not None:
+        oauth_token = os.environ.get("GOOGLE_OAUTH_ACCESS_TOKEN")
+        token_info = requests.post(f'https://www.googleapis.com/oauth2/v3/tokeninfo',
+                                   data=f"access_token={oauth_token}",
+                                   headers={"Content-Type": "application/x-www-form-urlencoded"}
+                                   ).json()
+        account_info = requests.get(
+            f'https://iam.googleapis.com/v1/projects/-/serviceAccounts/{token_info["aud"]}',
+            headers={"Authorization": f"Bearer {oauth_token}"}
+        ).json()
+
+        credentials = (oauth_access_token.Credentials(oauth_token), account_info['projectId'])   
     elif impersonate_service_account is not None:
         try:
             source_credentials = google.auth.default()
