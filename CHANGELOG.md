@@ -11,7 +11,7 @@ Extending the adopted spec, each change should have a link to its corresponding 
 
 ### ⚠ BREAKING CHANGES
 
-* Add support for custom time periods in budget module (#738)
+* Increase to minimum TPG version 4.28 (#738)
 
 ### Features
 
