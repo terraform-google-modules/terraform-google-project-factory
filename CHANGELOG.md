@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.1.0...v14.0.0) (2022-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Increase to minimum TPG version 4.28 (#738)
+
+### Features
+
+* add random_project_id_length ([#735](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/735)) ([773ea4b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/773ea4bfc9a5ecffa2c55d73581f82670d68a77a))
+* Add support for custom time periods in budget module ([#738](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/738)) ([9273052](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/927305289abe43164ba606164a3e43cbce9c09b3))
+
 ## [13.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.0.0...v13.1.0) (2022-08-17)
 
 
