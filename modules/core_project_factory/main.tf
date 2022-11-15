@@ -108,7 +108,7 @@ module "project_services" {
 /******************************************
   Shared VPC configuration
  *****************************************/
-resource "time_sleep" "wait_vpc_sc_propagation" {
+resource "time_sleep" "wait_5_seconds" { #TODO rename resource in the next breaking change.
   count           = var.vpc_service_control_attach_enabled ? 1 : 0
   depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager[0]]
   create_duration = var.vpc_service_control_sleep_duration
@@ -120,7 +120,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   count           = var.enable_shared_vpc_service_project ? 1 : 0
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
-  depends_on      = [time_sleep.wait_vpc_sc_propagation[0], module.project_services]
+  depends_on      = [time_sleep.wait_5_seconds[0], module.project_services]
 }
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
