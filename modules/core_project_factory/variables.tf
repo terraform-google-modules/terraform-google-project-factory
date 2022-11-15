@@ -240,6 +240,12 @@ variable "vpc_service_control_perimeter_name" {
   default     = null
 }
 
+variable "vpc_service_control_sleep_duration" {
+  description = "The duration to sleep in seconds before adding the project to a shared VPC after the project is added to the VPC Service Control Perimeter. VPC-SC is eventually consistent."
+  type        = string
+  default     = "5s"
+}
+
 variable "default_network_tier" {
   description = "Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers."
   type        = string

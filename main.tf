@@ -66,6 +66,7 @@ module "project-factory" {
   disable_dependent_services         = var.disable_dependent_services
   vpc_service_control_attach_enabled = var.vpc_service_control_attach_enabled
   vpc_service_control_perimeter_name = var.vpc_service_control_perimeter_name
+  vpc_service_control_sleep_duration = var.vpc_service_control_sleep_duration
   default_network_tier               = var.default_network_tier
 }
 
