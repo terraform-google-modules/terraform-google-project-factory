@@ -60,7 +60,7 @@ The roles granted are specifically:
 | activate\_apis | The list of apis to activate within the project | `list(string)` | <pre>[<br>  "compute.googleapis.com"<br>]</pre> | no |
 | api\_sa\_group | A G Suite group to place the Google APIs Service Account for the project in | `string` | `""` | no |
 | auto\_create\_network | Create the default network | `bool` | `false` | no |
-| billing\_account | The ID of the billing account to associate this project with | `any` | n/a | yes |
+| billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `""` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
@@ -84,8 +84,8 @@ The roles granted are specifically:
 | group\_role | The role to give the controlling group (group\_name) over the project (defaults to project editor) | `string` | `"roles/editor"` | no |
 | labels | Map of labels for project | `map(string)` | `{}` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
-| name | The name for the project | `any` | n/a | yes |
-| org\_id | The organization ID. | `any` | n/a | yes |
+| name | The name for the project | `string` | n/a | yes |
+| org\_id | The organization ID. | `string` | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
@@ -105,9 +105,9 @@ The roles granted are specifically:
 | group\_name | The group\_name of the G Suite group |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id | n/a |
-| project\_name | n/a |
-| project\_number | n/a |
+| project\_id | ID of the project |
+| project\_name | Name of the project |
+| project\_number | Numeric identifier for the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |

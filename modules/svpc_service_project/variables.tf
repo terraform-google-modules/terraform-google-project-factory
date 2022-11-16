@@ -86,6 +86,7 @@ variable "project_sa_name" {
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
+  type        = string
 }
 
 variable "activate_apis" {

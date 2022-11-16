@@ -15,11 +15,13 @@
  */
 
 output "project_name" {
-  value = google_project.main.name
+  description = "Name of the project"
+  value       = google_project.main.name
 }
 
 output "project_id" {
-  value = module.project_services.project_id
+  description = "ID of the project"
+  value       = module.project_services.project_id
   depends_on = [
     module.project_services,
     google_project.main,
@@ -29,8 +31,9 @@ output "project_id" {
 }
 
 output "project_number" {
-  value      = google_project.main.number
-  depends_on = [module.project_services]
+  description = "Numeric identifier for the project"
+  value       = google_project.main.number
+  depends_on  = [module.project_services]
 }
 
 output "service_account_id" {
