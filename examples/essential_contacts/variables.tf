@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-variable "project_id" {
-  type        = string
-  description = "The GCP project to create Essential Contacts in"
-}
-
 variable "org_id" {
   type        = string
   description = "The organization ID."

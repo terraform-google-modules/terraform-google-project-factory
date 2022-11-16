@@ -16,6 +16,7 @@
 
 variable "project_id" {
   description = "The GCP project you want to send Essential Contacts notifications for"
+  type        = string
 }
 
 variable "essential_contacts" {

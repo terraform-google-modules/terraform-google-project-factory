@@ -44,7 +44,7 @@ See [examples/project_services](./examples/project_services) for a full example 
 | disable\_dependent\_services | Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services | `bool` | `true` | no |
 | disable\_services\_on\_destroy | Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy | `bool` | `true` | no |
 | enable\_apis | Whether to actually enable the APIs. If false, this module is a no-op. | `bool` | `true` | no |
-| project\_id | The GCP project you want to enable APIs on | `any` | n/a | yes |
+| project\_id | The GCP project you want to enable APIs on | `string` | n/a | yes |
 
 ## Outputs
 
