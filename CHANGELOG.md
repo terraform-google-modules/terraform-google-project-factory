@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.0.0...v14.1.0) (2022-11-17)
+
+
+### Features
+
+* configure propagation time (time sleep) for inclusion of the created project in a VPC-SC perimeter ([#766](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/766)) ([086210b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/086210b2b4cacfe1ab0463a9cfb065da8f902f41))
+
 ## [14.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.1.0...v14.0.0) (2022-08-30)
 
 
