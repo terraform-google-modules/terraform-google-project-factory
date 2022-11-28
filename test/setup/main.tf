@@ -1,5 +1,5 @@
 /**
- * Copyright 2019 Google LLC
+ * Copyright 2019-2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +27,12 @@ module "pfactory_project" {
   source  = "terraform-google-modules/project-factory/google"
   version = "~> 14.0"
 
-  name              = "ci-pfactory-tests"
-  random_project_id = true
-  org_id            = var.org_id
-  folder_id         = google_folder.ci_pfactory_folder.folder_id
-  billing_account   = var.billing_account
+  name                     = "ci-pfactory-tests"
+  random_project_id        = true
+  random_project_id_length = 4
+  org_id                   = var.org_id
+  folder_id                = google_folder.ci_pfactory_folder.folder_id
+  billing_account          = var.billing_account
 
   activate_apis = [
     "admin.googleapis.com",
