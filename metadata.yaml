@@ -1,0 +1,421 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-project-factory
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  title: Google Cloud Project Factory Terraform Module
+  source:
+    repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
+    sourceType: git
+  version: 14.1.0
+  actuationTool:
+    type: Terraform
+    version: '>=0.13.0'
+  subBlueprints:
+  - name: app_engine
+    location: modules/app_engine
+  - name: budget
+    location: modules/budget
+  - name: core_project_factory
+    location: modules/core_project_factory
+  - name: essential_contacts
+    location: modules/essential_contacts
+  - name: fabric-project
+    location: modules/fabric-project
+  - name: gsuite_enabled
+    location: modules/gsuite_enabled
+  - name: gsuite_group
+    location: modules/gsuite_group
+  - name: project_services
+    location: modules/project_services
+  - name: quota_manager
+    location: modules/quota_manager
+  - name: shared_vpc_access
+    location: modules/shared_vpc_access
+  - name: svpc_service_project
+    location: modules/svpc_service_project
+  examples:
+  - name: app_engine
+    location: examples/app_engine
+  - name: budget_project
+    location: examples/budget_project
+  - name: essential_contacts
+    location: examples/essential_contacts
+  - name: fabric_project
+    location: examples/fabric_project
+  - name: gke_shared_vpc
+    location: examples/gke_shared_vpc
+  - name: group_project
+    location: examples/group_project
+  - name: project-hierarchy
+    location: examples/project-hierarchy
+  - name: project_services
+    location: examples/project_services
+  - name: quota_project
+    location: examples/quota_project
+  - name: shared_vpc
+    location: examples/shared_vpc
+  - name: simple_project
+    location: examples/simple_project
+  variables:
+  - name: activate_api_identities
+    description: |2
+          The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
+          APIs in this list will automatically be appended to `activate_apis`.
+          Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
+          Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
+    type: |-
+      list(object({
+          api   = string
+          roles = list(string)
+        }))
+    default: []
+    required: false
+  - name: activate_apis
+    description: The list of apis to activate within the project
+    type: list(string)
+    default:
+    - compute.googleapis.com
+    required: false
+  - name: auto_create_network
+    description: Create the default network
+    type: bool
+    default: false
+    required: false
+  - name: billing_account
+    description: The ID of the billing account to associate this project with
+    type: string
+    required: true
+  - name: bucket_force_destroy
+    description: Force the deletion of all objects within the GCS bucket when deleting the bucket (optional)
+    type: bool
+    default: false
+    required: false
+  - name: bucket_labels
+    description: ' A map of key/value label pairs to assign to the bucket (optional)'
+    type: map(string)
+    default: {}
+    required: false
+  - name: bucket_location
+    description: The location for a GCS bucket to create (optional)
+    type: string
+    default: US
+    required: false
+  - name: bucket_name
+    description: A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional)
+    type: string
+    default: ""
+    required: false
+  - name: bucket_pap
+    description: Enable Public Access Prevention. Possible values are "enforced" or "inherited".
+    type: string
+    default: inherited
+    required: false
+  - name: bucket_project
+    description: A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional)
+    type: string
+    default: ""
+    required: false
+  - name: bucket_ula
+    description: Enable Uniform Bucket Level Access
+    type: bool
+    default: true
+    required: false
+  - name: bucket_versioning
+    description: Enable versioning for a GCS bucket to create (optional)
+    type: bool
+    default: false
+    required: false
+  - name: budget_alert_pubsub_topic
+    description: The name of the Cloud Pub/Sub topic where budget related messages will be published, in the form of `projects/{project_id}/topics/{topic_id}`
+    type: string
+    required: false
+  - name: budget_alert_spend_basis
+    description: The type of basis used to determine if spend has passed the threshold
+    type: string
+    default: CURRENT_SPEND
+    required: false
+  - name: budget_alert_spent_percents
+    description: A list of percentages of the budget to alert on when threshold is exceeded
+    type: list(number)
+    default:
+    - 0.5
+    - 0.7
+    - 1
+    required: false
+  - name: budget_amount
+    description: The amount to use for a budget alert
+    type: number
+    required: false
+  - name: budget_calendar_period
+    description: Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR_PERIOD_UNSPECIFIED, CUSTOM. custom_period_start_date and custom_period_end_date must be set if CUSTOM
+    type: string
+    required: false
+  - name: budget_custom_period_end_date
+    description: Specifies the end date (DD-MM-YYYY) for the calendar_period CUSTOM
+    type: string
+    required: false
+  - name: budget_custom_period_start_date
+    description: Specifies the start date (DD-MM-YYYY) for the calendar_period CUSTOM
+    type: string
+    required: false
+  - name: budget_display_name
+    description: 'The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` '
+    type: string
+    required: false
+  - name: budget_labels
+    description: A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget.
+    type: map(string)
+    default: {}
+    required: false
+  - name: budget_monitoring_notification_channels
+    description: A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed.
+    type: list(string)
+    default: []
+    required: false
+  - name: consumer_quotas
+    description: The quotas configuration you want to override for the project.
+    type: |-
+      list(object({
+          service    = string,
+          metric     = string,
+          dimensions = map(string),
+          limit      = string,
+          value      = string,
+        }))
+    default: []
+    required: false
+  - name: create_project_sa
+    description: Whether the default service account for the project shall be created
+    type: bool
+    default: true
+    required: false
+  - name: default_network_tier
+    description: Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers.
+    type: string
+    default: ""
+    required: false
+  - name: default_service_account
+    description: 'Project default service account setting: can be one of `delete`, `deprivilege`, `disable`, or `keep`.'
+    type: string
+    default: disable
+    required: false
+  - name: disable_dependent_services
+    description: Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed.
+    type: bool
+    default: true
+    required: false
+  - name: disable_services_on_destroy
+    description: Whether project services will be disabled when the resources are destroyed
+    type: bool
+    default: true
+    required: false
+  - name: domain
+    description: The domain name (optional).
+    type: string
+    default: ""
+    required: false
+  - name: enable_shared_vpc_host_project
+    description: If this project is a shared VPC host project. If true, you must *not* set svpc_host_project_id variable. Default is false.
+    type: bool
+    default: false
+    required: false
+  - name: essential_contacts
+    description: A mapping of users or groups to be assigned as Essential Contacts to the project, specifying a notification category
+    type: map(list(string))
+    default: {}
+    required: false
+  - name: folder_id
+    description: The ID of a folder to host this project
+    type: string
+    default: ""
+    required: false
+  - name: grant_network_role
+    description: Whether or not to grant networkUser role on the host project/subnets
+    type: bool
+    default: true
+    required: false
+  - name: grant_services_security_admin_role
+    description: Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules
+    type: bool
+    default: false
+    required: false
+  - name: group_name
+    description: A group to control the project by being assigned group_role (defaults to project editor)
+    type: string
+    default: ""
+    required: false
+  - name: group_role
+    description: The role to give the controlling group (group_name) over the project (defaults to project editor)
+    type: string
+    default: roles/editor
+    required: false
+  - name: labels
+    description: Map of labels for project
+    type: map(string)
+    default: {}
+    required: false
+  - name: language_tag
+    description: Language code to be used for essential contacts notifications
+    type: string
+    default: en-US
+    required: false
+  - name: lien
+    description: Add a lien on the project to prevent accidental deletion
+    type: bool
+    default: false
+    required: false
+  - name: name
+    description: The name for the project
+    type: string
+    required: true
+  - name: org_id
+    description: The organization ID.
+    type: string
+    required: true
+  - name: project_id
+    description: The ID to give the project. If not provided, the `name` will be used.
+    type: string
+    default: ""
+    required: false
+  - name: project_sa_name
+    description: Default service account name for the project.
+    type: string
+    default: project-service-account
+    required: false
+  - name: random_project_id
+    description: Adds a suffix of 4 random characters to the `project_id`.
+    type: bool
+    default: false
+    required: false
+  - name: random_project_id_length
+    description: Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI.
+    type: number
+    required: false
+  - name: sa_role
+    description: A role to give the default Service Account for the project (defaults to none)
+    type: string
+    default: ""
+    required: false
+  - name: shared_vpc_subnets
+    description: List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)
+    type: list(string)
+    default: []
+    required: false
+  - name: svpc_host_project_id
+    description: The ID of the host project which hosts the shared VPC
+    type: string
+    default: ""
+    required: false
+  - name: usage_bucket_name
+    description: Name of a GCS bucket to store GCE usage reports in (optional)
+    type: string
+    default: ""
+    required: false
+  - name: usage_bucket_prefix
+    description: Prefix in the GCS bucket to store GCE usage reports in (optional)
+    type: string
+    default: ""
+    required: false
+  - name: vpc_service_control_attach_enabled
+    description: Whether the project will be attached to a VPC Service Control Perimeter
+    type: bool
+    default: false
+    required: false
+  - name: vpc_service_control_perimeter_name
+    description: The name of a VPC Service Control Perimeter to add the created project to
+    type: string
+    required: false
+  - name: vpc_service_control_sleep_duration
+    description: The duration to sleep in seconds before adding the project to a shared VPC after the project is added to the VPC Service Control Perimeter. VPC-SC is eventually consistent.
+    type: string
+    default: 5s
+    required: false
+  outputs:
+  - name: api_s_account
+    description: API service account email
+  - name: api_s_account_fmt
+    description: API service account email formatted for terraform use
+  - name: budget_name
+    description: The name of the budget if created
+  - name: domain
+    description: The organization's domain
+  - name: enabled_api_identities
+    description: Enabled API identities in the project
+  - name: enabled_apis
+    description: Enabled APIs in the project
+  - name: group_email
+    description: The email of the G Suite group with group_name
+  - name: project_bucket_self_link
+    description: Project's bucket selfLink
+  - name: project_bucket_url
+    description: Project's bucket url
+  - name: project_id
+    description: ID of the project
+  - name: project_name
+    description: Name of the project
+  - name: project_number
+    description: Numeric identifier for the project
+  - name: service_account_display_name
+    description: The display name of the default service account
+  - name: service_account_email
+    description: The email of the default service account
+  - name: service_account_id
+    description: The id of the default service account
+  - name: service_account_name
+    description: The fully-qualified name of the default service account
+  - name: service_account_unique_id
+    description: The unique id of the default service account
+  roles:
+  - level: Project
+    roles:
+    - roles/owner
+    - roles/compute.admin
+    - roles/iam.serviceAccountAdmin
+    - roles/resourcemanager.projectIamAdmin
+    - roles/storage.admin
+    - roles/iam.serviceAccountUser
+    - roles/billing.projectManager
+  - level: Project
+    roles:
+    - roles/owner
+    - roles/resourcemanager.projectCreator
+    - roles/resourcemanager.folderAdmin
+    - roles/resourcemanager.folderIamAdmin
+    - roles/billing.projectManager
+    - roles/compute.xpnAdmin
+  - level: Project
+    roles:
+    - roles/accesscontextmanager.policyAdmin
+    - roles/resourcemanager.organizationViewer
+  services:
+  - admin.googleapis.com
+  - appengine.googleapis.com
+  - cloudbilling.googleapis.com
+  - cloudresourcemanager.googleapis.com
+  - compute.googleapis.com
+  - iam.googleapis.com
+  - iamcredentials.googleapis.com
+  - oslogin.googleapis.com
+  - serviceusage.googleapis.com
+  - billingbudgets.googleapis.com
+  - pubsub.googleapis.com
+  - accesscontextmanager.googleapis.com
+  - essentialcontacts.googleapis.com
+  - serviceconsumermanagement.googleapis.com
