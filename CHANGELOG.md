@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.1.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.1.0...v14.1.1) (2022-12-27)
+
+
+### Bug Fixes
+
+* fixes lint issues and generates metadata ([#776](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/776)) ([80e2bcc](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/80e2bcc9e480ec2784a317449143cdf029600573))
+
 ## [14.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.0.0...v14.1.0) (2022-11-17)
 
 
