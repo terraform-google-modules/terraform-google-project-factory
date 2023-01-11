@@ -20,7 +20,7 @@ locals {
 
 module "regular_service_perimeter_1" {
   source         = "terraform-google-modules/vpc-service-controls/google//modules/regular_service_perimeter"
-  version        = "~> 4.0"
+  version        = "~> 5.0"
   policy         = var.policy_id
   perimeter_name = local.perimeter_name
   description    = "New service perimeter"
