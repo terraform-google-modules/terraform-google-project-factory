@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.4.1
 	github.com/stretchr/testify v1.8.1
-	golang.org/x/oauth2 v0.4.0
+	golang.org/x/oauth2 v0.5.0
 )
 
 require (
