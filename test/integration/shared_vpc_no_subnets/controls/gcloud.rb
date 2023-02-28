@@ -39,6 +39,17 @@ control 'project-factory-shared-vpc' do
       end
     end
 
+    describe "roles/compute.networkAdmin" do
+      it "includes the Datastream service account in the roles/compute.networkAdmin IAM binding" do
+        expect(bindings).to include(
+          members: including(
+            "serviceAccount:service-#{project_number}@gcp-sa-datastream.iam.gserviceaccount.com"
+          ),
+          role: "roles/compute.networkAdmin",
+        )
+      end
+    end
+
     describe "roles/compute.networkUser" do
       it "includes the project service account in the roles/compute.networkUser IAM binding" do
         expect(bindings).to include(

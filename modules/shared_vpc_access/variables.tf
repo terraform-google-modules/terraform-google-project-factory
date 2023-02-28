@@ -59,6 +59,12 @@ variable "grant_services_security_admin_role" {
   default     = false
 }
 
+variable "grant_services_network_admin_role" {
+  description = "Whether or not to grant Datastream Service acount the Network Admin role on the host project so it can manage firewall rules"
+  type        = bool
+  default     = false
+}
+
 variable "grant_network_role" {
   description = "Whether or not to grant service agents the network roles on the host project"
   type        = bool
