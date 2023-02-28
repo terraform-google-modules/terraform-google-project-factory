@@ -175,3 +175,4 @@ options:
     - 'TF_VAR_gsuite_admin_email=project-factory-test-admin@test.infra.cft.tips'
     - 'TF_VAR_gsuite_domain=test.infra.cft.tips'
     - 'TF_VAR_domain=test.infra.cft.tips.'
+    - 'TF_VAR_policy_id=$_POLICY_ID'
