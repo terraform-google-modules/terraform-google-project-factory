@@ -81,12 +81,6 @@ export TF_VAR_folder_id="your_folder_id"
 export TF_VAR_billing_account="your_billing_account_id"
 export TF_VAR_gsuite_admin_email="your_gsuite_admin_email"
 export TF_VAR_gsuite_domain="your_gsuite_domain"
-export TF_VAR_policy_id="your_access_context_manager_policy_id"
-```
-
-you can find Access Context Manager policy ID by executing following command
-```bash
-gcloud access-context-manager policies list --organization="your_org_id"
 ```
 
 With these settings in place, you can prepare the test setup using Docker:
