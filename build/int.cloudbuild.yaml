@@ -165,7 +165,7 @@ tags:
 - 'integration'
 substitutions:
   _DOCKER_IMAGE_DEVELOPER_TOOLS: 'cft/developer-tools'
-  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1.8'
+  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1'
 options:
   machineType: 'N1_HIGHCPU_8'
   env:
@@ -175,4 +175,3 @@ options:
     - 'TF_VAR_gsuite_admin_email=project-factory-test-admin@test.infra.cft.tips'
     - 'TF_VAR_gsuite_domain=test.infra.cft.tips'
     - 'TF_VAR_domain=test.infra.cft.tips.'
-    - 'TF_VAR_policy_id=$_POLICY_ID'
