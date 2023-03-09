@@ -44,7 +44,7 @@ locals {
   ) : local.base_project_id
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
-    google_service_account.default_service_account[0].email,
+    try(google_service_account.default_service_account[0].email, ""),
   ) : ""
   api_s_account = format(
     "%s@cloudservices.gserviceaccount.com",
