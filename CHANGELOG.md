@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.2.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.1.0...v14.2.0) (2023-03-09)
+
+
+### Features
+
+* added datastream support in shared_vpc_access module ([#788](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/788)) ([a03c5e8](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/a03c5e8d86f8157f4b63adec9bc40f16f321d342))
+
+
+### Bug Fixes
+
+* removes policy id env var from int build config ([#791](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/791)) ([7e7c37d](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/7e7c37d0b776f7aed18d0b73cefb0306cd2705af))
+* workaround for import issue when SA is unknown ([#795](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/795)) ([13ec49f](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/13ec49fc386b31a9d1221ee7f689cb08eadc6eb2))
+
 ## [14.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.0.0...v14.1.0) (2022-11-17)
 
 
