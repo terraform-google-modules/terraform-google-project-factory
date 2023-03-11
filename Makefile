@@ -58,8 +58,8 @@ docker_test_cleanup:
 		-e TF_VAR_org_id \
 		-e TF_VAR_folder_id \
 		-e TF_VAR_billing_account \
-                -e TF_VAR_gsuite_admin_email \
-                -e TF_VAR_gsuite_domain \
+		-e TF_VAR_gsuite_admin_email \
+		-e TF_VAR_gsuite_domain \
 		-v "${CURDIR}":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/usr/local/bin/execute_with_credentials.sh cleanup_environment
@@ -69,11 +69,11 @@ docker_test_cleanup:
 docker_test_integration:
 	docker run --rm -it \
 		-e SERVICE_ACCOUNT_JSON \
-                -e TF_VAR_org_id \
-                -e TF_VAR_folder_id \
-                -e TF_VAR_billing_account \
-                -e TF_VAR_gsuite_admin_email \
-                -e TF_VAR_gsuite_domain \
+		-e TF_VAR_org_id \
+		-e TF_VAR_folder_id \
+		-e TF_VAR_billing_account \
+		-e TF_VAR_gsuite_admin_email \
+		-e TF_VAR_gsuite_domain \
 		-v "${CURDIR}":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/usr/local/bin/test_integration.sh

@@ -1,0 +1,134 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-project-factory
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  title: Project API Activation
+  source:
+    repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
+    sourceType: git
+  version: 14.1.0
+  actuationTool:
+    type: Terraform
+    version: '>= 0.13'
+  examples:
+  - name: app_engine
+    location: examples/app_engine
+  - name: budget_project
+    location: examples/budget_project
+  - name: essential_contacts
+    location: examples/essential_contacts
+  - name: fabric_project
+    location: examples/fabric_project
+  - name: gke_shared_vpc
+    location: examples/gke_shared_vpc
+  - name: group_project
+    location: examples/group_project
+  - name: project-hierarchy
+    location: examples/project-hierarchy
+  - name: project_services
+    location: examples/project_services
+  - name: quota_project
+    location: examples/quota_project
+  - name: shared_vpc
+    location: examples/shared_vpc
+  - name: simple_project
+    location: examples/simple_project
+  variables:
+  - name: activate_api_identities
+    description: |2
+          The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
+          APIs in this list will automatically be appended to `activate_apis`.
+          Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
+          Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
+    type: |-
+      list(object({
+          api   = string
+          roles = list(string)
+        }))
+    default: []
+    required: false
+  - name: activate_apis
+    description: The list of apis to activate within the project
+    type: list(string)
+    default: []
+    required: false
+  - name: disable_dependent_services
+    description: Whether services that are enabled and which depend on this service should also be disabled when this service is destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_dependent_services
+    type: bool
+    default: true
+    required: false
+  - name: disable_services_on_destroy
+    description: Whether project services will be disabled when the resources are destroyed. https://www.terraform.io/docs/providers/google/r/google_project_service.html#disable_on_destroy
+    type: bool
+    default: true
+    required: false
+  - name: enable_apis
+    description: Whether to actually enable the APIs. If false, this module is a no-op.
+    type: bool
+    default: true
+    required: false
+  - name: project_id
+    description: The GCP project you want to enable APIs on
+    type: string
+    required: true
+  outputs:
+  - name: enabled_api_identities
+    description: Enabled API identities in the project
+  - name: enabled_apis
+    description: Enabled APIs in the project
+  - name: project_id
+    description: The GCP project you want to enable APIs on
+  roles:
+  - level: Project
+    roles:
+    - roles/owner
+    - roles/compute.admin
+    - roles/iam.serviceAccountAdmin
+    - roles/resourcemanager.projectIamAdmin
+    - roles/storage.admin
+    - roles/iam.serviceAccountUser
+    - roles/billing.projectManager
+  - level: Project
+    roles:
+    - roles/owner
+    - roles/resourcemanager.projectCreator
+    - roles/resourcemanager.folderAdmin
+    - roles/resourcemanager.folderIamAdmin
+    - roles/billing.projectManager
+    - roles/compute.xpnAdmin
+  - level: Project
+    roles:
+    - roles/accesscontextmanager.policyAdmin
+    - roles/resourcemanager.organizationViewer
+  services:
+  - admin.googleapis.com
+  - appengine.googleapis.com
+  - cloudbilling.googleapis.com
+  - cloudresourcemanager.googleapis.com
+  - compute.googleapis.com
+  - iam.googleapis.com
+  - iamcredentials.googleapis.com
+  - oslogin.googleapis.com
+  - serviceusage.googleapis.com
+  - billingbudgets.googleapis.com
+  - pubsub.googleapis.com
+  - accesscontextmanager.googleapis.com
+  - essentialcontacts.googleapis.com
+  - serviceconsumermanagement.googleapis.com

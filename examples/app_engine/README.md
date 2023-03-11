@@ -19,7 +19,6 @@ Expected variables:
 |------|-------------|------|---------|:--------:|
 | billing\_account | The ID of the billing account to associate this project with | `string` | n/a | yes |
 | folder\_id | The ID of a folder to host this project. | `string` | `""` | no |
-| location\_id | The location to serve the app from. | `string` | `"us-east4"` | no |
 | org\_id | The organization ID. | `string` | n/a | yes |
 
 ## Outputs

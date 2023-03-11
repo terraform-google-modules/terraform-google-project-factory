@@ -45,9 +45,15 @@ variable "project_id" {
 }
 
 variable "random_project_id" {
-  description = "Adds a suffix of 4 random characters to the `project_id`"
+  description = "Adds a suffix of 4 random characters to the `project_id`."
   type        = bool
   default     = false
+}
+
+variable "random_project_id_length" {
+  description = "Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI."
+  type        = number
+  default     = null
 }
 
 variable "org_id" {
@@ -181,6 +187,12 @@ variable "bucket_ula" {
   default     = true
 }
 
+variable "bucket_pap" {
+  description = "Enable Public Access Prevention. Possible values are \"enforced\" or \"inherited\"."
+  type        = string
+  default     = "inherited"
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
@@ -226,6 +238,12 @@ variable "vpc_service_control_perimeter_name" {
   description = "The name of a VPC Service Control Perimeter to add the created project to"
   type        = string
   default     = null
+}
+
+variable "vpc_service_control_sleep_duration" {
+  description = "The duration to sleep in seconds before adding the project to a shared VPC after the project is added to the VPC Service Control Perimeter. VPC-SC is eventually consistent."
+  type        = string
+  default     = "5s"
 }
 
 variable "default_network_tier" {

@@ -33,4 +33,3 @@ variable "gsuite_admin_email" {
 variable "gsuite_domain" {
   description = "Gsuite domain"
 }
-

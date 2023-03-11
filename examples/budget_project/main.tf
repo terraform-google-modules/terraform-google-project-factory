@@ -21,13 +21,14 @@ resource "random_string" "suffix" {
 }
 
 module "budget_project" {
-  source            = "../../"
-  name              = "budget-project-${random_string.suffix.result}"
-  random_project_id = true
-  org_id            = var.org_id
-  folder_id         = var.folder_id
-  billing_account   = var.billing_account
-  budget_amount     = var.budget_amount
+  source                   = "../../"
+  name                     = "budget-project-${random_string.suffix.result}"
+  random_project_id        = true
+  random_project_id_length = 6
+  org_id                   = var.org_id
+  folder_id                = var.folder_id
+  billing_account          = var.billing_account
+  budget_amount            = var.budget_amount
 
   activate_apis = [
     "compute.googleapis.com",

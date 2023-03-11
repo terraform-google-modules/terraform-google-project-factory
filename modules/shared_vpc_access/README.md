@@ -1,7 +1,7 @@
 # Shared VPC Access
 
 This module grants IAM permissions on host project and subnets to appropriate API service accounts based on activated
-APIs. For now only GKE, Dataproc and Dataflow APIs are supported.
+APIs. For now only GKE, Dataproc, Dataflow, Composer and Serverless VPC Access APIs are supported.
 
 ## Example Usage
 ```hcl
@@ -10,10 +10,12 @@ module "shared_vpc_access" {
   host_project_id     = var.shared_vpc
   service_project_id  = var.service_project
   active_apis         = [
-    "compute.googleapis.com",
     "container.googleapis.com",
     "dataproc.googleapis.com",
     "dataflow.googleapis.com",
+    "datastream.googleapis.com",
+    "composer.googleapis.com",
+    "vpcaccess.googleapis.com",
   ]
   shared_vpc_subnets  = [
     "projects/pf-ci-shared2/regions/us-west1/subnetworks/shared-network-subnet-01",
@@ -30,6 +32,7 @@ module "shared_vpc_access" {
 | active\_apis | The list of active apis on the service project. If api is not active this module will not try to activate it | `list(string)` | `[]` | no |
 | enable\_shared\_vpc\_service\_project | Flag set if SVPC enabled | `bool` | n/a | yes |
 | grant\_network\_role | Whether or not to grant service agents the network roles on the host project | `bool` | `true` | no |
+| grant\_services\_network\_admin\_role | Whether or not to grant Datastream Service acount the Network Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | grant\_services\_security\_admin\_role | Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules | `bool` | `false` | no |
 | host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | n/a | yes |
 | lookup\_project\_numbers | Whether to look up the project numbers from data sources. If false, `service_project_number` will be used instead. | `bool` | `true` | no |

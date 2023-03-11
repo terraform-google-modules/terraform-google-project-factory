@@ -27,10 +27,12 @@ locals {
     "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
     "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
     "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
+    "datastream.googleapis.com" : format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
   }
-  gke_shared_vpc_enabled      = contains(var.active_apis, "container.googleapis.com")
-  composer_shared_vpc_enabled = contains(var.active_apis, "composer.googleapis.com")
-  active_apis                 = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
+  gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
+  composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
+  datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
+  active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
     for i, api in local.active_apis : [for i, subnet in var.shared_vpc_subnets : "${api},${subnet}"]
@@ -41,8 +43,10 @@ locals {
   if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
+  if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
        https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
+       https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
   if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
  *****************************************/
@@ -69,6 +73,7 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
+ if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.active_apis) : []
@@ -109,4 +114,16 @@ resource "google_project_iam_member" "gke_security_admin" {
   project = var.host_project_id
   role    = "roles/compute.securityAdmin"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+}
+
+/******************************************
+  roles/compute.networkAdmin role granted to Datastream's service account for datastream connectivity configuration on shared VPC host project
+  See: https://cloud.google.com/datastream/docs/create-a-private-connectivity-configuration
+  Service Account: service-[project_number]@gcp-sa-datastream.iam.gserviceaccount.com
+ *****************************************/
+resource "google_project_iam_member" "datastream_network_admin" {
+  count   = local.datastream_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_network_admin_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.networkAdmin"
+  member  = format("serviceAccount:%s", local.apis["datastream.googleapis.com"])
 }

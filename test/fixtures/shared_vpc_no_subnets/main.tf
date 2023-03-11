@@ -27,11 +27,11 @@ terraform {
     }
     null = {
       source  = "hashicorp/null"
-      version = "~> 2.1"
+      version = "~> 3.0"
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 2.2"
+      version = "~> 3.0"
     }
     gsuite = {
       version = "~> 0.1.12"
@@ -63,11 +63,13 @@ module "project-factory" {
   group_name                        = "pf-secondgroup-${var.random_string_for_testing}"
   shared_vpc                        = var.shared_vpc
   enable_shared_vpc_service_project = true
+  grant_services_network_admin_role = true
 
   activate_apis = [
     "compute.googleapis.com",
     "container.googleapis.com",
     "dataflow.googleapis.com",
+    "datastream.googleapis.com",
   ]
 
   disable_services_on_destroy = false

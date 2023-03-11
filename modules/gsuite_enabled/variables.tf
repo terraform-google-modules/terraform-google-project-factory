@@ -28,39 +28,47 @@ variable "random_project_id" {
 
 variable "org_id" {
   description = "The organization ID."
+  type        = string
 }
 
 variable "domain" {
   description = "The domain name (optional)."
   default     = ""
+  type        = string
 }
 
 variable "name" {
   description = "The name for the project"
+  type        = string
 }
 
 variable "project_id" {
   description = "The ID to give the project. If not provided, the `name` will be used."
   default     = ""
+  type        = string
 }
 
 variable "shared_vpc" {
   description = "The ID of the host project which hosts the shared VPC"
   default     = ""
+  type        = string
 }
 
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
+  type        = string
 }
 
 variable "folder_id" {
   description = "The ID of a folder to host this project"
   default     = ""
+  type        = string
 }
 
 variable "group_name" {
   description = "A group to control the project by being assigned group_role - defaults to $${project_name}-editors"
   default     = ""
+  type        = string
 }
 
 variable "create_group" {
@@ -72,11 +80,13 @@ variable "create_group" {
 variable "group_role" {
   description = "The role to give the controlling group (group_name) over the project (defaults to project editor)"
   default     = "roles/editor"
+  type        = string
 }
 
 variable "sa_group" {
   description = "A G Suite group to place the default Service Account for the project in"
   default     = ""
+  type        = string
 }
 
 variable "create_project_sa" {
@@ -94,6 +104,7 @@ variable "project_sa_name" {
 variable "sa_role" {
   description = "A role to give the default Service Account for the project (defaults to none)"
   default     = ""
+  type        = string
 }
 
 variable "activate_apis" {
@@ -105,11 +116,13 @@ variable "activate_apis" {
 variable "usage_bucket_name" {
   description = "Name of a GCS bucket to store GCE usage reports in (optional)"
   default     = ""
+  type        = string
 }
 
 variable "usage_bucket_prefix" {
   description = "Prefix in the GCS bucket to store GCE usage reports in (optional)"
   default     = ""
+  type        = string
 }
 
 variable "shared_vpc_subnets" {
@@ -127,16 +140,19 @@ variable "labels" {
 variable "bucket_project" {
   description = "A project to create a GCS bucket (bucket_name) in, useful for Terraform state (optional)"
   default     = ""
+  type        = string
 }
 
 variable "bucket_name" {
   description = "A name for a GCS bucket to create (in the bucket_project project), useful for Terraform state (optional)"
   default     = ""
+  type        = string
 }
 
 variable "bucket_location" {
   description = "The location for a GCS bucket to create (optional)"
   default     = ""
+  type        = string
 }
 
 variable "bucket_versioning" {
@@ -148,6 +164,7 @@ variable "bucket_versioning" {
 variable "api_sa_group" {
   description = "A G Suite group to place the Google APIs Service Account for the project in"
   default     = ""
+  type        = string
 }
 
 variable "auto_create_network" {

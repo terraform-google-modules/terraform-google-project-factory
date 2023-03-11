@@ -21,7 +21,7 @@ locals {
 resource "random_string" "prefix" {
   length  = 30 - length(var.name) - 1
   upper   = false
-  number  = false
+  numeric = false
   special = false
 }
 

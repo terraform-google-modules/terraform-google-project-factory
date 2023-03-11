@@ -15,11 +15,13 @@
  */
 
 output "project_name" {
-  value = google_project.main.name
+  description = "Name of the project"
+  value       = google_project.main.name
 }
 
 output "project_id" {
-  value = module.project_services.project_id
+  description = "ID of the project"
+  value       = module.project_services.project_id
   depends_on = [
     module.project_services,
     google_project.main,
@@ -29,32 +31,33 @@ output "project_id" {
 }
 
 output "project_number" {
-  value      = google_project.main.number
-  depends_on = [module.project_services]
+  description = "Numeric identifier for the project"
+  value       = google_project.main.number
+  depends_on  = [module.project_services]
 }
 
 output "service_account_id" {
-  value       = var.create_project_sa ? google_service_account.default_service_account[0].account_id : ""
+  value       = var.create_project_sa ? try(google_service_account.default_service_account[0].account_id, "") : ""
   description = "The id of the default service account"
 }
 
 output "service_account_display_name" {
-  value       = var.create_project_sa ? google_service_account.default_service_account[0].display_name : ""
+  value       = var.create_project_sa ? try(google_service_account.default_service_account[0].display_name, "") : ""
   description = "The display name of the default service account"
 }
 
 output "service_account_email" {
-  value       = var.create_project_sa ? google_service_account.default_service_account[0].email : ""
+  value       = var.create_project_sa ? try(google_service_account.default_service_account[0].email, "") : ""
   description = "The email of the default service account"
 }
 
 output "service_account_name" {
-  value       = var.create_project_sa ? google_service_account.default_service_account[0].name : ""
+  value       = var.create_project_sa ? try(google_service_account.default_service_account[0].name, "") : ""
   description = "The fully-qualified name of the default service account"
 }
 
 output "service_account_unique_id" {
-  value       = var.create_project_sa ? google_service_account.default_service_account[0].unique_id : ""
+  value       = var.create_project_sa ? try(google_service_account.default_service_account[0].unique_id, "") : ""
   description = "The unique id of the default service account"
 }
 

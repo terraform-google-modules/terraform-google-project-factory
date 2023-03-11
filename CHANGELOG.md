@@ -6,6 +6,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.2.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.1.0...v14.2.0) (2023-03-09)
+
+
+### Features
+
+* added datastream support in shared_vpc_access module ([#788](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/788)) ([a03c5e8](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/a03c5e8d86f8157f4b63adec9bc40f16f321d342))
+
+
+### Bug Fixes
+
+* removes policy id env var from int build config ([#791](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/791)) ([7e7c37d](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/7e7c37d0b776f7aed18d0b73cefb0306cd2705af))
+* workaround for import issue when SA is unknown ([#795](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/795)) ([13ec49f](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/13ec49fc386b31a9d1221ee7f689cb08eadc6eb2))
+
+## [14.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.0.0...v14.1.0) (2022-11-17)
+
+
+### Features
+
+* configure propagation time (time sleep) for inclusion of the created project in a VPC-SC perimeter ([#766](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/766)) ([086210b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/086210b2b4cacfe1ab0463a9cfb065da8f902f41))
+
+## [14.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.1.0...v14.0.0) (2022-08-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Increase to minimum TPG version 4.28 (#738)
+
+### Features
+
+* add random_project_id_length ([#735](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/735)) ([773ea4b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/773ea4bfc9a5ecffa2c55d73581f82670d68a77a))
+* Add support for custom time periods in budget module ([#738](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/738)) ([9273052](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/927305289abe43164ba606164a3e43cbce9c09b3))
+
+## [13.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v13.0.0...v13.1.0) (2022-08-17)
+
+
+### Features
+
+* Add support to project cloud storage public access prevention ([#740](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/740)) ([e9ba8a2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/e9ba8a2f3926391699e2f742dce57ec7a9366163))
+* update test/setup to pfactory 13.0 ([321bed2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/321bed29ba0a36d2bfc5860144f70e73adba7267))
+
+
+### Bug Fixes
+
+* add propagation to test/setup ([#708](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/708)) ([321bed2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/321bed29ba0a36d2bfc5860144f70e73adba7267))
+* ensure test/setup/outputs.folder_id returns proper ID ([#712](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/712)) ([8f72474](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/8f7247441cefd42500b40be6fae3c8ca4d54965f))
+
 ## [13.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v12.0.0...v13.0.0) (2022-04-12)
 
 

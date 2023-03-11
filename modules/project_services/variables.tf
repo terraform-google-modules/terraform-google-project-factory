@@ -16,10 +16,12 @@
 
 variable "project_id" {
   description = "The GCP project you want to enable APIs on"
+  type        = string
 }
 
 variable "enable_apis" {
   description = "Whether to actually enable the APIs. If false, this module is a no-op."
+  type        = bool
   default     = true
 }
 

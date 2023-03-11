@@ -33,6 +33,7 @@ module "project-factory" {
   lien                               = var.lien
   manage_group                       = var.group_name != "" ? true : false
   random_project_id                  = var.random_project_id
+  random_project_id_length           = var.random_project_id_length
   org_id                             = var.org_id
   name                               = var.name
   project_id                         = var.project_id
@@ -58,12 +59,14 @@ module "project-factory" {
   bucket_labels                      = var.bucket_labels
   bucket_force_destroy               = var.bucket_force_destroy
   bucket_ula                         = var.bucket_ula
+  bucket_pap                         = var.bucket_pap
   auto_create_network                = var.auto_create_network
   disable_services_on_destroy        = var.disable_services_on_destroy
   default_service_account            = var.default_service_account
   disable_dependent_services         = var.disable_dependent_services
   vpc_service_control_attach_enabled = var.vpc_service_control_attach_enabled
   vpc_service_control_perimeter_name = var.vpc_service_control_perimeter_name
+  vpc_service_control_sleep_duration = var.vpc_service_control_sleep_duration
   default_network_tier               = var.default_network_tier
 }
 
@@ -99,6 +102,9 @@ module "budget" {
   monitoring_notification_channels = var.budget_monitoring_notification_channels
   display_name                     = var.budget_display_name != null ? var.budget_display_name : null
   labels                           = var.budget_labels
+  calendar_period                  = var.budget_calendar_period
+  custom_period_start_date         = var.budget_custom_period_start_date
+  custom_period_end_date           = var.budget_custom_period_end_date
 }
 
 /******************************************

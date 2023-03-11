@@ -21,10 +21,18 @@ resource "random_id" "random_project_id_suffix" {
   byte_length = 2
 }
 
+resource "random_string" "random_project_id_suffix" {
+  count   = local.use_random_string ? 1 : 0
+  length  = var.random_project_id_length
+  special = false
+  upper   = false
+}
+
 /******************************************
   Locals configuration
  *****************************************/
 locals {
+  use_random_string = try(var.random_project_id_length > 0, false)
   group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
   project_org_id    = var.folder_id != "" ? null : var.org_id
@@ -32,11 +40,11 @@ locals {
   temp_project_id = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
-    random_id.random_project_id_suffix.hex,
+    local.use_random_string ? random_string.random_project_id_suffix[0].result : random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
-    google_service_account.default_service_account[0].email,
+    try(google_service_account.default_service_account[0].email, ""),
   ) : ""
   api_s_account = format(
     "%s@cloudservices.gserviceaccount.com",
@@ -100,10 +108,10 @@ module "project_services" {
 /******************************************
   Shared VPC configuration
  *****************************************/
-resource "time_sleep" "wait_5_seconds" {
+resource "time_sleep" "wait_5_seconds" { #TODO rename resource in the next breaking change.
   count           = var.vpc_service_control_attach_enabled ? 1 : 0
   depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager[0]]
-  create_duration = "5s"
+  create_duration = var.vpc_service_control_sleep_duration
 }
 
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
@@ -282,6 +290,8 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
   Project's bucket creation
  ***********************************************/
 resource "google_storage_bucket" "project_bucket" {
+  provider = google-beta
+
   count = local.create_bucket ? 1 : 0
 
   name                        = local.project_bucket_name
@@ -290,6 +300,7 @@ resource "google_storage_bucket" "project_bucket" {
   labels                      = var.bucket_labels
   force_destroy               = var.bucket_force_destroy
   uniform_bucket_level_access = var.bucket_ula
+  public_access_prevention    = var.bucket_pap
 
   versioning {
     enabled = var.bucket_versioning

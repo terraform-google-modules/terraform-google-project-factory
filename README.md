@@ -29,7 +29,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 10.1"
+  version = "~> 14.2"
 
   name                 = "pf-test-1"
   random_project_id    = true
@@ -118,6 +118,7 @@ determining that location is as follows:
 | bucket\_labels | A map of key/value label pairs to assign to the bucket (optional) | `map(string)` | `{}` | no |
 | bucket\_location | The location for a GCS bucket to create (optional) | `string` | `"US"` | no |
 | bucket\_name | A name for a GCS bucket to create (in the bucket\_project project), useful for Terraform state (optional) | `string` | `""` | no |
+| bucket\_pap | Enable Public Access Prevention. Possible values are "enforced" or "inherited". | `string` | `"inherited"` | no |
 | bucket\_project | A project to create a GCS bucket (bucket\_name) in, useful for Terraform state (optional) | `string` | `""` | no |
 | bucket\_ula | Enable Uniform Bucket Level Access | `bool` | `true` | no |
 | bucket\_versioning | Enable versioning for a GCS bucket to create (optional) | `bool` | `false` | no |
@@ -125,6 +126,9 @@ determining that location is as follows:
 | budget\_alert\_spend\_basis | The type of basis used to determine if spend has passed the threshold | `string` | `"CURRENT_SPEND"` | no |
 | budget\_alert\_spent\_percents | A list of percentages of the budget to alert on when threshold is exceeded | `list(number)` | <pre>[<br>  0.5,<br>  0.7,<br>  1<br>]</pre> | no |
 | budget\_amount | The amount to use for a budget alert | `number` | `null` | no |
+| budget\_calendar\_period | Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR\_PERIOD\_UNSPECIFIED, CUSTOM. custom\_period\_start\_date and custom\_period\_end\_date must be set if CUSTOM | `string` | `null` | no |
+| budget\_custom\_period\_end\_date | Specifies the end date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
+| budget\_custom\_period\_start\_date | Specifies the start date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
 | budget\_display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | budget\_labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
@@ -149,7 +153,8 @@ determining that location is as follows:
 | org\_id | The organization ID. | `string` | n/a | yes |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
-| random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
+| random\_project\_id | Adds a suffix of 4 random characters to the `project_id`. | `bool` | `false` | no |
+| random\_project\_id\_length | Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI. | `number` | `null` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 | svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
@@ -157,6 +162,7 @@ determining that location is as follows:
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |
 | vpc\_service\_control\_perimeter\_name | The name of a VPC Service Control Perimeter to add the created project to | `string` | `null` | no |
+| vpc\_service\_control\_sleep\_duration | The duration to sleep in seconds before adding the project to a shared VPC after the project is added to the VPC Service Control Perimeter. VPC-SC is eventually consistent. | `string` | `"5s"` | no |
 
 ## Outputs
 
@@ -171,9 +177,9 @@ determining that location is as follows:
 | group\_email | The email of the G Suite group with group\_name |
 | project\_bucket\_self\_link | Project's bucket selfLink |
 | project\_bucket\_url | Project's bucket url |
-| project\_id | n/a |
-| project\_name | n/a |
-| project\_number | n/a |
+| project\_id | ID of the project |
+| project\_name | Name of the project |
+| project\_number | Numeric identifier for the project |
 | service\_account\_display\_name | The display name of the default service account |
 | service\_account\_email | The email of the default service account |
 | service\_account\_id | The id of the default service account |

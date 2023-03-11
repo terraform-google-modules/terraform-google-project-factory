@@ -34,7 +34,7 @@ See [examples/essential_contacts](./examples/essential_contacts) for a full exam
 |------|-------------|------|---------|:--------:|
 | essential\_contacts | A mapping of users or groups to be assigned as Essential Contacts to the project, specifying a notification category | `map(list(string))` | `{}` | no |
 | language\_tag | Language code to be used for essential contacts notifiactions | `string` | n/a | yes |
-| project\_id | The GCP project you want to send Essential Contacts notifications for | `any` | n/a | yes |
+| project\_id | The GCP project you want to send Essential Contacts notifications for | `string` | n/a | yes |
 
 ## Outputs
 
