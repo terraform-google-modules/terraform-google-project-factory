@@ -28,10 +28,12 @@ locals {
     "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
     "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
     "datastream.googleapis.com" : format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
+    "metastore.googleapis.com": format("service-%s@gcp-sa-metastore.iam.gserviceaccount.com", local.service_project_number)
   }
   gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
   datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
+  metastore_shared_vpc_enabled = contains(var.active_apis, "metastore.googleapis.com")
   active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
@@ -126,4 +128,14 @@ resource "google_project_iam_member" "datastream_network_admin" {
   project = var.host_project_id
   role    = "roles/compute.networkAdmin"
   member  = format("serviceAccount:%s", local.apis["datastream.googleapis.com"])
+}
+
+/******************************************
+  metastore.serviceAgent role granted to Metastore service account for Metastore on shared VPC host project
+ *****************************************/
+resource "google_project_iam_member" "datastream_network_admin" {
+  count   = local.metastore_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/metastore.serviceAgent"
+  member  = format("serviceAccount:%s", local.apis["metastore.googleapis.com"])
 }
