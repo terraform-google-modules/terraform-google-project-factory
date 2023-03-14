@@ -1,7 +1,7 @@
 # Shared VPC Access
 
 This module grants IAM permissions on host project and subnets to appropriate API service accounts based on activated
-APIs. For now only GKE, Dataproc, Dataflow, Composer and Serverless VPC Access APIs are supported.
+APIs. For now only GKE, Dataproc, Dataflow, Composer, Metastore and Serverless VPC Access APIs are supported.
 
 ## Example Usage
 ```hcl
@@ -15,6 +15,7 @@ module "shared_vpc_access" {
     "dataflow.googleapis.com",
     "datastream.googleapis.com",
     "composer.googleapis.com",
+    "metastore.googleapis.com",
     "vpcaccess.googleapis.com",
   ]
   shared_vpc_subnets  = [
