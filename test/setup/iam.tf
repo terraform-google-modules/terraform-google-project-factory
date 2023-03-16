@@ -75,7 +75,8 @@ resource "google_service_account_key" "int_test" {
 }
 
 resource "google_billing_account_iam_member" "int_billing_admin" {
+  for_each           = toset(["roles/billing.user", "roles/billing.costsManager"])
   billing_account_id = var.billing_account
-  role               = "roles/billing.user"
+  role               = each.value
   member             = "serviceAccount:${google_service_account.int_test.email}"
 }
