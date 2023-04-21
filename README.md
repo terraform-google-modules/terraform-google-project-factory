@@ -286,6 +286,8 @@ the base project where the Service Account was created:
     (as is default behavior). Please see the [troubleshooting doc](docs/TROUBLESHOOTING.md#cannot-deploy-app-engine-flex-application) for more information.
 - Cloud Billing Budget API - `billingbudgets.googleapis.com`
   - Please note this API is only required if configuring budgets for projects.
+- Essential Contacts API - `essentialcontacts.googleapis.com`
+  - If you use Essential Contacts in the module, it will need this API enabled on the seed project.
 
 ### Verifying setup
 
