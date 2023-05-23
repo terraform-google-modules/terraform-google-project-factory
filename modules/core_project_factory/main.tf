@@ -78,7 +78,8 @@ resource "google_project" "main" {
   billing_account     = var.billing_account
   auto_create_network = var.auto_create_network
 
-  labels = var.labels
+  labels      = var.labels
+  skip_delete = var.skip_delete
 }
 
 /******************************************

@@ -346,3 +346,9 @@ variable "language_tag" {
   type        = string
   default     = "en-US"
 }
+
+variable "skip_delete" {
+  description = "(Optional) If true, the Terraform resource can be deleted without deleting the Project via the Google API"
+  type        = bool
+  default     = false
+}
