@@ -162,7 +162,7 @@ Two test-kitchen instances are defined:
 3. Add appropriate variables to your environment
 
    ```bash
-   export BILLING_ACCOUNT_ID="YOUR_BILLUNG_ACCOUNT"
+   export BILLING_ACCOUNT_ID="YOUR_BILLING_ACCOUNT"
    export DOMAIN="YOUR_DOMAIN"
    export FOLDER_ID="YOUR_FOLDER_ID"
    export GROUP_NAME="YOUR_GROUP_NAME"
