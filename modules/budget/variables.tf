@@ -104,3 +104,9 @@ variable "labels" {
     error_message = "Only 0 or 1 labels may be supplied for the budget filter."
   }
 }
+
+variable "disable_default_iam_recipients" {
+  description = "Disables default notifications sent when a threshold is exceeded"
+  type        = bool
+  default     = null
+}

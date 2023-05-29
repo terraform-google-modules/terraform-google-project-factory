@@ -35,6 +35,7 @@ module "project_myproject" {
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
 | projects | The project ids to include in this budget. If empty budget will include all projects | `list(string)` | n/a | yes |
 | services | A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/ | `list(string)` | `null` | no |
+| disable_default_iam_recipients | Disables default notifications sent when a threshold is exceeded | bool | `null` | no |
 
 ## Outputs
 
