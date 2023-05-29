@@ -107,6 +107,7 @@ module "budget" {
   calendar_period                  = var.budget_calendar_period
   custom_period_start_date         = var.budget_custom_period_start_date
   custom_period_end_date           = var.budget_custom_period_end_date
+  disable_default_iam_recipients   = var.budget_disable_default_iam_recipients
 }
 
 /******************************************

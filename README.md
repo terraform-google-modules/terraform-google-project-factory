@@ -129,6 +129,7 @@ determining that location is as follows:
 | budget\_calendar\_period | Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR\_PERIOD\_UNSPECIFIED, CUSTOM. custom\_period\_start\_date and custom\_period\_end\_date must be set if CUSTOM | `string` | `null` | no |
 | budget\_custom\_period\_end\_date | Specifies the end date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
 | budget\_custom\_period\_start\_date | Specifies the start date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
+| budget\_disable\_default\_iam\_recipients | Disables default notifications sent when a threshold is exceeded | `bool` | `null` | no |
 | budget\_display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | budget\_labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
