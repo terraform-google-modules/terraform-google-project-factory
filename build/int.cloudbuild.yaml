@@ -146,7 +146,7 @@ steps:
 
 - id: init-quota-project-example
   waitFor:
-    - init-all
+    - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage init --verbose']
 - id: apply-quota-project-example
