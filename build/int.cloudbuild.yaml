@@ -93,7 +93,7 @@ steps:
 # essential contacts
 - id: init-essential-contacts-example
   waitFor:
-    - prepare
+    - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage init --verbose']
 - id: apply-essential-contacts-example
