@@ -70,6 +70,29 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
 }
 
 /******************************************
+  if "container.googleapis.com" compute.networkUser role granted to Google API service account for GKE on shared VPC subnets
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#enabling_and_granting_roles
+ *****************************************/
+resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet_users" {
+  provider = google-beta
+  count    = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? length(local.subnetwork_api) : 0
+  subnetwork = element(
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    index(
+      split("/", split(",", local.subnetwork_api[count.index])[1]),
+      "subnetworks",
+    ) + 1,
+  )
+  role = "roles/compute.networkUser"
+  region = element(
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
+  )
+  project = var.host_project_id
+  member  = format("serviceAccount:%s@cloudservices.gserviceaccount.com", local.service_project_number)
+}
+
+/******************************************
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
