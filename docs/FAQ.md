@@ -84,6 +84,6 @@ Therefore, the Project Factory deletes the default Service Account to prevent th
 
 2. No default usage. With the default Service Account deleted, you have to be explicit in choosing a Service Account for VMs which ensures developers make an informed choice when deciding what access level to give applications.
 
-## What is the requirement of `random_project_id` variable?
+## Requirement for `random_project_id`
 
 This variables adds a suffix of 4 random characters to the `project_id` provided. It is important to note that once you delete a project you can't use the same `project_id`. `random_project_id` comes in handy in such situations (specially during testing) since it allows you to create and shut down projects without conflicts.
