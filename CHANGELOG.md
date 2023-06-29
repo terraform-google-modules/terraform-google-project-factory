@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.2.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.2.0...v14.2.1) (2023-06-22)
+
+
+### Bug Fixes
+
+* add service account access for gke in shared vpc ([#822](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/822)) ([e133faf](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/e133faf3b31fb8ba701df103700e66a80d8b6f92))
+
 ## [14.2.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.1.0...v14.2.0) (2023-03-09)
 
 
