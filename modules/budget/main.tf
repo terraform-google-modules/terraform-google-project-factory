@@ -34,7 +34,7 @@ locals {
 
 data "google_project" "project" {
   depends_on = [var.projects]
-  count      = length(var.projects)
+  count      = var.create_budget ? length(var.projects) : 0
   project_id = element(var.projects, count.index)
 }
 
