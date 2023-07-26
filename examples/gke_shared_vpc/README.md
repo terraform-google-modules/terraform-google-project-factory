@@ -36,6 +36,6 @@ More information about GKE with Shared VPC can be found here: https://cloud.goog
 
 ## Outputs
 
-No output.
+No outputs.
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
