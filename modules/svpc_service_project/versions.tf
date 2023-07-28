@@ -27,9 +27,9 @@ terraform {
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v14.2.0"
+    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v14.2.1"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v14.2.0"
+    module_name = "blueprints/terraform/terraform-google-project-factory:svpc_service_project/v14.2.1"
   }
 }
