@@ -62,7 +62,7 @@ variable "grant_services_security_admin_role" {
 variable "grant_services_network_admin_role" {
   description = "Whether or not to grant Datastream Service acount the Network Admin role on the host project so it can manage firewall rules"
   type        = bool
-  default     = false
+  default     = true // Required for shared VPC host project (source: https://cloud.google.com/datastream/docs/create-a-private-connectivity-configuration#before-you-begin)
 }
 
 variable "grant_network_role" {
