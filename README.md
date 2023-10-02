@@ -29,7 +29,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.2"
+  version = "~> 14.3"
 
   name                 = "pf-test-1"
   random_project_id    = true

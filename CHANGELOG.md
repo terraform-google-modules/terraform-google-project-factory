@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.3.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.2.1...v14.3.0) (2023-07-27)
+
+
+### Features
+
+* **budget:** Only read project data when budget will be created ([#829](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/829)) ([ee3865b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/ee3865b68703b80da8e41d789e3a081152441b78))
+
 ## [14.2.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.2.0...v14.2.1) (2023-06-22)
 
 
