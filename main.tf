@@ -34,7 +34,7 @@ module "project-factory" {
   manage_group                       = var.group_name != "" ? true : false
   random_project_id                  = var.random_project_id
   random_project_id_length           = var.random_project_id_length
-  org_id                             = var.org_id
+  org_id                             = var.folder_id != "" ? null : var.org_id
   name                               = var.name
   project_id                         = var.project_id
   shared_vpc                         = var.svpc_host_project_id
