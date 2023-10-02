@@ -34,6 +34,7 @@ terraform {
       version = "~> 3.0"
     }
     gsuite = {
+      source  = "hashicorp/gsuite"
       version = "~> 0.1.12"
     }
   }
