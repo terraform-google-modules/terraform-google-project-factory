@@ -77,8 +77,9 @@ locals {
 }
 
 resource "google_project_iam_member" "project_service_identity_roles" {
-  for_each = local.add_service_roles
-
+  for_each = {
+    for k, v in local.add_service_roles : k => v if v.email != null
+  }
   project = var.project_id
   role    = each.value.role
   member  = "serviceAccount:${each.value.email}"
