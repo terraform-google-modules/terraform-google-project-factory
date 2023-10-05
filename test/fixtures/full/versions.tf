@@ -17,12 +17,10 @@
 terraform {
   required_providers {
     google = {
-      source  = "hashicorp/google"
-      version = "~> 4.5"
+      source = "hashicorp/google"
     }
     google-beta = {
-      source  = "hashicorp/google-beta"
-      version = "~> 4.5"
+      source = "hashicorp/google-beta"
     }
     gsuite = {
       source  = "deviavir/gsuite"
