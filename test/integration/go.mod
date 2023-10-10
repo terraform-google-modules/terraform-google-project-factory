@@ -3,7 +3,7 @@ module github.com/terraform-google-modules/terraform-google-project-factory/test
 go 1.20
 
 require (
-	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.8.1
+	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.9.0
 	github.com/stretchr/testify v1.8.4
 	golang.org/x/oauth2 v0.12.0
 )
