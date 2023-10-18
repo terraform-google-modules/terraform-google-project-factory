@@ -13,15 +13,15 @@ module "project_quota_manager" {
   consumer_quotas = [
     {
         service        = "compute.googleapis.com"
-        metric         = "SimulateMaintenanceEventGroup"
+        metric         = "compute.googleapis.com/n2_cpus"
         dimensions     = { region = "us-central1" }
-        limit          = "%2F100s%2Fproject"
-        value = "19"
+        limit          = "/project/region"
+        value = "10"
     },{
         service        = "servicemanagement.googleapis.com"
-        metric         = "servicemanagement.googleapis.com%2Fdefault_requests"
+        metric         = "servicemanagement.googleapis.com/default_requests"
         dimensions     = {}
-        limit          = "%2Fmin%2Fproject"
+        limit          = "/min/project"
         value = "95"
     }
   ]

@@ -41,8 +41,8 @@ module "quota-project" {
   consumer_quotas = [
     {
       service = "compute.googleapis.com"
-      metric  = urlencode("compute.googleapis.com/n2_cpus")
-      limit   = urlencode("/project/region")
+      metric  = "compute.googleapis.com/n2_cpus"
+      limit   = "/project/region"
       dimensions = {
         region = "us-central1"
       }
@@ -50,8 +50,8 @@ module "quota-project" {
     },
     {
       service    = "servicemanagement.googleapis.com"
-      metric     = urlencode("servicemanagement.googleapis.com/default_requests")
-      limit      = urlencode("/min/project")
+      metric     = "servicemanagement.googleapis.com/default_requests"
+      limit      = "/min/project"
       dimensions = {}
       value      = "95"
     }
