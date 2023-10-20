@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.4.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.3.0...v14.4.0) (2023-10-20)
+
+
+### Features
+
+* add support for tpg v5 ([#843](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/843)) ([4bbe4a0](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/4bbe4a0928b6f3f7d79f0529108b1de0d1288ded))
+
+
+### Bug Fixes
+
+* lint for dev-tools and CI ([#839](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/839)) ([50e4ea2](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/50e4ea22e485d20d882ab1b1d99314da50b12613))
+
 ## [14.3.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.2.1...v14.3.0) (2023-07-27)
 
 
