@@ -16,9 +16,14 @@ steps:
 - id: prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'mkdir -p ~/.terraform.d && ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && prepare_environment']
-- id: create-all
+- id: init-all
   waitFor:
       - prepare
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run all --stage init --verbose']
+- id: create-all
+  waitFor:
+      - init-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create']
 - id: converge minimal-local
@@ -88,7 +93,7 @@ steps:
 # essential contacts
 - id: init-essential-contacts-example
   waitFor:
-    - prepare
+    - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage init --verbose']
 - id: apply-essential-contacts-example
@@ -141,7 +146,7 @@ steps:
 
 - id: init-quota-project-example
   waitFor:
-    - prepare
+    - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage init --verbose']
 - id: apply-quota-project-example
@@ -165,7 +170,7 @@ tags:
 - 'integration'
 substitutions:
   _DOCKER_IMAGE_DEVELOPER_TOOLS: 'cft/developer-tools'
-  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1'
+  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1.17'
 options:
   machineType: 'N1_HIGHCPU_8'
   env:

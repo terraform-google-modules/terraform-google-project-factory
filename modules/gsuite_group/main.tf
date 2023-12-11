@@ -15,7 +15,7 @@
  */
 
 locals {
-  domain_list = concat(data.google_organization.org.*.domain, ["dummy"])
+  domain_list = concat(data.google_organization.org[*].domain, ["dummy"])
   domain      = var.domain == "" ? element(local.domain_list, 0) : var.domain
   email       = var.name == "" ? "" : format("%s@%s", var.name, local.domain)
 }

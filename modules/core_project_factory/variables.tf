@@ -59,6 +59,7 @@ variable "random_project_id_length" {
 variable "org_id" {
   description = "The organization ID."
   type        = string
+  default     = null
 }
 
 variable "name" {

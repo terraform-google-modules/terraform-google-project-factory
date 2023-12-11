@@ -67,7 +67,7 @@ module "project-factory" {
 
   group_email = element(
     compact(
-      concat(gsuite_group.group.*.email, [module.gsuite_group.email]),
+      concat(gsuite_group.group[*].email, [module.gsuite_group.email]),
     ),
     0,
   )

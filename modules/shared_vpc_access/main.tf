@@ -28,6 +28,7 @@ locals {
     "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
     "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
     "datastream.googleapis.com" : format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
+    "notebooks.googleapis.com" : format("service-%s@gcp-sa-notebooks.iam.gserviceaccount.com", local.service_project_number)
   }
   gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
@@ -44,6 +45,7 @@ locals {
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
   if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
   if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
+  if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
        https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
        https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
@@ -70,10 +72,34 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
 }
 
 /******************************************
+  if "container.googleapis.com" compute.networkUser role granted to Google API service account for GKE on shared VPC subnets
+  See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc#enabling_and_granting_roles
+ *****************************************/
+resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet_users" {
+  provider = google-beta
+  count    = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? length(local.subnetwork_api) : 0
+  subnetwork = element(
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    index(
+      split("/", split(",", local.subnetwork_api[count.index])[1]),
+      "subnetworks",
+    ) + 1,
+  )
+  role = "roles/compute.networkUser"
+  region = element(
+    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
+  )
+  project = var.host_project_id
+  member  = format("serviceAccount:%s@cloudservices.gserviceaccount.com", local.service_project_number)
+}
+
+/******************************************
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
  if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC Project if no subnets defined
+ if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.active_apis) : []

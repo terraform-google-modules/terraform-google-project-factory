@@ -18,12 +18,10 @@ terraform {
   required_version = ">= 0.13"
   required_providers {
     google = {
-      source  = "hashicorp/google"
-      version = "~> 4.5"
+      source = "hashicorp/google"
     }
     google-beta = {
-      source  = "hashicorp/google-beta"
-      version = "~> 4.5"
+      source = "hashicorp/google-beta"
     }
     null = {
       source  = "hashicorp/null"
@@ -34,6 +32,7 @@ terraform {
       version = "~> 3.0"
     }
     gsuite = {
+      source  = "hashicorp/gsuite"
       version = "~> 0.1.12"
     }
   }

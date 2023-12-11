@@ -29,7 +29,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.2"
+  version = "~> 14.4"
 
   name                 = "pf-test-1"
   random_project_id    = true
@@ -150,7 +150,7 @@ determining that location is as follows:
 | language\_tag | Language code to be used for essential contacts notifications | `string` | `"en-US"` | no |
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |
-| org\_id | The organization ID. | `string` | n/a | yes |
+| org\_id | The organization ID. | `string` | `null` | no |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id`. | `bool` | `false` | no |
