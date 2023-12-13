@@ -189,6 +189,8 @@ github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03
 github.com/BurntSushi/xgb v0.0.0-20160522181843-27f122750802/go.mod h1:IVnqGOEym/WlBOVXweHU+Q+/VP0lqqI8lqeDx9IjBqo=
 github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.10.1 h1:eOqSlege+69h9JhR/ydpHCBLCfQmJuznPGdhLY/SDcU=
 github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.10.1/go.mod h1:R0AXqSshPDVYHGopYGwPxguApNpFFOdaVAJ8XO2BxJ0=
+github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.10.2 h1:VumKmHhd+jO9nZCUzKltGKv4U5j1hxueRzBaoch+SvY=
+github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.10.2/go.mod h1:sDPahz16/LVyT5feMgYcPPx68rozeDI3LaM9/5Ok9GA=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/agext/levenshtein v1.2.3 h1:YB2fHEn0UJagG8T1rrWknE3ZQzWM06O8AMAatNn7lmo=
 github.com/agext/levenshtein v1.2.3/go.mod h1:JEDfjyjHDjOF/1e4FlBE/PkbqA9OfWu2ki2W0IB5558=
@@ -351,6 +353,8 @@ github.com/googleapis/go-type-adapters v1.0.0/go.mod h1:zHW75FOG2aur7gAO2B+MLby+
 github.com/grpc-ecosystem/grpc-gateway v1.16.0/go.mod h1:BDjrQk3hbvj6Nolgz8mAMFbcEtjT1g+wF4CSlocrBnw=
 github.com/gruntwork-io/terratest v0.46.6 h1:OO+BozS6nqeu0OhkLy7opkgDoYafkDr1TPlxprma26M=
 github.com/gruntwork-io/terratest v0.46.6/go.mod h1:6gI5MlLeyF+SLwqocA5GBzcTix+XiuxCy1BPwKuT+WM=
+github.com/gruntwork-io/terratest v0.46.7 h1:oqGPBBO87SEsvBYaA0R5xOq+Lm2Xc5dmFVfxEolfZeU=
+github.com/gruntwork-io/terratest v0.46.7/go.mod h1:6gI5MlLeyF+SLwqocA5GBzcTix+XiuxCy1BPwKuT+WM=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY2I=
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
