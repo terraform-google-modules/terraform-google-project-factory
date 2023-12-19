@@ -32,7 +32,9 @@ resource "google_folder" "prod" {
 }
 
 module "project-prod-gke" {
-  source            = "../../modules/gsuite_enabled"
+  source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
+  version = "~> 14.0"
+
   random_project_id = true
   name              = "hierarchy-sample-prod-gke"
   org_id            = var.organization_id
@@ -41,7 +43,9 @@ module "project-prod-gke" {
 }
 
 module "project-factory" {
-  source            = "../../modules/gsuite_enabled"
+  source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
+  version = "~> 14.0"
+
   random_project_id = true
   name              = "hierarchy-sample-factory"
   org_id            = var.organization_id

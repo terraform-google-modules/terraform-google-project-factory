@@ -23,7 +23,9 @@ locals {
   Host Project Creation
  *****************************************/
 module "host-project" {
-  source                         = "../../"
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 14.0"
+
   random_project_id              = true
   name                           = var.host_project_name
   org_id                         = var.organization_id
@@ -90,7 +92,8 @@ module "vpc" {
   Service Project Creation
  *****************************************/
 module "service-project" {
-  source = "../../modules/svpc_service_project"
+  source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
+  version = "~> 14.0"
 
   name              = var.service_project_name
   random_project_id = false
@@ -116,7 +119,8 @@ module "service-project" {
   Second Service Project Creation
  *****************************************/
 module "service-project-b" {
-  source = "../../modules/svpc_service_project"
+  source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
+  version = "~> 14.0"
 
   name              = "b-${var.service_project_name}"
   random_project_id = false
@@ -149,7 +153,8 @@ module "service-project-b" {
   To test the grant_network_role
  *****************************************/
 module "service-project-c" {
-  source = "../../modules/svpc_service_project"
+  source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
+  version = "~> 14.0"
 
   name              = "c-${var.service_project_name}"
   random_project_id = false
