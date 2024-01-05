@@ -21,7 +21,9 @@ resource "random_string" "suffix" {
 }
 
 module "app-engine-project" {
-  source            = "../../"
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 14.0"
+
   name              = "appeng-${random_string.suffix.result}"
   random_project_id = true
   org_id            = var.org_id
@@ -33,7 +35,9 @@ module "app-engine-project" {
 }
 
 module "app-engine" {
-  source      = "../../modules/app_engine"
+  source  = "terraform-google-modules/project-factory/google//modules/app_engine"
+  version = "~> 14.0"
+
   project_id  = module.app-engine-project.project_id
   location_id = "us-east4"
 }

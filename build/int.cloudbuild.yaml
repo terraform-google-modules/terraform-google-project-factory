@@ -13,6 +13,9 @@
 # limitations under the License.
 timeout: 3600s
 steps:
+- id: swap-module-refs
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['module-swapper']
 - id: prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'mkdir -p ~/.terraform.d && ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && prepare_environment']
@@ -170,7 +173,7 @@ tags:
 - 'integration'
 substitutions:
   _DOCKER_IMAGE_DEVELOPER_TOOLS: 'cft/developer-tools'
-  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1.17'
+  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1.18'
 options:
   machineType: 'N1_HIGHCPU_8'
   env:

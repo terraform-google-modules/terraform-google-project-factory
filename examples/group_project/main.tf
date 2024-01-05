@@ -28,7 +28,9 @@ provider "gsuite" {
 }
 
 module "project-factory" {
-  source            = "../../modules/gsuite_enabled"
+  source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
+  version = "~> 14.0"
+
   random_project_id = true
   name              = "group-sample-project"
   org_id            = var.organization_id
