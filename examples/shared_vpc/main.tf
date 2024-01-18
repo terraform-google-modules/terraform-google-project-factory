@@ -46,7 +46,7 @@ module "host-project" {
  *****************************************/
 module "vpc" {
   source  = "terraform-google-modules/network/google"
-  version = "~> 8.0"
+  version = "~> 9.0"
 
   project_id                             = module.host-project.project_id
   network_name                           = var.network_name
