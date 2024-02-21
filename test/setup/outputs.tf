@@ -58,3 +58,7 @@ output "group_name" {
 output "service_account_email" {
   value = google_service_account.int_test.email
 }
+
+output "tag_value" {
+  value = google_tags_tag_value.value.name
+}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,14 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
+module "project-factory" {
+  source  = "terraform-google-modules/project-factory/google"
+  version = "~> 14.0"
 
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 3.64, < 6"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = ">= 3.64, < 6"
-    }
-    null = {
-      source  = "hashicorp/null"
-      version = ">= 2.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 2.2"
-    }
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.5"
-    }
-  }
+  random_project_id       = true
+  name                    = "simple-tag-project"
+  org_id                  = var.organization_id
+  billing_account         = var.billing_account
+  default_service_account = "deprivilege"
+  tag_binding_values      = [var.tag_value]
 }

@@ -371,3 +371,9 @@ resource "google_compute_project_default_network_tier" "default" {
   project      = google_project.main.number
   network_tier = var.default_network_tier
 }
+
+resource "google_tags_tag_binding" "bindings" {
+  for_each  = toset(var.tag_binding_values)
+  parent    = "//cloudresourcemanager.googleapis.com/projects/${google_project.main.number}"
+  tag_value = "tagValues/${each.value}"
+}

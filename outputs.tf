@@ -98,3 +98,8 @@ output "budget_name" {
   value       = module.budget.name
   description = "The name of the budget if created"
 }
+
+output "tag_bindings" {
+  description = "Tag bindings"
+  value       = module.project-factory.tag_bindings
+}
