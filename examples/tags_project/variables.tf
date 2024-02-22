@@ -19,6 +19,12 @@ variable "organization_id" {
   default     = "684124036889"
 }
 
+variable "folder_id" {
+  description = "The ID of a folder to host this project."
+  type        = string
+  default     = ""
+}
+
 variable "billing_account" {
   description = "The ID of the billing account to associate this project with"
 }

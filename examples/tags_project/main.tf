@@ -21,6 +21,7 @@ module "project-factory" {
   random_project_id       = true
   name                    = "simple-tag-project"
   org_id                  = var.organization_id
+  folder_id               = var.folder_id
   billing_account         = var.billing_account
   default_service_account = "deprivilege"
   tag_binding_values      = [var.tag_value]
