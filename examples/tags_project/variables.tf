@@ -22,7 +22,7 @@ variable "organization_id" {
 variable "folder_id" {
   description = "The ID of a folder to host this project."
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "billing_account" {
