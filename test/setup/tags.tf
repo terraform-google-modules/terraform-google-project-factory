@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,20 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
+resource "random_string" "key_suffix" {
+  length  = 7
+  special = false
+  upper   = false
+}
 
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 3.64, < 6"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = ">= 3.64, < 6"
-    }
-    null = {
-      source  = "hashicorp/null"
-      version = ">= 2.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 2.2"
-    }
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.5"
-    }
-  }
+resource "google_tags_tag_key" "key" {
+  parent      = "organizations/${var.org_id}"
+  short_name  = "pf-key-${random_string.key_suffix.result}"
+  description = "Sample tag key"
+}
+
+resource "google_tags_tag_value" "value" {
+  parent      = "tagKeys/${google_tags_tag_key.key.name}"
+  short_name  = "sample-val"
+  description = "Sample val"
 }

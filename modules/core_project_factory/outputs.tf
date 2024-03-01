@@ -95,3 +95,8 @@ output "enabled_api_identities" {
   description = "Enabled API identities in the project"
   value       = module.project_services.enabled_api_identities
 }
+
+output "tag_bindings" {
+  description = "Tag bindings"
+  value       = google_tags_tag_binding.bindings
+}

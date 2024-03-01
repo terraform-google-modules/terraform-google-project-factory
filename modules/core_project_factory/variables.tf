@@ -258,3 +258,9 @@ variable "grant_network_role" {
   type        = bool
   default     = true
 }
+
+variable "tag_binding_values" {
+  description = "Tag values to bind the project to."
+  type        = list(string)
+  default     = []
+}

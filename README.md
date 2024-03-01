@@ -158,6 +158,7 @@ determining that location is as follows:
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 | svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
+| tag\_binding\_values | Tag values to bind the project to. | `list(string)` | `[]` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |
@@ -185,6 +186,7 @@ determining that location is as follows:
 | service\_account\_id | The id of the default service account |
 | service\_account\_name | The fully-qualified name of the default service account |
 | service\_account\_unique\_id | The unique id of the default service account |
+| tag\_bindings | Tag bindings |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

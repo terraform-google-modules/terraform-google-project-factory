@@ -347,3 +347,9 @@ variable "language_tag" {
   type        = string
   default     = "en-US"
 }
+
+variable "tag_binding_values" {
+  description = "Tag values to bind the project to."
+  type        = list(string)
+  default     = []
+}

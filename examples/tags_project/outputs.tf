@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,29 +14,13 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 0.13"
-
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 3.64, < 6"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = ">= 3.64, < 6"
-    }
-    null = {
-      source  = "hashicorp/null"
-      version = ">= 2.1"
-    }
-    random = {
-      source  = "hashicorp/random"
-      version = ">= 2.2"
-    }
-    time = {
-      source  = "hashicorp/time"
-      version = ">= 0.5"
-    }
-  }
+output "project_id" {
+  value       = module.project-factory.project_id
+  description = "The ID of the created project"
 }
+
+output "project_num" {
+  value       = module.project-factory.project_number
+  description = "The number of the created project"
+}
+

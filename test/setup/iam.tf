@@ -37,6 +37,10 @@ locals {
   int_required_org_roles = [
     "roles/accesscontextmanager.policyAdmin",
     "roles/resourcemanager.organizationViewer",
+    # CRUD tags.
+    "roles/resourcemanager.tagAdmin",
+    # Binding tags to resources.
+    "roles/resourcemanager.tagUser"
   ]
 }
 
