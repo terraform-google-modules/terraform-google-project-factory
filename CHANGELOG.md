@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [14.5.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.4.0...v14.5.0) (2024-03-01)
+
+
+### Features
+
+* added networkconnectivity in shared VPC host access ([#876](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/876)) ([0f12598](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/0f12598a577c039344baedb1e1d84cd4c4910500))
+* support optional tag binding ([#885](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/885)) ([87648a1](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/87648a1c79ee64aaa55c2f0a67438d31b84fbd49))
+
+
+### Bug Fixes
+
+* make org id optional ([#838](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/838)) ([8509793](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/85097939ee3da058525ba027138e13cbfcd45666))
+* shared_vpc_access - Grant notebooks.googleapi.com SA the networkUser role ([#856](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/856)) ([661e916](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/661e9163fcb8a0792eac67558aa95bf5a97b22c1))
+
 ## [14.4.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.3.0...v14.4.0) (2023-10-20)
 
 
