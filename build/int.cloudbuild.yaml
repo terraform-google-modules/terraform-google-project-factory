@@ -169,7 +169,7 @@ steps:
   args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage destroy --verbose']
 - id: apply-tags-project-example
   waitFor:
-    - init-all
+    - create-all
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'cft test run TestTagsProject --stage apply --verbose']
 - id: verify-tags-project-example
