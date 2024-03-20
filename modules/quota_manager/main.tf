@@ -15,7 +15,10 @@
  */
 
 locals {
-  consumer_quotas = { for index, quota in var.consumer_quotas : "${quota.service}-${quota.metric}" => quota }
+  consumer_quotas = { 
+    for index, quota in var.consumer_quotas : 
+      "${quota.service}-${quota.metric}-${index}" => quota 
+  }
 }
 
 resource "google_service_usage_consumer_quota_override" "override" {
