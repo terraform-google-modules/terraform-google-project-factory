@@ -188,6 +188,7 @@ determining that location is as follows:
 | service\_account\_name | The fully-qualified name of the default service account |
 | service\_account\_unique\_id | The unique id of the default service account |
 | tag\_bindings | Tag bindings |
+| usage\_report\_export\_bucket | GCE usage reports bucket |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

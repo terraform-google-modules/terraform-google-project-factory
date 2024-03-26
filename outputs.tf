@@ -103,3 +103,8 @@ output "tag_bindings" {
   description = "Tag bindings"
   value       = module.project-factory.tag_bindings
 }
+
+output "usage_report_export_bucket" {
+  description = "GCE usage reports bucket"
+  value       = module.project-factory.usage_report_export_bucket
+}
