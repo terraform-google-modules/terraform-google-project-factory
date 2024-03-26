@@ -230,7 +230,13 @@ variable "enable_shared_vpc_host_project" {
 }
 
 variable "vpc_service_control_attach_enabled" {
-  description = "Whether the project will be attached to a VPC Service Control Perimeter"
+  description = "Whether the project will be attached to a VPC Service Control Perimeter in ENFORCED MODE. vpc_service_control_attach_dry_run should be false for this to be true"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_service_control_attach_dry_run" {
+  description = "Whether the project will be attached to a VPC Service Control Perimeter in Dry Run Mode. vpc_service_control_attach_enabled should be false for this to be true"
   type        = bool
   default     = false
 }
