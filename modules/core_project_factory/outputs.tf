@@ -100,3 +100,8 @@ output "tag_bindings" {
   description = "Tag bindings"
   value       = google_tags_tag_binding.bindings
 }
+
+output "usage_report_export_bucket" {
+  description = "GCE usage reports bucket"
+  value       = try(google_project_usage_export_bucket.usage_report_export[0], null)
+}
