@@ -199,9 +199,9 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin ~> 5.22
--   [terraform-provider-google-beta] plugin ~> 5.22
--   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+-   [terraform-provider-google] plugin >= 5.22
+-   [terraform-provider-google-beta] plugin >= 5.22
+-   [terraform-provider-gsuite] plugin ~> 0.1.x if GSuite functionality is desired
 
 ### Permissions
 
