@@ -109,7 +109,7 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "time_sleep" "wait_5_seconds" { #TODO rename resource in the next breaking change.
-  count           = var.vpc_service_control_attach_enabled ? 1 : 0
+  count           = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
   depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager[0]]
   create_duration = var.vpc_service_control_sleep_duration
 }
@@ -368,7 +368,7 @@ resource "google_access_context_manager_service_perimeter_dry_run_resource" "ser
   Enable Access Context Manager API
  *****************************************/
 resource "google_project_service" "enable_access_context_manager" {
-  count   = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_enabled ? 1 : 0
+  count   = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
   project = google_project.main.number
   service = "accesscontextmanager.googleapis.com"
 }
