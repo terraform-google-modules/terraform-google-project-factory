@@ -12,7 +12,7 @@ To include G Suite integration for creating groups and adding Service Accounts i
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.13+ and tested using Terraform 1.0+. If you find incompatibilities using Terraform >=0.13, please open an issue.
+This module is meant for use with Terraform 0.13+ and tested using Terraform 1.3+. If you find incompatibilities using Terraform >=0.13, please open an issue.
  If you haven't
 [upgraded][terraform-0.13-upgrade] and need a Terraform
 0.12.x-compatible version of this module, the last released version
@@ -29,7 +29,7 @@ There are multiple examples included in the [examples](./examples/) folder but s
 ```hcl
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.5"
+  version = "~> 15.0"
 
   name                 = "pf-test-1"
   random_project_id    = true
@@ -161,7 +161,8 @@ determining that location is as follows:
 | tag\_binding\_values | Tag values to bind the project to. | `list(string)` | `[]` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
-| vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter | `bool` | `false` | no |
+| vpc\_service\_control\_attach\_dry\_run | Whether the project will be attached to a VPC Service Control Perimeter in Dry Run Mode. vpc\_service\_control\_attach\_enabled should be false for this to be true | `bool` | `false` | no |
+| vpc\_service\_control\_attach\_enabled | Whether the project will be attached to a VPC Service Control Perimeter in ENFORCED MODE. vpc\_service\_control\_attach\_dry\_run should be false for this to be true | `bool` | `false` | no |
 | vpc\_service\_control\_perimeter\_name | The name of a VPC Service Control Perimeter to add the created project to | `string` | `null` | no |
 | vpc\_service\_control\_sleep\_duration | The duration to sleep in seconds before adding the project to a shared VPC after the project is added to the VPC Service Control Perimeter. VPC-SC is eventually consistent. | `string` | `"5s"` | no |
 
@@ -187,6 +188,7 @@ determining that location is as follows:
 | service\_account\_name | The fully-qualified name of the default service account |
 | service\_account\_unique\_id | The unique id of the default service account |
 | tag\_bindings | Tag bindings |
+| usage\_report\_export\_bucket | GCE usage reports bucket |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
@@ -197,9 +199,9 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin ~> 4.11
--   [terraform-provider-google-beta] plugin ~> 4.11
--   [terraform-provider-gsuite] plugin 0.1.x if GSuite functionality is desired
+-   [terraform-provider-google] plugin >= 5.22
+-   [terraform-provider-google-beta] plugin >= 5.22
+-   [terraform-provider-gsuite] plugin ~> 0.1.x if GSuite functionality is desired
 
 ### Permissions
 

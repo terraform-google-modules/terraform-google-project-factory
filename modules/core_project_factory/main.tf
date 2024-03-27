@@ -109,7 +109,7 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "time_sleep" "wait_5_seconds" { #TODO rename resource in the next breaking change.
-  count           = var.vpc_service_control_attach_enabled ? 1 : 0
+  count           = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
   depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager[0]]
   create_duration = var.vpc_service_control_sleep_duration
 }
@@ -345,7 +345,7 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
 }
 
 /******************************************
-  Attachment to VPC Service Control Perimeter
+  Attachment to VPC Service Control Perimeter in Enforce Mode
  *****************************************/
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_attachment" {
   count          = var.vpc_service_control_attach_enabled ? 1 : 0
@@ -355,10 +355,20 @@ resource "google_access_context_manager_service_perimeter_resource" "service_per
 }
 
 /******************************************
+  Attachment to VPC Service Control Perimeter in Dry Run Mode
+ *****************************************/
+resource "google_access_context_manager_service_perimeter_dry_run_resource" "service_perimeter_attachment_dry_run" {
+  count          = var.vpc_service_control_attach_dry_run && !var.vpc_service_control_attach_enabled ? 1 : 0
+  depends_on     = [google_service_account.default_service_account]
+  perimeter_name = var.vpc_service_control_perimeter_name
+  resource       = "projects/${google_project.main.number}"
+}
+
+/******************************************
   Enable Access Context Manager API
  *****************************************/
 resource "google_project_service" "enable_access_context_manager" {
-  count   = var.vpc_service_control_attach_enabled ? 1 : 0
+  count   = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
   project = google_project.main.number
   service = "accesscontextmanager.googleapis.com"
 }

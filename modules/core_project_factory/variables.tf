@@ -111,7 +111,7 @@ variable "activate_apis" {
 variable "activate_api_identities" {
   description = <<EOF
     The list of service identities (Google Managed service account for the API) to force-create for the project (e.g. in order to grant additional roles).
-    APIs in this list will automatically be appended to `activate_apis`.
+    APIs in this list will automatically be appended to `activate_apis`. Use for services supported by `gcloud beta services identity create`
     Not including the API in this list will follow the default behaviour for identity creation (which is usually when the first resource using the API is created).
     Any roles (e.g. service agent role) must be explicitly listed. See https://cloud.google.com/iam/docs/understanding-roles#service-agent-roles-roles for a list of related roles.
   EOF
@@ -230,7 +230,13 @@ variable "enable_shared_vpc_host_project" {
 }
 
 variable "vpc_service_control_attach_enabled" {
-  description = "Whether the project will be attached to a VPC Service Control Perimeter"
+  description = "Whether the project will be attached to a VPC Service Control Perimeter in ENFORCED MODE. vpc_service_control_attach_dry_run should be false for this to be true"
+  type        = bool
+  default     = false
+}
+
+variable "vpc_service_control_attach_dry_run" {
+  description = "Whether the project will be attached to a VPC Service Control Perimeter in Dry Run Mode. vpc_service_control_attach_enabled should be false for this to be true"
   type        = bool
   default     = false
 }
