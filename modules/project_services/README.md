@@ -21,7 +21,7 @@ APIs without knowing it. Therefore, it is recommended to avoid using
 ```
 module "project-services" {
   source  = "terraform-google-modules/project-factory/google//modules/project_services"
-  version = "~> 14.5"
+  version = "~> 15.0"
 
   project_id                  = "my-project-id"
 
