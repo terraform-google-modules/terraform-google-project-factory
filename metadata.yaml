@@ -23,7 +23,7 @@ spec:
   source:
     repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
     sourceType: git
-  version: 14.5.0
+  version: 15.0.0
   actuationTool:
     type: Terraform
     version: '>=0.13.0'

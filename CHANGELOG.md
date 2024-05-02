@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [15.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.5.0...v15.0.0) (2024-05-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG >5.22:** added vpc sc dry run mode option ([#894](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/894))
+
+### Features
+
+* **TPG >5.22:** added vpc sc dry run mode option ([#894](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/894)) ([0cade7f](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/0cade7f11556b1b0ac1b3567f71f084f07041192))
+
 ## [14.5.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.4.0...v14.5.0) (2024-03-01)
 
 
