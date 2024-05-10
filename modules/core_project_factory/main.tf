@@ -302,6 +302,13 @@ resource "google_storage_bucket" "project_bucket" {
   uniform_bucket_level_access = var.bucket_ula
   public_access_prevention    = var.bucket_pap
 
+  dynamic "soft_delete_policy" {
+    for_each = var.soft_delete_policy == {} ? [] : [var.soft_delete_policy]
+    content {
+      retention_duration_seconds = lookup(soft_delete_policy.value, "retention_duration_seconds", null)
+    }
+  }
+
   versioning {
     enabled = var.bucket_versioning
   }

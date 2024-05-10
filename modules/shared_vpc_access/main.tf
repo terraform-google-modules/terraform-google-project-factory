@@ -31,10 +31,12 @@ locals {
     "notebooks.googleapis.com" : format("service-%s@gcp-sa-notebooks.iam.gserviceaccount.com", local.service_project_number)
     "networkconnectivity.googleapis.com" : format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
   }
-  gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
-  composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
-  datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
-  active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
+  gke_shared_vpc_enabled           = contains(var.active_apis, "container.googleapis.com")
+  composer_shared_vpc_enabled      = contains(var.active_apis, "composer.googleapis.com")
+  datastream_shared_vpc_enabled    = contains(var.active_apis, "datastream.googleapis.com")
+  run_vpc_serverless_enabled       = contains(var.active_apis, "vpcaccess.googleapis.com") && contains(var.active_apis, "run.googleapis.com")
+  functions_vpc_serverless_enabled = contains(var.active_apis, "vpcaccess.googleapis.com") && contains(var.active_apis, "cloudfunctions.googleapis.com")
+  active_apis                      = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
     for i, api in local.active_apis : [for i, subnet in var.shared_vpc_subnets : "${api},${subnet}"]
@@ -144,6 +146,28 @@ resource "google_project_iam_member" "gke_security_admin" {
   project = var.host_project_id
   role    = "roles/compute.securityAdmin"
   member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+}
+
+/******************************************
+  roles/vpcaccess.user role granted to Cloud Run Service Agent for Run on shared VPC host project
+  See: https://cloud.google.com/run/docs/configuring/shared-vpc-host-project
+ *****************************************/
+resource "google_project_iam_member" "cloud_run_vpc_access" {
+  count   = local.run_vpc_serverless_enabled ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/vpcaccess.user"
+  member  = format("serviceAccount:service-%s@serverless-robot-prod.iam.gserviceaccount.com", local.service_project_number)
+}
+
+/******************************************
+  roles/vpcaccess.user role granted to Cloud Functions Service Agent for Functions on shared VPC host project
+  See: https://cloud.google.com/functions/docs/networking/shared-vpc-host-project
+ *****************************************/
+resource "google_project_iam_member" "functions_run_vpc_access" {
+  count   = local.functions_vpc_serverless_enabled ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/vpcaccess.user"
+  member  = format("serviceAccount:service-%s@gcf-admin-robot.iam.gserviceaccount.com", local.service_project_number)
 }
 
 /******************************************

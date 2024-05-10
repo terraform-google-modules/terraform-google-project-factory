@@ -157,6 +157,7 @@ determining that location is as follows:
 | random\_project\_id\_length | Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI. | `number` | `null` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
+| soft\_delete\_policy | Soft delete policies to apply | <pre>object({<br>    retention_duration_seconds = optional(number)<br>  })</pre> | `{}` | no |
 | svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | tag\_binding\_values | Tag values to bind the project to. | `list(string)` | `[]` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
