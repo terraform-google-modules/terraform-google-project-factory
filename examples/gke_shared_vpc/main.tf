@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   random_project_id    = true
   name                 = "sample-gke-shared-project"
