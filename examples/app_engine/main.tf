@@ -31,6 +31,7 @@ module "app-engine-project" {
   billing_account   = var.billing_account
   activate_apis = [
     "appengine.googleapis.com",
+    "compute.googleapis.com"
   ]
 }
 
