@@ -24,7 +24,7 @@ locals {
  *****************************************/
 module "host-project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   random_project_id              = true
   name                           = var.host_project_name
@@ -93,7 +93,7 @@ module "vpc" {
  *****************************************/
 module "service-project" {
   source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = var.service_project_name
   random_project_id = false
@@ -120,7 +120,7 @@ module "service-project" {
  *****************************************/
 module "service-project-b" {
   source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = "b-${var.service_project_name}"
   random_project_id = false
@@ -154,7 +154,7 @@ module "service-project-b" {
  *****************************************/
 module "service-project-c" {
   source  = "terraform-google-modules/project-factory/google//modules/svpc_service_project"
-  version = "~> 14.0"
+  version = "~> 15.0"
 
   name              = "c-${var.service_project_name}"
   random_project_id = false
