@@ -121,6 +121,7 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
   depends_on      = [time_sleep.wait_5_seconds[0], module.project_services]
+  deletion_policy = var.shared_vpc_deletion_policy
 }
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
