@@ -228,3 +228,9 @@ variable "default_network_tier" {
   type        = string
   default     = ""
 }
+
+variable "svpc_deletion_policy" {
+  description = "The deletion policy for the service project shared VPC. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: null, \"ABANDON\"."
+  type        = string
+  default     = null
+}
