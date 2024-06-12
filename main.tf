@@ -129,13 +129,3 @@ module "essential_contacts" {
   essential_contacts = var.essential_contacts
   language_tag       = var.language_tag
 }
-
-/******************************************
-  Cloud Armor tier of the project
- *****************************************/
-module "cloud_armor_tier" {
-  source = "./modules/cloud_armor_tier"
-
-  project_id       = module.project-factory.project_id
-  cloud_armor_tier = var.cloud_armor_tier
-}
