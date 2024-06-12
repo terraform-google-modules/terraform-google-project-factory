@@ -108,3 +108,8 @@ output "usage_report_export_bucket" {
   description = "GCE usage reports bucket"
   value       = module.project-factory.usage_report_export_bucket
 }
+
+output "cloud_armor_tier" {
+  description = "Managed protection tier to be set. If not set, then project will be set to default Standard protection"
+  value       = var.cloud_armor_tier
+}

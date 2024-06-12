@@ -132,6 +132,7 @@ determining that location is as follows:
 | budget\_display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | budget\_labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | budget\_monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| cloud\_armor\_tier | Managed protection tier to be set. Possible values are: CA\_STANDARD, CA\_ENTERPRISE\_PAYGO. If not set, then project will be set to default Standard protection | `string` | `null` | no |
 | consumer\_quotas | The quotas configuration you want to override for the project. | <pre>list(object({<br>    service    = string,<br>    metric     = string,<br>    dimensions = map(string),<br>    limit      = string,<br>    value      = string,<br>  }))</pre> | `[]` | no |
 | create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `true` | no |
 | default\_network\_tier | Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers. | `string` | `""` | no |
@@ -173,6 +174,7 @@ determining that location is as follows:
 | api\_s\_account | API service account email |
 | api\_s\_account\_fmt | API service account email formatted for terraform use |
 | budget\_name | The name of the budget if created |
+| cloud\_armor\_tier | Managed protection tier to be set. If not set, then project will be set to default Standard protection |
 | domain | The organization's domain |
 | enabled\_api\_identities | Enabled API identities in the project |
 | enabled\_apis | Enabled APIs in the project |
@@ -199,8 +201,8 @@ determining that location is as follows:
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
 -   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin >= 5.22
--   [terraform-provider-google-beta] plugin >= 5.22
+-   [terraform-provider-google] plugin >= 5.33
+-   [terraform-provider-google-beta] plugin >= 5.33
 -   [terraform-provider-gsuite] plugin ~> 0.1.x if GSuite functionality is desired
 
 ### Permissions

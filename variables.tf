@@ -359,3 +359,9 @@ variable "tag_binding_values" {
   type        = list(string)
   default     = []
 }
+
+variable "cloud_armor_tier" {
+  description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO. If not set, then project will be set to default Standard protection"
+  type        = string
+  default     = null
+}

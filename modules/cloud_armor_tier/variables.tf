@@ -1,5 +1,5 @@
 /**
- * Copyright 2018 Google LLC
+ * Copyright 2022 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">=0.13.0"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 5.33, < 6"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = ">= 5.33, < 6"
-    }
-  }
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory/v15.0.1"
-  }
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory/v15.0.1"
-  }
+variable "project_id" {
+  description = "The GCP project you want to send Essential Contacts notifications for"
+  type        = string
+}
+
+variable "cloud_armor_tier" {
+  description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO"
+  type        = string
 }
