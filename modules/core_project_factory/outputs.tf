@@ -105,8 +105,3 @@ output "usage_report_export_bucket" {
   description = "GCE usage reports bucket"
   value       = try(google_project_usage_export_bucket.usage_report_export[0], null)
 }
-
-output "cloud_armor_tier" {
-  description = "Cloud Armor tier for the project"
-  value       = var.cloud_armor_tier
-}
