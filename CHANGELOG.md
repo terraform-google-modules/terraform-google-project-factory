@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [15.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v15.0.0...v15.0.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* **core_project_factory:** ignore if SA already exists ([#910](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/910)) ([cfd7f3f](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/cfd7f3f15e0866fe09cc5ec4a2f8e94398c773d9))
+
 ## [15.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v14.5.0...v15.0.0) (2024-05-02)
 
 

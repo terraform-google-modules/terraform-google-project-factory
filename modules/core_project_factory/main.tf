@@ -143,10 +143,11 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
-  count        = var.create_project_sa ? 1 : 0
-  account_id   = var.project_sa_name
-  display_name = "${var.name} Project Service Account"
-  project      = google_project.main.project_id
+  count                        = var.create_project_sa ? 1 : 0
+  account_id                   = var.project_sa_name
+  display_name                 = "${var.name} Project Service Account"
+  project                      = google_project.main.project_id
+  create_ignore_already_exists = true
 }
 
 /**************************************************
@@ -393,4 +394,15 @@ resource "google_tags_tag_binding" "bindings" {
   for_each  = toset(var.tag_binding_values)
   parent    = "//cloudresourcemanager.googleapis.com/projects/${google_project.main.number}"
   tag_value = "tagValues/${each.value}"
+}
+
+/******************************************
+  Cloud Armor tier of the project
+ *****************************************/
+
+resource "google_compute_project_cloud_armor_tier" "cloud_armor_tier_config" {
+  count = var.cloud_armor_tier == null ? 0 : 1
+
+  project          = var.project_id
+  cloud_armor_tier = var.cloud_armor_tier
 }
