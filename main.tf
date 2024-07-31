@@ -60,6 +60,7 @@ module "project-factory" {
   bucket_force_destroy               = var.bucket_force_destroy
   bucket_ula                         = var.bucket_ula
   bucket_pap                         = var.bucket_pap
+  soft_delete_policy                 = var.soft_delete_policy
   auto_create_network                = var.auto_create_network
   disable_services_on_destroy        = var.disable_services_on_destroy
   default_service_account            = var.default_service_account

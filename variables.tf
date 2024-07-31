@@ -194,6 +194,14 @@ variable "bucket_pap" {
   default     = "inherited"
 }
 
+variable "soft_delete_policy" {
+  description = "Soft delete policies to apply"
+  type = object({
+    retention_duration_seconds = optional(number)
+  })
+  default = {}
+}
+
 variable "auto_create_network" {
   description = "Create the default network"
   type        = bool
