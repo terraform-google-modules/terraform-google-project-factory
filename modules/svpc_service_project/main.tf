@@ -38,6 +38,7 @@ module "project-factory" {
   project_id                        = var.project_id
   shared_vpc                        = var.shared_vpc
   enable_shared_vpc_service_project = true
+  shared_vpc_deletion_policy        = var.svpc_deletion_policy
   grant_network_role                = var.grant_network_role
   billing_account                   = var.billing_account
   folder_id                         = var.folder_id

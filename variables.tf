@@ -55,6 +55,12 @@ variable "svpc_host_project_id" {
   default     = ""
 }
 
+variable "svpc_deletion_policy" {
+  description = "The deletion policy for the service project shared VPC. Setting ABANDON allows the resource to be abandoned rather than deleted. Possible values are: null, \"ABANDON\"."
+  type        = string
+  default     = null
+}
+
 variable "enable_shared_vpc_host_project" {
   description = "If this project is a shared VPC host project. If true, you must *not* set svpc_host_project_id variable. Default is false."
   type        = bool
