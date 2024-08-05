@@ -288,6 +288,12 @@ variable "budget_custom_period_end_date" {
   default     = null
 }
 
+variable "budget_disable_default_iam_recipients" {
+  description = "Disables default notifications sent when a threshold is exceeded"
+  type        = bool
+  default     = null
+}
+
 variable "vpc_service_control_attach_enabled" {
   description = "Whether the project will be attached to a VPC Service Control Perimeter in ENFORCED MODE. vpc_service_control_attach_dry_run should be false for this to be true"
   type        = bool

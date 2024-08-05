@@ -30,6 +30,7 @@ module "project_myproject" {
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
 | custom\_period\_end\_date | Specifies the end date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
 | custom\_period\_start\_date | Specifies the start date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
+| disable\_default\_iam\_recipients | Disables default notifications sent when a threshold is exceeded | `bool` | `null` | no |
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |

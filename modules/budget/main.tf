@@ -87,6 +87,7 @@ resource "google_billing_budget" "budget" {
     content {
       pubsub_topic                     = var.alert_pubsub_topic
       monitoring_notification_channels = var.monitoring_notification_channels
+      disable_default_iam_recipients   = var.disable_default_iam_recipients
     }
   }
 }
