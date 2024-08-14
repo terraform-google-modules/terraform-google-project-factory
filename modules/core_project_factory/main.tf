@@ -79,6 +79,12 @@ resource "google_project" "main" {
   auto_create_network = var.auto_create_network
 
   labels = var.labels
+
+  lifecycle {
+    ignore_changes = [
+      labels["firebase"],
+    ]
+  }
 }
 
 /******************************************
