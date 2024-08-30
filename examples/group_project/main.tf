@@ -29,7 +29,7 @@ provider "gsuite" {
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   random_project_id = true
   name              = "group-sample-project"
