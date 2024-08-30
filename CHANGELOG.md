@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [16.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v16.0.0...v16.0.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* switch svpc access to explicit dep on service enablement ([#934](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/934)) ([105be42](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/105be421c9a57f2f29adcaa6fd74377d33652d3a))
+
 ## [16.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v15.0.1...v16.0.0) (2024-08-14)
 
 
