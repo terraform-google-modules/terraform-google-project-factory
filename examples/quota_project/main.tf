@@ -26,7 +26,7 @@ resource "random_string" "suffix" {
 
 module "quota-project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   name              = "pf-ci-test-quota-${random_string.suffix.result}"
   random_project_id = true
