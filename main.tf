@@ -71,6 +71,7 @@ module "project-factory" {
   default_network_tier               = var.default_network_tier
   tag_binding_values                 = var.tag_binding_values
   cloud_armor_tier                   = var.cloud_armor_tier
+  deletion_policy                    = var.deletion_policy
 }
 
 /******************************************

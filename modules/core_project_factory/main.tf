@@ -77,6 +77,7 @@ resource "google_project" "main" {
   folder_id           = local.project_folder_id
   billing_account     = var.billing_account
   auto_create_network = var.auto_create_network
+  deletion_policy     = var.deletion_policy
 
   labels = var.labels
 

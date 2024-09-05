@@ -38,6 +38,7 @@ module "project_myproject" {
 | auto\_create\_network | Whether to create the default network for the project | `bool` | `false` | no |
 | billing\_account | Billing account id. | `string` | `""` | no |
 | custom\_roles | Map of role name => comma-delimited list of permissions to create in this project. | `map(string)` | `{}` | no |
+| deletion\_policy | The deletion policy for the project. | `string` | `null` | no |
 | editors | Optional list of IAM-format members to set as project editor. | `list(string)` | `[]` | no |
 | extra\_bindings\_members | List of comma-delimited IAM-format members for additional IAM bindings, one item per role. | `list(string)` | `[]` | no |
 | extra\_bindings\_roles | List of roles for additional IAM bindings, pair with members list below. | `list(string)` | `[]` | no |
