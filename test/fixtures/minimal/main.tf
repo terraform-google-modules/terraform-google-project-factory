@@ -49,6 +49,8 @@ module "project-factory" {
 
   default_service_account     = "DISABLE"
   disable_services_on_destroy = false
+
+  deletion_policy = "DELETE"
 }
 
 // Add a binding to the container service robot account to test that the

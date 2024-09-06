@@ -31,4 +31,6 @@ module "project-factory" {
       "roles/bigquery.jobUser",
     ]
   }]
+
+  deletion_policy = "DELETE"
 }

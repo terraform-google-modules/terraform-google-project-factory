@@ -25,4 +25,6 @@ module "project-factory" {
   billing_account         = var.billing_account
   default_service_account = "deprivilege"
   tag_binding_values      = [var.tag_value]
+
+  deletion_policy = "DELETE"
 }

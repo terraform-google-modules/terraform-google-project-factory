@@ -39,6 +39,7 @@ module "host-project" {
     "cloudresourcemanager.googleapis.com"
   ]
 
+  deletion_policy = "DELETE"
 }
 
 /******************************************

@@ -41,4 +41,6 @@ module "project-factory" {
 
   default_service_account     = "DISABLE"
   disable_services_on_destroy = false
+
+  deletion_policy = "DELETE"
 }

@@ -26,4 +26,6 @@ module "project-factory" {
   activate_apis        = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
   shared_vpc_subnets   = var.shared_vpc_subnets
   default_network_tier = var.default_network_tier
+
+  deletion_policy = "DELETE"
 }

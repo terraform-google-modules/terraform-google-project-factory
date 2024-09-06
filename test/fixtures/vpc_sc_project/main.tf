@@ -50,6 +50,8 @@ module "project-factory" {
 
   vpc_service_control_attach_enabled = true
   vpc_service_control_perimeter_name = "accessPolicies/${var.policy_id}/servicePerimeters/${local.perimeter_name}"
+
+  deletion_policy = "DELETE"
 }
 
 resource "google_project_iam_member" "iam-binding" {

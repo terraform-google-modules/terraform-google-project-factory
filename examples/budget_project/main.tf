@@ -38,6 +38,7 @@ module "budget_project" {
     "billingbudgets.googleapis.com"
   ]
 
+  deletion_policy = "DELETE"
 }
 
 
