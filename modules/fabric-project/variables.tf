@@ -122,3 +122,8 @@ variable "labels" {
   default     = {}
 }
 
+variable "deletion_policy" {
+  description = "The deletion policy for the project."
+  type        = string
+  default     = null
+}

@@ -35,6 +35,7 @@ resource "google_project" "project" {
   billing_account     = var.billing_account
   auto_create_network = var.auto_create_network
   labels              = var.labels
+  deletion_policy     = var.deletion_policy
 }
 
 resource "google_project_service" "project_services" {
