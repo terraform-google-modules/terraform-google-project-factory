@@ -114,6 +114,7 @@ module "service-project" {
   ]
 
   disable_services_on_destroy = false
+  deletion_policy             = "DELETE"
 }
 
 /******************************************
@@ -147,6 +148,7 @@ module "service-project-b" {
   }]
 
   disable_services_on_destroy = false
+  deletion_policy             = "DELETE"
 }
 
 /******************************************
@@ -185,6 +187,7 @@ module "service-project-c" {
 
   disable_services_on_destroy = false
   grant_network_role          = false
+  deletion_policy             = "DELETE"
 }
 
 /******************************************
