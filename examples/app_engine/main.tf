@@ -32,6 +32,8 @@ module "app-engine-project" {
   activate_apis = [
     "appengine.googleapis.com",
   ]
+
+  deletion_policy = "DELETE"
 }
 
 module "app-engine" {

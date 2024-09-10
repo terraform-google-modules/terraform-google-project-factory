@@ -58,4 +58,6 @@ module "quota-project" {
       value      = "95"
     }
   ]
+
+  deletion_policy = "DELETE"
 }

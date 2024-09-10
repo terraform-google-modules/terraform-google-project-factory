@@ -35,4 +35,6 @@ module "fabric-project" {
   owners          = var.owners
   parent          = var.parent
   prefix          = local.prefix
+
+  deletion_policy = "DELETE"
 }
