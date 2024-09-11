@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   name              = "pf-ci-test-ec-${var.random_string_for_testing}"
   random_project_id = true
@@ -41,4 +41,6 @@ module "project-factory" {
 
   default_service_account     = "DISABLE"
   disable_services_on_destroy = false
+
+  deletion_policy = "DELETE"
 }

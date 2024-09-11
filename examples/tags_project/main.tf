@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   random_project_id       = true
   name                    = "simple-tag-project"
@@ -25,4 +25,6 @@ module "project-factory" {
   billing_account         = var.billing_account
   default_service_account = "deprivilege"
   tag_binding_values      = [var.tag_value]
+
+  deletion_policy = "DELETE"
 }

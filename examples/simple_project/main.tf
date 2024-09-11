@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   random_project_id       = true
   name                    = "simple-sample-project"
@@ -31,4 +31,6 @@ module "project-factory" {
       "roles/bigquery.jobUser",
     ]
   }]
+
+  deletion_policy = "DELETE"
 }

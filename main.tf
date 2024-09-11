@@ -72,6 +72,7 @@ module "project-factory" {
   default_network_tier               = var.default_network_tier
   tag_binding_values                 = var.tag_binding_values
   cloud_armor_tier                   = var.cloud_armor_tier
+  deletion_policy                    = var.deletion_policy
 }
 
 /******************************************
@@ -82,12 +83,15 @@ module "shared_vpc_access" {
   enable_shared_vpc_service_project  = var.svpc_host_project_id != "" ? true : false
   host_project_id                    = var.svpc_host_project_id
   service_project_id                 = module.project-factory.project_id
-  active_apis                        = module.project-factory.enabled_apis
+  active_apis                        = var.activate_apis
   shared_vpc_subnets                 = var.shared_vpc_subnets
   service_project_number             = module.project-factory.project_number
   lookup_project_numbers             = false
   grant_services_security_admin_role = var.grant_services_security_admin_role
   grant_network_role                 = var.grant_network_role
+  # Workaround for import complaining about count cannot determine resource instances
+  # until apply. https://github.com/hashicorp/terraform/issues/24690
+  depends_on = [module.project-factory.enabled_apis]
 }
 
 /******************************************

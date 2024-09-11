@@ -19,11 +19,11 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 4.11, < 6"
+      version = ">= 4.11, < 7"
     }
     google-beta = {
       source  = "hashicorp/google-beta"
-      version = ">= 4.11, < 6"
+      version = ">= 4.11, < 7"
     }
     gsuite = {
       source  = "DeviaVir/gsuite"
@@ -31,9 +31,9 @@ terraform {
     }
   }
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v15.0.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v16.0.1"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v15.0.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:gsuite_enabled/v16.0.1"
   }
 }

@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   random_project_id    = true
   name                 = "sample-gke-shared-project"
@@ -26,4 +26,6 @@ module "project-factory" {
   activate_apis        = ["compute.googleapis.com", "container.googleapis.com", "cloudbilling.googleapis.com"]
   shared_vpc_subnets   = var.shared_vpc_subnets
   default_network_tier = var.default_network_tier
+
+  deletion_policy = "DELETE"
 }

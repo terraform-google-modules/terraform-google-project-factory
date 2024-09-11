@@ -20,14 +20,14 @@ terraform {
   required_providers {
     google = {
       source  = "hashicorp/google"
-      version = ">= 4.28, < 6"
+      version = ">= 4.28, < 7"
     }
   }
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:budget/v15.0.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:budget/v16.0.1"
   }
   provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-project-factory:budget/v15.0.1"
+    module_name = "blueprints/terraform/terraform-google-project-factory:budget/v16.0.1"
   }
 }

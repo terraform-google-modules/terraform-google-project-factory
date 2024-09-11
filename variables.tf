@@ -368,9 +368,14 @@ variable "tag_binding_values" {
   default     = []
 }
 
-
 variable "cloud_armor_tier" {
   description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO"
   type        = string
   default     = null
+}
+
+variable "deletion_policy" {
+  description = "The deletion policy for the project."
+  type        = string
+  default     = "PREVENT"
 }

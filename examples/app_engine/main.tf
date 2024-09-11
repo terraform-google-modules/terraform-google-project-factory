@@ -22,7 +22,7 @@ resource "random_string" "suffix" {
 
 module "app-engine-project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   name              = "appeng-${random_string.suffix.result}"
   random_project_id = true
@@ -32,11 +32,13 @@ module "app-engine-project" {
   activate_apis = [
     "appengine.googleapis.com",
   ]
+
+  deletion_policy = "DELETE"
 }
 
 module "app-engine" {
   source  = "terraform-google-modules/project-factory/google//modules/app_engine"
-  version = "~> 15.0"
+  version = "~> 16.0"
 
   project_id  = module.app-engine-project.project_id
   location_id = "us-east4"

@@ -6,6 +6,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [16.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v16.0.0...v16.0.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* switch svpc access to explicit dep on service enablement ([#934](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/934)) ([105be42](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/105be421c9a57f2f29adcaa6fd74377d33652d3a))
+
+## [16.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v15.0.1...v16.0.0) (2024-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TPG>=5.33:** add support for setting cloud armor tier of the project ([#921](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/921))
+
+### Features
+
+* **TPG>=5.33:** add support for setting cloud armor tier of the project ([#921](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/921)) ([895b501](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/895b501edb3f6b21e2ad6b8f9656a4994b501dd3))
+
+
+### Bug Fixes
+
+* ignore changes on firebase label ([#931](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/931)) ([e424a35](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/e424a3531381d71d1ba37300de3e94eca89209ae))
+
 ## [15.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v15.0.0...v15.0.1) (2024-05-17)
 
 
