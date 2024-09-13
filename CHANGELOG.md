@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [17.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v16.0.1...v17.0.0) (2024-09-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* deletion_policy PREVENT as default ([#940](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/940))
+* **TPG>=5.41:** add deletion_policy ([#938](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/938))
+
+### Features
+
+* deletion_policy PREVENT as default ([#940](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/940)) ([1c1e018](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/1c1e018457468776f84311d56c970579f124f66e))
+* **deps:** Update Terraform Google Provider to v6 (major) ([#933](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/933)) ([392453e](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/392453ec2a8adc0010ab87c64c463d837198b7ef))
+* **TPG>=5.41:** add deletion_policy ([#938](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/938)) ([b0ed8a5](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/b0ed8a5c84ff92dbb9f78cae575dfda3b8eb5335))
+
 ## [16.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v16.0.0...v16.0.1) (2024-08-28)
 
 
