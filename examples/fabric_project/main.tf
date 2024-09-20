@@ -27,7 +27,7 @@ resource "random_string" "prefix" {
 
 module "fabric-project" {
   source  = "terraform-google-modules/project-factory/google//modules/fabric-project"
-  version = "~> 16.0"
+  version = "~> 17.0"
 
   activate_apis   = var.activate_apis
   billing_account = var.billing_account
