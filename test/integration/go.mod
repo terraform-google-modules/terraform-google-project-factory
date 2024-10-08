@@ -2,7 +2,7 @@ module github.com/terraform-google-modules/terraform-google-project-factory/test
 
 go 1.22.0
 
-toolchain go1.22.7
+toolchain go1.22.8
 
 require (
 	github.com/GoogleCloudPlatform/cloud-foundation-toolkit/infra/blueprint-test v0.16.2
