@@ -62,6 +62,7 @@ locals {
   gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
   datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
+  datafusion_shared_vpc_enabled = contains(var.active_apis, "datafusion.googleapis.com")
   active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
@@ -186,4 +187,15 @@ resource "google_project_iam_member" "datastream_network_admin" {
   project = var.host_project_id
   role    = "roles/compute.networkAdmin"
   member  = format("serviceAccount:%s", local.apis["datastream.googleapis.com"].service_account)
+}
+
+/******************************************
+  roles/compute.networkViewer role granted to Data Fusion's service account on shared VPC host project
+  Service Account: service-[project_number]@gcp-sa-datafusion.iam.gserviceaccount.com
+ *****************************************/
+resource "google_project_iam_member" "datasfusion_network_viewer" {
+  count   = local.datafusion_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.networkViewer"
+  member  = format("serviceAccount:%s", local.apis["datafusion.googleapis.com"].service_account)
 }
