@@ -82,7 +82,7 @@ module "shared_vpc_access" {
   enable_shared_vpc_service_project  = var.svpc_host_project_id != "" ? true : false
   host_project_id                    = var.svpc_host_project_id
   service_project_id                 = module.project-factory.project_id
-  active_apis                        = var.activate_apis
+  active_apis                        = toset(concat(var.activate_apis, [for i in var.activate_api_identities : i.api]))
   shared_vpc_subnets                 = var.shared_vpc_subnets
   service_project_number             = module.project-factory.project_number
   lookup_project_numbers             = false
