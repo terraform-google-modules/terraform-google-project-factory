@@ -22,18 +22,47 @@ data "google_project" "service_project" {
 locals {
   service_project_number = var.lookup_project_numbers ? data.google_project.service_project[0].number : var.service_project_number
   apis = {
-    "container.googleapis.com" : format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number),
-    "dataproc.googleapis.com" : format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number),
-    "dataflow.googleapis.com" : format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number),
-    "composer.googleapis.com" : format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
-    "vpcaccess.googleapis.com" : format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
-    "datastream.googleapis.com" : format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
-    "notebooks.googleapis.com" : format("service-%s@gcp-sa-notebooks.iam.gserviceaccount.com", local.service_project_number)
-    "networkconnectivity.googleapis.com" : format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
+    "container.googleapis.com" : {
+      service_account = format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "dataproc.googleapis.com" : {
+      service_account = format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    },
+    "dataflow.googleapis.com" : {
+      service_account = format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    },
+    "datafusion.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-datafusion.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkViewer"
+    },
+    "composer.googleapis.com" : {
+      service_account = format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "vpcaccess.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "datastream.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "notebooks.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-notebooks.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "networkconnectivity.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
   }
   gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
   datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
+  datafusion_shared_vpc_enabled = contains(var.active_apis, "datafusion.googleapis.com")
   active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
@@ -44,7 +73,8 @@ locals {
 /******************************************
   if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC subnets
   if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for dataproc on shared VPC subnets
-  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow  service account for Dataflow on shared VPC subnets
+  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC subnets
+  if "datafusion.googleapis.com" compute.networkViewer role granted to datafusion service account for Data Fusion on shared VPC subnets
   if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
   if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project
   if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Network Connectivity on shared VPC Project
@@ -65,13 +95,13 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
       "subnetworks",
     ) + 1,
   )
-  role = "roles/compute.networkUser"
+  role = local.apis[split(",", local.subnetwork_api[count.index])[0]].role
   region = element(
     split("/", split(",", local.subnetwork_api[count.index])[1]),
     index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
   )
   project = var.host_project_id
-  member  = format("serviceAccount:%s", local.apis[split(",", local.subnetwork_api[count.index])[0]])
+  member  = format("serviceAccount:%s", local.apis[split(",", local.subnetwork_api[count.index])[0]].service_account)
 }
 
 /******************************************
@@ -101,6 +131,7 @@ resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet
  if "container.googleapis.com" compute.networkUser role granted to GKE service account for GKE on shared VPC Project if no subnets defined
  if "dataproc.googleapis.com" compute.networkUser role granted to dataproc service account for Dataproc on shared VPC Project if no subnets defined
  if "dataflow.googleapis.com" compute.networkUser role granted to dataflow service account for Dataflow on shared VPC Project if no subnets defined
+ if "datafusion.googleapis.com" compute.networkViewer role granted to data fusion service account for Data Fusion on shared VPC Project if no subnets defined
  if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC Project if no subnets defined
  if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project if no subnets defined
  if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project if no subnets defined
@@ -108,8 +139,8 @@ resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet
 resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.active_apis) : []
   project  = var.host_project_id
-  role     = "roles/compute.networkUser"
-  member   = format("serviceAccount:%s", local.apis[each.value])
+  role     = local.apis[each.value].role
+  member   = format("serviceAccount:%s", local.apis[each.value].service_account)
 }
 
 /******************************************
@@ -120,7 +151,7 @@ resource "google_project_iam_member" "composer_host_agent" {
   count   = local.composer_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/composer.sharedVpcAgent"
-  member  = format("serviceAccount:%s", local.apis["composer.googleapis.com"])
+  member  = format("serviceAccount:%s", local.apis["composer.googleapis.com"].service_account)
 }
 
 /******************************************
@@ -131,7 +162,7 @@ resource "google_project_iam_member" "gke_host_agent" {
   count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/container.hostServiceAgentUser"
-  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"].service_account)
 }
 
 /******************************************
@@ -143,7 +174,7 @@ resource "google_project_iam_member" "gke_security_admin" {
   count   = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_security_admin_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/compute.securityAdmin"
-  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"])
+  member  = format("serviceAccount:%s", local.apis["container.googleapis.com"].service_account)
 }
 
 /******************************************
@@ -155,5 +186,16 @@ resource "google_project_iam_member" "datastream_network_admin" {
   count   = local.datastream_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_services_network_admin_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/compute.networkAdmin"
-  member  = format("serviceAccount:%s", local.apis["datastream.googleapis.com"])
+  member  = format("serviceAccount:%s", local.apis["datastream.googleapis.com"].service_account)
+}
+
+/******************************************
+  roles/compute.networkViewer role granted to Data Fusion's service account on shared VPC host project
+  Service Account: service-[project_number]@gcp-sa-datafusion.iam.gserviceaccount.com
+ *****************************************/
+resource "google_project_iam_member" "datasfusion_network_viewer" {
+  count   = local.datafusion_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.networkViewer"
+  member  = format("serviceAccount:%s", local.apis["datafusion.googleapis.com"].service_account)
 }
