@@ -58,6 +58,10 @@ locals {
       service_account = format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
       role            = "roles/compute.networkUser"
     }
+    "managedkafka.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-managedkafka.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/managedkafka.serviceAgent"
+    }
   }
   gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
