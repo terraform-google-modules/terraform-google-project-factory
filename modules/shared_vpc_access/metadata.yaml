@@ -1,4 +1,4 @@
-# Copyright 2022 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,118 +19,131 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: "true"
 spec:
-  title: Shared VPC Access
-  source:
-    repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-    sourceType: git
-  version: 17.0.0
-  actuationTool:
-    type: Terraform
-    version: '>= 0.13'
-  examples:
-  - name: app_engine
-    location: examples/app_engine
-  - name: budget_project
-    location: examples/budget_project
-  - name: essential_contacts
-    location: examples/essential_contacts
-  - name: fabric_project
-    location: examples/fabric_project
-  - name: gke_shared_vpc
-    location: examples/gke_shared_vpc
-  - name: group_project
-    location: examples/group_project
-  - name: project-hierarchy
-    location: examples/project-hierarchy
-  - name: project_services
-    location: examples/project_services
-  - name: quota_project
-    location: examples/quota_project
-  - name: shared_vpc
-    location: examples/shared_vpc
-  - name: simple_project
-    location: examples/simple_project
-  variables:
-  - name: active_apis
-    description: The list of active apis on the service project. If api is not active this module will not try to activate it
-    type: list(string)
-    default: []
-    required: false
-  - name: enable_shared_vpc_service_project
-    description: Flag set if SVPC enabled
-    type: bool
-    required: true
-  - name: grant_network_role
-    description: Whether or not to grant service agents the network roles on the host project
-    type: bool
-    default: true
-    required: false
-  - name: grant_services_security_admin_role
-    description: Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules
-    type: bool
-    default: false
-    required: false
-  - name: host_project_id
-    description: The ID of the host project which hosts the shared VPC
-    type: string
-    required: true
-  - name: lookup_project_numbers
-    description: Whether to look up the project numbers from data sources. If false, `service_project_number` will be used instead.
-    type: bool
-    default: true
-    required: false
-  - name: service_project_id
-    description: The ID of the service project
-    type: string
-    required: true
-  - name: service_project_number
-    description: Project number of the service project. Will be used if `lookup_service_project_number` is false.
-    type: string
-    required: false
-  - name: shared_vpc_subnets
-    description: List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)
-    type: list(string)
-    default: []
-    required: false
-  outputs:
-  - name: active_api_service_accounts
-    description: List of active API service accounts in the service project.
-  - name: project_id
-    description: Service project ID.
-  roles:
-  - level: Project
+  info:
+    title: Shared VPC Access
+    source:
+      repo: https://github.com/q2w/terraform-google-project-factory.git
+      sourceType: git
+      dir: /modules/shared_vpc_access
+    version: 17.0.0
+    actuationTool:
+      flavor: Terraform
+      version: ">= 0.13"
+    description: {}
+  content:
+    examples:
+      - name: app_engine
+        location: examples/app_engine
+      - name: budget_project
+        location: examples/budget_project
+      - name: essential_contacts
+        location: examples/essential_contacts
+      - name: fabric_project
+        location: examples/fabric_project
+      - name: gke_shared_vpc
+        location: examples/gke_shared_vpc
+      - name: group_project
+        location: examples/group_project
+      - name: project-hierarchy
+        location: examples/project-hierarchy
+      - name: project_services
+        location: examples/project_services
+      - name: quota_project
+        location: examples/quota_project
+      - name: shared_vpc
+        location: examples/shared_vpc
+      - name: simple_project
+        location: examples/simple_project
+      - name: tags_project
+        location: examples/tags_project
+  interfaces:
+    variables:
+      - name: host_project_id
+        description: The ID of the host project which hosts the shared VPC
+        varType: string
+        required: true
+      - name: enable_shared_vpc_service_project
+        description: Flag set if SVPC enabled
+        varType: bool
+        required: true
+      - name: service_project_id
+        description: The ID of the service project
+        varType: string
+        required: true
+      - name: service_project_number
+        description: Project number of the service project. Will be used if `lookup_service_project_number` is false.
+        varType: string
+      - name: lookup_project_numbers
+        description: Whether to look up the project numbers from data sources. If false, `service_project_number` will be used instead.
+        varType: bool
+        defaultValue: true
+      - name: shared_vpc_subnets
+        description: List of subnets fully qualified subnet IDs (ie. projects/$project_id/regions/$region/subnetworks/$subnet_id)
+        varType: list(string)
+        defaultValue: []
+      - name: active_apis
+        description: The list of active apis on the service project. If api is not active this module will not try to activate it
+        varType: list(string)
+        defaultValue: []
+      - name: grant_services_security_admin_role
+        description: Whether or not to grant Kubernetes Engine Service Agent the Security Admin role on the host project so it can manage firewall rules
+        varType: bool
+        defaultValue: false
+      - name: grant_services_network_admin_role
+        description: Whether or not to grant Datastream Service acount the Network Admin role on the host project so it can manage firewall rules
+        varType: bool
+        defaultValue: false
+      - name: grant_network_role
+        description: Whether or not to grant service agents the network roles on the host project
+        varType: bool
+        defaultValue: true
+    outputs:
+      - name: active_api_service_accounts
+        description: List of active API service accounts in the service project.
+      - name: project_id
+        description: Service project ID.
+  requirements:
     roles:
-    - roles/owner
-    - roles/resourcemanager.projectCreator
-    - roles/resourcemanager.folderAdmin
-    - roles/resourcemanager.folderIamAdmin
-    - roles/billing.projectManager
-    - roles/compute.xpnAdmin
-  - level: Project
-    roles:
-    - roles/accesscontextmanager.policyAdmin
-    - roles/resourcemanager.organizationViewer
-  - level: Project
-    roles:
-    - roles/owner
-    - roles/compute.admin
-    - roles/iam.serviceAccountAdmin
-    - roles/resourcemanager.projectIamAdmin
-    - roles/storage.admin
-    - roles/iam.serviceAccountUser
-    - roles/billing.projectManager
-  services:
-  - admin.googleapis.com
-  - appengine.googleapis.com
-  - cloudbilling.googleapis.com
-  - cloudresourcemanager.googleapis.com
-  - compute.googleapis.com
-  - iam.googleapis.com
-  - iamcredentials.googleapis.com
-  - oslogin.googleapis.com
-  - serviceusage.googleapis.com
-  - billingbudgets.googleapis.com
-  - pubsub.googleapis.com
-  - accesscontextmanager.googleapis.com
-  - essentialcontacts.googleapis.com
-  - serviceconsumermanagement.googleapis.com
+      - level: Project
+        roles:
+          - roles/owner
+          - roles/resourcemanager.projectCreator
+          - roles/resourcemanager.folderAdmin
+          - roles/resourcemanager.folderIamAdmin
+          - roles/billing.projectManager
+          - roles/compute.xpnAdmin
+      - level: Project
+        roles:
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
+      - level: Project
+        roles:
+          - roles/owner
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
+          - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
+    services:
+      - admin.googleapis.com
+      - appengine.googleapis.com
+      - cloudbilling.googleapis.com
+      - cloudresourcemanager.googleapis.com
+      - compute.googleapis.com
+      - iam.googleapis.com
+      - iamcredentials.googleapis.com
+      - oslogin.googleapis.com
+      - serviceusage.googleapis.com
+      - billingbudgets.googleapis.com
+      - pubsub.googleapis.com
+      - accesscontextmanager.googleapis.com
+      - essentialcontacts.googleapis.com
+      - serviceconsumermanagement.googleapis.com
+    providerVersions:
+      - source: hashicorp/google
+        version: ">= 3.43, < 7"
+      - source: hashicorp/google-beta
+        version: ">= 3.43, < 7"

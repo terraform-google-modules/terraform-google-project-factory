@@ -1,4 +1,4 @@
-# Copyright 2022 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,89 +19,102 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: "true"
 spec:
-  title: Consumer quota override for a project
-  source:
-    repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-    sourceType: git
-  actuationTool:
-    type: Terraform
-    version: '>= 0.13'
-  examples:
-  - name: app_engine
-    location: examples/app_engine
-  - name: budget_project
-    location: examples/budget_project
-  - name: essential_contacts
-    location: examples/essential_contacts
-  - name: fabric_project
-    location: examples/fabric_project
-  - name: gke_shared_vpc
-    location: examples/gke_shared_vpc
-  - name: group_project
-    location: examples/group_project
-  - name: project-hierarchy
-    location: examples/project-hierarchy
-  - name: project_services
-    location: examples/project_services
-  - name: quota_project
-    location: examples/quota_project
-  - name: shared_vpc
-    location: examples/shared_vpc
-  - name: simple_project
-    location: examples/simple_project
-  variables:
-  - name: consumer_quotas
-    description: The quotas configuration you want to override for the project.
-    type: |-
-      list(object({
-          service    = string,
-          metric     = string,
-          dimensions = map(string),
-          limit      = string,
-          value      = string,
-        }))
-    required: true
-  - name: project_id
-    description: The GCP project where you want to manage the consumer quotas
-    type: string
-    required: true
-  outputs:
-  - name: quota_overrides
-    description: The server-generated names of the quota override.
-  roles:
-  - level: Project
+  info:
+    title: Consumer quota override for a project
+    source:
+      repo: https://github.com/q2w/terraform-google-project-factory.git
+      sourceType: git
+      dir: /modules/quota_manager
+    actuationTool:
+      flavor: Terraform
+      version: ">= 0.13"
+    description: {}
+  content:
+    examples:
+      - name: app_engine
+        location: examples/app_engine
+      - name: budget_project
+        location: examples/budget_project
+      - name: essential_contacts
+        location: examples/essential_contacts
+      - name: fabric_project
+        location: examples/fabric_project
+      - name: gke_shared_vpc
+        location: examples/gke_shared_vpc
+      - name: group_project
+        location: examples/group_project
+      - name: project-hierarchy
+        location: examples/project-hierarchy
+      - name: project_services
+        location: examples/project_services
+      - name: quota_project
+        location: examples/quota_project
+      - name: shared_vpc
+        location: examples/shared_vpc
+      - name: simple_project
+        location: examples/simple_project
+      - name: tags_project
+        location: examples/tags_project
+  interfaces:
+    variables:
+      - name: project_id
+        description: The GCP project where you want to manage the consumer quotas
+        varType: string
+        required: true
+      - name: consumer_quotas
+        description: The quotas configuration you want to override for the project.
+        varType: |-
+          list(object({
+              service    = string,
+              metric     = string,
+              dimensions = map(string),
+              limit      = string,
+              value      = string,
+            }))
+        required: true
+    outputs:
+      - name: quota_overrides
+        description: The server-generated names of the quota override.
+  requirements:
     roles:
-    - roles/owner
-    - roles/compute.admin
-    - roles/iam.serviceAccountAdmin
-    - roles/resourcemanager.projectIamAdmin
-    - roles/storage.admin
-    - roles/iam.serviceAccountUser
-    - roles/billing.projectManager
-  - level: Project
-    roles:
-    - roles/owner
-    - roles/resourcemanager.projectCreator
-    - roles/resourcemanager.folderAdmin
-    - roles/resourcemanager.folderIamAdmin
-    - roles/billing.projectManager
-    - roles/compute.xpnAdmin
-  - level: Project
-    roles:
-    - roles/accesscontextmanager.policyAdmin
-    - roles/resourcemanager.organizationViewer
-  services:
-  - admin.googleapis.com
-  - appengine.googleapis.com
-  - cloudbilling.googleapis.com
-  - cloudresourcemanager.googleapis.com
-  - compute.googleapis.com
-  - iam.googleapis.com
-  - iamcredentials.googleapis.com
-  - oslogin.googleapis.com
-  - serviceusage.googleapis.com
-  - billingbudgets.googleapis.com
-  - pubsub.googleapis.com
-  - accesscontextmanager.googleapis.com
-  - essentialcontacts.googleapis.com
-  - serviceconsumermanagement.googleapis.com
+      - level: Project
+        roles:
+          - roles/owner
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
+          - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
+      - level: Project
+        roles:
+          - roles/owner
+          - roles/resourcemanager.projectCreator
+          - roles/resourcemanager.folderAdmin
+          - roles/resourcemanager.folderIamAdmin
+          - roles/billing.projectManager
+          - roles/compute.xpnAdmin
+      - level: Project
+        roles:
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
+    services:
+      - admin.googleapis.com
+      - appengine.googleapis.com
+      - cloudbilling.googleapis.com
+      - cloudresourcemanager.googleapis.com
+      - compute.googleapis.com
+      - iam.googleapis.com
+      - iamcredentials.googleapis.com
+      - oslogin.googleapis.com
+      - serviceusage.googleapis.com
+      - billingbudgets.googleapis.com
+      - pubsub.googleapis.com
+      - accesscontextmanager.googleapis.com
+      - essentialcontacts.googleapis.com
+      - serviceconsumermanagement.googleapis.com
+    providerVersions:
+      - source: hashicorp/google-beta
+        version: ">= 4.11, < 7"
