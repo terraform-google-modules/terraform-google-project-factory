@@ -22,7 +22,7 @@ spec:
   info:
     title: Project API Activation
     source:
-      repo: https://github.com/q2w/terraform-google-project-factory.git
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
       sourceType: git
       dir: /modules/project_services
     version: 17.0.0

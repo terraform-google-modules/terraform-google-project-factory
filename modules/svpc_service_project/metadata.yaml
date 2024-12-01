@@ -22,7 +22,7 @@ spec:
   info:
     title: Shared VPC
     source:
-      repo: https://github.com/q2w/terraform-google-project-factory.git
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
       sourceType: git
       dir: /modules/svpc_service_project
     version: 17.0.0

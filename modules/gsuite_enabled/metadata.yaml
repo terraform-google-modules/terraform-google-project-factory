@@ -22,7 +22,7 @@ spec:
   info:
     title: Google Cloud Project Factory with G Suite Terraform Module
     source:
-      repo: https://github.com/q2w/terraform-google-project-factory.git
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
       sourceType: git
       dir: /modules/gsuite_enabled
     version: 17.0.0
