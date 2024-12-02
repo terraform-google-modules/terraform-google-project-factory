@@ -1,0 +1,200 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-project-factory-display
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: Google Cloud Project Factory Terraform Module
+    source:
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
+      sourceType: git
+  ui:
+    input:
+      variables:
+        activate_api_identities:
+          name: activate_api_identities
+          title: Activate Api Identities
+        activate_apis:
+          name: activate_apis
+          title: Activate Apis
+        auto_create_network:
+          name: auto_create_network
+          title: Auto Create Network
+        billing_account:
+          name: billing_account
+          title: Billing Account
+        bucket_force_destroy:
+          name: bucket_force_destroy
+          title: Bucket Force Destroy
+        bucket_labels:
+          name: bucket_labels
+          title: Bucket Labels
+        bucket_location:
+          name: bucket_location
+          title: Bucket Location
+        bucket_name:
+          name: bucket_name
+          title: Bucket Name
+        bucket_pap:
+          name: bucket_pap
+          title: Bucket Pap
+        bucket_project:
+          name: bucket_project
+          title: Bucket Project
+        bucket_ula:
+          name: bucket_ula
+          title: Bucket Ula
+        bucket_versioning:
+          name: bucket_versioning
+          title: Bucket Versioning
+        budget_alert_pubsub_topic:
+          name: budget_alert_pubsub_topic
+          title: Budget Alert Pubsub Topic
+        budget_alert_spend_basis:
+          name: budget_alert_spend_basis
+          title: Budget Alert Spend Basis
+        budget_alert_spent_percents:
+          name: budget_alert_spent_percents
+          title: Budget Alert Spent Percents
+        budget_amount:
+          name: budget_amount
+          title: Budget Amount
+        budget_calendar_period:
+          name: budget_calendar_period
+          title: Budget Calendar Period
+        budget_custom_period_end_date:
+          name: budget_custom_period_end_date
+          title: Budget Custom Period End Date
+        budget_custom_period_start_date:
+          name: budget_custom_period_start_date
+          title: Budget Custom Period Start Date
+        budget_display_name:
+          name: budget_display_name
+          title: Budget Display Name
+        budget_labels:
+          name: budget_labels
+          title: Budget Labels
+        budget_monitoring_notification_channels:
+          name: budget_monitoring_notification_channels
+          title: Budget Monitoring Notification Channels
+        cloud_armor_tier:
+          name: cloud_armor_tier
+          title: Cloud Armor Tier
+        consumer_quotas:
+          name: consumer_quotas
+          title: Consumer Quotas
+        create_project_sa:
+          name: create_project_sa
+          title: Create Project Sa
+        default_network_tier:
+          name: default_network_tier
+          title: Default Network Tier
+        default_service_account:
+          name: default_service_account
+          title: Default Service Account
+        deletion_policy:
+          name: deletion_policy
+          title: Deletion Policy
+        disable_dependent_services:
+          name: disable_dependent_services
+          title: Disable Dependent Services
+        disable_services_on_destroy:
+          name: disable_services_on_destroy
+          title: Disable Services On Destroy
+        domain:
+          name: domain
+          title: Domain
+        enable_shared_vpc_host_project:
+          name: enable_shared_vpc_host_project
+          title: Enable Shared Vpc Host Project
+        essential_contacts:
+          name: essential_contacts
+          title: Essential Contacts
+        folder_id:
+          name: folder_id
+          title: Folder Id
+        grant_network_role:
+          name: grant_network_role
+          title: Grant Network Role
+        grant_services_security_admin_role:
+          name: grant_services_security_admin_role
+          title: Grant Services Security Admin Role
+        group_name:
+          name: group_name
+          title: Group Name
+        group_role:
+          name: group_role
+          title: Group Role
+        labels:
+          name: labels
+          title: Labels
+        language_tag:
+          name: language_tag
+          title: Language Tag
+        lien:
+          name: lien
+          title: Lien
+        name:
+          name: name
+          title: Name
+        org_id:
+          name: org_id
+          title: Org Id
+        project_id:
+          name: project_id
+          title: Project Id
+        project_sa_name:
+          name: project_sa_name
+          title: Project Sa Name
+        random_project_id:
+          name: random_project_id
+          title: Random Project Id
+        random_project_id_length:
+          name: random_project_id_length
+          title: Random Project Id Length
+        sa_role:
+          name: sa_role
+          title: Sa Role
+        shared_vpc_subnets:
+          name: shared_vpc_subnets
+          title: Shared Vpc Subnets
+        svpc_host_project_id:
+          name: svpc_host_project_id
+          title: Svpc Host Project Id
+        tag_binding_values:
+          name: tag_binding_values
+          title: Tag Binding Values
+        usage_bucket_name:
+          name: usage_bucket_name
+          title: Usage Bucket Name
+        usage_bucket_prefix:
+          name: usage_bucket_prefix
+          title: Usage Bucket Prefix
+        vpc_service_control_attach_dry_run:
+          name: vpc_service_control_attach_dry_run
+          title: Vpc Service Control Attach Dry Run
+        vpc_service_control_attach_enabled:
+          name: vpc_service_control_attach_enabled
+          title: Vpc Service Control Attach Enabled
+        vpc_service_control_perimeter_name:
+          name: vpc_service_control_perimeter_name
+          title: Vpc Service Control Perimeter Name
+        vpc_service_control_sleep_duration:
+          name: vpc_service_control_sleep_duration
+          title: Vpc Service Control Sleep Duration

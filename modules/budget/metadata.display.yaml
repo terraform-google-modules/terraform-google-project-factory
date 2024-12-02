@@ -1,0 +1,75 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-project-factory-display
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: Budget configuration for a project
+    source:
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
+      sourceType: git
+      dir: /modules/budget
+  ui:
+    input:
+      variables:
+        alert_pubsub_topic:
+          name: alert_pubsub_topic
+          title: Alert Pubsub Topic
+        alert_spend_basis:
+          name: alert_spend_basis
+          title: Alert Spend Basis
+        alert_spent_percents:
+          name: alert_spent_percents
+          title: Alert Spent Percents
+        amount:
+          name: amount
+          title: Amount
+        billing_account:
+          name: billing_account
+          title: Billing Account
+        calendar_period:
+          name: calendar_period
+          title: Calendar Period
+        create_budget:
+          name: create_budget
+          title: Create Budget
+        credit_types_treatment:
+          name: credit_types_treatment
+          title: Credit Types Treatment
+        custom_period_end_date:
+          name: custom_period_end_date
+          title: Custom Period End Date
+        custom_period_start_date:
+          name: custom_period_start_date
+          title: Custom Period Start Date
+        display_name:
+          name: display_name
+          title: Display Name
+        labels:
+          name: labels
+          title: Labels
+        monitoring_notification_channels:
+          name: monitoring_notification_channels
+          title: Monitoring Notification Channels
+        projects:
+          name: projects
+          title: Projects
+        services:
+          name: services
+          title: Services

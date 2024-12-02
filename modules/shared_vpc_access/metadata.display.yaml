@@ -1,0 +1,60 @@
+# Copyright 2024 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+apiVersion: blueprints.cloud.google.com/v1alpha1
+kind: BlueprintMetadata
+metadata:
+  name: terraform-google-project-factory-display
+  annotations:
+    config.kubernetes.io/local-config: "true"
+spec:
+  info:
+    title: Shared VPC Access
+    source:
+      repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
+      sourceType: git
+      dir: /modules/shared_vpc_access
+  ui:
+    input:
+      variables:
+        active_apis:
+          name: active_apis
+          title: Active Apis
+        enable_shared_vpc_service_project:
+          name: enable_shared_vpc_service_project
+          title: Enable Shared Vpc Service Project
+        grant_network_role:
+          name: grant_network_role
+          title: Grant Network Role
+        grant_services_network_admin_role:
+          name: grant_services_network_admin_role
+          title: Grant Services Network Admin Role
+        grant_services_security_admin_role:
+          name: grant_services_security_admin_role
+          title: Grant Services Security Admin Role
+        host_project_id:
+          name: host_project_id
+          title: Host Project Id
+        lookup_project_numbers:
+          name: lookup_project_numbers
+          title: Lookup Project Numbers
+        service_project_id:
+          name: service_project_id
+          title: Service Project Id
+        service_project_number:
+          name: service_project_number
+          title: Service Project Number
+        shared_vpc_subnets:
+          name: shared_vpc_subnets
+          title: Shared Vpc Subnets
