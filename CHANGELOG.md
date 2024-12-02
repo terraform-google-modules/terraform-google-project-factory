@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [17.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.0.0...v17.0.1) (2024-12-02)
+
+
+### Bug Fixes
+
+* include the APIs with identities created in the shared VPC config [#946](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/946) ([#947](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/947)) ([0bff02c](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/0bff02c2a02b78a9f78f40a8ee2e4f4823f630aa))
+* **shared_vpc_access:** Add support to grant required IAM permissions for Data Fusion service agent ([#949](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/949)) ([cb56101](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/cb561013e52db9b3bbe2f359b81603ccfe86da76))
+
 ## [17.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v16.0.1...v17.0.0) (2024-09-10)
 
 
