@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [17.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.0.1...v17.1.0) (2024-12-03)
+
+
+### Features
+
+* Add support for granting permissions to apache kafka service agent ([#960](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/960)) ([38e55a4](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/38e55a46ccf5323b30a961230cd5eaeef8fc178d))
+
+
+### Bug Fixes
+
+* add output type in metadata for project_services module ([#959](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/959)) ([4c2c26a](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/4c2c26afd8b7796b521d5ba1aafea2e3860674c6))
+
 ## [17.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.0.0...v17.0.1) (2024-12-02)
 
 
