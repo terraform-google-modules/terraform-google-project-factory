@@ -89,10 +89,17 @@ spec:
     outputs:
       - name: enabled_api_identities
         description: Enabled API identities in the project
+        type:
+          - map
+          - string
       - name: enabled_apis
         description: Enabled APIs in the project
+        type:
+          - list
+          - string
       - name: project_id
         description: The GCP project you want to enable APIs on
+        type: string
   requirements:
     roles:
       - level: Project
