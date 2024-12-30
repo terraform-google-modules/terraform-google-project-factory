@@ -23,12 +23,11 @@ spec:
     title: Google Cloud Simple Project Creation
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-      sourceType: git
       dir: /modules/fabric-project
     version: 17.1.0
     actuationTool:
       flavor: Terraform
-      version: ">= 0.13"
+      version: ">= 1.3"
     description: {}
   content:
     examples:
@@ -160,20 +159,20 @@ spec:
       - level: Project
         roles:
           - roles/owner
+          - roles/resourcemanager.projectCreator
+          - roles/resourcemanager.folderAdmin
+          - roles/resourcemanager.folderIamAdmin
+          - roles/billing.projectManager
+          - roles/compute.xpnAdmin
+      - level: Project
+        roles:
+          - roles/owner
           - roles/compute.admin
           - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin
           - roles/storage.admin
           - roles/iam.serviceAccountUser
           - roles/billing.projectManager
-      - level: Project
-        roles:
-          - roles/owner
-          - roles/resourcemanager.projectCreator
-          - roles/resourcemanager.folderAdmin
-          - roles/resourcemanager.folderIamAdmin
-          - roles/billing.projectManager
-          - roles/compute.xpnAdmin
     services:
       - admin.googleapis.com
       - appengine.googleapis.com

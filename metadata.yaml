@@ -23,11 +23,10 @@ spec:
     title: Google Cloud Project Factory Terraform Module
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-      sourceType: git
     version: 17.1.0
     actuationTool:
       flavor: Terraform
-      version: ">=0.13.0"
+      version: ">= 1.3"
     description: {}
   content:
     subBlueprints:
@@ -356,13 +355,10 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/owner
-          - roles/compute.admin
-          - roles/iam.serviceAccountAdmin
-          - roles/resourcemanager.projectIamAdmin
-          - roles/storage.admin
-          - roles/iam.serviceAccountUser
-          - roles/billing.projectManager
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
       - level: Project
         roles:
           - roles/owner
@@ -373,10 +369,13 @@ spec:
           - roles/compute.xpnAdmin
       - level: Project
         roles:
-          - roles/accesscontextmanager.policyAdmin
-          - roles/resourcemanager.organizationViewer
-          - roles/resourcemanager.tagAdmin
-          - roles/resourcemanager.tagUser
+          - roles/owner
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
+          - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
     services:
       - admin.googleapis.com
       - appengine.googleapis.com

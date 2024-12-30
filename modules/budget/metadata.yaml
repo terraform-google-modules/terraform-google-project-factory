@@ -23,12 +23,11 @@ spec:
     title: Budget configuration for a project
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-      sourceType: git
       dir: /modules/budget
     version: 17.1.0
     actuationTool:
       flavor: Terraform
-      version: ">= 0.13"
+      version: ">= 1.3"
     description: {}
   content:
     examples:
@@ -122,18 +121,18 @@ spec:
     roles:
       - level: Project
         roles:
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
+      - level: Project
+        roles:
           - roles/owner
           - roles/resourcemanager.projectCreator
           - roles/resourcemanager.folderAdmin
           - roles/resourcemanager.folderIamAdmin
           - roles/billing.projectManager
           - roles/compute.xpnAdmin
-      - level: Project
-        roles:
-          - roles/accesscontextmanager.policyAdmin
-          - roles/resourcemanager.organizationViewer
-          - roles/resourcemanager.tagAdmin
-          - roles/resourcemanager.tagUser
       - level: Project
         roles:
           - roles/owner

@@ -12,7 +12,7 @@ To include G Suite integration for creating groups and adding Service Accounts i
 
 ## Compatibility
 
-This module is meant for use with Terraform 0.13+ and tested using Terraform 1.3+. If you find incompatibilities using Terraform >=0.13, please open an issue.
+This module is meant for use with Terraform 1.3+ and tested using Terraform 1.10+. If you find incompatibilities using Terraform >= 1.3, please open an issue.
  If you haven't
 [upgraded][terraform-0.13-upgrade] and need a Terraform
 0.12.x-compatible version of this module, the last released version
@@ -200,9 +200,9 @@ determining that location is as follows:
 
 -   [gcloud sdk](https://cloud.google.com/sdk/install) >= 269.0.0
 -   [jq](https://stedolan.github.io/jq/) >= 1.6
--   [Terraform](https://www.terraform.io/downloads.html) >= 0.13.0
--   [terraform-provider-google] plugin >= 5.33
--   [terraform-provider-google-beta] plugin >= 5.33
+-   [Terraform](https://www.terraform.io/downloads.html) >= 1.3
+-   [terraform-provider-google] plugin >= 5.41
+-   [terraform-provider-google-beta] plugin >= 5.41
 -   [terraform-provider-gsuite] plugin ~> 0.1.x if GSuite functionality is desired
 
 ### Permissions
@@ -338,7 +338,7 @@ The core Project Factory solely deals with GCP APIs and does not integrate G Sui
 ## Install
 ### Terraform
 
-Be sure you have the correct Terraform version (0.13.0+), you can choose the
+Be sure you have the correct Terraform version (1.3+), you can choose the
 binary here:
 
 - https://releases.hashicorp.com/terraform/
