@@ -1,4 +1,4 @@
-# Copyright 2022 Google LLC
+# Copyright 2024 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -104,7 +104,12 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/owner
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
+      - level: Project
+        roles:
           - roles/resourcemanager.projectCreator
           - roles/resourcemanager.folderAdmin
           - roles/resourcemanager.folderIamAdmin
@@ -112,13 +117,6 @@ spec:
           - roles/compute.xpnAdmin
       - level: Project
         roles:
-          - roles/accesscontextmanager.policyAdmin
-          - roles/resourcemanager.organizationViewer
-          - roles/resourcemanager.tagAdmin
-          - roles/resourcemanager.tagUser
-      - level: Project
-        roles:
-          - roles/owner
           - roles/compute.admin
           - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin

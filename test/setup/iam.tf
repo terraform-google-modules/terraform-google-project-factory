@@ -16,7 +16,6 @@
 
 locals {
   int_required_project_roles = [
-    "roles/owner",
     "roles/compute.admin",
     "roles/iam.serviceAccountAdmin",
     "roles/resourcemanager.projectIamAdmin",
@@ -26,7 +25,6 @@ locals {
   ]
 
   int_required_folder_roles = [
-    "roles/owner",
     "roles/resourcemanager.projectCreator",
     "roles/resourcemanager.folderAdmin",
     "roles/resourcemanager.folderIamAdmin",

@@ -356,16 +356,12 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/owner
-          - roles/compute.admin
-          - roles/iam.serviceAccountAdmin
-          - roles/resourcemanager.projectIamAdmin
-          - roles/storage.admin
-          - roles/iam.serviceAccountUser
-          - roles/billing.projectManager
+          - roles/accesscontextmanager.policyAdmin
+          - roles/resourcemanager.organizationViewer
+          - roles/resourcemanager.tagAdmin
+          - roles/resourcemanager.tagUser
       - level: Project
         roles:
-          - roles/owner
           - roles/resourcemanager.projectCreator
           - roles/resourcemanager.folderAdmin
           - roles/resourcemanager.folderIamAdmin
@@ -373,10 +369,12 @@ spec:
           - roles/compute.xpnAdmin
       - level: Project
         roles:
-          - roles/accesscontextmanager.policyAdmin
-          - roles/resourcemanager.organizationViewer
-          - roles/resourcemanager.tagAdmin
-          - roles/resourcemanager.tagUser
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
+          - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
     services:
       - admin.googleapis.com
       - appengine.googleapis.com
