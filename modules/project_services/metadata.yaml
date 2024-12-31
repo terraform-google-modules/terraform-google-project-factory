@@ -23,12 +23,11 @@ spec:
     title: Project API Activation
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-      sourceType: git
       dir: /modules/project_services
     version: 17.1.0
     actuationTool:
       flavor: Terraform
-      version: ">= 0.13"
+      version: ">= 1.3"
     description: {}
   content:
     examples:
