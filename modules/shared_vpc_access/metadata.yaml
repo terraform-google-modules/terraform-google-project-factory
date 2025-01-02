@@ -111,7 +111,6 @@ spec:
           - roles/resourcemanager.tagUser
       - level: Project
         roles:
-          - roles/owner
           - roles/resourcemanager.projectCreator
           - roles/resourcemanager.folderAdmin
           - roles/resourcemanager.folderIamAdmin
@@ -119,7 +118,6 @@ spec:
           - roles/compute.xpnAdmin
       - level: Project
         roles:
-          - roles/owner
           - roles/compute.admin
           - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin

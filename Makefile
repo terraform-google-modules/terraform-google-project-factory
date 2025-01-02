@@ -90,6 +90,7 @@ docker_test_lint:
 .PHONY: docker_generate_docs
 docker_generate_docs:
 	docker run --rm -it \
+		-e ENABLE_BPMETADATA \
 		-v "${CURDIR}":/workspace \
 		$(REGISTRY_URL)/${DOCKER_IMAGE_DEVELOPER_TOOLS}:${DOCKER_TAG_VERSION_DEVELOPER_TOOLS} \
 		/bin/bash -c 'source /usr/local/bin/task_helper_functions.sh && generate_docs'
