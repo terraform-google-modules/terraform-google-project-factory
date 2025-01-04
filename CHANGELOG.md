@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [18.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.1.0...v18.0.0) (2025-01-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **TF>=1.3:** update provider and metadata ([#966](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/966))
+
+### Bug Fixes
+
+* **TF>=1.3:** update provider and metadata ([#966](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/966)) ([0bab52d](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/0bab52d3fabab9fa5ba7c45e0fd6630a168537bb))
+
 ## [17.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.0.1...v17.1.0) (2024-12-03)
 
 
