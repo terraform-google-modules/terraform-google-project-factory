@@ -24,7 +24,7 @@ spec:
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
       dir: /modules/gsuite_enabled
-    version: 17.1.0
+    version: 18.0.0
     actuationTool:
       flavor: Terraform
       version: ">= 1.3"
