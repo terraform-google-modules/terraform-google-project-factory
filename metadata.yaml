@@ -23,7 +23,7 @@ spec:
     title: Google Cloud Project Factory Terraform Module
     source:
       repo: https://github.com/terraform-google-modules/terraform-google-project-factory.git
-    version: 17.1.0
+    version: 18.0.0
     actuationTool:
       flavor: Terraform
       version: ">= 1.3"
