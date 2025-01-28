@@ -33,7 +33,7 @@ resource "google_folder" "prod" {
 
 module "project-prod-gke" {
   source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   random_project_id = true
   name              = "hierarchy-sample-prod-gke"
@@ -44,7 +44,7 @@ module "project-prod-gke" {
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google//modules/gsuite_enabled"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   random_project_id = true
   name              = "hierarchy-sample-factory"
