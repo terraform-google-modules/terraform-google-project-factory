@@ -16,7 +16,7 @@
 
 module "project-factory" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   name              = "pf-ci-test-ec-${var.random_string_for_testing}"
   random_project_id = true

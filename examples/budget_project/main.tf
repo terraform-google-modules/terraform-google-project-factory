@@ -22,7 +22,7 @@ resource "random_string" "suffix" {
 
 module "budget_project" {
   source  = "terraform-google-modules/project-factory/google"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   name                     = "budget-project-${random_string.suffix.result}"
   random_project_id        = true
@@ -50,7 +50,7 @@ resource "google_pubsub_topic" "budget" {
 
 module "additional_budget" {
   source  = "terraform-google-modules/project-factory/google//modules/budget"
-  version = "~> 17.0"
+  version = "~> 18.0"
 
   billing_account        = var.billing_account
   projects               = [var.parent_project_id, module.budget_project.project_id]
