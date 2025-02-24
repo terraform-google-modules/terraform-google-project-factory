@@ -142,3 +142,6 @@ spec:
         usage_bucket_prefix:
           name: usage_bucket_prefix
           title: Usage Bucket Prefix
+        deletion_policy:
+          name: deletion_policy
+          title: Deletion Policy

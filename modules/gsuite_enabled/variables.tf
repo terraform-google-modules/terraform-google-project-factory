@@ -244,3 +244,9 @@ variable "default_network_tier" {
   type        = string
   default     = ""
 }
+
+variable "deletion_policy" {
+  description = "The deletion policy for the project."
+  type        = string
+  default     = "PREVENT"
+}

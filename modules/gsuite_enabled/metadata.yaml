@@ -219,6 +219,10 @@ spec:
         description: Default Network Service Tier for resources created in this project. If unset, the value will not be modified. See https://cloud.google.com/network-tiers/docs/using-network-service-tiers and https://cloud.google.com/network-tiers.
         varType: string
         defaultValue: ""
+      - name: deletion_policy
+        description: The deletion policy for the project.
+        varType: string
+        defaultValue: "PREVENT"
     outputs:
       - name: domain
         description: The organization's domain
