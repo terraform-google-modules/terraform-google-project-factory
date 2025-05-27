@@ -367,7 +367,7 @@ variable "cloud_armor_tier" {
 }
 
 variable "deletion_policy" {
-  description = "The deletion policy for the project."
+  description = "The deletion policy for the project. Possible values are: DELETE, PREVENT"
   type        = string
   default     = "PREVENT"
 }
