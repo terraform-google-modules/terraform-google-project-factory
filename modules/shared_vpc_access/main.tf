@@ -58,16 +58,13 @@ locals {
       service_account = format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
       role            = "roles/compute.networkUser"
     }
-    "managedkafka.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-managedkafka.iam.gserviceaccount.com", local.service_project_number)
-      role            = "roles/managedkafka.serviceAgent"
-    }
   }
-  gke_shared_vpc_enabled        = contains(var.active_apis, "container.googleapis.com")
-  composer_shared_vpc_enabled   = contains(var.active_apis, "composer.googleapis.com")
-  datastream_shared_vpc_enabled = contains(var.active_apis, "datastream.googleapis.com")
-  datafusion_shared_vpc_enabled = contains(var.active_apis, "datafusion.googleapis.com")
-  active_apis                   = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
+  gke_shared_vpc_enabled          = contains(var.active_apis, "container.googleapis.com")
+  composer_shared_vpc_enabled     = contains(var.active_apis, "composer.googleapis.com")
+  datastream_shared_vpc_enabled   = contains(var.active_apis, "datastream.googleapis.com")
+  datafusion_shared_vpc_enabled   = contains(var.active_apis, "datafusion.googleapis.com")
+  managedkafka_shared_vpc_enabled = contains(var.active_apis, "managedkafka.googleapis.com")
+  active_apis                     = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
     for i, api in local.active_apis : [for i, subnet in var.shared_vpc_subnets : "${api},${subnet}"]
@@ -202,4 +199,15 @@ resource "google_project_iam_member" "datasfusion_network_viewer" {
   project = var.host_project_id
   role    = "roles/compute.networkViewer"
   member  = format("serviceAccount:%s", local.apis["datafusion.googleapis.com"].service_account)
+}
+
+/******************************************
+  roles/managedkafka.serviceAgent role granted to Managed Apache Kafka's service account on shared VPC host project
+  Service Account: service-[project_number]@gcp-sa-managedkafka.iam.gserviceaccount.com
+ *****************************************/
+resource "google_project_iam_member" "managed_kafka_service_agent" {
+  count   = local.managedkafka_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/managedkafka.serviceAgent"
+  member  = format("serviceAccount:service-%s@gcp-sa-managedkafka.iam.gserviceaccount.com", local.service_project_number)
 }
