@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [18.0.1](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.0.0...v18.0.1) (2025-05-30)
+
+
+### Bug Fixes
+
+* add possible values for "deletion_policy" ([#983](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/983)) ([a0cd3f9](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/a0cd3f9d1d7152e269b1ffc17d986f8e52d0eb27))
+* **shared_vpc_access:** grant GMK service agent role on host project ([#970](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/970)) ([df2f3d7](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/df2f3d7e23482a32588213886fe5eb1b83d56c6a))
+
 ## [18.0.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v17.1.0...v18.0.0) (2025-01-04)
 
 
