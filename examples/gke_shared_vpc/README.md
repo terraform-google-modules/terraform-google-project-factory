@@ -2,7 +2,7 @@
 
 This illustrates how to create a project with a shared VPC from a host project that is GKE suitable.
 
-As shown in this exmaple, GKE shared VPC is only enabled if the "container.googleapis.com" API is in the "activate_apis" variable list.
+As shown in this example, GKE shared VPC is only enabled if the "container.googleapis.com" API is in the "activate_apis" variable list.
 
 It will do the following:
 
