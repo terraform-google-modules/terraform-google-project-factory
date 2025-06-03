@@ -65,6 +65,12 @@ locals {
 
   # Workaround for https://github.com/hashicorp/terraform/issues/10857
   shared_vpc_users_length = var.create_project_sa ? 3 : 2
+  
+  # Only create the subnet IAM bindings if all conditions are met
+  project_service_account_subnet_bindings = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa) ? toset(var.shared_vpc_subnets) : toset([])
+  gsuite_group_subnet_bindings            = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa) ? toset(var.shared_vpc_subnets) : toset([])
+  api_service_account_subnet_bindings     = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0) ? toset(var.shared_vpc_subnets) : toset([])
+
 }
 
 /*******************************************
@@ -211,20 +217,26 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa ? length(var.shared_vpc_subnets) : 0
 
+  for_each = local.project_service_account_subnet_bindings
+
+  # Extract subnetwork name from the full path
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
+  
   role = "roles/compute.networkUser"
+  
+  # Extract region from the full path
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
   project = var.shared_vpc
   member  = local.s_account_fmt
 }
@@ -235,19 +247,25 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
+  for_each = local.gsuite_group_subnet_bindings
+
+  # Extract subnetwork name from the full path
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
+  
   role = "roles/compute.networkUser"
+  
+  # Extract region from the full path
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
   member  = local.group_id
   project = var.shared_vpc
 }
@@ -257,20 +275,26 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
+  
+  for_each = local.api_service_account_subnet_bindings
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
+  # Extract subnetwork name from the full path
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
+  
   role = "roles/compute.networkUser"
+  
+  # Extract region from the full path
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+  
   project = var.shared_vpc
   member  = local.api_s_account_fmt
 
