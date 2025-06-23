@@ -153,6 +153,7 @@ resource "google_service_account" "default_service_account" {
   count                        = var.create_project_sa ? 1 : 0
   account_id                   = var.project_sa_name
   display_name                 = "${var.name} Project Service Account"
+  description                  = var.project_sa_description
   project                      = google_project.main.project_id
   create_ignore_already_exists = true
 }
