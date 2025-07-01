@@ -154,6 +154,7 @@ determining that location is as follows:
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | `null` | no |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
+| project\_sa\_description | Description to set for the project default service account. | `string` | `null` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id`. | `bool` | `false` | no |
 | random\_project\_id\_length | Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI. | `number` | `null` | no |
