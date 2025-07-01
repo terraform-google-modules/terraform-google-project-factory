@@ -134,6 +134,9 @@ spec:
         description: Default service account name for the project.
         varType: string
         defaultValue: project-service-account
+      - name: project_sa_description
+        description: Description to set for the project default service account.
+        varType: string
       - name: sa_role
         description: A role to give the default Service Account for the project (defaults to none)
         varType: string
@@ -310,7 +313,7 @@ spec:
         description: "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO"
         varType: string
       - name: deletion_policy
-        description: The deletion policy for the project.
+        description: "The deletion policy for the project. Possible values are: DELETE, PREVENT"
         varType: string
         defaultValue: PREVENT
     outputs:
