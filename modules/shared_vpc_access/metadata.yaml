@@ -106,9 +106,9 @@ spec:
     roles:
       - level: Project
         roles:
+          - roles/logging.logWriter
           - roles/compute.networkUser
           - roles/iam.serviceAccountUser
-          - roles/logging.logWriter
     services:
       - compute.googleapis.com
       - serviceusage.googleapis.com
