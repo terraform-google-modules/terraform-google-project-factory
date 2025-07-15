@@ -15,14 +15,75 @@
  */
 
 locals {
-  int_required_project_roles = [
+  per_module_roles = {
+    svpc_service_project = [
+      "roles/servicenetworking.networksAdmin",
+      "roles/iam.serviceAccountUser",
+      "roles/logging.logWriter",
+    ]
+    shared_vpc_access = [
+      "roles/compute.networkUser",
+      "roles/iam.serviceAccountUser",
+      "roles/logging.logWriter",
+    ]
+    quota_manager = [
+      "roles/serviceusage.quotaViewer",
+      "roles/logging.logWriter",
+    ]
+    project_services = [
+      "roles/serviceusage.serviceUsageAdmin",
+      "roles/logging.logWriter",
+    ]
+    gsuite_group = [
+      "roles/cloudidentity.groupAdmin",
+      "roles/logging.logWriter",
+    ]
+    gsuite_enabled = [
+      "roles/cloudidentity.groupMemberAdmin",
+      "roles/logging.logWriter",
+    ]
+    fabric-project = [
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/logging.logWriter",
+    ]
+    essential_contacts = [
+      "roles/essentialcontacts.configEditor",
+      "roles/logging.logWriter",
+    ]
+    core_project_factory = [
+      "roles/resourcemanager.projectCreator",
+      "roles/resourcemanager.projectDeleter",
+      "roles/billing.user",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/compute.networkUser",
+      "roles/logging.logWriter",
+    ]
+    budget = [
+      "roles/billing.budgetAdmin",
+      "roles/logging.logWriter",
+    ]
+    app_engine = [
+      "roles/appengine.appAdmin",
+      "roles/logging.logWriter",
+    ]
+    root = [
+      "roles/resourcemanager.organizationAdmin",
+      "roles/serviceusage.serviceUsageAdmin",
+      "roles/billing.user",
+      "roles/iam.serviceAccountAdmin",
+      "roles/iam.serviceAccountUser",
+      "roles/logging.logWriter",
+    ]
+  }
+
+  int_required_project_roles = concat([
     "roles/compute.admin",
     "roles/iam.serviceAccountAdmin",
     "roles/resourcemanager.projectIamAdmin",
     "roles/storage.admin",
     "roles/iam.serviceAccountUser",
     "roles/billing.projectManager",
-  ]
+  ], flatten(values(local.per_module_roles)))
 
   int_required_folder_roles = [
     "roles/resourcemanager.projectCreator",

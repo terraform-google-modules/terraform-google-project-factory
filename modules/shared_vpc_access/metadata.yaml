@@ -106,40 +106,12 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/accesscontextmanager.policyAdmin
-          - roles/resourcemanager.organizationViewer
-          - roles/resourcemanager.tagAdmin
-          - roles/resourcemanager.tagUser
-      - level: Project
-        roles:
-          - roles/resourcemanager.projectCreator
-          - roles/resourcemanager.folderAdmin
-          - roles/resourcemanager.folderIamAdmin
-          - roles/billing.projectManager
-          - roles/compute.xpnAdmin
-      - level: Project
-        roles:
-          - roles/compute.admin
-          - roles/iam.serviceAccountAdmin
-          - roles/resourcemanager.projectIamAdmin
-          - roles/storage.admin
+          - roles/compute.networkUser
           - roles/iam.serviceAccountUser
-          - roles/billing.projectManager
+          - roles/logging.logWriter
     services:
-      - admin.googleapis.com
-      - appengine.googleapis.com
-      - cloudbilling.googleapis.com
-      - cloudresourcemanager.googleapis.com
       - compute.googleapis.com
-      - iam.googleapis.com
-      - iamcredentials.googleapis.com
-      - oslogin.googleapis.com
       - serviceusage.googleapis.com
-      - billingbudgets.googleapis.com
-      - pubsub.googleapis.com
-      - accesscontextmanager.googleapis.com
-      - essentialcontacts.googleapis.com
-      - serviceconsumermanagement.googleapis.com
     providerVersions:
       - source: hashicorp/google
         version: ">= 3.43, < 7"
