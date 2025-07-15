@@ -359,12 +359,11 @@ spec:
     roles:
       - level: Project
         roles:
+          - roles/resourcemanager.organizationAdmin
           - roles/serviceusage.serviceUsageAdmin
-          - roles/billing.user
           - roles/iam.serviceAccountAdmin
           - roles/iam.serviceAccountUser
           - roles/logging.logWriter
-          - roles/resourcemanager.organizationAdmin
     services:
       - cloudbilling.googleapis.com
       - cloudresourcemanager.googleapis.com

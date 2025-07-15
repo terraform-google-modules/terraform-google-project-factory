@@ -122,7 +122,6 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/billing.budgetAdmin
           - roles/logging.logWriter
     services:
       - billingbudgets.googleapis.com

@@ -153,8 +153,8 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/resourcemanager.projectIamAdmin
           - roles/logging.logWriter
+          - roles/resourcemanager.projectIamAdmin
     services:
       - cloudresourcemanager.googleapis.com
       - serviceusage.googleapis.com

@@ -53,13 +53,11 @@ locals {
     core_project_factory = [
       "roles/resourcemanager.projectCreator",
       "roles/resourcemanager.projectDeleter",
-      "roles/billing.user",
       "roles/resourcemanager.projectIamAdmin",
       "roles/compute.networkUser",
       "roles/logging.logWriter",
     ]
     budget = [
-      "roles/billing.budgetAdmin",
       "roles/logging.logWriter",
     ]
     app_engine = [
@@ -69,7 +67,6 @@ locals {
     root = [
       "roles/resourcemanager.organizationAdmin",
       "roles/serviceusage.serviceUsageAdmin",
-      "roles/billing.user",
       "roles/iam.serviceAccountAdmin",
       "roles/iam.serviceAccountUser",
       "roles/logging.logWriter",

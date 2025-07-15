@@ -104,8 +104,8 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/logging.logWriter
           - roles/serviceusage.serviceUsageAdmin
+          - roles/logging.logWriter
     services:
       - serviceusage.googleapis.com
     providerVersions:
