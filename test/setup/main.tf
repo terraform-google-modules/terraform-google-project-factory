@@ -14,6 +14,61 @@
  * limitations under the License.
  */
 
+locals {
+  per_module_services = {
+    svpc_service_project = [
+      "servicenetworking.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    shared_vpc_access = [
+      "compute.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    quota_manager = [
+      "serviceusage.googleapis.com",
+    ]
+    project_services = [
+      "serviceusage.googleapis.com",
+    ]
+    gsuite_group = [
+      "cloudidentity.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    gsuite_enabled = [
+      "cloudidentity.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    fabric-project = [
+      "cloudresourcemanager.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    essential_contacts = [
+      "essentialcontacts.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    core_project_factory = [
+      "cloudresourcemanager.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "serviceusage.googleapis.com",
+      "compute.googleapis.com", # for VPC access
+    ]
+    budget = [
+      "billingbudgets.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    app_engine = [
+      "appengine.googleapis.com",
+      "serviceusage.googleapis.com",
+    ]
+    root = [
+      "cloudresourcemanager.googleapis.com",
+      "serviceusage.googleapis.com",
+      "iam.googleapis.com",
+      "cloudbilling.googleapis.com",
+    ]
+  }
+}
+
 resource "random_id" "folder_rand" {
   byte_length = 2
 }
@@ -34,7 +89,7 @@ module "pfactory_project" {
   folder_id                = google_folder.ci_pfactory_folder.folder_id
   billing_account          = var.billing_account
 
-  activate_apis = [
+  activate_apis = concat([
     "admin.googleapis.com",
     "appengine.googleapis.com",
     "cloudbilling.googleapis.com",
@@ -49,7 +104,7 @@ module "pfactory_project" {
     "accesscontextmanager.googleapis.com",
     "essentialcontacts.googleapis.com",
     "serviceconsumermanagement.googleapis.com"
-  ]
+  ], flatten(values(local.per_module_services)))
 }
 
 resource "random_id" "random_string_for_testing" {
