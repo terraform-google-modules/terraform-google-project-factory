@@ -17,54 +17,196 @@
 locals {
   per_module_services = {
     svpc_service_project = [
-      "servicenetworking.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     shared_vpc_access = [
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
       "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     quota_manager = [
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     project_services = [
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     gsuite_group = [
-      "cloudidentity.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     gsuite_enabled = [
-      "cloudidentity.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     fabric-project = [
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
       "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     essential_contacts = [
-      "essentialcontacts.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     core_project_factory = [
-      "cloudresourcemanager.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
       "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
-      "compute.googleapis.com", # for VPC access
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     budget = [
-      "billingbudgets.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     app_engine = [
+      "admin.googleapis.com",
       "appengine.googleapis.com",
+      "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
       "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
     root = [
-      "cloudresourcemanager.googleapis.com",
-      "serviceusage.googleapis.com",
-      "iam.googleapis.com",
+      "admin.googleapis.com",
+      "appengine.googleapis.com",
       "cloudbilling.googleapis.com",
+      "cloudresourcemanager.googleapis.com",
+      "compute.googleapis.com",
+      "iam.googleapis.com",
+      "iamcredentials.googleapis.com",
+      "oslogin.googleapis.com",
+      "serviceusage.googleapis.com",
+      "billingbudgets.googleapis.com",
+      "pubsub.googleapis.com",
+      "accesscontextmanager.googleapis.com",
+      "essentialcontacts.googleapis.com",
+      "serviceconsumermanagement.googleapis.com"
     ]
   }
 }
@@ -89,22 +231,7 @@ module "pfactory_project" {
   folder_id                = google_folder.ci_pfactory_folder.folder_id
   billing_account          = var.billing_account
 
-  activate_apis = concat([
-    "admin.googleapis.com",
-    "appengine.googleapis.com",
-    "cloudbilling.googleapis.com",
-    "cloudresourcemanager.googleapis.com",
-    "compute.googleapis.com",
-    "iam.googleapis.com",
-    "iamcredentials.googleapis.com",
-    "oslogin.googleapis.com",
-    "serviceusage.googleapis.com",
-    "billingbudgets.googleapis.com",
-    "pubsub.googleapis.com",
-    "accesscontextmanager.googleapis.com",
-    "essentialcontacts.googleapis.com",
-    "serviceconsumermanagement.googleapis.com"
-  ], flatten(values(local.per_module_services)))
+  activate_apis = tolist(toset(flatten(values(local.per_module_services))))
 }
 
 resource "random_id" "random_string_for_testing" {

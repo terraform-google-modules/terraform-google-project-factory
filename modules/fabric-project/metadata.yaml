@@ -153,10 +153,26 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/logging.logWriter
           - roles/resourcemanager.projectIamAdmin
+          - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
     services:
+      - accesscontextmanager.googleapis.com
+      - admin.googleapis.com
+      - appengine.googleapis.com
+      - billingbudgets.googleapis.com
+      - cloudbilling.googleapis.com
       - cloudresourcemanager.googleapis.com
+      - compute.googleapis.com
+      - essentialcontacts.googleapis.com
+      - iam.googleapis.com
+      - iamcredentials.googleapis.com
+      - oslogin.googleapis.com
+      - pubsub.googleapis.com
+      - serviceconsumermanagement.googleapis.com
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google

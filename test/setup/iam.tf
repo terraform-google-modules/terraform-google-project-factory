@@ -17,70 +17,111 @@
 locals {
   per_module_roles = {
     svpc_service_project = [
-      "roles/servicenetworking.networksAdmin",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
       "roles/iam.serviceAccountUser",
-      "roles/logging.logWriter",
+      "roles/billing.projectManager",
     ]
     shared_vpc_access = [
-      "roles/compute.networkUser",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
       "roles/iam.serviceAccountUser",
-      "roles/logging.logWriter",
+      "roles/billing.projectManager",
     ]
     quota_manager = [
-      "roles/serviceusage.quotaViewer",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     project_services = [
-      "roles/serviceusage.serviceUsageAdmin",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     gsuite_group = [
-      "roles/cloudidentity.groupAdmin",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     gsuite_enabled = [
-      "roles/cloudidentity.groupMemberAdmin",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     fabric-project = [
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
       "roles/resourcemanager.projectIamAdmin",
-      "roles/logging.logWriter",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     essential_contacts = [
-      "roles/essentialcontacts.configEditor",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     core_project_factory = [
-      "roles/resourcemanager.projectCreator",
-      "roles/resourcemanager.projectDeleter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
       "roles/resourcemanager.projectIamAdmin",
-      "roles/compute.networkUser",
-      "roles/logging.logWriter",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     budget = [
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     app_engine = [
-      "roles/appengine.appAdmin",
-      "roles/logging.logWriter",
+      "roles/compute.admin",
+      "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
+      "roles/iam.serviceAccountUser",
+      "roles/billing.projectManager",
     ]
     root = [
-      "roles/resourcemanager.organizationAdmin",
-      "roles/serviceusage.serviceUsageAdmin",
+      "roles/compute.admin",
       "roles/iam.serviceAccountAdmin",
+      "roles/resourcemanager.projectIamAdmin",
+      "roles/storage.admin",
       "roles/iam.serviceAccountUser",
-      "roles/logging.logWriter",
+      "roles/billing.projectManager",
     ]
   }
 
-  int_required_project_roles = concat([
+  int_required_project_roles = tolist(toset(concat([
     "roles/compute.admin",
     "roles/iam.serviceAccountAdmin",
     "roles/resourcemanager.projectIamAdmin",
     "roles/storage.admin",
     "roles/iam.serviceAccountUser",
     "roles/billing.projectManager",
-  ], flatten(values(local.per_module_roles)))
+  ], flatten(values(local.per_module_roles)))))
 
   int_required_folder_roles = [
     "roles/resourcemanager.projectCreator",
