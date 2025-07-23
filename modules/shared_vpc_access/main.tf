@@ -79,11 +79,11 @@ locals {
   if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
   if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project
   if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Network Connectivity on shared VPC Project
+  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   See: https://cloud.google.com/vpc/docs/configure-service-connection-policies#configure-host-project
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
-       https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
-       https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
-  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
+  See: https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
+  See: https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
   See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
