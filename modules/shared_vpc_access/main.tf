@@ -58,12 +58,17 @@ locals {
       service_account = format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
       role            = "roles/compute.networkUser"
     }
+    "run.googleapis.com" : {
+      service_account = format("service-%s@serverless-robot-prod.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
   }
   gke_shared_vpc_enabled          = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled     = contains(var.active_apis, "composer.googleapis.com")
   datastream_shared_vpc_enabled   = contains(var.active_apis, "datastream.googleapis.com")
   datafusion_shared_vpc_enabled   = contains(var.active_apis, "datafusion.googleapis.com")
   managedkafka_shared_vpc_enabled = contains(var.active_apis, "managedkafka.googleapis.com")
+  cloudrun_shared_vpc_enabled     = contains(var.active_apis, "run.googleapis.com")
   active_apis                     = [for api in keys(local.apis) : api if contains(var.active_apis, api)]
   # Can't use setproduct due to https://github.com/terraform-google-modules/terraform-google-project-factory/issues/635
   subnetwork_api = length(var.shared_vpc_subnets) != 0 ? flatten([
@@ -79,12 +84,14 @@ locals {
   if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC subnets
   if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project
   if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Network Connectivity on shared VPC Project
+  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
+  if "run.googleapis.com" compute.networkUser role granted to Cloud Run service account for Cloud Run on shared VPC subnets
   See: https://cloud.google.com/vpc/docs/configure-service-connection-policies#configure-host-project
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
-       https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
-       https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
-  if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
+  See: https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
+  See: https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
   See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
+  See: https://cloud.google.com/run/docs/configuring/shared-vpc-direct-vpc#iam
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
@@ -136,6 +143,7 @@ resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet
  if "composer.googleapis.com" compute.networkUser role granted to composer service account for Composer on shared VPC Project if no subnets defined
  if "notebooks.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project if no subnets defined
  if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Notebooks on shared VPC Project if no subnets defined
+ if "run.googleapis.com" compute.networkUser role granted to Cloud Run service account for Cloud Run on shared VPC Project if no subnets defined
  *****************************************/
 resource "google_project_iam_member" "service_shared_vpc_user" {
   for_each = (length(var.shared_vpc_subnets) == 0) && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.active_apis) : []
@@ -210,4 +218,16 @@ resource "google_project_iam_member" "managed_kafka_service_agent" {
   project = var.host_project_id
   role    = "roles/managedkafka.serviceAgent"
   member  = format("serviceAccount:service-%s@gcp-sa-managedkafka.iam.gserviceaccount.com", local.service_project_number)
+}
+
+/******************************************
+  roles/compute.networkViewer role granted to Cloud Run's service account on shared VPC host project if subnets defined
+  See: https://cloud.google.com/run/docs/configuring/shared-vpc-direct-vpc#iam
+  Service Account: service-[project_number]@serverless-robot-prod.iam.gserviceaccount.com
+ *****************************************/
+resource "google_project_iam_member" "cloudrun_network_viewer" {
+  count   = (length(var.shared_vpc_subnets) > 0) && local.cloudrun_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
+  project = var.host_project_id
+  role    = "roles/compute.networkViewer"
+  member  = format("serviceAccount:%s", local.apis["run.googleapis.com"].service_account)
 }
