@@ -19,169 +19,51 @@ steps:
 - id: prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
   args: ['/bin/bash', '-c', 'mkdir -p ~/.terraform.d && ln -s /root/.terraform.d/plugins ~/.terraform.d/plugins && source /usr/local/bin/task_helper_functions.sh && prepare_environment']
-- id: init-all
+- id: minimal-local
   waitFor:
       - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run all --stage init --verbose']
-- id: create-all
+  args: ['/bin/bash', '-c', 'cft test run TestMinimalLocal --verbose']
+- id: fabric-project-local
   waitFor:
-      - init-all
+      - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do create']
-- id: converge minimal-local
+  args: ['/bin/bash', '-c', 'cft test run TestFabricProjectLocal --verbose']
+- id: app-engine-local
   waitFor:
-      - create-all
+      - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge minimal-local']
-- id: verify minimal-local
+  args: ['/bin/bash', '-c', 'cft test run TestAppEngineLocal --verbose']
+- id: budget-local
   waitFor:
-      - converge minimal-local
+    - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify minimal-local']
-- id: destroy minimal-local
+  args: ['/bin/bash', '-c', 'cft test run TestBudgetLocal --verbose']
+- id: essential-contacts-example
   waitFor:
-    - verify minimal-local
+    - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy minimal-local']
-
-- id: converge fabric-project-local
+  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --verbose']
+- id: dynamic-shared-vpc-local
   waitFor:
-      - create-all
+    - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge fabric-project-local']
-- id: verify fabric-project-local
+  args: ['/bin/bash', '-c', 'cft test run TestDynamicSharedVPCLocal --verbose']
+- id: vpc-sc-project-local
   waitFor:
-      - converge fabric-project-local
+      - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify fabric-project-local']
-- id: destroy fabric-project-local
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && export TF_VAR_policy_id=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id:?}" --format="value(name)" --filter="title:default policy") && cft test run TestVPCSCProjectLocal --verbose']
+- id: quota-project-example
   waitFor:
-    - verify fabric-project-local
+    - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy fabric-project-local']
-
-- id: converge app-engine-local
+  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --verbose']
+- id: tags-project-example
   waitFor:
-      - create-all
+    - prepare
   name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge app-engine-local']
-- id: verify app-engine-local
-  waitFor:
-      - converge app-engine-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify app-engine-local']
-- id: destroy app-engine-local
-  waitFor:
-    - verify app-engine-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy app-engine-local']
-
-- id: converge budget-local
-  waitFor:
-      - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge budget-local']
-- id: verify budget-local
-  waitFor:
-      - converge budget-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify budget-local']
-- id: destroy budget-local
-  waitFor:
-    - verify budget-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy budget-local']
-
-# essential contacts
-- id: init-essential-contacts-example
-  waitFor:
-    - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage init --verbose']
-- id: apply-essential-contacts-example
-  waitFor:
-    - init-essential-contacts-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage apply --verbose']
-- id: verify-essential-contacts-example
-  waitFor:
-    - apply-essential-contacts-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage verify --verbose']
-- id: destroy-essential-contacts-example
-  waitFor:
-    - verify-essential-contacts-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestEssentialContactsExample --stage destroy --verbose']
-
-- id: converge dynamic-shared-vpc-local
-  waitFor:
-      - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do converge dynamic-shared-vpc-local']
-- id: verify dynamic-shared-vpc-local
-  waitFor:
-      - converge dynamic-shared-vpc-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify dynamic-shared-vpc-local']
-- id: destroy dynamic-shared-vpc-local
-  waitFor:
-    - verify dynamic-shared-vpc-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do destroy dynamic-shared-vpc-local']
-
-- id: converge vpc-sc-project-local
-  waitFor:
-      - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && export TF_VAR_policy_id=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id:?}" --format="value(name)" --filter="title:default policy") && kitchen_do converge vpc-sc-project-local']
-- id: verify vpc-sc-project-local
-  waitFor:
-      - converge vpc-sc-project-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && kitchen_do verify vpc-sc-project-local']
-- id: destroy vpc-sc-project-local
-  waitFor:
-    - verify vpc-sc-project-local
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && export TF_VAR_policy_id=$(gcloud access-context-manager policies list --organization="${TF_VAR_org_id:?}" --format="value(name)" --filter="title:default policy") && kitchen_do destroy vpc-sc-project-local']
-
-- id: init-quota-project-example
-  waitFor:
-    - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage init --verbose']
-- id: apply-quota-project-example
-  waitFor:
-    - init-quota-project-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage apply --verbose']
-- id: verify-quota-project-example
-  waitFor:
-    - apply-quota-project-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage verify --verbose']
-- id: destroy-quota-project-example
-  waitFor:
-    - verify-quota-project-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestQuotaProject --stage destroy --verbose']
-- id: apply-tags-project-example
-  waitFor:
-    - create-all
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestTagsProject --stage apply --verbose']
-- id: verify-tags-project-example
-  waitFor:
-    - apply-tags-project-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestTagsProject --stage verify --verbose']
-- id: destroy-tags-project-example
-  waitFor:
-    - verify-tags-project-example
-  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
-  args: ['/bin/bash', '-c', 'cft test run TestTagsProject --stage destroy --verbose']
+  args: ['/bin/bash', '-c', 'cft test run TestTagsProject --verbose']
 
 tags:
 - 'ci'
