@@ -218,7 +218,6 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
   provider = google-beta
   for_each = local.project_service_account_subnet_bindings
 
-  # Extract subnetwork name from the full path
   subnetwork = element(
     split("/", each.value),
     index(
@@ -227,14 +226,12 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
     ) + 1
   )
 
-  role = "roles/compute.networkUser"
-
-  # Extract region from the full path
   region = element(
     split("/", each.value),
     index(split("/", each.value), "regions") + 1
   )
 
+  role    = "roles/compute.networkUser"
   project = var.shared_vpc
   member  = local.s_account_fmt
 }
@@ -246,7 +243,6 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
   for_each = local.gsuite_group_subnet_bindings
 
-  # Extract subnetwork name from the full path
   subnetwork = element(
     split("/", each.value),
     index(
@@ -255,14 +251,12 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
     ) + 1
   )
 
-  role = "roles/compute.networkUser"
-
-  # Extract region from the full path
   region = element(
     split("/", each.value),
     index(split("/", each.value), "regions") + 1
   )
 
+  role    = "roles/compute.networkUser"
   member  = local.group_id
   project = var.shared_vpc
 }
@@ -274,7 +268,6 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
   provider = google-beta
   for_each = local.api_service_account_subnet_bindings
 
-  # Extract subnetwork name from the full path
   subnetwork = element(
     split("/", each.value),
     index(
@@ -283,14 +276,12 @@ resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vp
     ) + 1
   )
 
-  role = "roles/compute.networkUser"
-
-  # Extract region from the full path
   region = element(
     split("/", each.value),
     index(split("/", each.value), "regions") + 1
   )
 
+  role    = "roles/compute.networkUser"
   project = var.shared_vpc
   member  = local.api_s_account_fmt
 

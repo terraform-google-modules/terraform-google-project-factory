@@ -95,21 +95,24 @@ locals {
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
-  count    = var.grant_network_role ? length(local.subnetwork_api) : 0
+  for_each = var.grant_network_role ? toset(local.subnetwork_api) : toset([])
+
   subnetwork = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    split("/", each.value),
     index(
-      split("/", split(",", local.subnetwork_api[count.index])[1]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
-  role = local.apis[split(",", local.subnetwork_api[count.index])[0]].role
+
   region = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
-    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
+  role    = local.apis[split(",", each.value)[0]].role
   project = var.host_project_id
-  member  = format("serviceAccount:%s", local.apis[split(",", local.subnetwork_api[count.index])[0]].service_account)
+  member  = format("serviceAccount:%s", local.apis[split(",", each.value)[0]].service_account)
 }
 
 /******************************************
@@ -118,19 +121,22 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet_users" {
   provider = google-beta
-  count    = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? length(local.subnetwork_api) : 0
+  for_each = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? toset(local.subnetwork_api) : toset([])
+
   subnetwork = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
+    split("/", each.value),
     index(
-      split("/", split(",", local.subnetwork_api[count.index])[1]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
-  role = "roles/compute.networkUser"
+
   region = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
-    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
+  role    = "roles/compute.networkUser"
   project = var.host_project_id
   member  = format("serviceAccount:%s@cloudservices.gserviceaccount.com", local.service_project_number)
 }
