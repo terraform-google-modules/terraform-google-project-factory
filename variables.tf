@@ -367,7 +367,7 @@ variable "tag_binding_values" {
 }
 
 variable "cloud_armor_tier" {
-  description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO"
+  description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO, CA_ENTERPRISE_ANNUAL"
   type        = string
   default     = null
 }
