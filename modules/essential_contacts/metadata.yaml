@@ -79,12 +79,12 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/compute.admin
-          - roles/iam.serviceAccountAdmin
-          - roles/resourcemanager.projectIamAdmin
           - roles/storage.admin
           - roles/iam.serviceAccountUser
           - roles/billing.projectManager
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
+          - roles/resourcemanager.projectIamAdmin
     services:
       - accesscontextmanager.googleapis.com
       - admin.googleapis.com
@@ -102,6 +102,6 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 3.43, < 7"
+        version: ">= 3.43, < 8"
       - source: hashicorp/google-beta
-        version: ">= 3.43, < 7"
+        version: ">= 3.43, < 8"
