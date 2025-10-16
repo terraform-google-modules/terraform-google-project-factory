@@ -62,6 +62,14 @@ locals {
       service_account = format("service-%s@serverless-robot-prod.iam.gserviceaccount.com", local.service_project_number)
       role            = "roles/compute.networkUser"
     }
+    "aiplatform.googleapis.com" : {
+      service_account = format("service-%s@gcp-sa-aiplatform.iam.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
+    "cloudbuild.googleapis.com" : {
+      service_account = format("%s@cloudbuild.gserviceaccount.com", local.service_project_number)
+      role            = "roles/compute.networkUser"
+    }
   }
   gke_shared_vpc_enabled          = contains(var.active_apis, "container.googleapis.com")
   composer_shared_vpc_enabled     = contains(var.active_apis, "composer.googleapis.com")
@@ -86,12 +94,15 @@ locals {
   if "networkconnectivity.googleapis.com" compute.networkUser role granted to notebooks service account for Network Connectivity on shared VPC Project
   if "vpcaccess.googleapis.com" compute.networkUser role granted to Serverless VPC Access Service Agent on shared VPC subnets
   if "run.googleapis.com" compute.networkUser role granted to Cloud Run service account for Cloud Run on shared VPC subnets
+  if "aiplatform.googleapis.com" compute.networkUser role granted to Vertex AI service agent on shared VPC subnets
+  if "cloudbuild.googleapis.com" compute.networkUser role granted to cloudbuild service agent on shared VPC subnets
   See: https://cloud.google.com/vpc/docs/configure-service-connection-policies#configure-host-project
   See: https://cloud.google.com/kubernetes-engine/docs/how-to/cluster-shared-vpc
   See: https://cloud.google.com/dataflow/docs/concepts/security-and-permissions#cloud_dataflow_service_account
   See: https://cloud.google.com/composer/docs/how-to/managing/configuring-shared-vpc
   See: https://cloud.google.com/run/docs/configuring/connecting-shared-vpc#grant-permissions
   See: https://cloud.google.com/run/docs/configuring/shared-vpc-direct-vpc#iam
+  see: https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/private-service-connect-interface#using-with-vpc-shared-vpc
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users" {
   provider = google-beta
