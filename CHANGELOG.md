@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [18.2.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.1.0...v18.2.0) (2025-10-24)
+
+
+### Features
+
+* added network.user role for aiplatform and cloudbuild service agents ([#1012](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/1012)) ([8553475](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/8553475f4647859e167c0a96c58f21c0ad8854e1))
+
 ## [18.1.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.0.0...v18.1.0) (2025-08-29)
 
 
