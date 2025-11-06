@@ -129,6 +129,6 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 3.43, < 7"
+        version: ">= 3.43, < 8"
       - source: hashicorp/google-beta
-        version: ">= 3.43, < 7"
+        version: ">= 3.43, < 8"
