@@ -10,9 +10,9 @@ create projects with the project factory.
 
 For a minimal working example of a seed project, create a project using the following command in the [Cloud Console](https://console.cloud.google.com/) or the [gcloud CLI](https://cloud.google.com/sdk/gcloud):
 ```bash
-export FOLDER_ID=""
-export BILLING_ACCOUNT_ID=""
-export SEED_PROJECT_ID=""
+export FOLDER_ID="<YOUR_FOLDER_ID>"
+export BILLING_ACCOUNT_ID="<YOUR_BILLING_ACCOUNT_ID>"
+export SEED_PROJECT_ID="<YOUR_SEED_PROJECT_ID>"
 
 gcloud projects create "$SEED_PROJECT_ID" \
   --name="$SEED_PROJECT_ID" \
