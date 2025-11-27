@@ -229,7 +229,7 @@ following roles:
 A [helper script](./helpers/setup-sa.sh) is included to create the Seed Service
 Account in the [Seed Project](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-project),
 grant the necessary roles to the [Seed Service Account](https://github.com/terraform-google-modules/terraform-google-project-factory/blob/master/docs/GLOSSARY.md#seed-service-account),
-and enable the necessary API's in your Seed Project.  Run it as follows:
+and enable the necessary API's in your existing Seed Project.  Run it as follows:
 
 ```sh
 ./helpers/setup-sa.sh -o <organization id> -p <project id> [-b <billing account id>] [-f <folder id>] [-n <service account name>]
