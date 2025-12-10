@@ -24,6 +24,16 @@ variable "projects" {
   type        = list(string)
 }
 
+variable "project_numbers" {
+  description = "The project numbers to include in this budget. If empty project numbers will be determined automatically from the projects variable"
+  type        = list(string)
+  default     = []
+  validation {
+    condition     = length(var.project_numbers) == 0 || length(var.project_numbers) == length(var.projects)
+    error_message = "Length of project_numbers must match length of projects if project_numbers are provided."
+  }
+}
+
 variable "amount" {
   description = "The amount to use as the budget"
   type        = number
