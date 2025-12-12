@@ -142,7 +142,7 @@ gcloud iam service-accounts \
 echo "Downloading key to credentials.json..."
 gcloud iam service-accounts keys create "${KEY_FILE}" \
   --iam-account "${SA_ID}" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 if [[ $FOLDER_ID == "" ]]; then
   echo "Skipping grant roles on project folder... (parameter not passed)"
@@ -154,7 +154,7 @@ else
     "${FOLDER_ID}" \
     --member="serviceAccount:${SA_ID}" \
     --role="roles/resourcemanager.folderViewer" \
-    --user-output-enabled false
+    --no-user-output-enabled
 fi
 
 echo "Applying permissions for org $ORG_ID and project $SEED_PROJECT..."
@@ -164,7 +164,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/resourcemanager.organizationViewer" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/resourcemanager.projectCreator to the service account on the organization
 echo "Adding role roles/resourcemanager.projectCreator..."
@@ -172,7 +172,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/resourcemanager.projectCreator" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/billing.user to the service account on the organization
 echo "Adding role roles/billing.user..."
@@ -180,7 +180,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/billing.user" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/billing.viewer to the service account on the organization
 echo "Adding role roles/billing.viewer..."
@@ -188,7 +188,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/billing.viewer" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/compute.xpnAdmin to the service account on the organization
 echo "Adding role roles/compute.xpnAdmin..."
@@ -196,7 +196,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/compute.xpnAdmin" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/compute.networkAdmin to the service account on the organization
 echo "Adding role roles/compute.networkAdmin..."
@@ -204,7 +204,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/compute.networkAdmin" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/iam.serviceAccountAdmin to the service account on the organization
 echo "Adding role roles/iam.serviceAccountAdmin..."
@@ -212,7 +212,7 @@ gcloud organizations add-iam-policy-binding \
   "${ORG_ID}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/iam.serviceAccountAdmin" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Grant roles/resourcemanager.projectIamAdmin to the Seed Service Account on the Seed Project
 echo "Adding role roles/resourcemanager.projectIamAdmin..."
@@ -220,7 +220,7 @@ gcloud projects add-iam-policy-binding \
   "${SEED_PROJECT}" \
   --member="serviceAccount:${SA_ID}" \
   --role="roles/resourcemanager.projectIamAdmin" \
-  --user-output-enabled false
+  --no-user-output-enabled
 
 # Enable required API's
 echo "Enabling APIs..."
@@ -254,7 +254,7 @@ if [[ ${BILLING_ACCOUNT:-} != "" ]]; then
   gcloud beta billing accounts add-iam-policy-binding "$BILLING_ACCOUNT" \
     --member="serviceAccount:${SA_ID}" \
     --role="roles/billing.user" \
-    --user-output-enabled false
+    --no-user-output-enabled
 fi
 
 echo "All done."
