@@ -33,6 +33,7 @@ module "project_myproject" {
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |
 | labels | A single label and value pair specifying that usage from only this set of labeled resources should be included in the budget. | `map(string)` | `{}` | no |
 | monitoring\_notification\_channels | A list of monitoring notification channels in the form `[projects/{project_id}/notificationChannels/{channel_id}]`. A maximum of 5 channels are allowed. | `list(string)` | `[]` | no |
+| project\_numbers | The project numbers to include in this budget. If empty project numbers will be determined automatically from the projects variable | `list(string)` | `[]` | no |
 | projects | The project ids to include in this budget. If empty budget will include all projects | `list(string)` | n/a | yes |
 | services | A list of services ids to be included in the budget. If omitted, all services will be included in the budget. Service ids can be found at https://cloud.google.com/skus/ | `list(string)` | `null` | no |
 
