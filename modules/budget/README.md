@@ -28,6 +28,7 @@ module "project_myproject" {
 | calendar\_period | Specifies the calendar period for the budget. Possible values are MONTH, QUARTER, YEAR, CALENDAR\_PERIOD\_UNSPECIFIED, CUSTOM. custom\_period\_start\_date and custom\_period\_end\_date must be set if CUSTOM | `string` | `null` | no |
 | create\_budget | If the budget should be created | `bool` | `true` | no |
 | credit\_types\_treatment | Specifies how credits should be treated when determining spend for threshold calculations | `string` | `"INCLUDE_ALL_CREDITS"` | no |
+| currency\_code | The currency code to use for the budget amount. If not specified, defaults to USD | `string` | `"USD"` | no |
 | custom\_period\_end\_date | Specifies the end date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
 | custom\_period\_start\_date | Specifies the start date (DD-MM-YYYY) for the calendar\_period CUSTOM | `string` | `null` | no |
 | display\_name | The display name of the budget. If not set defaults to `Budget For <projects[0]|All Projects>` | `string` | `null` | no |

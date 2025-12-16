@@ -52,6 +52,9 @@ spec:
         credit_types_treatment:
           name: credit_types_treatment
           title: Credit Types Treatment
+        currency_code:
+          name: currency_code
+          title: Currency Code
         custom_period_end_date:
           name: custom_period_end_date
           title: Custom Period End Date
