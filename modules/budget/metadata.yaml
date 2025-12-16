@@ -70,6 +70,10 @@ spec:
         description: The amount to use as the budget
         varType: number
         required: true
+      - name: currency_code
+        description: The currency code to use for the budget amount. If not specified, defaults to USD
+        varType: string
+        defaultValue: USD
       - name: create_budget
         description: If the budget should be created
         varType: bool
@@ -145,4 +149,4 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 4.28, < 7"
+        version: ">= 4.28, < 8"
