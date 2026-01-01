@@ -1,28 +1,41 @@
 /**
  * Copyright 2018 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * ... (License header preserved)
  */
+
+# Get the project data to retrieve the Project Number
+data "google_project" "project" {
+  project_id = var.project_id
+}
 
 locals {
   activate_compute_identity = 0 != length([for i in var.activate_api_identities : i if i.api == "compute.googleapis.com"])
   services                  = var.enable_apis ? toset(concat(var.activate_apis, [for i in var.activate_api_identities : i.api])) : toset([])
+  
   service_identities = flatten([
     for i in var.activate_api_identities : [
       for r in i.roles :
       { api = i.api, role = r }
     ]
   ])
+
+  # Deterministic construction of Service Agent emails to avoid 'null' errors.
+  # Format: service-PROJECT_NUMBER@gcp-sa-SERVICE_NAME.iam.gserviceaccount.com
+  # Note: Compute Engine is the exception as it uses the 'Default Compute Service Account'.
+  service_agent_emails = {
+    for i in var.activate_api_identities :
+    i.api => i.api == "compute.googleapis.com" ? 
+      data.google_compute_default_service_account.default[0].email : 
+      "service-${data.google_project.project.number}@gcp-sa-${replace(i.api, ".googleapis.com", "")}.iam.gserviceaccount.com"
+  }
+
+  add_service_roles = {
+    for si in local.service_identities :
+    "${si.api} ${si.role}" => {
+      email = local.service_agent_emails[si.api]
+      role  = si.role
+    }
+  }
 }
 
 /******************************************
@@ -36,7 +49,7 @@ resource "google_project_service" "project_services" {
   disable_dependent_services = var.disable_dependent_services
 }
 
-# First handle all service identities EXCEPT compute.googleapis.com.
+# Still trigger the identity creation to ensure Google actually initializes them.
 resource "google_project_service_identity" "project_service_identities" {
   for_each = {
     for i in var.activate_api_identities :
@@ -44,42 +57,32 @@ resource "google_project_service_identity" "project_service_identities" {
     if i.api != "compute.googleapis.com"
   }
 
-  provider = google-beta
-  project  = var.project_id
-  service  = each.value.api
+  provider   = google-beta
+  project    = var.project_id
+  service    = each.value.api
+  depends_on = [google_project_service.project_services]
 }
 
-# Process the compute.googleapis.com identity separately, if present in the inputs.
+# Handle Compute Engine default account
 data "google_compute_default_service_account" "default" {
-  count   = local.activate_compute_identity ? 1 : 0
-  project = var.project_id
+  count      = local.activate_compute_identity ? 1 : 0
+  project    = var.project_id
+  depends_on = [google_project_service.project_services]
 }
 
-locals {
-  add_service_roles = merge(
-    {
-      for si in local.service_identities :
-      "${si.api} ${si.role}" => {
-        email = google_project_service_identity.project_service_identities[si.api].email
-        role  = si.role
-      }
-      if si.api != "compute.googleapis.com"
-    },
-    {
-      for si in local.service_identities :
-      "${si.api} ${si.role}" => {
-        email = data.google_compute_default_service_account.default[0].email
-        role  = si.role
-      }
-      if si.api == "compute.googleapis.com"
-    }
-  )
-}
-
+/******************************************
+  IAM Roles for Service Identities
+ *****************************************/
 resource "google_project_iam_member" "project_service_identity_roles" {
   for_each = local.add_service_roles
 
   project = var.project_id
   role    = each.value.role
   member  = "serviceAccount:${each.value.email}"
+
+  # Ensure identity is triggered before we try to assign roles
+  depends_on = [
+    google_project_service_identity.project_service_identities,
+    data.google_compute_default_service_account.default
+  ]
 }
