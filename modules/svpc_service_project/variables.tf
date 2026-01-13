@@ -234,3 +234,9 @@ variable "deletion_policy" {
   type        = string
   default     = "PREVENT"
 }
+
+variable "universe_subdomain" {
+  description = "When using a different universe than GCP (e.g s3ns), service accounts don't have the same domain. If set, the universe subdomain will be injected into the service accounts"
+  type        = string
+  default     = null
+}

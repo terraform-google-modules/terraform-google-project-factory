@@ -73,6 +73,7 @@ module "project-factory" {
   tag_binding_values                 = var.tag_binding_values
   cloud_armor_tier                   = var.cloud_armor_tier
   deletion_policy                    = var.deletion_policy
+  universe_subdomain                 = var.universe_subdomain
 }
 
 /******************************************
@@ -89,6 +90,7 @@ module "shared_vpc_access" {
   lookup_project_numbers             = false
   grant_services_security_admin_role = var.grant_services_security_admin_role
   grant_network_role                 = var.grant_network_role
+  universe_subdomain                 = var.universe_subdomain
   # Workaround for import complaining about count cannot determine resource instances
   # until apply. https://github.com/hashicorp/terraform/issues/24690
   depends_on = [module.project-factory.enabled_apis]
