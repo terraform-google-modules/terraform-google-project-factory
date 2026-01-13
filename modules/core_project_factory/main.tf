@@ -46,10 +46,12 @@ locals {
     "serviceAccount:%s",
     try(google_service_account.default_service_account[0].email, ""),
   ) : ""
-  api_s_account = format(
-    "%s@cloudservices.gserviceaccount.com",
-    google_project.main.number,
+  api_s_account = (
+    var.universe_subdomain != null ?
+    "${google_project.main.number}@cloudservices.${var.universe_subdomain}.iam.gserviceaccount.com" :
+    "${google_project.main.number}@cloudservices.gserviceaccount.com"
   )
+
   activate_apis       = var.activate_apis
   api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
   project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
