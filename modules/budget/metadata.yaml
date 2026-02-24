@@ -66,6 +66,10 @@ spec:
         description: The project ids to include in this budget. If empty budget will include all projects
         varType: list(string)
         required: true
+      - name: project_numbers
+        description: The project numbers to include in this budget. If empty project numbers will be determined automatically from the projects variable
+        varType: list(string)
+        defaultValue: []
       - name: amount
         description: The amount to use as the budget
         varType: number
@@ -145,4 +149,4 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 4.28, < 7"
+        version: ">= 4.28, < 8"
