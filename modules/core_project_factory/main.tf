@@ -212,20 +212,22 @@ resource "google_project_iam_member" "controlling_group_vpc_membership" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_subnets" {
   provider = google-beta
-  count    = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa ? length(var.shared_vpc_subnets) : 0
+  for_each = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.create_project_sa) ? toset(var.shared_vpc_subnets) : toset([])
 
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
-  role = "roles/compute.networkUser"
+
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
+  role    = "roles/compute.networkUser"
   project = var.shared_vpc
   member  = local.s_account_fmt
 }
@@ -235,20 +237,22 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
+  for_each = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group) ? toset(var.shared_vpc_subnets) : toset([])
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
-  role = "roles/compute.networkUser"
+
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
+  role    = "roles/compute.networkUser"
   member  = local.group_id
   project = var.shared_vpc
 }
@@ -258,20 +262,22 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
+  for_each = (var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0) ? toset(var.shared_vpc_subnets) : toset([])
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
-    split("/", var.shared_vpc_subnets[count.index]),
+    split("/", each.value),
     index(
-      split("/", var.shared_vpc_subnets[count.index]),
-      "subnetworks",
-    ) + 1,
+      split("/", each.value),
+      "subnetworks"
+    ) + 1
   )
-  role = "roles/compute.networkUser"
+
   region = element(
-    split("/", var.shared_vpc_subnets[count.index]),
-    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
+    split("/", each.value),
+    index(split("/", each.value), "regions") + 1
   )
+
+  role    = "roles/compute.networkUser"
   project = var.shared_vpc
   member  = local.api_s_account_fmt
 
