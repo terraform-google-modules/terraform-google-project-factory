@@ -129,18 +129,15 @@ resource "google_compute_subnetwork_iam_member" "service_shared_vpc_subnet_users
  *****************************************/
 resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet_users" {
   provider = google-beta
-  count    = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? length(local.subnetwork_api) : 0
+  count    = local.gke_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
-    index(
-      split("/", split(",", local.subnetwork_api[count.index])[1]),
-      "subnetworks",
-    ) + 1,
+    split("/", var.shared_vpc_subnets[count.index]),
+    index(split("/", var.shared_vpc_subnets[count.index]), "subnetworks", ) + 1,
   )
   role = "roles/compute.networkUser"
   region = element(
-    split("/", split(",", local.subnetwork_api[count.index])[1]),
-    index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
+    split("/", var.shared_vpc_subnets[count.index]),
+    index(split("/", var.shared_vpc_subnets[count.index]), "regions") + 1,
   )
   project = var.host_project_id
   member  = format("serviceAccount:%s@cloudservices.gserviceaccount.com", local.service_project_number)
