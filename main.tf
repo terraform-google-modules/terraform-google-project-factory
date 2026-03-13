@@ -102,6 +102,7 @@ module "budget" {
   create_budget = var.budget_amount != null
 
   projects                         = [module.project-factory.project_id]
+  project_numbers                  = [module.project-factory.project_number]
   billing_account                  = var.billing_account
   amount                           = var.budget_amount
   alert_spent_percents             = var.budget_alert_spent_percents
