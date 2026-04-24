@@ -96,7 +96,7 @@ resource "google_resource_manager_lien" "lien" {
   parent       = "projects/${google_project.main.number}"
   restrictions = ["resourcemanager.projects.delete"]
   origin       = "project-factory"
-  reason       = "Project Factory lien"
+  reason       = var.lien_reason != "" ? var.lien_reason : "Project Factory lien"
 }
 
 /******************************************

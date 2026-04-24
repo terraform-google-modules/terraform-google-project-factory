@@ -73,6 +73,7 @@ module "project-factory" {
   )
   group_role                        = var.group_role
   lien                              = var.lien
+  lien_reason                       = var.lien_reason
   manage_group                      = var.group_name != "" || var.create_group
   random_project_id                 = var.random_project_id
   org_id                            = var.org_id

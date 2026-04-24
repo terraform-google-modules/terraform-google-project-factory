@@ -32,6 +32,12 @@ variable "lien" {
   type        = bool
 }
 
+variable "lien_reason" {
+  description = "The reason for the lien on the project. If not provided, defaults to 'Project Factory lien'"
+  type        = string
+  default     = ""
+}
+
 variable "manage_group" {
   description = "A toggle to indicate if a G Suite group should be managed."
   type        = bool
