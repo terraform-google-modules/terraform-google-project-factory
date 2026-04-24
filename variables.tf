@@ -212,6 +212,12 @@ variable "lien" {
   default     = false
 }
 
+variable "lien_reason" {
+  description = "The reason for the lien on the project. If not provided, defaults to 'Project Factory lien'"
+  type        = string
+  default     = ""
+}
+
 variable "disable_services_on_destroy" {
   description = "Whether project services will be disabled when the resources are destroyed"
   default     = true

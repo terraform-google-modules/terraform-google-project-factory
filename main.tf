@@ -31,6 +31,7 @@ module "project-factory" {
   group_email                        = module.gsuite_group.email
   group_role                         = var.group_role
   lien                               = var.lien
+  lien_reason                        = var.lien_reason
   manage_group                       = var.group_name != "" ? true : false
   random_project_id                  = var.random_project_id
   random_project_id_length           = var.random_project_id_length

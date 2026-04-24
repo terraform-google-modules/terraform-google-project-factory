@@ -20,6 +20,12 @@ variable "lien" {
   type        = bool
 }
 
+variable "lien_reason" {
+  description = "The reason for the lien on the project. If not provided, defaults to 'Project Factory lien'"
+  type        = string
+  default     = ""
+}
+
 variable "random_project_id" {
   description = "Adds a suffix of 4 random characters to the `project_id`"
   type        = bool
