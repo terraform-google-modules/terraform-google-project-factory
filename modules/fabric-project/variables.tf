@@ -71,6 +71,12 @@ variable "oslogin" {
   default     = false
 }
 
+variable "block_project_wide_ssh_keys" {
+  description = "Block Project wide ssh keys to GCE"
+  type        = bool
+  default     = false
+}
+
 variable "oslogin_admins" {
   description = "List of IAM-format members that will get OS Login admin role."
   type        = list(string)

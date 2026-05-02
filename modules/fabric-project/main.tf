@@ -79,6 +79,16 @@ resource "google_compute_project_metadata_item" "oslogin_meta" {
   depends_on = [google_project_service.project_services]
 }
 
+resource "google_compute_project_metadata_item" "ssh_keys" {
+  count   = var.block_project_wide_ssh_keys ? 1 : 0
+  project = google_project.project.project_id
+  key     = "block-project-ssh-keys"
+  value   = "TRUE"
+
+  # depend on services or it will fail on destroy
+  depends_on = [google_project_service.project_services]
+}
+
 resource "google_project_iam_member" "oslogin_admins" {
   count   = var.oslogin ? length(var.oslogin_admins) : 0
   project = google_project.project.project_id
@@ -147,4 +157,3 @@ resource "google_project_iam_member" "gce_service_account" {
   )
   member = "serviceAccount:${local.gce_service_account}"
 }
-
