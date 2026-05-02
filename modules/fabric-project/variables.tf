@@ -72,7 +72,7 @@ variable "oslogin" {
 }
 
 variable "block_project_wide_ssh_keys" {
-  description = "Block Project wide ssh keys to GCE"
+  description = "Whether to block project-wide SSH keys for the project."
   type        = bool
   default     = false
 }

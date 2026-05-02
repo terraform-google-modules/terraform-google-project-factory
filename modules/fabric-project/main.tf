@@ -79,7 +79,7 @@ resource "google_compute_project_metadata_item" "oslogin_meta" {
   depends_on = [google_project_service.project_services]
 }
 
-resource "google_compute_project_metadata_item" "ssh_keys" {
+resource "google_compute_project_metadata_item" "block_project_ssh_keys" {
   count   = var.block_project_wide_ssh_keys ? 1 : 0
   project = google_project.project.project_id
   key     = "block-project-ssh-keys"
