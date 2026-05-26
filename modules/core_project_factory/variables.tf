@@ -15,7 +15,7 @@
  */
 
 variable "group_email" {
-  description = "The email address of a group to control the project by being assigned group_role."
+  description = "The identifier of the group to control the project by being assigned group_role. This can be a standard Google Group email address or a principalSet URI (e.g., 'principalSet://...'). The module automatically applies the 'group:' prefix to standard emails."
   type        = string
   default     = ""
 }
@@ -54,6 +54,12 @@ variable "random_project_id_length" {
   description = "Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI."
   type        = number
   default     = null
+}
+
+variable "universe_prefix" {
+  description = "The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name."
+  type        = string
+  default     = ""
 }
 
 variable "org_id" {

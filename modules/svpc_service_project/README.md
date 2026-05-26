@@ -59,12 +59,14 @@ module "service-project" {
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | n/a | yes |
+| principal\_set | A principalSet URI to control the project. If provided, this is used instead of group\_name. | `string` | `""` | no |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
 | random\_project\_id | Adds a suffix of 4 random characters to the `project_id` | `bool` | `false` | no |
 | sa\_role | A role to give the default Service Account for the project (defaults to none) | `string` | `""` | no |
 | shared\_vpc | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
+| universe\_prefix | The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name. | `string` | `""` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 

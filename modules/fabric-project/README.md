@@ -52,6 +52,7 @@ module "project_myproject" {
 | owners | Optional list of IAM-format members to set as project owners. | `list(string)` | `[]` | no |
 | parent | The resource name of the parent Folder or Organization. Must be of the form folders/folder\_id or organizations/org\_id. | `string` | n/a | yes |
 | prefix | Prefix used to generate project id and name. | `string` | n/a | yes |
+| universe\_prefix | The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name. | `string` | `""` | no |
 | viewers | Optional list of IAM-format members to set as project viewers. | `list(string)` | `[]` | no |
 
 ## Outputs

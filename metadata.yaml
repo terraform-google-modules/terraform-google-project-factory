@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2026 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -87,6 +87,10 @@ spec:
       - name: random_project_id_length
         description: Sets the length of `random_project_id` to the provided length, and uses a `random_string` for a larger collusion domain.  Recommended for use with CI.
         varType: number
+      - name: universe_prefix
+        description: The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name.
+        varType: string
+        defaultValue: ""
       - name: org_id
         description: The organization ID.
         varType: string
@@ -120,6 +124,10 @@ spec:
         defaultValue: ""
       - name: group_name
         description: A group to control the project by being assigned group_role (defaults to project editor)
+        varType: string
+        defaultValue: ""
+      - name: principal_set
+        description: A principalSet URI to control the project. If provided, this is used instead of group_name.
         varType: string
         defaultValue: ""
       - name: group_role
@@ -359,12 +367,12 @@ spec:
     roles:
       - level: Project
         roles:
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
           - roles/compute.admin
           - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin
           - roles/storage.admin
-          - roles/iam.serviceAccountUser
-          - roles/billing.projectManager
     services:
       - accesscontextmanager.googleapis.com
       - admin.googleapis.com
@@ -382,6 +390,6 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 5.41, < 7"
+        version: ">= 5.41, < 8"
       - source: hashicorp/google-beta
-        version: ">= 5.41, < 7"
+        version: ">= 5.41, < 8"

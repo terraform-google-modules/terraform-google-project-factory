@@ -42,6 +42,12 @@ variable "project_id" {
   default     = ""
 }
 
+variable "universe_prefix" {
+  description = "The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name."
+  type        = string
+  default     = ""
+}
+
 variable "shared_vpc" {
   description = "The ID of the host project which hosts the shared VPC"
   type        = string
@@ -63,6 +69,17 @@ variable "group_name" {
   description = "A group to control the project by being assigned group_role (defaults to project editor)"
   type        = string
   default     = ""
+}
+
+variable "principal_set" {
+  description = "A principalSet URI to control the project. If provided, this is used instead of group_name."
+  type        = string
+  default     = ""
+
+  validation {
+    condition     = var.principal_set == "" || startswith(var.principal_set, "principalSet://")
+    error_message = "The principal_set variable must be empty or start with 'principalSet://'."
+  }
 }
 
 variable "group_role" {

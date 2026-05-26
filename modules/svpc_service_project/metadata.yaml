@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2026 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -78,6 +78,10 @@ spec:
         description: The ID to give the project. If not provided, the `name` will be used.
         varType: string
         defaultValue: ""
+      - name: universe_prefix
+        description: The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name.
+        varType: string
+        defaultValue: ""
       - name: shared_vpc
         description: The ID of the host project which hosts the shared VPC
         varType: string
@@ -92,6 +96,10 @@ spec:
         defaultValue: ""
       - name: group_name
         description: A group to control the project by being assigned group_role (defaults to project editor)
+        varType: string
+        defaultValue: ""
+      - name: principal_set
+        description: A principalSet URI to control the project. If provided, this is used instead of group_name.
         varType: string
         defaultValue: ""
       - name: group_role
@@ -260,6 +268,6 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 4.5, < 7"
+        version: ">= 4.5, < 8"
       - source: hashicorp/google-beta
-        version: ">= 4.5, < 7"
+        version: ">= 4.5, < 8"

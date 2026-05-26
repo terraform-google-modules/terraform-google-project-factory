@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2026 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -250,12 +250,12 @@ spec:
     roles:
       - level: Project
         roles:
-          - roles/iam.serviceAccountUser
-          - roles/billing.projectManager
           - roles/compute.admin
           - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin
           - roles/storage.admin
+          - roles/iam.serviceAccountUser
+          - roles/billing.projectManager
     services:
       - accesscontextmanager.googleapis.com
       - admin.googleapis.com
@@ -275,6 +275,6 @@ spec:
       - source: DeviaVir/gsuite
         version: ~> 0.1
       - source: hashicorp/google
-        version: ">= 4.11, < 7"
+        version: ">= 4.11, < 8"
       - source: hashicorp/google-beta
-        version: ">= 4.11, < 7"
+        version: ">= 4.11, < 8"

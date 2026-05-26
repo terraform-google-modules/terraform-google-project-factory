@@ -33,27 +33,43 @@ resource "random_string" "random_project_id_suffix" {
  *****************************************/
 locals {
   use_random_string = try(var.random_project_id_length > 0, false)
-  group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
+  group_id = var.manage_group ? (
+    startswith(var.group_email, "principalSet://") || startswith(var.group_email, "group:") ? var.group_email : "group:${var.group_email}"
+  ) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
   project_org_id    = var.folder_id != "" ? null : var.org_id
   project_folder_id = var.folder_id != "" ? var.folder_id : null
-  temp_project_id = var.random_project_id ? format(
+
+  project_id_no_prefix = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
     local.use_random_string ? random_string.random_project_id_suffix[0].result : random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
+
+  extracted_prefix       = length(regexall(":", var.project_id)) > 0 ? split(":", var.project_id)[0] : ""
+  active_universe_prefix = var.universe_prefix != "" ? var.universe_prefix : local.extracted_prefix
+
+  temp_project_id = (var.universe_prefix != "" && local.extracted_prefix == "") ? format(
+    "%s:%s",
+    var.universe_prefix,
+    local.project_id_no_prefix
+  ) : local.project_id_no_prefix
+
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
     try(google_service_account.default_service_account[0].email, ""),
   ) : ""
+  s_account_domain = local.active_universe_prefix != "" ? "${local.active_universe_prefix}-system.iam.gserviceaccount.com" : "gserviceaccount.com"
   api_s_account = format(
-    "%s@cloudservices.gserviceaccount.com",
+    "%s@cloudservices.%s",
     google_project.main.number,
+    local.s_account_domain
   )
-  activate_apis       = var.activate_apis
-  api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
-  project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
-  create_bucket       = var.bucket_project != "" ? true : false
+  activate_apis          = var.activate_apis
+  api_s_account_fmt      = format("serviceAccount:%s", local.api_s_account)
+  bucket_safe_project_id = replace(local.temp_project_id, ":", "-")
+  project_bucket_name    = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.bucket_safe_project_id)
+  create_bucket          = var.bucket_project != "" ? true : false
 
   shared_vpc_users = compact(
     [

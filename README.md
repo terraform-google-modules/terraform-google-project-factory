@@ -153,6 +153,7 @@ determining that location is as follows:
 | lien | Add a lien on the project to prevent accidental deletion | `bool` | `false` | no |
 | name | The name for the project | `string` | n/a | yes |
 | org\_id | The organization ID. | `string` | `null` | no |
+| principal\_set | A principalSet URI to control the project. If provided, this is used instead of group\_name. | `string` | `""` | no |
 | project\_id | The ID to give the project. If not provided, the `name` will be used. | `string` | `""` | no |
 | project\_sa\_description | Description to set for the project default service account. | `string` | `null` | no |
 | project\_sa\_name | Default service account name for the project. | `string` | `"project-service-account"` | no |
@@ -162,6 +163,7 @@ determining that location is as follows:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 | svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | tag\_binding\_values | Tag values to bind the project to. | `list(string)` | `[]` | no |
+| universe\_prefix | The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name. | `string` | `""` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | vpc\_service\_control\_attach\_dry\_run | Whether the project will be attached to a VPC Service Control Perimeter in Dry Run Mode. vpc\_service\_control\_attach\_enabled should be false for this to be true | `bool` | `false` | no |

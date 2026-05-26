@@ -24,6 +24,12 @@ variable "prefix" {
   type        = string
 }
 
+variable "universe_prefix" {
+  description = "The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name."
+  type        = string
+  default     = ""
+}
+
 variable "name" {
   description = "Project name and id suffix."
   type        = string
