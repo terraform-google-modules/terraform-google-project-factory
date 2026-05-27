@@ -33,7 +33,7 @@ resource "random_string" "random_project_id_suffix" {
  *****************************************/
 locals {
   use_random_string = try(var.random_project_id_length > 0, false)
-  group_id = var.manage_group ? (
+  group_id = var.manage_group && var.group_email != "" ? (
     startswith(var.group_email, "principalSet://") || startswith(var.group_email, "group:") ? var.group_email : "group:${var.group_email}"
   ) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
