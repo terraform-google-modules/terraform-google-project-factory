@@ -46,7 +46,8 @@ locals {
     local.use_random_string ? random_string.random_project_id_suffix[0].result : random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
 
-  extracted_prefix       = length(regexall(":", var.project_id)) > 0 ? split(":", var.project_id)[0] : ""
+  raw_prefix             = length(regexall(":", local.base_project_id)) > 0 ? split(":", local.base_project_id)[0] : ""
+  extracted_prefix       = length(regexall("\\.", local.raw_prefix)) > 0 ? "" : local.raw_prefix
   active_universe_prefix = var.universe_prefix != "" ? var.universe_prefix : local.extracted_prefix
 
   temp_project_id = (var.universe_prefix != "" && local.extracted_prefix == "") ? format(
