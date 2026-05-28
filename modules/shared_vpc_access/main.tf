@@ -20,7 +20,8 @@ data "google_project" "service_project" {
 }
 
 locals {
-  raw_prefix       = length(regexall(":", var.service_project_id)) > 0 ? split(":", var.service_project_id)[0] : ""
+  raw_prefix = length(regexall(":", var.service_project_id)) > 0 ? split(":", var.service_project_id)[0] : ""
+  // check for domain-scoped projects like "example.com:project-id"
   extracted_prefix = length(regexall("\\.", local.raw_prefix)) > 0 ? "" : local.raw_prefix
   gsa_domain       = local.extracted_prefix != "" ? "${local.extracted_prefix}-system.iam.gserviceaccount.com" : "gserviceaccount.com"
   iam_gsa_domain   = local.extracted_prefix != "" ? "${local.extracted_prefix}-system.iam.gserviceaccount.com" : "iam.gserviceaccount.com"
