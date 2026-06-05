@@ -1,4 +1,4 @@
-# Copyright 2025 Google LLC
+# Copyright 2026 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -66,6 +66,10 @@ spec:
         description: Prefix used to generate project id and name.
         varType: string
         required: true
+      - name: universe_prefix
+        description: The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name.
+        varType: string
+        defaultValue: ""
       - name: name
         description: Project name and id suffix.
         varType: string
@@ -153,12 +157,12 @@ spec:
     roles:
       - level: Project
         roles:
+          - roles/compute.admin
+          - roles/iam.serviceAccountAdmin
           - roles/resourcemanager.projectIamAdmin
           - roles/storage.admin
           - roles/iam.serviceAccountUser
           - roles/billing.projectManager
-          - roles/compute.admin
-          - roles/iam.serviceAccountAdmin
     services:
       - accesscontextmanager.googleapis.com
       - admin.googleapis.com
@@ -176,4 +180,4 @@ spec:
       - serviceusage.googleapis.com
     providerVersions:
       - source: hashicorp/google
-        version: ">= 5.41, < 7"
+        version: ">= 5.41, < 8"

@@ -22,7 +22,8 @@ resource "random_id" "random_project_id_suffix" {
 }
 
 resource "random_string" "random_project_id_suffix" {
-  count   = local.use_random_string ? 1 : 0
+  count = local.use_random_string ? 1 : 0
+
   length  = var.random_project_id_length
   special = false
   upper   = false
@@ -33,27 +34,45 @@ resource "random_string" "random_project_id_suffix" {
  *****************************************/
 locals {
   use_random_string = try(var.random_project_id_length > 0, false)
-  group_id          = var.manage_group ? format("group:%s", var.group_email) : ""
+  group_id = var.manage_group && var.group_email != "" ? (
+    startswith(var.group_email, "principalSet://") || startswith(var.group_email, "group:") ? var.group_email : "group:${var.group_email}"
+  ) : ""
   base_project_id   = var.project_id == "" ? var.name : var.project_id
   project_org_id    = var.folder_id != "" ? null : var.org_id
   project_folder_id = var.folder_id != "" ? var.folder_id : null
-  temp_project_id = var.random_project_id ? format(
+
+  project_id_no_prefix = var.random_project_id ? format(
     "%s-%s",
     local.base_project_id,
     local.use_random_string ? random_string.random_project_id_suffix[0].result : random_id.random_project_id_suffix.hex,
   ) : local.base_project_id
+
+  raw_prefix = length(regexall(":", local.base_project_id)) > 0 ? split(":", local.base_project_id)[0] : ""
+  // check for domain-scoped projects like "example.com:project-id"
+  extracted_prefix       = length(regexall("\\.", local.raw_prefix)) > 0 ? "" : local.raw_prefix
+  active_universe_prefix = local.extracted_prefix != "" ? local.extracted_prefix : var.universe_prefix
+
+  temp_project_id = (var.universe_prefix != "" && local.extracted_prefix == "") ? format(
+    "%s:%s",
+    var.universe_prefix,
+    local.project_id_no_prefix
+  ) : local.project_id_no_prefix
+
   s_account_fmt = var.create_project_sa ? format(
     "serviceAccount:%s",
     try(google_service_account.default_service_account[0].email, ""),
   ) : ""
+  s_account_domain = local.active_universe_prefix != "" ? "${local.active_universe_prefix}-system.iam.gserviceaccount.com" : "gserviceaccount.com"
   api_s_account = format(
-    "%s@cloudservices.gserviceaccount.com",
+    "%s@cloudservices.%s",
     google_project.main.number,
+    local.s_account_domain
   )
-  activate_apis       = var.activate_apis
-  api_s_account_fmt   = format("serviceAccount:%s", local.api_s_account)
-  project_bucket_name = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.temp_project_id)
-  create_bucket       = var.bucket_project != "" ? true : false
+  activate_apis          = var.activate_apis
+  api_s_account_fmt      = format("serviceAccount:%s", local.api_s_account)
+  bucket_safe_project_id = replace(local.temp_project_id, ":", "-")
+  project_bucket_name    = var.bucket_name != "" ? var.bucket_name : format("%s-state", local.bucket_safe_project_id)
+  create_bucket          = var.bucket_project != "" ? true : false
 
   shared_vpc_users = compact(
     [
@@ -92,7 +111,8 @@ resource "google_project" "main" {
   Project lien
  *****************************************/
 resource "google_resource_manager_lien" "lien" {
-  count        = var.lien ? 1 : 0
+  count = var.lien ? 1 : 0
+
   parent       = "projects/${google_project.main.number}"
   restrictions = ["resourcemanager.projects.delete"]
   origin       = "project-factory"
@@ -116,15 +136,16 @@ module "project_services" {
   Shared VPC configuration
  *****************************************/
 resource "time_sleep" "wait_5_seconds" { #TODO rename resource in the next breaking change.
-  count           = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
+  count = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
+
   depends_on      = [google_access_context_manager_service_perimeter_resource.service_perimeter_attachment[0], google_project_service.enable_access_context_manager[0]]
   create_duration = var.vpc_service_control_sleep_duration
 }
 
 resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
   provider = google-beta
+  count    = var.enable_shared_vpc_service_project ? 1 : 0
 
-  count           = var.enable_shared_vpc_service_project ? 1 : 0
   host_project    = var.shared_vpc
   service_project = google_project.main.project_id
   depends_on      = [time_sleep.wait_5_seconds[0], module.project_services]
@@ -132,14 +153,15 @@ resource "google_compute_shared_vpc_service_project" "shared_vpc_attachment" {
 
 resource "google_compute_shared_vpc_host_project" "shared_vpc_host" {
   provider = google-beta
+  count    = var.enable_shared_vpc_host_project ? 1 : 0
 
-  count      = var.enable_shared_vpc_host_project ? 1 : 0
   project    = google_project.main.project_id
   depends_on = [module.project_services]
 }
 
 resource "google_project_default_service_accounts" "default_service_accounts" {
-  count          = upper(var.default_service_account) == "KEEP" ? 0 : 1
+  count = upper(var.default_service_account) == "KEEP" ? 0 : 1
+
   action         = upper(var.default_service_account)
   project        = google_project.main.project_id
   restore_policy = "REVERT_AND_IGNORE_FAILURE"
@@ -150,7 +172,8 @@ resource "google_project_default_service_accounts" "default_service_accounts" {
   Default Service Account configuration
  *****************************************/
 resource "google_service_account" "default_service_account" {
-  count                        = var.create_project_sa ? 1 : 0
+  count = var.create_project_sa ? 1 : 0
+
   account_id                   = var.project_sa_name
   display_name                 = "${var.name} Project Service Account"
   description                  = var.project_sa_description
@@ -162,7 +185,8 @@ resource "google_service_account" "default_service_account" {
   Policy to operate instances in shared subnetwork
  *************************************************/
 resource "google_project_iam_member" "default_service_account_membership" {
-  count   = var.sa_role != "" && var.create_project_sa ? 1 : 0
+  count = var.sa_role != "" && var.create_project_sa ? 1 : 0
+
   project = google_project.main.project_id
   role    = var.sa_role
 
@@ -235,8 +259,8 @@ resource "google_compute_subnetwork_iam_member" "service_account_role_to_vpc_sub
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
   provider = google-beta
+  count    = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 && var.manage_group ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -258,8 +282,8 @@ resource "google_compute_subnetwork_iam_member" "group_role_to_vpc_subnets" {
  *************************************************************************************/
 resource "google_compute_subnetwork_iam_member" "apis_service_account_role_to_vpc_subnets" {
   provider = google-beta
+  count    = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
 
-  count = var.grant_network_role && var.enable_shared_vpc_service_project && length(var.shared_vpc_subnets) > 0 ? length(var.shared_vpc_subnets) : 0
   subnetwork = element(
     split("/", var.shared_vpc_subnets[count.index]),
     index(
@@ -300,8 +324,7 @@ resource "google_project_usage_export_bucket" "usage_report_export" {
  ***********************************************/
 resource "google_storage_bucket" "project_bucket" {
   provider = google-beta
-
-  count = local.create_bucket ? 1 : 0
+  count    = local.create_bucket ? 1 : 0
 
   name                        = local.project_bucket_name
   project                     = var.bucket_project == local.base_project_id ? google_project.main.project_id : var.bucket_project
@@ -357,7 +380,8 @@ resource "google_storage_bucket_iam_member" "api_s_account_storage_admin_on_proj
   Attachment to VPC Service Control Perimeter in Enforce Mode
  *****************************************/
 resource "google_access_context_manager_service_perimeter_resource" "service_perimeter_attachment" {
-  count          = var.vpc_service_control_attach_enabled ? 1 : 0
+  count = var.vpc_service_control_attach_enabled ? 1 : 0
+
   depends_on     = [google_service_account.default_service_account]
   perimeter_name = var.vpc_service_control_perimeter_name
   resource       = "projects/${google_project.main.number}"
@@ -367,7 +391,8 @@ resource "google_access_context_manager_service_perimeter_resource" "service_per
   Attachment to VPC Service Control Perimeter in Dry Run Mode
  *****************************************/
 resource "google_access_context_manager_service_perimeter_dry_run_resource" "service_perimeter_attachment_dry_run" {
-  count          = var.vpc_service_control_attach_dry_run && !var.vpc_service_control_attach_enabled ? 1 : 0
+  count = var.vpc_service_control_attach_dry_run && !var.vpc_service_control_attach_enabled ? 1 : 0
+
   depends_on     = [google_service_account.default_service_account]
   perimeter_name = var.vpc_service_control_perimeter_name
   resource       = "projects/${google_project.main.number}"
@@ -377,7 +402,8 @@ resource "google_access_context_manager_service_perimeter_dry_run_resource" "ser
   Enable Access Context Manager API
  *****************************************/
 resource "google_project_service" "enable_access_context_manager" {
-  count   = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
+  count = var.vpc_service_control_attach_enabled || var.vpc_service_control_attach_dry_run ? 1 : 0
+
   project = google_project.main.number
   service = "accesscontextmanager.googleapis.com"
 }
@@ -386,13 +412,15 @@ resource "google_project_service" "enable_access_context_manager" {
   Configure default Network Service Tier
  *****************************************/
 resource "google_compute_project_default_network_tier" "default" {
-  count        = var.default_network_tier != "" ? 1 : 0
+  count = var.default_network_tier != "" ? 1 : 0
+
   project      = google_project.main.number
   network_tier = var.default_network_tier
 }
 
 resource "google_tags_tag_binding" "bindings" {
-  for_each  = toset(var.tag_binding_values)
+  for_each = toset(var.tag_binding_values)
+
   parent    = "//cloudresourcemanager.googleapis.com/projects/${google_project.main.number}"
   tag_value = "tagValues/${each.value}"
 }
