@@ -388,6 +388,12 @@ variable "tag_binding_values" {
   default     = []
 }
 
+variable "tags" {
+  description = "Resource manager tags to apply to the project AT CREATION TIME (atomic). Map of tagKeys/<id> (or <parent>/<key_short>) to tagValues/<id> (or <key>/<value_short>). Satisfies GOVERN_TAGS custom org policy constraints (e.g. requireTag*) that check for tags at project creation. NOTE: this field is create-only in the provider — changing it after creation forces project replacement. For mutable, post-creation tags use tag_binding_values instead."
+  type        = map(string)
+  default     = {}
+}
+
 variable "cloud_armor_tier" {
   description = "Managed protection tier to be set. Possible values are: CA_STANDARD, CA_ENTERPRISE_PAYGO"
   type        = string
