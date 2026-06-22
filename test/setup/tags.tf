@@ -31,3 +31,18 @@ resource "google_tags_tag_value" "value" {
   short_name  = "sample-val"
   description = "Sample val"
 }
+
+# Separate key for testing inline tags (google_project.tags).
+# A resource can only have one value per tag key, so inline tags and
+# tag_binding_values must use different keys to avoid conflicts.
+resource "google_tags_tag_key" "inline_key" {
+  parent      = "organizations/${var.org_id}"
+  short_name  = "pf-inline-key-${random_string.key_suffix.result}"
+  description = "Tag key for inline tags test"
+}
+
+resource "google_tags_tag_value" "inline_value" {
+  parent      = "tagKeys/${google_tags_tag_key.inline_key.name}"
+  short_name  = "inline-val"
+  description = "Tag value for inline tags test"
+}
