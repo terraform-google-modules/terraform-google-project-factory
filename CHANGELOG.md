@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [18.3.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.2.0...v18.3.0) (2026-06-05)
+
+
+### Features
+
+* add support for other Google Universes ([#1038](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/1038)) ([9ba104b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/9ba104b249579d1ccf3662ecebee9a210e3dcdbd))
+
 ## [18.2.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.1.0...v18.2.0) (2025-10-24)
 
 
