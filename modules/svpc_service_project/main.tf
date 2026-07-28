@@ -28,11 +28,12 @@ module "gsuite_group" {
 module "project-factory" {
   source = "../core_project_factory"
 
-  group_email                       = module.gsuite_group.email
+  group_email                       = var.principal_set != "" ? var.principal_set : module.gsuite_group.email
   group_role                        = var.group_role
   lien                              = var.lien
-  manage_group                      = var.group_name != "" ? true : false
+  manage_group                      = var.group_name != "" || var.principal_set != ""
   random_project_id                 = var.random_project_id
+  universe_prefix                   = var.universe_prefix
   org_id                            = var.org_id
   name                              = var.name
   project_id                        = var.project_id

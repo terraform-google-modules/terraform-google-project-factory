@@ -20,54 +20,60 @@ data "google_project" "service_project" {
 }
 
 locals {
+  raw_prefix = length(regexall(":", var.service_project_id)) > 0 ? split(":", var.service_project_id)[0] : ""
+  // check for domain-scoped projects like "example.com:project-id"
+  extracted_prefix = length(regexall("\\.", local.raw_prefix)) > 0 ? "" : local.raw_prefix
+  gsa_domain       = local.extracted_prefix != "" ? "${local.extracted_prefix}-system.iam.gserviceaccount.com" : "gserviceaccount.com"
+  iam_gsa_domain   = local.extracted_prefix != "" ? "${local.extracted_prefix}-system.iam.gserviceaccount.com" : "iam.gserviceaccount.com"
+
   service_project_number = var.lookup_project_numbers ? data.google_project.service_project[0].number : var.service_project_number
   apis = {
     "container.googleapis.com" : {
-      service_account = format("service-%s@container-engine-robot.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@container-engine-robot.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "dataproc.googleapis.com" : {
-      service_account = format("service-%s@dataproc-accounts.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@dataproc-accounts.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     },
     "dataflow.googleapis.com" : {
-      service_account = format("service-%s@dataflow-service-producer-prod.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@dataflow-service-producer-prod.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     },
     "datafusion.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-datafusion.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-datafusion.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkViewer"
     },
     "composer.googleapis.com" : {
-      service_account = format("service-%s@cloudcomposer-accounts.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@cloudcomposer-accounts.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "vpcaccess.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-vpcaccess.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-vpcaccess.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "datastream.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-datastream.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-datastream.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "notebooks.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-notebooks.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-notebooks.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "networkconnectivity.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-networkconnectivity.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-networkconnectivity.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "run.googleapis.com" : {
-      service_account = format("service-%s@serverless-robot-prod.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@serverless-robot-prod.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "aiplatform.googleapis.com" : {
-      service_account = format("service-%s@gcp-sa-aiplatform.iam.gserviceaccount.com", local.service_project_number)
+      service_account = format("service-%s@gcp-sa-aiplatform.%s", local.service_project_number, local.iam_gsa_domain)
       role            = "roles/compute.networkUser"
     }
     "cloudbuild.googleapis.com" : {
-      service_account = format("%s@cloudbuild.gserviceaccount.com", local.service_project_number)
+      service_account = format("%s@cloudbuild.%s", local.service_project_number, local.gsa_domain)
       role            = "roles/compute.networkUser"
     }
   }
@@ -143,7 +149,7 @@ resource "google_compute_subnetwork_iam_member" "cloudservices_shared_vpc_subnet
     index(split("/", split(",", local.subnetwork_api[count.index])[1]), "regions") + 1,
   )
   project = var.host_project_id
-  member  = format("serviceAccount:%s@cloudservices.gserviceaccount.com", local.service_project_number)
+  member  = format("serviceAccount:%s@cloudservices.%s", local.service_project_number, local.gsa_domain)
 }
 
 /******************************************
@@ -228,7 +234,7 @@ resource "google_project_iam_member" "managed_kafka_service_agent" {
   count   = local.managedkafka_shared_vpc_enabled && var.enable_shared_vpc_service_project && var.grant_network_role ? 1 : 0
   project = var.host_project_id
   role    = "roles/managedkafka.serviceAgent"
-  member  = format("serviceAccount:service-%s@gcp-sa-managedkafka.iam.gserviceaccount.com", local.service_project_number)
+  member  = format("serviceAccount:service-%s@gcp-sa-managedkafka.%s", local.service_project_number, local.iam_gsa_domain)
 }
 
 /******************************************

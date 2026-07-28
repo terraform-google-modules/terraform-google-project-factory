@@ -18,19 +18,23 @@
 # https://github.com/hashicorp/terraform/issues/3116
 
 locals {
-  cloudsvc_service_account = "${google_project.project.number}@cloudservices.gserviceaccount.com"
-  all_oslogin_users        = concat(var.oslogin_users, var.oslogin_admins)
-  num_oslogin_users        = length(var.oslogin_users) + length(var.oslogin_admins)
-  gce_service_account      = "${google_project.project.number}-compute@developer.gserviceaccount.com"
-  gke_service_account      = "service-${google_project.project.number}@container-engine-robot.iam.gserviceaccount.com"
-  parent_type              = split("/", var.parent)[0]
-  parent_id                = split("/", var.parent)[1]
+  gsa_domain     = var.universe_prefix != "" ? "${var.universe_prefix}-system.iam.gserviceaccount.com" : "gserviceaccount.com"
+  iam_gsa_domain = var.universe_prefix != "" ? "${var.universe_prefix}-system.iam.gserviceaccount.com" : "iam.gserviceaccount.com"
+
+  cloudsvc_service_account = "${google_project.project.number}@cloudservices.${local.gsa_domain}"
+  gce_service_account      = "${google_project.project.number}-compute@developer.${local.gsa_domain}"
+  gke_service_account      = "service-${google_project.project.number}@container-engine-robot.${local.iam_gsa_domain}"
+
+  all_oslogin_users = concat(var.oslogin_users, var.oslogin_admins)
+  num_oslogin_users = length(var.oslogin_users) + length(var.oslogin_admins)
+  parent_type       = split("/", var.parent)[0]
+  parent_id         = split("/", var.parent)[1]
 }
 
 resource "google_project" "project" {
   org_id              = local.parent_type == "organizations" ? local.parent_id : null
   folder_id           = local.parent_type == "folders" ? local.parent_id : null
-  project_id          = "${var.prefix}-${var.name}"
+  project_id          = var.universe_prefix != "" ? "${var.universe_prefix}:${var.prefix}-${var.name}" : "${var.prefix}-${var.name}"
   name                = "${var.prefix}-${var.name}"
   billing_account     = var.billing_account
   auto_create_network = var.auto_create_network
@@ -147,4 +151,3 @@ resource "google_project_iam_member" "gce_service_account" {
   )
   member = "serviceAccount:${local.gce_service_account}"
 }
-
