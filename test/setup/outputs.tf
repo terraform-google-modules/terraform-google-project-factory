@@ -62,3 +62,11 @@ output "service_account_email" {
 output "tag_value" {
   value = google_tags_tag_value.value.name
 }
+
+output "tag_inline_key" {
+  value = google_tags_tag_key.inline_key.name
+}
+
+output "tag_inline_value" {
+  value = google_tags_tag_value.inline_value.name
+}

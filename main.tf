@@ -72,6 +72,7 @@ module "project-factory" {
   vpc_service_control_sleep_duration = var.vpc_service_control_sleep_duration
   default_network_tier               = var.default_network_tier
   tag_binding_values                 = var.tag_binding_values
+  tags                               = var.tags
   cloud_armor_tier                   = var.cloud_armor_tier
   deletion_policy                    = var.deletion_policy
 }
