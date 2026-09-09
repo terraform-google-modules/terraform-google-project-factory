@@ -163,6 +163,7 @@ determining that location is as follows:
 | shared\_vpc\_subnets | List of subnets fully qualified subnet IDs (ie. projects/$project\_id/regions/$region/subnetworks/$subnet\_id) | `list(string)` | `[]` | no |
 | svpc\_host\_project\_id | The ID of the host project which hosts the shared VPC | `string` | `""` | no |
 | tag\_binding\_values | Tag values to bind the project to. | `list(string)` | `[]` | no |
+| tags | Resource manager tags to apply to the project AT CREATION TIME (atomic). Map of tagKeys/\<id\> (or \<parent\>/\<key\_short\>) to tagValues/\<id\> (or \<key\>/\<value\_short\>). Satisfies GOVERN\_TAGS custom org policy constraints (e.g. requireTag\*) that check for tags at project creation. NOTE: this field is create-only in the provider — changing it after creation forces project replacement. For mutable, post-creation tags use tag\_binding\_values instead. | `map(string)` | `{}` | no |
 | universe\_prefix | The universe short name prefix to prepend to the project ID (e.g., 'eu0'). A colon (:) is automatically appended to the project ID, and a hyphen (-) is used for the state bucket name. | `string` | `""` | no |
 | usage\_bucket\_name | Name of a GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |
 | usage\_bucket\_prefix | Prefix in the GCS bucket to store GCE usage reports in (optional) | `string` | `""` | no |

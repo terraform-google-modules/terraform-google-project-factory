@@ -99,10 +99,12 @@ resource "google_project" "main" {
   deletion_policy     = var.deletion_policy
 
   labels = var.labels
+  tags   = var.tags
 
   lifecycle {
     ignore_changes = [
       labels["firebase"],
+      tags,
     ]
   }
 }

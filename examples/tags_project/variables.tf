@@ -30,6 +30,12 @@ variable "billing_account" {
 }
 
 variable "tag_value" {
-  description = "value"
+  description = "Tag value ID (numeric part of tagValues/<id>) to bind post-creation via google_tags_tag_binding."
   type        = string
+}
+
+variable "project_tags" {
+  description = "Resource manager tags to apply atomically at project creation. Map of tagKeys/<id> (or <parent>/<key_short>) to tagValues/<id> (or <key>/<value_short>). Required when GOVERN_TAGS org policies enforce requireTag* constraints at creation time."
+  type        = map(string)
+  default     = {}
 }
