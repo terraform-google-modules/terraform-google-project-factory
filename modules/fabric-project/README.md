@@ -37,6 +37,7 @@ module "project_myproject" {
 | activate\_apis | Service APIs to enable. | `list(string)` | `[]` | no |
 | auto\_create\_network | Whether to create the default network for the project | `bool` | `false` | no |
 | billing\_account | Billing account id. | `string` | `""` | no |
+| block\_project\_wide\_ssh\_keys | Whether to block project-wide SSH keys for the project. | `bool` | `false` | no |
 | custom\_roles | Map of role name => comma-delimited list of permissions to create in this project. | `map(string)` | `{}` | no |
 | deletion\_policy | The deletion policy for the project. | `string` | `"PREVENT"` | no |
 | editors | Optional list of IAM-format members to set as project editor. | `list(string)` | `[]` | no |
