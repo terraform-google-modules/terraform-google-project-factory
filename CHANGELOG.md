@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Extending the adopted spec, each change should have a link to its corresponding pull request appended.
 
+## [18.4.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.3.0...v18.4.0) (2026-09-15)
+
+
+### Features
+
+* add block project-wide ssh keys metadata item ([#1035](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/1035)) ([f77d75d](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/f77d75d9be1a307965b1479608afed14dcacc7ae))
+* **deps:** Update Terraform Google Provider to v8 ([#1045](https://github.com/terraform-google-modules/terraform-google-project-factory/issues/1045)) ([860121b](https://github.com/terraform-google-modules/terraform-google-project-factory/commit/860121b09ac62edd3ec510eb34f56f51437bfc14))
+
 ## [18.3.0](https://github.com/terraform-google-modules/terraform-google-project-factory/compare/v18.2.0...v18.3.0) (2026-06-05)
 
 
