@@ -21,6 +21,7 @@
 # ####################################### #
 
 # Where almost all the downloads are performed
+# shellcheck disable=SC2269
 HOME="$HOME"
 
 # GO resources path
